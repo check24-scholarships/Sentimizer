@@ -10,6 +10,8 @@ import SwiftUI
 struct MainActivityView: View {
     @EnvironmentObject private var model: Model
     
+    @State var addActivitySheetOpened = false
+    
     let testDays = ["Today", "Yesterday", "Wed, 20 Apr", "Tue, 19 Apr"]
     let testContent = (["Walk", "Lunch", "Project Work", "Gaming", "Training"], ["Omg i feel so good and fresh now just like a fresh watermelon", "Mmmhh Lasagna", "I. HATE. THIS. PROJECT.", nil, "Wow my sixpack is so sexy"])
     
@@ -22,7 +24,10 @@ struct MainActivityView: View {
                         Text("Activities")
                             .font(.senti(size: 35))
                         
-                        AddActivity()
+                        SentiButton(icon: "plus.circle", title: "Add Activity")
+                            .onTapGesture {
+                                addActivitySheetOpened = true
+                            }
                     }
                     .padding([.top, .bottom], 25)
                     
@@ -45,32 +50,13 @@ struct MainActivityView: View {
             .shadow(radius: 10)
             .navigationBarHidden(true)
         }
-    }
-}
-
-struct AddActivity: View {
-    var body: some View {
-        NavigationLink { MainActivityView() } label: {
-            HStack(spacing: 20) {
-                Image(systemName: "plus.square")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 30)
-                Text("Add Activity")
-                    .font(.senti(size: 23))
-                    .bold()
-                    .multilineTextAlignment(.leading)
-                Spacer()
-                Image(systemName: "chevron.forward")
-            }
-            .padding()
-            .padding([.leading, .trailing])
-            .foregroundColor(.white)
-            .background(RoundedRectangle(cornerRadius: 25).foregroundColor(K.brandColor2))
+        .sheet(isPresented: $addActivitySheetOpened) {
+            AddActivitySheet(presented: $addActivitySheetOpened)
         }
     }
 }
 
+//MARK: - Activity Bar
 struct Activity: View {
     
     let activity: String
@@ -85,14 +71,15 @@ struct Activity: View {
             .font(.senti(size: 20))
             .padding()
             
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 0) {
                 Text(activity)
+                    .padding([.top, .bottom], 5)
                 if let description = description {
                     Text(description)
                         .font(.senti(size: 18))
                         .opacity(0.7)
                         .lineLimit(2)
-                        .padding([.bottom], 5)
+                        .padding(.bottom, 10)
                 }
             }
             
@@ -112,7 +99,7 @@ struct Activity: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct MainActivityView_Previews: PreviewProvider {
     static var previews: some View {
         MainActivityView()
             .environmentObject(Model())
