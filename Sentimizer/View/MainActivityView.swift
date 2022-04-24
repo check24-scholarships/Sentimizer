@@ -11,11 +11,11 @@ struct MainActivityView: View {
     @EnvironmentObject private var model: Model
     
     let testDays = ["Today", "Yesterday", "Wed, 20 Apr", "Tue, 19 Apr"]
-    let testContent = ["Walk", "Lunch", "Project Work", "Gaming", "Training"]
+    let testContent = (["Walk", "Lunch", "Project Work", "Gaming", "Training"], ["Omg i feel so good and fresh now just like a fresh watermelon", "Mmmhh Lasagna", "I. HATE. THIS. PROJECT.", nil, "Wow my sixpack is so sexy"])
     
     var body: some View {
         ZStack {
-            K.bgColor.ignoresSafeArea() // Background Color - light gray
+            K.bgColor.ignoresSafeArea()
             ScrollView {
                 Group {
                     VStack(alignment: .leading) {
@@ -32,8 +32,9 @@ struct MainActivityView: View {
                                 .font(.senti(size: 25))
                                 .padding()
                             
-                            ForEach(testContent, id: \.self) { a in
-                                Activity(activity: a)
+                            let testCount = [0, 1, 2, 3, 4]
+                            ForEach(testCount, id: \.self) { i in
+                                Activity(activity: testContent.0[i], description: testContent.1[i])
                             }
                         }
                     }
@@ -58,6 +59,7 @@ struct AddActivity: View {
                 Text("Add Activity")
                     .font(.senti(size: 23))
                     .bold()
+                    .multilineTextAlignment(.leading)
                 Spacer()
                 Image(systemName: "chevron.forward")
             }
@@ -72,6 +74,7 @@ struct AddActivity: View {
 struct Activity: View {
     
     let activity: String
+    let description: String?
     
     var body: some View {
         HStack {
@@ -82,14 +85,23 @@ struct Activity: View {
             .font(.senti(size: 20))
             .padding()
             
-            Text(activity)
+            VStack(alignment: .leading) {
+                Text(activity)
+                if let description = description {
+                    Text(description)
+                        .font(.senti(size: 18))
+                        .opacity(0.7)
+                        .lineLimit(2)
+                        .padding([.bottom], 5)
+                }
+            }
             
             Spacer()
             
             Image(systemName: "face.smiling")
                 .font(.largeTitle)
                 .padding(20)
-                .background(Rectangle().gradientForeground(.leading, .trailing))
+                .background(Rectangle().gradientForeground(.leading, .trailing).frame(height: 100))
         }
         .font(.senti(size: 25))
         .foregroundColor(.white)

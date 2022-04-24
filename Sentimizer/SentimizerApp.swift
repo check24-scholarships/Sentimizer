@@ -14,6 +14,7 @@ struct SentimizerApp: App {
             AppTabNavigation()
                 .environmentObject(Model())
                 .font(.senti(size: 12))
+                .minimumScaleFactor(0.8)
                 .foregroundColor(.gray)
         }
     }
