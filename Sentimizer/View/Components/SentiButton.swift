@@ -18,21 +18,29 @@ struct SentiButton: View {
     var style: ButtonStyles = .filled
     var fontSize: CGFloat = 23
     var textColor: Color = .white
+    var chevron: Bool = true
     
     var body: some View {
         HStack(spacing: 20) {
+            if !chevron {
+                Spacer()
+            }
             if let icon = icon {
                 Image(systemName: icon)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 30)
+                    .frame(width: 30, height: 30)
             }
             Text(title)
                 .font(.senti(size: fontSize))
                 .bold()
                 .multilineTextAlignment(.leading)
-            Spacer()
-            Image(systemName: "chevron.forward")
+            if chevron {
+                Spacer()
+                Image(systemName: "chevron.forward")
+            } else {
+                Spacer()
+            }
         }
         .padding()
         .padding(.leading, 5)

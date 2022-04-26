@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		EB634F2B28141FDE00979923 /* K.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB634F2A28141FDE00979923 /* K.swift */; };
-		EB634F2D281427DF00979923 /* View+GradientExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB634F2C281427DF00979923 /* View+GradientExtension.swift */; };
+		EB634F2D281427DF00979923 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB634F2C281427DF00979923 /* View+Extension.swift */; };
 		EB634F2F28142AAC00979923 /* AppTabNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB634F2E28142AAC00979923 /* AppTabNavigation.swift */; };
 		EB642BFD27FF5DA4001DB273 /* SentimizerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB642BFC27FF5DA4001DB273 /* SentimizerApp.swift */; };
 		EB642BFF27FF5DA4001DB273 /* MainActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB642BFE27FF5DA4001DB273 /* MainActivityView.swift */; };
@@ -16,13 +16,14 @@
 		EB642C0427FF5DAB001DB273 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB642C0327FF5DAB001DB273 /* Preview Assets.xcassets */; };
 		EB688827281340F500C0FDE7 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB688826281340F500C0FDE7 /* Model.swift */; };
 		EB68882A2813459D00C0FDE7 /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6888292813459D00C0FDE7 /* Font+Extension.swift */; };
-		EB6A3AAF2815BBC80078F8A8 /* AddActivitySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6A3AAE2815BBC80078F8A8 /* AddActivitySheet.swift */; };
+		EB6A3AAF2815BBC80078F8A8 /* AddActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6A3AAE2815BBC80078F8A8 /* AddActivityView.swift */; };
 		EB6A3AB12815C2970078F8A8 /* SentiButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6A3AB02815C2970078F8A8 /* SentiButton.swift */; };
+		EB6A3AB5281713570078F8A8 /* ActivityChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6A3AB4281713570078F8A8 /* ActivityChooser.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		EB634F2A28141FDE00979923 /* K.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = K.swift; sourceTree = "<group>"; };
-		EB634F2C281427DF00979923 /* View+GradientExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+GradientExtension.swift"; sourceTree = "<group>"; };
+		EB634F2C281427DF00979923 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		EB634F2E28142AAC00979923 /* AppTabNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTabNavigation.swift; sourceTree = "<group>"; };
 		EB642BF927FF5DA4001DB273 /* Sentimizer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sentimizer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB642BFC27FF5DA4001DB273 /* SentimizerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentimizerApp.swift; sourceTree = "<group>"; };
@@ -31,8 +32,9 @@
 		EB642C0327FF5DAB001DB273 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		EB688826281340F500C0FDE7 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		EB6888292813459D00C0FDE7 /* Font+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extension.swift"; sourceTree = "<group>"; };
-		EB6A3AAE2815BBC80078F8A8 /* AddActivitySheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddActivitySheet.swift; sourceTree = "<group>"; };
+		EB6A3AAE2815BBC80078F8A8 /* AddActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddActivityView.swift; sourceTree = "<group>"; };
 		EB6A3AB02815C2970078F8A8 /* SentiButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentiButton.swift; sourceTree = "<group>"; };
+		EB6A3AB4281713570078F8A8 /* ActivityChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityChooser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,7 +97,7 @@
 			isa = PBXGroup;
 			children = (
 				EB6888292813459D00C0FDE7 /* Font+Extension.swift */,
-				EB634F2C281427DF00979923 /* View+GradientExtension.swift */,
+				EB634F2C281427DF00979923 /* View+Extension.swift */,
 				EB6A3AB02815C2970078F8A8 /* SentiButton.swift */,
 			);
 			path = Components;
@@ -106,7 +108,8 @@
 			children = (
 				EB634F2E28142AAC00979923 /* AppTabNavigation.swift */,
 				EB642BFE27FF5DA4001DB273 /* MainActivityView.swift */,
-				EB6A3AAE2815BBC80078F8A8 /* AddActivitySheet.swift */,
+				EB6A3AAE2815BBC80078F8A8 /* AddActivityView.swift */,
+				EB6A3AB4281713570078F8A8 /* ActivityChooser.swift */,
 				EB68882B281345AA00C0FDE7 /* Components */,
 			);
 			path = View;
@@ -182,13 +185,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EB6A3AAF2815BBC80078F8A8 /* AddActivitySheet.swift in Sources */,
+				EB6A3AAF2815BBC80078F8A8 /* AddActivityView.swift in Sources */,
 				EB634F2F28142AAC00979923 /* AppTabNavigation.swift in Sources */,
+				EB6A3AB5281713570078F8A8 /* ActivityChooser.swift in Sources */,
 				EB688827281340F500C0FDE7 /* Model.swift in Sources */,
 				EB634F2B28141FDE00979923 /* K.swift in Sources */,
 				EB642BFF27FF5DA4001DB273 /* MainActivityView.swift in Sources */,
 				EB68882A2813459D00C0FDE7 /* Font+Extension.swift in Sources */,
-				EB634F2D281427DF00979923 /* View+GradientExtension.swift in Sources */,
+				EB634F2D281427DF00979923 /* View+Extension.swift in Sources */,
 				EB6A3AB12815C2970078F8A8 /* SentiButton.swift in Sources */,
 				EB642BFD27FF5DA4001DB273 /* SentimizerApp.swift in Sources */,
 			);

@@ -25,6 +25,8 @@ struct MainActivityView: View {
                             .font(.senti(size: 35))
                         
                         SentiButton(icon: "plus.circle", title: "Add Activity")
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.5)
                             .onTapGesture {
                                 addActivitySheetOpened = true
                             }
@@ -51,7 +53,7 @@ struct MainActivityView: View {
             .navigationBarHidden(true)
         }
         .sheet(isPresented: $addActivitySheetOpened) {
-            AddActivitySheet(presented: $addActivitySheetOpened)
+            AddActivityView()
         }
     }
 }
@@ -74,6 +76,8 @@ struct Activity: View {
             VStack(alignment: .leading, spacing: 0) {
                 Text(activity)
                     .padding([.top, .bottom], 5)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.6)
                 if let description = description {
                     Text(description)
                         .font(.senti(size: 18))
