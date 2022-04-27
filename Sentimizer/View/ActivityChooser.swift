@@ -16,7 +16,7 @@ struct ActivityChooser: View {
     var body: some View {
         ScrollView {
             VStack {
-                Text("Choose Your Activity")
+                ViewTitle("Choose Your Activity")
                     .font(.senti(size: 35))
                     .frame(maxWidth: .infinity)
                 

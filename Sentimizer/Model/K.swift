@@ -16,5 +16,14 @@ struct K {
     static let brandColor4 = Color("brandColor4")
     static let textColor = Color("textColor")
     
-    static let sentiments = ["crying", "sad", "neutral", "content", "happy"]
+    enum Sentiments: Double {
+        case crying = 0.0
+        case sad = 0.25
+        case neutral = 0.5
+        case content = 0.75
+        case happy = 1.0
+    }
+    static let sentimentsArray = ["crying", "sad", "neutral", "content", "happy"]
+    
+    static let timeIntervals = ["Day", "Week", "Month", "Year"]
 }

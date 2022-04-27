@@ -21,8 +21,7 @@ struct MainActivityView: View {
             ScrollView {
                 Group {
                     VStack(alignment: .leading) {
-                        Text("Activities")
-                            .font(.senti(size: 35))
+                        ViewTitle("Activities")
                         
                         SentiButton(icon: "plus.circle", title: "Add Activity")
                             .lineLimit(1)
@@ -31,7 +30,7 @@ struct MainActivityView: View {
                                 addActivitySheetOpened = true
                             }
                     }
-                    .padding([.top, .bottom], 25)
+                    .padding(.vertical, 25)
                     
                     ForEach(testDays, id: \.self) { day in
                         VStack(alignment: .leading) {
@@ -46,7 +45,7 @@ struct MainActivityView: View {
                         }
                     }
                 }
-                .padding([.leading, .trailing], 25)
+                .padding(.horizontal, 25)
             }
             .foregroundColor(K.textColor)
             .shadow(radius: 10)
@@ -75,7 +74,7 @@ struct Activity: View {
             
             VStack(alignment: .leading, spacing: 0) {
                 Text(activity)
-                    .padding([.top, .bottom], 5)
+                    .padding(.vertical, 5)
                     .lineLimit(1)
                     .minimumScaleFactor(0.6)
                 if let description = description {

@@ -18,92 +18,87 @@ struct AddActivityView: View {
     var body: some View {
         GeometryReader { g in
             NavigationView {
-                VStack(alignment: .leading) {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "xmark.circle.fill")
-                            .font(.title)
-                            .foregroundColor(.gray)
-                    }
-                    .padding([.leading, .top])
-                    
+                ZStack(alignment: .topLeading) {
                     ScrollView {
                         VStack(alignment: .leading) {
-                            Text("Add Activity")
-                                .font(.senti(size: 35))
-                                .frame(maxWidth: .infinity)
-                            
-                            NavigationLink {
-                                ActivityChooser()
-                                    .offset(y: -10) // !!! (swiftUI bug?)
-                            } label: {
-                                SentiButton(icon: nil, title: "Choose Activity", style: .outlined, fontSize: 20, textColor: .gray)
-                            }
-                            .padding(.top, 40)
-                            
-                            Text("How do you feel?")
-                                .font(.senti(size: 25))
-                                .padding(.top, 30)
-                                .padding(.leading)
-                            
-                            HStack {
-                                Spacer()
-                                ForEach(K.sentiments, id: \.self) { sent in
-                                    HStack(spacing: 0) {
-                                        if sent != K.sentiments[0] {
-                                            Divider()
-                                                .frame(height: g.size.width/5 - 10)
-                                                .padding(.trailing, 12)
+                            Group {
+                                ViewTitle("Add Activity")
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.top, 50)
+                                
+                                NavigationLink {
+                                    ActivityChooser()
+                                        .offset(y: -10) // !!! (swiftUI bug?)
+                                } label: {
+                                    SentiButton(icon: nil, title: "Choose Activity", style: .outlined, fontSize: 20, textColor: .gray)
+                                }
+                                .padding(.top, 40)
+                                
+                                Text("How do you feel?")
+                                    .font(.senti(size: 25))
+                                    .padding(.top, 30)
+                                    .padding(.leading)
+                                
+                                HStack {
+                                    Spacer()
+                                    ForEach(K.sentimentsArray, id: \.self) { sent in
+                                        HStack(spacing: 0) {
+                                            if sent != K.sentimentsArray[0] {
+                                                Divider()
+                                                    .frame(height: g.size.width/5 - 10)
+                                                    .padding(.trailing, 12)
+                                            }
+                                            Image(sent)
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fit)
+                                                .frame(width: g.size.width/5 - 40)
+                                                .padding(.trailing, 7)
+                                                .padding(.vertical)
                                         }
-                                        Image(sent)
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: g.size.width/5 - 40)
-                                            .padding(.trailing, 7)
-                                            .padding([.top, .bottom])
+                                        
+                                    }
+                                    Spacer()
+                                }
+                                .background(RoundedRectangle(cornerRadius: 25).gradientForeground(.leading, .trailing))
+                                
+                                
+                                Text("What's happening?")
+                                    .font(.senti(size: 25))
+                                    .padding(.top, 30)
+                                    .padding(.leading)
+                                
+                                ZStack(alignment: .topLeading) {
+                                    if description.isEmpty {
+                                        Text("Describe your activity and how you feel now...")
+                                            .font(.senti(size: 15))
+                                            .opacity(0.5)
+                                            .padding(7)
                                     }
                                     
-                                }
-                                Spacer()
-                            }
-                            .background(RoundedRectangle(cornerRadius: 25).gradientForeground(.leading, .trailing))
-                            
-                            
-                            Text("What's happening?")
-                                .font(.senti(size: 25))
-                                .padding(.top, 30)
-                                .padding(.leading)
-                            
-                            ZStack(alignment: .topLeading) {
-                                if description.isEmpty {
-                                    Text("Describe what's going on...")
+                                    TextEditor(text: $description)
+                                        .frame(height: 150)
                                         .font(.senti(size: 15))
-                                        .opacity(0.5)
-                                        .padding(7)
-                                }
-                                
-                                TextEditor(text: $description)
-                                    .frame(height: 150)
-                                    .font(.senti(size: 15))
-                                    .onAppear {
-                                        UITextView.appearance().backgroundColor = .clear
-                                    }
-                                    .toolbar {
-                                        ToolbarItemGroup(placement: .keyboard) {
-                                            HStack {
-                                                Spacer()
-                                                Button("Done") {
-                                                    dismissKeyboard()
+                                        .onAppear {
+                                            UITextView.appearance().backgroundColor = .clear
+                                        }
+                                        .toolbar {
+                                            ToolbarItemGroup(placement: .keyboard) {
+                                                HStack {
+                                                    Spacer()
+                                                    Button("Done") {
+                                                        dismissKeyboard()
+                                                    }
+                                                    .font(.senti(size: 19))
+                                                    .foregroundColor(K.brandColor2)
                                                 }
-                                                .font(.senti(size: 19))
-                                                .foregroundColor(K.brandColor2)
                                             }
                                         }
-                                    }
+                                }
+                                .padding()
+                                .background(RoundedRectangle(cornerRadius: 25).foregroundColor(.gray.opacity(0.3)))
                             }
-                            .padding()
-                            .background(RoundedRectangle(cornerRadius: 25).foregroundColor(.gray.opacity(0.3)))
+                            .offset(y: -(keyboardHeight > 30 ? keyboardHeight-100 : 0))
+                            .animation(.easeOut, value: keyboardHeight)
                             
                             Button {
                                 dismiss()
@@ -115,14 +110,10 @@ struct AddActivityView: View {
                                     .padding(.top, 30)
                                     .padding(.bottom)
                             }
-                            
-                            Spacer()
                         }
                         .shadow(radius: 10)
                         .foregroundColor(K.textColor)
-                        .padding([.leading, .trailing], 20)
-                        .offset(y: -(keyboardHeight > 30 ? keyboardHeight-30 : 0))
-                        .animation(.easeOut, value: keyboardHeight)
+                        .padding(.horizontal, 20)
                         .onTapGesture {
                             dismissKeyboard()
                         }
@@ -133,6 +124,15 @@ struct AddActivityView: View {
                         )
                     }
                     .navigationBarHidden(true)
+                    
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark.circle.fill")
+                            .font(.title)
+                            .foregroundColor(.gray)
+                    }
+                    .padding([.leading, .top])
                 }
             }
             .accentColor(K.brandColor2)
