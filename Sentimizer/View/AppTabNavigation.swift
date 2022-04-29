@@ -34,7 +34,7 @@ struct AppTabNavigation: View {
             .tag(Tab.activities)
             
             NavigationView {
-                MainActivityView()
+                StatsView()
             }
             .tabItem {
                 let statsText = Text("Statistics", comment: "Statistics tab title")

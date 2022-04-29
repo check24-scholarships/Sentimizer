@@ -12,6 +12,7 @@ struct AddActivityView: View {
     @Environment(\.dismiss) private var dismiss
     
     @State var keyboardHeight: CGFloat = 0
+    @State var textFieldYPlusHeight: CGFloat = 0
     
     @State var description = ""
     
@@ -59,7 +60,9 @@ struct AddActivityView: View {
                                     }
                                     Spacer()
                                 }
-                                .background(RoundedRectangle(cornerRadius: 25).gradientForeground(.leading, .trailing))
+                                .background(RoundedRectangle(cornerRadius: 25)
+                                    .gradientForeground(.leading, .trailing)
+                                    .shadow(radius: 10))
                                 
                                 
                                 Text("What's happening?")
@@ -97,21 +100,28 @@ struct AddActivityView: View {
                                 .padding()
                                 .background(RoundedRectangle(cornerRadius: 25).foregroundColor(.gray.opacity(0.3)))
                             }
-                            .offset(y: -(keyboardHeight > 30 ? keyboardHeight-100 : 0))
+                            .offset(y: keyboardHeight != 0 ? (g.size.height - textFieldYPlusHeight - (g.size.height - keyboardHeight)) : 0)
                             .animation(.easeOut, value: keyboardHeight)
                             
-                            Button {
-                                dismiss()
-                            } label: {
-                                SentiButton(icon: nil, title: "Save", chevron: false)
-                                    .lineLimit(1)
-                                    .frame(width: 250)
-                                    .frame(maxWidth: .infinity)
-                                    .padding(.top, 30)
-                                    .padding(.bottom)
+                            GeometryReader { g2 in
+                                Button {
+                                    dismiss()
+                                } label: {
+                                    SentiButton(icon: nil, title: "Save", chevron: false)
+                                        .lineLimit(1)
+                                        .frame(width: 250)
+                                        .frame(maxWidth: .infinity)
+                                        .padding(.top, 30)
+                                        .padding(.bottom)
+                                }
+                                .onAppear {
+                                    textFieldYPlusHeight = g2.frame(in: CoordinateSpace.global).origin.y - 30
+                                }
+                                .onChange(of: g2.frame(in: CoordinateSpace.global).origin.y) { newValue in
+                                    textFieldYPlusHeight = newValue - 30
+                                }
                             }
                         }
-                        .shadow(radius: 10)
                         .foregroundColor(K.textColor)
                         .padding(.horizontal, 20)
                         .onTapGesture {

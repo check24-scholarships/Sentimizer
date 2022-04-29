@@ -9,7 +9,6 @@ import SwiftUI
 
 /// Displays the standard Sentimizer view title.
 struct ViewTitle: View {
-    
     let title: String
     
     var body: some View {

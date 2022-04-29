@@ -46,8 +46,11 @@ struct SentiButton: View {
         .padding(.leading, 5)
         .padding(.trailing)
         .foregroundColor(textColor)
-        .background(RoundedRectangle(cornerRadius: 25).foregroundColor(style == .filled ? K.brandColor2 : .clear))
+        .background(RoundedRectangle(cornerRadius: 25)
+            .foregroundColor(style == .filled ? K.brandColor2 : .clear)
+            .shadow(radius: 10))
         .overlay(RoundedRectangle(cornerRadius: 25)
-            .stroke(style == .outlined ? K.brandColor2 : .clear, lineWidth: 3))
+            .stroke(style == .outlined ? K.brandColor2 : .clear, lineWidth: 3)
+            .shadow(radius: 10))
     }
 }

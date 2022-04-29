@@ -17,7 +17,6 @@ struct ActivityChooser: View {
         ScrollView {
             VStack {
                 ViewTitle("Choose Your Activity")
-                    .font(.senti(size: 35))
                     .frame(maxWidth: .infinity)
                 
                 let testCount = [0, 1, 2, 3, 4]

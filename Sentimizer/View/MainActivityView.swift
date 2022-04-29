@@ -48,7 +48,6 @@ struct MainActivityView: View {
                 .padding(.horizontal, 25)
             }
             .foregroundColor(K.textColor)
-            .shadow(radius: 10)
             .navigationBarHidden(true)
         }
         .sheet(isPresented: $addActivitySheetOpened) {
