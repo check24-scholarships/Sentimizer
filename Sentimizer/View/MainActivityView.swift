@@ -13,7 +13,7 @@ struct MainActivityView: View {
     @State var addActivitySheetOpened = false
     
     let testDays = ["Today", "Yesterday", "Wed, 20 Apr", "Tue, 19 Apr"]
-    let testContent = (["Walk", "Lunch", "Project Work", "Gaming", "Training"], ["Omg i feel so good and fresh now just like a fresh watermelon", "Mmmhh Lasagna", "I. HATE. THIS. PROJECT.", nil, "Wow my sixpack is so sexy"])
+    let testContent = (["Walk", "Lunch", "Project Work", "Gaming", "Training"], ["Omg i feel so good and fresh now just like a fresh watermelon", "Mmmhh Lasagna", "I. HATE. THIS. PROJECT.", nil, "Wow my sixpack is so sexy"], [Color.green, Color.yellow, Color.blue, Color.purple, Color.gray], K.sentimentsArray)
     
     var body: some View {
         ZStack {
@@ -22,6 +22,7 @@ struct MainActivityView: View {
                 Group {
                     VStack(alignment: .leading) {
                         ViewTitle("Activities")
+                            .padding()
                         
                         SentiButton(icon: "plus.circle", title: "Add Activity")
                             .lineLimit(1)
@@ -40,12 +41,12 @@ struct MainActivityView: View {
                             
                             let testCount = [0, 1, 2, 3, 4]
                             ForEach(testCount, id: \.self) { i in
-                                Activity(activity: testContent.0[i], description: testContent.1[i])
+                                Activity(activity: testContent.0[i], description: testContent.1[i], color: testContent.2[i], sentiment: testContent.3[i])
                             }
                         }
                     }
                 }
-                .padding(.horizontal, 25)
+                .padding(.horizontal, 15)
             }
             .foregroundColor(K.textColor)
             .navigationBarHidden(true)
@@ -61,6 +62,10 @@ struct Activity: View {
     
     let activity: String
     let description: String?
+    let color: Color
+    let sentiment: String
+    
+    @State var width: CGFloat = 0
     
     var body: some View {
         HStack {
@@ -69,13 +74,30 @@ struct Activity: View {
                 Text("30 min")
             }
             .font(.senti(size: 20))
-            .padding()
+            .padding([.leading, .top, .bottom])
+            .padding(.trailing, 3)
             
             VStack(alignment: .leading, spacing: 0) {
                 Text(activity)
-                    .padding(.vertical, 5)
+                    .padding(.top, 5)
                     .lineLimit(1)
                     .minimumScaleFactor(0.6)
+                    .overlay {
+                        GeometryReader { g in
+                            Color.clear
+                                .onAppear {
+                                    width = g.frame(in: .local).width
+                                    print(width)
+                                }
+                                .onChange(of: g.frame(in: .local).width) { newValue in
+                                    width = newValue
+                                    print(width)
+                                }
+                        }
+                    }
+                Rectangle()
+                    .frame(width: width, height: 5)
+                    .foregroundColor(color)
                 if let description = description {
                     Text(description)
                         .font(.senti(size: 18))
@@ -86,10 +108,13 @@ struct Activity: View {
             }
             
             Spacer()
-            
-            Image(systemName: "face.smiling")
-                .font(.largeTitle)
-                .padding(20)
+
+            Image(sentiment)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 40)
+                .padding(15)
+                .changeColor(to: .white)
                 .background(Rectangle().gradientForeground(.leading, .trailing).frame(height: 100))
         }
         .font(.senti(size: 25))
