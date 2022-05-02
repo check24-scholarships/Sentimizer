@@ -16,11 +16,13 @@ struct AppTabNavigation: View {
     }
 
     @State private var selection: Tab = .activities
+    @Environment(\.managedObjectContext) var moc
 
     var body: some View {
         TabView(selection: $selection) {
             NavigationView {
                 MainActivityView()
+                    .environment(\.managedObjectContext, self.moc)
             }
             .tabItem {
                 let activitiesText = Text("Activities", comment: "Activity main tab title")
