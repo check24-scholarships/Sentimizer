@@ -14,13 +14,18 @@ struct AppTabNavigation: View {
         case stats
         case calendar
     }
-
+    
     @State private var selection: Tab = .activities
-
+    
     var body: some View {
         TabView(selection: $selection) {
             NavigationView {
-                MainActivityView()
+                ZStack {
+                    K.bgColor.ignoresSafeArea()
+                    MainActivityView()
+                        .foregroundColor(K.textColor)
+                        .navigationBarHidden(true)
+                }
             }
             .tabItem {
                 let activitiesText = Text("Activities", comment: "Activity main tab title")
@@ -34,7 +39,12 @@ struct AppTabNavigation: View {
             .tag(Tab.activities)
             
             NavigationView {
-                StatsView()
+                ZStack {
+                    K.bgColor.ignoresSafeArea()
+                    StatsView()
+                        .foregroundColor(K.textColor)
+                        .navigationBarHidden(true)
+                }
             }
             .tabItem {
                 let statsText = Text("Statistics", comment: "Statistics tab title")
@@ -48,7 +58,12 @@ struct AppTabNavigation: View {
             .tag(Tab.stats)
             
             NavigationView {
-                MainActivityView()
+                ZStack {
+                    K.bgColor.ignoresSafeArea()
+                    MainActivityView()
+                        .foregroundColor(K.textColor)
+                        .navigationBarHidden(true)
+                }
             }
             .tabItem {
                 let calendarText = Text("Calendar", comment: "Calendar tab title")
