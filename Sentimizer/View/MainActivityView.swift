@@ -73,6 +73,7 @@ struct MainActivityView: View {
                     .padding(.vertical, 25)
                     
                     ForEach(0 ..< entryDays.count, id: \.self) { day in
+                        Text("this is a day")
                         VStack(alignment: .leading) {
                             Text(entryDays[day])
                                 .font(.senti(size: 25))
@@ -98,9 +99,13 @@ struct MainActivityView: View {
         .onAppear() {
             print("Z appeared")
             
-            print("d", Date())
+            for entry in entries {
+                print(entry)
+            }
             
             (entryDays, entryContent) = getEntryData(entries: entries)
+            
+            print(entryDays, entryContent)
         }
     }
     
@@ -153,7 +158,6 @@ struct Activity: View {
                     }
                 Rectangle()
                     .frame(width: width, height: 5)
-                    .foregroundColor(color)
                 if let description = description {
                     Text(description)
                         .font(.senti(size: 18))
@@ -168,9 +172,10 @@ struct Activity: View {
             Image(sentiment)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .font(.largeTitle)
-                .padding(20)
-                .background(Rectangle().gradientForeground(.leading, .trailing).frame(height: 100))
+                .frame(width: 40)
+                .padding(15)
+                .changeColor(to: .white)
+                                .background(Rectangle().gradientForeground(.leading, .trailing).frame(height: 100))
         }
         .font(.senti(size: 25))
         .foregroundColor(.white)
