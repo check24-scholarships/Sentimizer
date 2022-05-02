@@ -61,6 +61,7 @@ struct MainActivityView: View {
                 Group {
                     VStack(alignment: .leading) {
                         ViewTitle("Activities")
+                            .padding()
                         
                         SentiButton(icon: "plus.circle", title: "Add Activity")
                             .lineLimit(1)
@@ -84,7 +85,7 @@ struct MainActivityView: View {
                         }
                     }
                 }
-                .padding(.horizontal, 25)
+                .padding(.horizontal, 15)
             }
             .foregroundColor(K.textColor)
             .navigationBarHidden(true)
@@ -120,6 +121,8 @@ struct Activity: View {
     let duration: String
     let sentiment: String
     
+    @State var width: CGFloat = 0
+    
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
@@ -127,13 +130,30 @@ struct Activity: View {
                 Text(duration + "min")
             }
             .font(.senti(size: 20))
-            .padding()
+            .padding([.leading, .top, .bottom])
+            .padding(.trailing, 3)
             
             VStack(alignment: .leading, spacing: 0) {
                 Text(activity)
-                    .padding(.vertical, 5)
+                    .padding(.top, 5)
                     .lineLimit(1)
                     .minimumScaleFactor(0.6)
+                    .overlay {
+                        GeometryReader { g in
+                            Color.clear
+                                .onAppear {
+                                    width = g.frame(in: .local).width
+                                    print(width)
+                                }
+                                .onChange(of: g.frame(in: .local).width) { newValue in
+                                    width = newValue
+                                    print(width)
+                                }
+                        }
+                    }
+                Rectangle()
+                    .frame(width: width, height: 5)
+                    .foregroundColor(color)
                 if let description = description {
                     Text(description)
                         .font(.senti(size: 18))
