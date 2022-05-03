@@ -10,14 +10,14 @@ import SwiftUI
 struct AddActivityView: View {
     
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.managedObjectContext) var moc
+    @Environment(\.managedObjectContext) var viewContext
     
     @State var keyboardHeight: CGFloat = 0
     @State var textFieldYPlusHeight: CGFloat = 0
     
     @State var description = ""
     @State var feeling = ""
-    @State var activity = ""
+    @State var activity = ("", "")
     
     var body: some View {
         GeometryReader { g in
@@ -32,9 +32,14 @@ struct AddActivityView: View {
                                 
                                 NavigationLink {
                                     ActivityChooser(activity: $activity)
-                                        .offset(y: -10) // !!! (swiftUI bug?)
+                                        .offset(y: -20) // !!! (swiftUI bug?)
+                                        .navigationBarTitleDisplayMode(.inline)
                                 } label: {
-                                    SentiButton(icon: nil, title: "Choose Activity", style: .outlined, fontSize: 20, textColor: .gray)
+                                    if activity.1.isEmpty {
+                                        SentiButton(icon: nil, title: "Choose Activity", style: .outlined, fontSize: 20, textColor: .gray)
+                                    } else {
+                                        SentiButton(icon: activity.0, title: activity.1, chevron: false)
+                                    }
                                 }
                                 .padding(.top, 40)
                                 
@@ -43,7 +48,7 @@ struct AddActivityView: View {
                                     .padding(.top, 30)
                                     .padding(.leading)
                                 
-                                HStack {
+                                HStack(spacing: 0) {
                                     Spacer()
                                     ForEach(K.sentimentsArray, id: \.self) { sent in
                                         HStack(spacing: 0) {
@@ -58,9 +63,12 @@ struct AddActivityView: View {
                                                 Image(sent)
                                                     .resizable()
                                                     .aspectRatio(contentMode: .fit)
-                                                    .frame(width: g.size.width/5 - 40)
-                                                    .padding(.trailing, 7)
+                                                    .frame(width: g.size.width/5 - 35)
+                                                    .padding(.trailing, 12)
                                                     .padding(.vertical)
+                                                    .padding(.leading, 12)
+                                                    .background(feeling == sent ? Rectangle().foregroundColor(K.brandColor2.adjust(brightness: -0.1)).frame(height: 100) : nil)
+                                                    .padding(.leading, -12)
                                             }
                                         }
                                         
@@ -70,6 +78,7 @@ struct AddActivityView: View {
                                 .background(RoundedRectangle(cornerRadius: 25)
                                     .gradientForeground(.leading, .trailing)
                                     .shadow(radius: 10))
+                                .clipShape(RoundedRectangle(cornerRadius: 25))
                                 
                                 
                                 Text("What's happening?")
@@ -112,15 +121,18 @@ struct AddActivityView: View {
                             
                             GeometryReader { g2 in
                                 Button {
-                                    print(description, feeling, activity, Date())
-                                    
-                                    let entry = Entry(context: moc)
+                                    let entry = Entry(context: viewContext)
                                     entry.text = description
                                     entry.date = Date()
                                     entry.feeling = feeling
-                                    entry.activity = activity
+                                    entry.activity = activity.1
                                     
-                                    try? moc.save()
+                                    do {
+                                        try viewContext.save()
+                                    } catch {
+                                        print("In \(#function), line \(#line), save activity failed:")
+                                        print(error.localizedDescription)
+                                    }
                                     
                                     dismiss()
                                 } label: {
@@ -131,11 +143,12 @@ struct AddActivityView: View {
                                         .padding(.top, 30)
                                         .padding(.bottom)
                                 }
+                                .disabled(feeling.isEmpty || activity.1.isEmpty)
                                 .onAppear {
-                                    textFieldYPlusHeight = g2.frame(in: CoordinateSpace.global).origin.y - 30
+                                    textFieldYPlusHeight = g2.frame(in: CoordinateSpace.global).origin.y
                                 }
                                 .onChange(of: g2.frame(in: CoordinateSpace.global).origin.y) { newValue in
-                                    textFieldYPlusHeight = newValue - 30
+                                    textFieldYPlusHeight = newValue
                                 }
                             }
                         }
@@ -164,6 +177,9 @@ struct AddActivityView: View {
             }
             .accentColor(K.brandColor2)
             .onAppear {
+                if let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.path {
+                        print("Documents Directory: \(documentsPath)")
+                    }
                 // When the keyboard appears > View slides up
                 NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification,
                                                        object: nil,

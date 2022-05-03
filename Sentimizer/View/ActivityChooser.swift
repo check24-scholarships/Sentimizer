@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ActivityChooser: View {
-    @Binding var activity: String
+    @Binding var activity: (String, String)
     
     @Environment(\.dismiss) private var dismiss
     
@@ -17,12 +17,12 @@ struct ActivityChooser: View {
     var body: some View {
         ScrollView {
             VStack {
-                ViewTitle("Choose Your Activity")
+                ViewTitle("Choose Your Activity", fontSize: 30)
                     .frame(maxWidth: .infinity)
                 
                 ForEach(0 ..< testContent.0.count, id: \.self) { i in
                     Button {
-                        activity = testContent.0[i]
+                        activity = (testContent.1[i], testContent.0[i])
                         dismiss()
                     } label: {
                         SentiButton(icon: testContent.1[i], title: testContent.0[i])
@@ -36,6 +36,6 @@ struct ActivityChooser: View {
 
 struct ActivityChooser_Previews: PreviewProvider {
     static var previews: some View {
-        ActivityChooser(activity: .constant(""))
+        ActivityChooser(activity: .constant(("", "")))
     }
 }

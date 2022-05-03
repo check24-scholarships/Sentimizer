@@ -8,47 +8,15 @@
 import SwiftUI
 import CoreData
 
-func getEntryData(entries:FetchedResults<Entry>) -> ([String], [[[String]]]) {
-    var days:[String] = []
-    var content:[[[String]]] = [[[]]]
-    
-    for entry in entries {
-        var day = formatDate(date:entry.date!, format: "EEE, d MMM")
-        
-        if (Calendar.current.isDateInToday(entry.date!)) {
-            day = "Today"
-        } else if (Calendar.current.isDateInYesterday(entry.date!)) {
-            day = "Yesterday"
-        }
-        
-        if day != days.first {
-            days.insert(day, at: 0)
-            content.insert([], at: 0)
-        }
-        
-        content[0].insert([entry.activity ?? "senting", formatDate(date: entry.date!, format: "HH:mm"), "10", entry.text ?? "", entry.feeling ?? "happy"], at:0)
-    }
-    
-    
-    return (days, content)
-}
-
-func formatDate(date: Date, format:String = "dd MM") -> String {
-    let d = DateFormatter()
-    d.dateFormat = format
-    return d.string(from: date)
-}
-
-
 struct MainActivityView: View {
     @EnvironmentObject private var model: Model
     
-    @Environment(\.managedObjectContext) var moc
+    @Environment(\.managedObjectContext) var viewContext
     
     @State var addActivitySheetOpened = false
     
-    @State var entryDays:[String] = []
-    @State var entryContent:[[[String]]] = [[]]
+    @State var entryDays: [String] = []
+    @State var entryContent: [[[String]]] = [[]]
     
     @FetchRequest var entries: FetchedResults<Entry>
     
@@ -68,15 +36,31 @@ struct MainActivityView: View {
                         .padding(.vertical, 25)
                 }
                 
-                ForEach(0 ..< entryDays.count, id: \.self) { day in
-                    VStack(alignment: .leading) {
-                        Text(entryDays[day])
-                            .font(.senti(size: 25))
+                if entryDays.count < 1 {
+                    VStack {
+                        HStack {
+                            Image(systemName: "figure.walk")
+                            Image(systemName: "fork.knife")
+                            Image(systemName: "briefcase.fill")
+                        }
+                        .font(.title)
+                        Text("Create Your First Activity Above")
+                            .font(.senti(size: 15))
+                            .bold()
                             .padding()
-                        
-                        ForEach(0 ..< entryContent[day].count, id: \.self) { i in
-                            let c = entryContent[day][i]
-                            Activity(activity: c[0], description: c[3], time: c[1], duration: c[2], sentiment: c[4])
+                    }
+                    .padding(.top, 50)
+                } else {
+                    ForEach(0..<entryDays.count, id: \.self) { day in
+                        VStack(alignment: .leading) {
+                            Text(entryDays[day])
+                                .font(.senti(size: 25))
+                                .padding()
+                            
+                            ForEach(0 ..< entryContent[day].count, id: \.self) { i in
+                                let c = entryContent[day][i]
+                                Activity(activity: c[0], description: c[3], time: c[1], duration: c[2], sentiment: c[4])
+                            }
                         }
                     }
                 }
@@ -85,18 +69,13 @@ struct MainActivityView: View {
         }
         .sheet(isPresented: $addActivitySheetOpened) {
             AddActivityView()
-                .environment(\.managedObjectContext, self.moc)
+                .environment(\.managedObjectContext, self.viewContext)
         }
         .onAppear() {
-            print("Z appeared")
-            
-            for entry in entries {
-                print(entry)
-            }
-            
-            (entryDays, entryContent) = getEntryData(entries: entries)
-            
-            print(entryDays, entryContent)
+            (entryDays, entryContent) = DataController.getEntryData(entries: entries)
+        }
+        .onChange(of: addActivitySheetOpened) { _ in
+            (entryDays, entryContent) = DataController.getEntryData(entries: entries)
         }
     }
     
@@ -145,7 +124,7 @@ struct Activity: View {
                                 }
                         }
                     }
-                if let description = description {
+                if let description = description, !description.isEmpty {
                     Text(description)
                         .font(.senti(size: 18))
                         .opacity(0.7)

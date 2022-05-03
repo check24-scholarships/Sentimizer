@@ -11,15 +11,18 @@ import SwiftUI
 struct ViewTitle: View {
     let title: String
     
+    var fontSize: CGFloat
+    
     var body: some View {
         Text(title)
-            .font(.senti(size: 35))
+            .font(.senti(size: fontSize))
             .padding()
             .padding(.top, 25)
     }
     
-    init(_ title: String) {
+    init(_ title: String, fontSize: CGFloat = 35) {
         self.title = title
+        self.fontSize = fontSize
     }
 }
 
