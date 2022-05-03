@@ -28,7 +28,7 @@ struct AddActivityView: View {
                             Group {
                                 ViewTitle("Add Activity")
                                     .frame(maxWidth: .infinity)
-                                    .padding(.top, 50)
+                                    .padding(.top, 25)
                                 
                                 NavigationLink {
                                     ActivityChooser(activity: $activity)

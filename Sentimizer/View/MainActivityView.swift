@@ -28,7 +28,7 @@ func getEntryData(entries:FetchedResults<Entry>) -> ([String], [[[String]]]) {
         
         content[0].insert([entry.activity ?? "senting", formatDate(date: entry.date!, format: "HH:mm"), "10", entry.text ?? "", entry.feeling ?? "happy"], at:0)
     }
-                
+    
     
     return (days, content)
 }
@@ -54,48 +54,39 @@ struct MainActivityView: View {
     
     
     var body: some View {
-        
-        ZStack {
-            K.bgColor.ignoresSafeArea()
-            ScrollView {
-                Group {
+        ScrollView {
+            Group {
+                VStack(alignment: .leading) {
+                    ViewTitle("Activities")
+                    
+                    SentiButton(icon: "plus.circle", title: "Add Activity")
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.5)
+                        .onTapGesture {
+                            addActivitySheetOpened = true
+                        }
+                        .padding(.vertical, 25)
+                }
+                
+                ForEach(0 ..< entryDays.count, id: \.self) { day in
                     VStack(alignment: .leading) {
-                        ViewTitle("Activities")
+                        Text(entryDays[day])
+                            .font(.senti(size: 25))
                             .padding()
                         
-                        SentiButton(icon: "plus.circle", title: "Add Activity")
-                            .lineLimit(1)
-                            .minimumScaleFactor(0.5)
-                            .onTapGesture {
-                                addActivitySheetOpened = true
-                            }
-                    }
-                    .padding(.vertical, 25)
-                    
-                    ForEach(0 ..< entryDays.count, id: \.self) { day in
-                        Text("this is a day")
-                        VStack(alignment: .leading) {
-                            Text(entryDays[day])
-                                .font(.senti(size: 25))
-                                .padding()
-                            
-                            ForEach(0 ..< entryContent[day].count, id: \.self) { i in
-                                let c = entryContent[day][i]
-                                Activity(activity: c[0], description: c[3], time: c[1], duration: c[2], sentiment: c[4])
-                            }
+                        ForEach(0 ..< entryContent[day].count, id: \.self) { i in
+                            let c = entryContent[day][i]
+                            Activity(activity: c[0], description: c[3], time: c[1], duration: c[2], sentiment: c[4])
                         }
                     }
                 }
-                .padding(.horizontal, 15)
             }
-            .foregroundColor(K.textColor)
-            .navigationBarHidden(true)
+            .padding(.horizontal, 15)
         }
         .sheet(isPresented: $addActivitySheetOpened) {
             AddActivityView()
                 .environment(\.managedObjectContext, self.moc)
         }
-        
         .onAppear() {
             print("Z appeared")
             
@@ -148,16 +139,12 @@ struct Activity: View {
                             Color.clear
                                 .onAppear {
                                     width = g.frame(in: .local).width
-                                    print(width)
                                 }
                                 .onChange(of: g.frame(in: .local).width) { newValue in
                                     width = newValue
-                                    print(width)
                                 }
                         }
                     }
-                Rectangle()
-                    .frame(width: width, height: 5)
                 if let description = description {
                     Text(description)
                         .font(.senti(size: 18))
@@ -175,7 +162,7 @@ struct Activity: View {
                 .frame(width: 40)
                 .padding(15)
                 .changeColor(to: .white)
-                                .background(Rectangle().gradientForeground(.leading, .trailing).frame(height: 100))
+                .background(Rectangle().gradientForeground(.leading, .trailing).frame(height: 100))
         }
         .font(.senti(size: 25))
         .foregroundColor(.white)
