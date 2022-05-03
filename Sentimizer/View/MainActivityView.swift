@@ -6,16 +6,55 @@
 //
 
 import SwiftUI
+import CoreData
+
+func getEntryData(entries:FetchedResults<Entry>) -> ([String], [[[String]]]) {
+    var days:[String] = []
+    var content:[[[String]]] = [[[]]]
+    
+    for entry in entries {
+        var day = formatDate(date:entry.date!, format: "EEE, d MMM")
+        
+        if (Calendar.current.isDateInToday(entry.date!)) {
+            day = "Today"
+        } else if (Calendar.current.isDateInYesterday(entry.date!)) {
+            day = "Yesterday"
+        }
+        
+        if day != days.first {
+            days.insert(day, at: 0)
+            content.insert([], at: 0)
+        }
+        
+        content[0].insert([entry.activity ?? "senting", formatDate(date: entry.date!, format: "HH:mm"), "10", entry.text ?? "", entry.feeling ?? "happy"], at:0)
+    }
+                
+    
+    return (days, content)
+}
+
+func formatDate(date: Date, format:String = "dd MM") -> String {
+    let d = DateFormatter()
+    d.dateFormat = format
+    return d.string(from: date)
+}
+
 
 struct MainActivityView: View {
     @EnvironmentObject private var model: Model
     
+    @Environment(\.managedObjectContext) var moc
+    
     @State var addActivitySheetOpened = false
     
-    let testDays = ["Today", "Yesterday", "Wed, 20 Apr", "Tue, 19 Apr"]
-    let testContent = (["Walk", "Lunch", "Project Work", "Gaming", "Training"], ["Omg i feel so good and fresh now just like a fresh watermelon", "Mmmhh Lasagna", "I. HATE. THIS. PROJECT.", nil, "Wow my sixpack is so sexy"], [Color.green, Color.yellow, Color.blue, Color.purple, Color.gray], K.sentimentsArray)
+    @State var entryDays:[String] = []
+    @State var entryContent:[[[String]]] = [[]]
+    
+    @FetchRequest var entries: FetchedResults<Entry>
+    
     
     var body: some View {
+        
         ZStack {
             K.bgColor.ignoresSafeArea()
             ScrollView {
@@ -33,15 +72,16 @@ struct MainActivityView: View {
                     }
                     .padding(.vertical, 25)
                     
-                    ForEach(testDays, id: \.self) { day in
+                    ForEach(0 ..< entryDays.count, id: \.self) { day in
+                        Text("this is a day")
                         VStack(alignment: .leading) {
-                            Text(day)
+                            Text(entryDays[day])
                                 .font(.senti(size: 25))
                                 .padding()
                             
-                            let testCount = [0, 1, 2, 3, 4]
-                            ForEach(testCount, id: \.self) { i in
-                                Activity(activity: testContent.0[i], description: testContent.1[i], color: testContent.2[i], sentiment: testContent.3[i])
+                            ForEach(0 ..< entryContent[day].count, id: \.self) { i in
+                                let c = entryContent[day][i]
+                                Activity(activity: c[0], description: c[3], time: c[1], duration: c[2], sentiment: c[4])
                             }
                         }
                     }
@@ -53,7 +93,27 @@ struct MainActivityView: View {
         }
         .sheet(isPresented: $addActivitySheetOpened) {
             AddActivityView()
+                .environment(\.managedObjectContext, self.moc)
         }
+        
+        .onAppear() {
+            print("Z appeared")
+            
+            for entry in entries {
+                print(entry)
+            }
+            
+            (entryDays, entryContent) = getEntryData(entries: entries)
+            
+            print(entryDays, entryContent)
+        }
+    }
+    
+    init() {
+        let f:NSFetchRequest<Entry> = Entry.fetchRequest()
+        f.fetchLimit = 20
+        f.sortDescriptors = [NSSortDescriptor(key: #keyPath(Entry.date), ascending: true)]
+        _entries = FetchRequest(fetchRequest: f)
     }
 }
 
@@ -62,7 +122,8 @@ struct Activity: View {
     
     let activity: String
     let description: String?
-    let color: Color
+    let time: String
+    let duration: String
     let sentiment: String
     
     @State var width: CGFloat = 0
@@ -70,8 +131,8 @@ struct Activity: View {
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                Text("12:55")
-                Text("30 min")
+                Text(time)
+                Text(duration + "min")
             }
             .font(.senti(size: 20))
             .padding([.leading, .top, .bottom])
@@ -97,7 +158,6 @@ struct Activity: View {
                     }
                 Rectangle()
                     .frame(width: width, height: 5)
-                    .foregroundColor(color)
                 if let description = description {
                     Text(description)
                         .font(.senti(size: 18))
@@ -108,14 +168,14 @@ struct Activity: View {
             }
             
             Spacer()
-
+            
             Image(sentiment)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 40)
                 .padding(15)
                 .changeColor(to: .white)
-                .background(Rectangle().gradientForeground(.leading, .trailing).frame(height: 100))
+                                .background(Rectangle().gradientForeground(.leading, .trailing).frame(height: 100))
         }
         .font(.senti(size: 25))
         .foregroundColor(.white)

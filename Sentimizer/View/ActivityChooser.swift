@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ActivityChooser: View {
+    @Binding var activity: String
     
     @Environment(\.dismiss) private var dismiss
     
@@ -19,9 +20,9 @@ struct ActivityChooser: View {
                 ViewTitle("Choose Your Activity")
                     .frame(maxWidth: .infinity)
                 
-                let testCount = [0, 1, 2, 3, 4]
-                ForEach(testCount, id: \.self) { i in
+                ForEach(0 ..< testContent.0.count, id: \.self) { i in
                     Button {
+                        activity = testContent.0[i]
                         dismiss()
                     } label: {
                         SentiButton(icon: testContent.1[i], title: testContent.0[i])
@@ -35,6 +36,6 @@ struct ActivityChooser: View {
 
 struct ActivityChooser_Previews: PreviewProvider {
     static var previews: some View {
-        ActivityChooser()
+        ActivityChooser(activity: .constant(""))
     }
 }

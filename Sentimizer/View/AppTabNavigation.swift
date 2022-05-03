@@ -16,7 +16,8 @@ struct AppTabNavigation: View {
     }
     
     @State private var selection: Tab = .activities
-    
+    @Environment(\.managedObjectContext) var moc
+
     var body: some View {
         TabView(selection: $selection) {
             NavigationView {

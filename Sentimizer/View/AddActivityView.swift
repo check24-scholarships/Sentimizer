@@ -10,11 +10,14 @@ import SwiftUI
 struct AddActivityView: View {
     
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.managedObjectContext) var moc
     
     @State var keyboardHeight: CGFloat = 0
     @State var textFieldYPlusHeight: CGFloat = 0
     
     @State var description = ""
+    @State var feeling = ""
+    @State var activity = ""
     
     var body: some View {
         GeometryReader { g in
@@ -28,7 +31,7 @@ struct AddActivityView: View {
                                     .padding(.top, 50)
                                 
                                 NavigationLink {
-                                    ActivityChooser()
+                                    ActivityChooser(activity: $activity)
                                         .offset(y: -10) // !!! (swiftUI bug?)
                                 } label: {
                                     SentiButton(icon: nil, title: "Choose Activity", style: .outlined, fontSize: 20, textColor: .gray)
@@ -49,12 +52,16 @@ struct AddActivityView: View {
                                                     .frame(height: g.size.width/5 - 10)
                                                     .padding(.trailing, 12)
                                             }
-                                            Image(sent)
-                                                .resizable()
-                                                .aspectRatio(contentMode: .fit)
-                                                .frame(width: g.size.width/5 - 40)
-                                                .padding(.trailing, 7)
-                                                .padding(.vertical)
+                                            Button {
+                                                feeling = sent
+                                            } label: {
+                                                Image(sent)
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fit)
+                                                    .frame(width: g.size.width/5 - 40)
+                                                    .padding(.trailing, 7)
+                                                    .padding(.vertical)
+                                            }
                                         }
                                         
                                     }
@@ -105,6 +112,16 @@ struct AddActivityView: View {
                             
                             GeometryReader { g2 in
                                 Button {
+                                    print(description, feeling, activity, Date())
+                                    
+                                    let entry = Entry(context: moc)
+                                    entry.text = description
+                                    entry.date = Date()
+                                    entry.feeling = feeling
+                                    entry.activity = activity
+                                    
+                                    try? moc.save()
+                                    
                                     dismiss()
                                 } label: {
                                     SentiButton(icon: nil, title: "Save", chevron: false)
