@@ -12,13 +12,13 @@ struct StatsView: View {
     @State var timeInterval = K.timeIntervals[0]
     
     let testData = ([0.0, 0.0, 0.5, 0.25, 0.75, 1.0], ["8:15", "8:31", "9:44", "12:57", "14:19", "15:35"])
+    let testData2 = (["Walking", "Training", "Lunch"], [0.75, 0.6, 0.15])
+    let testData3 = (["Project Work", "Gaming"], [-0.4, -0.1])
     
     var body: some View {
-        
         ScrollView {
             VStack(alignment: .leading) {
                 ViewTitle("Statistics")
-                    .padding()
                 
                 Picker("Time Interval", selection: $timeInterval) {
                     ForEach(K.timeIntervals, id: \.self) { interval in
@@ -27,7 +27,6 @@ struct StatsView: View {
                 }
                 .pickerStyle(SegmentedPickerStyle())
                 .foregroundColor(K.brandColor2)
-                .padding(.horizontal, 20)
                 .padding(.vertical, 5)
                 .onAppear {
                     UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(K.brandColor2)
@@ -40,19 +39,33 @@ struct StatsView: View {
                     .font(.senti(size: 20))
                     .padding([.leading, .top])
                 
-                LineChart(dataPoints: testData)
+                MoodTrendChart(dataPoints: testData)
                     .frame(height: 200)
                     .padding()
                     .background(RoundedRectangle(cornerRadius: 25).foregroundColor(K.brandColor1).opacity(0.1))
-                    .padding(.horizontal)
+                
+                Text("Improved Your Mood")
+                    .font(.senti(size: 20))
+                    .padding([.leading, .top])
+                
+                MoodInfluence(data: testData2)
+                
+                Text("Worsened Your Mood")
+                    .font(.senti(size: 20))
+                    .padding([.leading, .top])
+                
+                MoodInfluence(data: testData3)
+                
+                
+                    .padding(.bottom, 30)
             }
+            .padding(.horizontal, 15)
         }
     }
 }
 
-//MARK: LineChart
-struct LineChart: View {
-    
+//MARK: MoodTrendChart
+struct MoodTrendChart: View {
     let dataPoints: ([Double], [String])
     
     var body: some View {
@@ -66,6 +79,7 @@ struct LineChart: View {
                         ZStack(alignment: .bottom) {
                             Graph(dataPoints: dataPoints.0)
                                 .shadow(radius: 10)
+                                .padding(.vertical)
                             
                             // Dates
                             ForEach(0..<dataPoints.1.count, id: \.self) { i in
@@ -74,9 +88,6 @@ struct LineChart: View {
                                 let x = g2.size.width * (iFloat/countFloat)
                                 Text("\(String(describing: dataPoints.1[i]))")
                                     .position(x: x, y: g2.size.height)
-                                    .onAppear {
-                                        print(g2.size.width * (iFloat/countFloat))
-                                    }
                             }
                         }
                     }
@@ -139,6 +150,52 @@ struct LineChart: View {
                 .stroke(LinearGradient(colors: [K.brandColor2, K.brandColor3], startPoint: .leading, endPoint: .trailing), style: StrokeStyle(lineWidth: 4, lineJoin: .round))
             }
             .padding(.vertical)
+        }
+    }
+}
+
+struct MoodInfluence: View {
+    let data: ([String], [Double])
+    
+    @State var g: GeometryProxy? = nil
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            ForEach(0..<data.0.count, id: \.self) { index in
+                VStack(alignment: .leading) {
+                    HStack {
+                        Text(data.0[index])
+                            .font(.senti(size: 20))
+                            .padding(5)
+                        Text("\(String(format: "%.0f", abs(data.1[index]) * 100))% \(data.1[index] > 0 ? "positive" : "negative")")
+                            .font(.senti(size: 15))
+                            .foregroundColor(data.1[index] > 0 ? .green : .red)
+                    }
+                    
+                    HStack {
+                        Spacer().frame(width: data.1[index] > 0 ? 0 : nil)
+                        RoundedRectangle(cornerRadius: 50)
+                            .frame(width: (g?.size.width ?? 0) * abs(data.1[index]), height: 3)
+                            .gradientForeground(colors: data.1[index] > 0 ? [.green, .green.adjust(brightness: 0.95)] :
+                                                    [.red, .red.adjust(brightness: 0.95)],
+                                                .leading, .trailing)
+                            .padding(5)
+                        Spacer().frame(width: data.1[index] < 0 ? 0 : nil)
+                    }
+                }
+                .overlay {
+                    GeometryReader { g in
+                        Color.clear
+                            .onAppear {
+                                self.g = g
+                            }
+                    }
+                }
+            }
+        }
+        .padding()
+        .background {
+            RoundedRectangle(cornerRadius: 25).foregroundColor(K.brandColor1).opacity(0.1)
         }
     }
 }
