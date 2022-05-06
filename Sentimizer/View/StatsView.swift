@@ -11,6 +11,8 @@ struct StatsView: View {
     
     @State var timeInterval = K.timeIntervals[0]
     
+    @State var width: CGFloat = 0
+    
     let testData = ([0.0, 0.0, 0.5, 0.25, 0.75, 1.0], ["8:15", "8:31", "9:44", "12:57", "14:19", "15:35"])
     let testData2 = (["Walking", "Training", "Lunch"], [0.75, 0.6, 0.15])
     let testData3 = (["Project Work", "Gaming"], [-0.4, -0.1])
@@ -48,13 +50,22 @@ struct StatsView: View {
                     .font(.senti(size: 20))
                     .padding([.leading, .top])
                 
-                MoodInfluence(data: testData2)
+                
+                MoodInfluence(data: testData2, width: $width)
+                    .overlay {
+                        GeometryReader { g in
+                            Color.clear
+                                .onAppear() {
+                                    width = g.size.width
+                                }
+                        }
+                    }
                 
                 Text("Worsened Your Mood")
                     .font(.senti(size: 20))
                     .padding([.leading, .top])
                 
-                MoodInfluence(data: testData3)
+                MoodInfluence(data: testData3, width: $width)
                 
                 
                     .padding(.bottom, 30)
@@ -157,7 +168,7 @@ struct MoodTrendChart: View {
 struct MoodInfluence: View {
     let data: ([String], [Double])
     
-    @State var g: GeometryProxy? = nil
+    @Binding var width: CGFloat
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -175,20 +186,12 @@ struct MoodInfluence: View {
                     HStack {
                         Spacer().frame(width: data.1[index] > 0 ? 0 : nil)
                         RoundedRectangle(cornerRadius: 50)
-                            .frame(width: (g?.size.width ?? 0) * abs(data.1[index]), height: 3)
+                            .frame(width: width * abs(data.1[index]), height: 3)
                             .gradientForeground(colors: data.1[index] > 0 ? [.green, .green.adjust(brightness: 0.95)] :
                                                     [.red, .red.adjust(brightness: 0.95)],
                                                 .leading, .trailing)
                             .padding(5)
                         Spacer().frame(width: data.1[index] < 0 ? 0 : nil)
-                    }
-                }
-                .overlay {
-                    GeometryReader { g in
-                        Color.clear
-                            .onAppear {
-                                self.g = g
-                            }
                     }
                 }
             }
