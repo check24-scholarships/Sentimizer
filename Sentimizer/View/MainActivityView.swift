@@ -51,6 +51,8 @@ struct MainActivityView: View {
                     }
                     .padding(.top, 50)
                 } else {
+                    WhatNext(activity: "Walking")
+                    
                     ForEach(0..<entryDays.count, id: \.self) { day in
                         VStack(alignment: .leading) {
                             Text(entryDays[day])
@@ -156,5 +158,24 @@ struct MainActivityView_Previews: PreviewProvider {
     static var previews: some View {
         MainActivityView()
             .environmentObject(Model())
+    }
+}
+
+struct WhatNext: View {
+    let activity: String
+    
+    var body: some View {
+        VStack {
+            Text("What should I do next?")
+                .font(.senti(size: 20))
+                .gradientForeground()
+            Text("Sentimizer recommends this activity:")
+                .font(.senti(size: 15))
+                .opacity(0.7)
+            SentiButton(icon: "figure.walk", title: activity, chevron: false)
+                .scaleEffect(0.8)
+        }
+        .padding()
+        .background(RoundedRectangle(cornerRadius: 25).foregroundColor(K.brandColor1).opacity(0.1))
     }
 }
