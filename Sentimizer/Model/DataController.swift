@@ -37,7 +37,7 @@ class DataController: ObservableObject {
                 content.insert([], at: 0)
             }
             
-            content[0].insert([entry.activity ?? "senting", formatDate(date: entry.date!, format: "HH:mm"), "10", entry.text ?? "", entry.feeling ?? "happy"], at:0)
+            content[0].insert([entry.activity ?? "senting", formatDate(date: entry.date!, format: "HH:mm"), "10", entry.text ?? "", entry.feeling ?? "happy", entry.objectID.uriRepresentation().absoluteString], at:0)
         }
         return (days, content)
     }

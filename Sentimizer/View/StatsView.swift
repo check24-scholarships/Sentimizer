@@ -6,12 +6,94 @@
 //
 
 import SwiftUI
+import CoreData
+
+// same function as in DataController
+
+func formatDate(date: Date, format: String = "dd MM") -> String {
+    let d = DateFormatter()
+    d.dateFormat = format
+    return d.string(from: date)
+}
+
+func getSentiScore(senti: String) -> Double{
+    switch senti {
+    case "crying":
+        return 0
+    case "sad":
+        return 0.25
+    case "neutral":
+        return 0.5
+    case "content":
+        return 0.75
+    case "happy":
+        return 1
+    default:
+        return 0.5
+    }
+}
+
+func getStats(entries: FetchedResults<Entry>, interval: String, stamps: Int = 6) -> ([Int], [String]){
+    print(entries, interval)
+    
+    var yValues:[Double] = []
+    var xValues: [Double] = []
+    var xAxis:[String] = []
+    
+    if interval == K.timeIntervals[0] {
+        var rEntries:[Entry] = []
+        
+        print("now", Date())
+        
+        var firstTime = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: Date())?.timeIntervalSince1970
+        var lastTime = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: Date())?.timeIntervalSince1970
+        
+        print("after", Date())
+        
+        for entry in entries {
+            print(Calendar.current.isDateInToday(entry.date!), entry.date)
+            
+            if Calendar.current.isDateInToday(entry.date!) {
+                rEntries.append(entry)
+            }
+        }
+        
+        print(rEntries.count)
+        
+        if rEntries.count >= 1 {
+            firstTime = rEntries[0].date!.timeIntervalSince1970
+        }
+        
+        if rEntries.count >= 2 {
+            lastTime = rEntries.last!.date!.timeIntervalSince1970
+        }
+        
+        let stepSize = (lastTime! - firstTime!) / Double(stamps - 1)
+        
+        for i in 0..<stamps {
+            xAxis.append(formatDate(date: Date(timeIntervalSince1970: firstTime! + stepSize * Double(i)), format: "HH:mm"))
+        }
+        
+        for entry in rEntries {
+            yValues.append(getSentiScore(senti: entry.feeling!))
+            xValues.append((lastTime! - (entry.date!.timeIntervalSince1970)) / (lastTime! - firstTime!))
+        }
+        
+        print(xAxis, xValues, yValues)
+    }
+    
+    return ([0, 0], ["", ""])
+}
 
 struct StatsView: View {
+    
+    @Environment(\.managedObjectContext) var viewContext
     
     @State var timeInterval = K.timeIntervals[0]
     
     @State var width: CGFloat = 0
+    
+    @FetchRequest var entries: FetchedResults<Entry>
     
     let testData = ([0.0, 0.0, 0.5, 0.25, 0.75, 1.0], ["8:15", "8:31", "9:44", "12:57", "14:19", "15:35"])
     let testData2 = (["Walking", "Training", "Lunch"], [0.75, 0.6, 0.15])
@@ -35,6 +117,9 @@ struct StatsView: View {
                     UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
                     UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .normal)
                     UISegmentedControl.appearance().backgroundColor = UIColor(K.brandColor1)
+                }
+                .onReceive([self.timeInterval].publisher.first()) { value in
+                    getStats(entries: entries, interval: value)
                 }
                 
                 Text("Mood")
@@ -72,6 +157,13 @@ struct StatsView: View {
             }
             .padding(.horizontal, 15)
         }
+    }
+    
+    init() {
+        let f:NSFetchRequest<Entry> = Entry.fetchRequest()
+        f.fetchLimit = 20
+        f.sortDescriptors = [NSSortDescriptor(key: #keyPath(Entry.date), ascending: true)]
+        _entries = FetchRequest(fetchRequest: f)
     }
 }
 

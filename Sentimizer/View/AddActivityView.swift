@@ -6,6 +6,36 @@
 //
 
 import SwiftUI
+import CoreData
+
+// adds sample entries
+
+func addSampleData(moc: NSManagedObjectContext) {
+    let feelings = ["crying", "sad", "neutral", "content", "happy"]
+    let activities = ["Walking", "Training", "Gaming", "Project Work", "Lunch"]
+    
+    for i in 0..<12 {
+        for j in 0..<3 {
+            let entry = Entry(context: moc)
+            entry.text = "very important activity"
+            entry.date = Date(timeIntervalSince1970: Date().timeIntervalSince1970 - 60 * 60 * 24 * 32 * (Double(i) + Double(j) * 0.3))
+            if i < feelings.count {
+                entry.feeling = feelings[i]
+                entry.activity = activities[i]
+            } else {
+                entry.feeling = "neutral"
+                entry.activity = "Project Work"
+            }
+        }
+    }
+    
+    do {
+        try moc.save()
+    } catch {
+        print("In \(#function), line \(#line), save activity failed:")
+        print(error.localizedDescription)
+    }
+}
 
 struct AddActivityView: View {
     
@@ -135,6 +165,7 @@ struct AddActivityView: View {
                                     
                                     do {
                                         try viewContext.save()
+                                        print("saved context")
                                     } catch {
                                         print("In \(#function), line \(#line), save activity failed:")
                                         print(error.localizedDescription)
@@ -185,9 +216,11 @@ struct AddActivityView: View {
             }
             .accentColor(K.brandColor2)
             .onAppear {
+                // addSampleData(moc: viewContext) // for debugging
+                
                 if let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.path {
-                        print("Documents Directory: \(documentsPath)")
-                    }
+                    print("Documents Directory: \(documentsPath)")
+                }
                 // When the keyboard appears > View slides up
                 NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification,
                                                        object: nil,

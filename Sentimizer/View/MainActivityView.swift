@@ -64,7 +64,7 @@ struct MainActivityView: View {
                             
                             ForEach(0 ..< entryContent[day].count, id: \.self) { i in
                                 let c = entryContent[day][i]
-                                Activity(activity: c[0], description: c[3], time: c[1], duration: c[2], sentiment: c[4])
+                                Activity(activity: c[0], description: c[3], time: c[1], duration: c[2], sentiment: c[4], id: c[5])
                                     .padding([.bottom, .trailing], 5)
                             }
                         }
@@ -99,11 +99,14 @@ struct MainActivityView: View {
 //MARK: - Activity Bar
 struct Activity: View {
     
+    @Environment(\.managedObjectContext) var viewContext
+    
     let activity: String
     let description: String?
     let time: String
     let duration: String
     let sentiment: String
+    let id: String
     
     @State var width: CGFloat = 0
     @State var isSwiped = false
@@ -125,7 +128,8 @@ struct Activity: View {
                     Spacer()
                     Button {
                         withAnimation(.easeIn) {
-                            deleteActivity()
+                            print("delete please")
+                            deleteActivity(moc: viewContext)
                         }
                     } label: {
                         Image(systemName: "trash")
@@ -208,7 +212,7 @@ struct Activity: View {
             if value.translation.width < 0 {
                 if -value.translation.width > UIScreen.main.bounds.width / 2 {
                     offset = -1000
-                    deleteActivity()
+                    deleteActivity(moc: viewContext)
                 } else if -offset > 50 {
                     isSwiped = true
                     offset = -90
@@ -224,8 +228,17 @@ struct Activity: View {
         }
     }
     
-    func deleteActivity() {
+    func deleteActivity(moc: NSManagedObjectContext) {
+        print(id)
         
+        
+        let objectID = moc.persistentStoreCoordinator!.managedObjectID(forURIRepresentation: URL(string: id)!)!
+        
+        let object = try! moc.existingObject(with: objectID)
+        
+        print("o", object)
+        
+        moc.delete(object)
     }
 }
 
@@ -233,6 +246,6 @@ struct MainActivityView_Previews: PreviewProvider {
     static var previews: some View {
 //        MainActivityView()
 //            .environmentObject(Model())
-        Activity(activity: "Project Work", description: "HellloHellloHellloHellloHellloHellloHellloHellloHellloHellloHellloHellloHellloHelllo ", time: "08:15", duration: "10", sentiment: "happy")
+        Activity(activity: "Project Work", description: "HellloHellloHellloHellloHellloHellloHellloHellloHellloHellloHellloHellloHellloHelllo ", time: "08:15", duration: "10", sentiment: "happy", id:"0")
     }
 }
