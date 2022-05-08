@@ -24,7 +24,7 @@ struct AddActivityView: View {
             NavigationView {
                 ZStack(alignment: .topLeading) {
                     ScrollView {
-                        VStack(alignment: .leading) {
+                        VStack {
                             Group {
                                 ViewTitle("Add Activity")
                                     .frame(maxWidth: .infinity)
@@ -43,78 +43,84 @@ struct AddActivityView: View {
                                 }
                                 .padding(.top, 40)
                                 
-                                Text("How do you feel?")
-                                    .font(.senti(size: 25))
-                                    .padding(.top, 30)
-                                    .padding(.leading)
-                                
-                                HStack(spacing: 0) {
-                                    Spacer()
-                                    ForEach(K.sentimentsArray, id: \.self) { sent in
-                                        HStack(spacing: 0) {
-                                            if sent != K.sentimentsArray[0] {
-                                                Divider()
-                                                    .frame(height: g.size.width/5 - 10)
-                                                    .padding(.trailing, 12)
-                                            }
-                                            Button {
-                                                feeling = sent
-                                            } label: {
-                                                Image(sent)
-                                                    .resizable()
-                                                    .aspectRatio(contentMode: .fit)
-                                                    .frame(width: g.size.width/5 - 35)
-                                                    .padding(.trailing, 12)
-                                                    .padding(.vertical)
-                                                    .padding(.leading, 12)
-                                                    .background(feeling == sent ? Rectangle().foregroundColor(K.brandColor2.adjust(brightness: -0.1)).frame(height: 100) : nil)
-                                                    .padding(.leading, -12)
-                                            }
-                                        }
-                                        
-                                    }
-                                    Spacer()
-                                }
-                                .background(RoundedRectangle(cornerRadius: 25)
-                                    .gradientForeground(.leading, .trailing)
-                                    .shadow(radius: 10))
-                                .clipShape(RoundedRectangle(cornerRadius: 25))
-                                
-                                
-                                Text("What's happening?")
-                                    .font(.senti(size: 25))
-                                    .padding(.top, 30)
-                                    .padding(.leading)
-                                
-                                ZStack(alignment: .topLeading) {
-                                    if description.isEmpty {
-                                        Text("Describe your activity and how you feel now...")
-                                            .font(.senti(size: 15))
-                                            .opacity(0.5)
-                                            .padding(7)
-                                    }
+                                Group {
+                                    Text("How are you?")
+                                        .font(.senti(size: 25))
+                                        .padding(.top, 30)
                                     
-                                    TextEditor(text: $description)
-                                        .frame(height: 150)
-                                        .font(.senti(size: 15))
-                                        .onAppear {
-                                            UITextView.appearance().backgroundColor = .clear
+                                    HStack(spacing: 0) {
+                                        Button {
+                                            feeling = K.sentimentsArray[0]
+                                        } label: {
+                                            Image(K.sentimentsArray[0])
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fit)
+                                                .frame(width: g.size.width/5 - 30)
+                                                .padding(10)
+                                                .padding(.leading, 7)
+                                                .background(feeling == K.sentimentsArray[0] ? Rectangle().foregroundColor(K.sentimentColors[0].opacity(0.3)).frame(height: 100) : nil)
                                         }
-                                        .toolbar {
-                                            ToolbarItemGroup(placement: .keyboard) {
-                                                HStack {
-                                                    Spacer()
-                                                    Button("Done") {
-                                                        dismissKeyboard()
-                                                    }
-                                                    .font(.senti(size: 19))
-                                                    .foregroundColor(K.brandColor2)
+                                        ForEach(1..<K.sentimentsArray.count, id: \.self) { index in
+                                            HStack(spacing: 0) {
+                                                Divider()
+                                                    .frame(height: g.size.width/5 - 30)
+                                                Button {
+                                                    feeling = K.sentimentsArray[index]
+                                                } label: {
+                                                    Image(K.sentimentsArray[index])
+                                                        .resizable()
+                                                        .aspectRatio(contentMode: .fit)
+                                                        .frame(width: g.size.width/5 - 30)
+                                                        .padding(10)
+                                                        .padding(.trailing, index == K.sentimentsArray.count-1 ? 7 : 0)
+                                                        .background(feeling == K.sentimentsArray[index] ? Rectangle().foregroundColor(K.sentimentColors[index].opacity(0.1)).frame(height: 100) : nil)
                                                 }
                                             }
                                         }
+                                    }
+                                    .padding(.vertical, 7)
+                                    .background(RoundedRectangle(cornerRadius: 25)
+                                        .gradientForeground(.leading, .trailing)
+                                        .shadow(radius: 10))
+                                    .clipShape(RoundedRectangle(cornerRadius: 25))
+                                    
+                                    
+                                    Text("What's happening?")
+                                        .font(.senti(size: 25))
+                                        .padding(.top, 30)
+                                    
+                                    ZStack(alignment: .topLeading) {
+                                        if description.isEmpty {
+                                            Text("Describe your activity and how you feel now...")
+                                                .font(.senti(size: 15))
+                                                .opacity(0.5)
+                                                .padding(7)
+                                        }
+                                        
+                                        TextEditor(text: $description)
+                                            .frame(height: 150)
+                                            .font(.senti(size: 15))
+                                            .onAppear {
+                                                UITextView.appearance().backgroundColor = .clear
+                                            }
+                                            .toolbar {
+                                                ToolbarItemGroup(placement: .keyboard) {
+                                                    HStack {
+                                                        Spacer()
+                                                        Button("Done") {
+                                                            dismissKeyboard()
+                                                        }
+                                                        .font(.senti(size: 19))
+                                                        .foregroundColor(K.brandColor2)
+                                                    }
+                                                }
+                                            }
+                                    }
+                                    .padding()
+                                    .background(RoundedRectangle(cornerRadius: 25).foregroundColor(.gray.opacity(0.3)))
                                 }
-                                .padding()
-                                .background(RoundedRectangle(cornerRadius: 25).foregroundColor(.gray.opacity(0.3)))
+                                .opacity(activity.1.isEmpty ? 0.5 : 1)
+                                .disabled(activity.1.isEmpty)
                             }
                             .offset(y: keyboardHeight != 0 ? (g.size.height - textFieldYPlusHeight - (g.size.height - keyboardHeight)) : 0)
                             .animation(.easeOut, value: keyboardHeight)
@@ -150,6 +156,8 @@ struct AddActivityView: View {
                                 .onChange(of: g2.frame(in: CoordinateSpace.global).origin.y) { newValue in
                                     textFieldYPlusHeight = newValue
                                 }
+                                .opacity(activity.1.isEmpty ? 0.5 : 1)
+                                .disabled(activity.1.isEmpty)
                             }
                         }
                         .foregroundColor(K.textColor)
