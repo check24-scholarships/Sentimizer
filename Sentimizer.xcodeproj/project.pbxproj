@@ -25,6 +25,7 @@
 		EB8539EA28196A6D00C90DD9 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8539E928196A6D00C90DD9 /* StatsView.swift */; };
 		EB8539EC28196B8400C90DD9 /* ViewTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8539EB28196B8400C90DD9 /* ViewTitle.swift */; };
 		EB8539EE28197CC600C90DD9 /* Image+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8539ED28197CC600C90DD9 /* Image+Extension.swift */; };
+		EBCDD1182827F545006AD5E2 /* WhatNext.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCDD1172827F545006AD5E2 /* WhatNext.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +48,7 @@
 		EB8539E928196A6D00C90DD9 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
 		EB8539EB28196B8400C90DD9 /* ViewTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewTitle.swift; sourceTree = "<group>"; };
 		EB8539ED28197CC600C90DD9 /* Image+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Extension.swift"; sourceTree = "<group>"; };
+		EBCDD1172827F545006AD5E2 /* WhatNext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatNext.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +118,7 @@
 				EB6A3AB02815C2970078F8A8 /* SentiButton.swift */,
 				EB8539EB28196B8400C90DD9 /* ViewTitle.swift */,
 				EB8539ED28197CC600C90DD9 /* Image+Extension.swift */,
+				EBCDD1172827F545006AD5E2 /* WhatNext.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -204,6 +207,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EB8539EA28196A6D00C90DD9 /* StatsView.swift in Sources */,
+				EBCDD1182827F545006AD5E2 /* WhatNext.swift in Sources */,
 				EB6A3AAF2815BBC80078F8A8 /* AddActivityView.swift in Sources */,
 				88E6E5AE281C4ACD00EB0D15 /* Entry.xcdatamodeld in Sources */,
 				EB634F2F28142AAC00979923 /* AppTabNavigation.swift in Sources */,

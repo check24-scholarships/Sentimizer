@@ -35,6 +35,7 @@ struct MainActivityView: View {
                         }
                         .padding(.vertical, 25)
                 }
+                .padding(.horizontal, 5)
                 
                 if entryDays.count < 1 {
                     VStack {
@@ -52,6 +53,8 @@ struct MainActivityView: View {
                     .padding(.top, 50)
                 } else {
                     WhatNext(activity: "Walking")
+                        .padding(.bottom, 15)
+                        .padding(.horizontal, 5)
                     
                     ForEach(0..<entryDays.count, id: \.self) { day in
                         VStack(alignment: .leading) {
@@ -62,12 +65,16 @@ struct MainActivityView: View {
                             ForEach(0 ..< entryContent[day].count, id: \.self) { i in
                                 let c = entryContent[day][i]
                                 Activity(activity: c[0], description: c[3], time: c[1], duration: c[2], sentiment: c[4])
+                                    .padding([.bottom, .trailing], 5)
                             }
                         }
+                        .background(RoundedRectangle(cornerRadius: 25).foregroundColor(.white.opacity(0.9)).shadow(color: .gray.adjust(brightness: 0.5), radius: 15))
+                        .padding(.vertical, 5)
                     }
                 }
             }
-            .padding(.horizontal, 15)
+            .padding(.horizontal, 10)
+            .padding(.bottom, 30)
         }
         .sheet(isPresented: $addActivitySheetOpened) {
             AddActivityView()
@@ -99,83 +106,133 @@ struct Activity: View {
     let sentiment: String
     
     @State var width: CGFloat = 0
+    @State var isSwiped = false
+    
+    @State var offset: CGFloat = 0
     
     var body: some View {
         HStack {
-            VStack(alignment: .leading) {
+            VStack {
                 Text(time)
-                Text(duration + "min")
+                Text(duration + " min")
             }
             .font(.senti(size: 20))
             .padding([.leading, .top, .bottom])
             .padding(.trailing, 3)
             
-            VStack(alignment: .leading, spacing: 0) {
-                Text(activity)
-                    .padding(.top, 5)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.6)
-                    .overlay {
-                        GeometryReader { g in
-                            Color.clear
-                                .onAppear {
-                                    width = g.frame(in: .local).width
-                                }
-                                .onChange(of: g.frame(in: .local).width) { newValue in
-                                    width = newValue
-                                }
+            ZStack {
+                HStack {
+                    Spacer()
+                    Button {
+                        withAnimation(.easeIn) {
+                            deleteActivity()
+                        }
+                    } label: {
+                        Image(systemName: "trash")
+                            .font(.title)
+                            .foregroundColor(.white)
+                            .frame(width: 90, height: 50)
+                    }
+                }
+                .background(Rectangle().foregroundColor(.red).frame(height: 200))
+                
+                HStack {
+                    VStack(spacing: 0) {
+                        HStack {
+                            Image(systemName: "figure.walk")
+                                .scaleEffect(0.9)
+                                .padding([.leading, .top], 5)
+                            Text(activity)
+                                .padding(.vertical, 5)
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.6)
+                                .overlay {
+                                    GeometryReader { g in
+                                        Color.clear
+                                            .onAppear {
+                                                width = g.frame(in: .local).width
+                                            }
+                                            .onChange(of: g.frame(in: .local).width) { newValue in
+                                                width = newValue
+                                            }
+                                    }
+                            }
+                        }
+                        .padding(5)
+                        if let description = description, !description.isEmpty {
+                            Text(description)
+                                .font(.senti(size: 18))
+                                .opacity(0.7)
+                                .lineLimit(2)
+                                .padding(.horizontal, 10)
+                                .padding(.bottom, 10)
                         }
                     }
-                if let description = description, !description.isEmpty {
-                    Text(description)
-                        .font(.senti(size: 18))
-                        .opacity(0.7)
-                        .lineLimit(2)
-                        .padding(.bottom, 10)
+                    .frame(maxWidth: .infinity)
+                    
+                    Image(sentiment)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 40)
+                        .padding(15)
+                        .changeColor(to: .white)
+                        .background(Rectangle().gradientForeground(.leading, .trailing).frame(height: 100))
                 }
+                .background(
+                    Rectangle()
+                        .gradientForeground())
+                .offset(x: offset)
+                .gesture(DragGesture().onChanged(onChanged(value:)).onEnded(onEnd(value:)))
             }
-            
-            Spacer()
-            
-            Image(sentiment)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 40)
-                .padding(15)
-                .changeColor(to: .white)
-                .background(Rectangle().gradientForeground(.leading, .trailing).frame(height: 100))
+            .font(.senti(size: 25))
+            .foregroundColor(.white)
+            .background(
+                Rectangle()
+                    .gradientForeground())
+            .clipShape(RoundedRectangle(cornerRadius: 25))
         }
-        .font(.senti(size: 25))
-        .foregroundColor(.white)
-        .background(
-            Rectangle()
-                .gradientForeground())
-        .clipShape(RoundedRectangle(cornerRadius: 25))
+    }
+    
+    func onChanged(value: DragGesture.Value) {
+        if value.translation.width < 0 {
+            if isSwiped {
+                offset = value.translation.width - 90
+            } else {
+                offset = value.translation.width
+            }
+        }
+    }
+    
+    func onEnd(value: DragGesture.Value) {
+        withAnimation(.easeOut) {
+            if value.translation.width < 0 {
+                if -value.translation.width > UIScreen.main.bounds.width / 2 {
+                    offset = -1000
+                    deleteActivity()
+                } else if -offset > 50 {
+                    isSwiped = true
+                    offset = -90
+                    
+                } else {
+                    isSwiped = false
+                    offset = 0
+                }
+            } else {
+                isSwiped = false
+                offset = 0
+            }
+        }
+    }
+    
+    func deleteActivity() {
+        
     }
 }
 
 struct MainActivityView_Previews: PreviewProvider {
     static var previews: some View {
-        MainActivityView()
-            .environmentObject(Model())
-    }
-}
-
-struct WhatNext: View {
-    let activity: String
-    
-    var body: some View {
-        VStack {
-            Text("What should I do next?")
-                .font(.senti(size: 20))
-                .gradientForeground()
-            Text("Sentimizer recommends this activity:")
-                .font(.senti(size: 15))
-                .opacity(0.7)
-            SentiButton(icon: "figure.walk", title: activity, chevron: false)
-                .scaleEffect(0.8)
-        }
-        .padding()
-        .background(RoundedRectangle(cornerRadius: 25).foregroundColor(K.brandColor1).opacity(0.1))
+//        MainActivityView()
+//            .environmentObject(Model())
+        Activity(activity: "Project Work", description: "HellloHellloHellloHellloHellloHellloHellloHellloHellloHellloHellloHellloHellloHelllo ", time: "08:15", duration: "10", sentiment: "happy")
     }
 }
