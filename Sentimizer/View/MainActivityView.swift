@@ -20,6 +20,8 @@ struct MainActivityView: View {
     
     @FetchRequest var entries: FetchedResults<Entry>
     
+    @State var deleteSwiped = false
+    
     
     var body: some View {
         ScrollView {
@@ -64,7 +66,7 @@ struct MainActivityView: View {
                             
                             ForEach(0 ..< entryContent[day].count, id: \.self) { i in
                                 let c = entryContent[day][i]
-                                Activity(activity: c[0], description: c[3], time: c[1], duration: c[2], sentiment: c[4], id: c[5])
+                                Activity(activity: c[0], description: c[3], time: c[1], duration: c[2], sentiment: c[4], id: c[5], isSwiped: $deleteSwiped)
                                     .padding([.bottom, .trailing], 5)
                             }
                         }
@@ -85,6 +87,11 @@ struct MainActivityView: View {
         }
         .onChange(of: addActivitySheetOpened) { _ in
             (entryDays, entryContent) = DataController.getEntryData(entries: entries)
+        }
+        .onChange(of: deleteSwiped) { _ in
+            withAnimation(.easeIn) {
+                (entryDays, entryContent) = DataController.getEntryData(entries: entries)
+            }
         }
     }
     
@@ -109,7 +116,7 @@ struct Activity: View {
     let id: String
     
     @State var width: CGFloat = 0
-    @State var isSwiped = false
+    @Binding var isSwiped: Bool
     
     @State var offset: CGFloat = 0
     
@@ -127,10 +134,7 @@ struct Activity: View {
                 HStack {
                     Spacer()
                     Button {
-                        withAnimation(.easeIn) {
-                            print("delete please")
-                            deleteActivity(moc: viewContext)
-                        }
+                        deleteActivity(moc: viewContext)
                     } label: {
                         Image(systemName: "trash")
                             .font(.title)
@@ -229,23 +233,20 @@ struct Activity: View {
     }
     
     func deleteActivity(moc: NSManagedObjectContext) {
-        print(id)
-        
-        
         let objectID = moc.persistentStoreCoordinator!.managedObjectID(forURIRepresentation: URL(string: id)!)!
         
         let object = try! moc.existingObject(with: objectID)
         
-        print("o", object)
-        
         moc.delete(object)
+        
+        isSwiped = false
     }
 }
 
 struct MainActivityView_Previews: PreviewProvider {
     static var previews: some View {
-//        MainActivityView()
-//            .environmentObject(Model())
-        Activity(activity: "Project Work", description: "HellloHellloHellloHellloHellloHellloHellloHellloHellloHellloHellloHellloHellloHelllo ", time: "08:15", duration: "10", sentiment: "happy", id:"0")
+        MainActivityView()
+            .environmentObject(Model())
+//        Activity(activity: "Project Work", description: "HellloHellloHellloHellloHellloHellloHellloHellloHellloHellloHellloHellloHellloHelllo ", time: "08:15", duration: "10", sentiment: "happy", id:"0")
     }
 }
