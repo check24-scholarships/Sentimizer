@@ -152,7 +152,7 @@ struct AddActivityView: View {
                                 .opacity(activity.1.isEmpty ? 0.5 : 1)
                                 .disabled(activity.1.isEmpty)
                             }
-                            .offset(y: keyboardHeight != 0 ? (g.size.height - textFieldYPlusHeight - (g.size.height - keyboardHeight)) : 0)
+                            .offset(y: keyboardHeight != 0 ? (g.size.height - textFieldYPlusHeight - (g.size.height - keyboardHeight) + 10) : 0)
                             .animation(.easeOut, value: keyboardHeight)
                             
                             GeometryReader { g2 in
@@ -180,15 +180,15 @@ struct AddActivityView: View {
                                         .padding(.top, 30)
                                         .padding(.bottom)
                                 }
-                                .disabled(feeling.isEmpty || activity.1.isEmpty)
                                 .onAppear {
                                     textFieldYPlusHeight = g2.frame(in: CoordinateSpace.global).origin.y
                                 }
                                 .onChange(of: g2.frame(in: CoordinateSpace.global).origin.y) { newValue in
                                     textFieldYPlusHeight = newValue
                                 }
-                                .opacity(activity.1.isEmpty ? 0.5 : 1)
-                                .disabled(activity.1.isEmpty)
+                                .opacity(feeling.isEmpty || activity.1.isEmpty ? 0.5 : 1)
+                                .disabled(feeling.isEmpty || activity.1.isEmpty)
+                                .animation(.easeIn, value: feeling.isEmpty)
                             }
                         }
                         .foregroundColor(K.textColor)
