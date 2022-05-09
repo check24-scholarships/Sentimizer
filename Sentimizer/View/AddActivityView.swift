@@ -103,7 +103,7 @@ struct AddActivityView: View {
                                                         .frame(width: g.size.width/5 - 30)
                                                         .padding(10)
                                                         .padding(.trailing, index == K.sentimentsArray.count-1 ? 7 : 0)
-                                                        .background(feeling == K.sentimentsArray[index] ? Rectangle().foregroundColor(K.sentimentColors[index].opacity(0.1)).frame(height: 100) : nil)
+                                                        .background(feeling == K.sentimentsArray[index] ? Rectangle().foregroundColor(K.sentimentColors[index].opacity(0.2)).frame(height: 100) : nil)
                                                 }
                                             }
                                         }
