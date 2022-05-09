@@ -19,10 +19,11 @@ struct SentiButton: View {
     var fontSize: CGFloat = 23
     var textColor: Color = .white
     var chevron: Bool = true
+    var leading: Bool = false
     
     var body: some View {
         HStack(spacing: 20) {
-            if !chevron {
+            if !chevron && !leading {
                 Spacer()
             }
             if let icon = icon {
@@ -35,11 +36,9 @@ struct SentiButton: View {
                 .font(.senti(size: fontSize))
                 .bold()
                 .multilineTextAlignment(.leading)
+            Spacer()
             if chevron {
-                Spacer()
                 Image(systemName: "chevron.forward")
-            } else {
-                Spacer()
             }
         }
         .padding()
@@ -52,5 +51,11 @@ struct SentiButton: View {
         .overlay(RoundedRectangle(cornerRadius: 25)
             .stroke(style == .outlined ? K.brandColor2 : .clear, lineWidth: 3)
             .shadow(radius: 10))
+    }
+}
+
+struct SentiButton_Previews: PreviewProvider {
+    static var previews: some View {
+        SentiButton(icon: "plus.circle", title: "Add", style: .outlined, textColor: .gray, chevron: false, leading: true)
     }
 }
