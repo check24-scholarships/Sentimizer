@@ -70,7 +70,7 @@ struct MainActivityView: View {
                                     .padding([.bottom, .trailing], 5)
                             }
                         }
-                        .background(RoundedRectangle(cornerRadius: 25).foregroundColor(.white.opacity(0.9)).shadow(color: .gray.adjust(brightness: 0.5), radius: 15))
+                        .background(RoundedRectangle(cornerRadius: 25).foregroundColor(K.dayViewBgColor).shadow(radius: 10))
                         .padding(.vertical, 5)
                     }
                 }

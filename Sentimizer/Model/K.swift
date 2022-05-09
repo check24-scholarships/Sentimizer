@@ -15,6 +15,7 @@ struct K {
     static let brandColor3 = Color("brandColor3")
     static let brandColor4 = Color("brandColor4")
     static let textColor = Color("textColor")
+    static let dayViewBgColor = Color("dayViewBg")
     
     enum Sentiments: Double {
         case crying = 0.0
