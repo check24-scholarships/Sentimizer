@@ -220,7 +220,6 @@ struct Activity: View {
                 } else if -offset > 50 {
                     isSwiped = true
                     offset = -90
-                    
                 } else {
                     isSwiped = false
                     offset = 0

@@ -61,7 +61,7 @@ struct AddActivityView: View {
                                     .padding(.top, 25)
                                 
                                 NavigationLink {
-                                    ActivityChooser(activity: $activity)
+                                    ActivityChooserView(activity: $activity)
                                         .offset(y: -20) // !!! (swiftUI bug?)
                                         .navigationBarTitleDisplayMode(.inline)
                                 } label: {
