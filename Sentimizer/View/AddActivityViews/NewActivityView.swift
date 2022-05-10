@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct NewActivityView: View {
-    
     @State var addTextFieldText = ""
     @State var textFieldEditing = false
     @FocusState var textFieldFocus: Bool

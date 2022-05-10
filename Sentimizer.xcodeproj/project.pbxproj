@@ -27,7 +27,7 @@
 		EB8539EE28197CC600C90DD9 /* Image+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8539ED28197CC600C90DD9 /* Image+Extension.swift */; };
 		EBCDD1182827F545006AD5E2 /* WhatNext.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCDD1172827F545006AD5E2 /* WhatNext.swift */; };
 		EBCDD11A282AD30C006AD5E2 /* NewActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCDD119282AD30C006AD5E2 /* NewActivityView.swift */; };
-		EBCDD11E282AD75E006AD5E2 /* KeyboardHeightHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCDD11D282AD75E006AD5E2 /* KeyboardHeightHelper.swift */; };
+		EBCDD11E282AD75E006AD5E2 /* KeyboardHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCDD11D282AD75E006AD5E2 /* KeyboardHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,7 +52,7 @@
 		EB8539ED28197CC600C90DD9 /* Image+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Extension.swift"; sourceTree = "<group>"; };
 		EBCDD1172827F545006AD5E2 /* WhatNext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatNext.swift; sourceTree = "<group>"; };
 		EBCDD119282AD30C006AD5E2 /* NewActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewActivityView.swift; sourceTree = "<group>"; };
-		EBCDD11D282AD75E006AD5E2 /* KeyboardHeightHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHeightHelper.swift; sourceTree = "<group>"; };
+		EBCDD11D282AD75E006AD5E2 /* KeyboardHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,7 +153,7 @@
 				EB6888292813459D00C0FDE7 /* Font+Extension.swift */,
 				EB634F2C281427DF00979923 /* View+Extension.swift */,
 				EB8539ED28197CC600C90DD9 /* Image+Extension.swift */,
-				EBCDD11D282AD75E006AD5E2 /* KeyboardHeightHelper.swift */,
+				EBCDD11D282AD75E006AD5E2 /* KeyboardHelper.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -244,7 +244,7 @@
 				88E6E5B0281C4B7F00EB0D15 /* DataController.swift in Sources */,
 				EB68882A2813459D00C0FDE7 /* Font+Extension.swift in Sources */,
 				EB634F2D281427DF00979923 /* View+Extension.swift in Sources */,
-				EBCDD11E282AD75E006AD5E2 /* KeyboardHeightHelper.swift in Sources */,
+				EBCDD11E282AD75E006AD5E2 /* KeyboardHelper.swift in Sources */,
 				EB6A3AB12815C2970078F8A8 /* SentiButton.swift in Sources */,
 				EB642BFD27FF5DA4001DB273 /* SentimizerApp.swift in Sources */,
 			);

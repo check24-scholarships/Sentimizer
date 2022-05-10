@@ -42,7 +42,7 @@ struct AddActivityView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.managedObjectContext) var viewContext
     
-    @ObservedObject var keyboardHeightHelper = KeyboardHeightHelper()
+    @ObservedObject var keyboardHeightHelper = KeyboardHelper()
     @State var textFieldYPlusHeight: CGFloat = 0
     
     @State var description = ""
@@ -152,8 +152,8 @@ struct AddActivityView: View {
                                 .opacity(activity.1.isEmpty ? 0.5 : 1)
                                 .disabled(activity.1.isEmpty)
                             }
-                            .offset(y: keyboardHeightHelper.keyboardHeight != 0 ? (g.size.height - textFieldYPlusHeight - (g.size.height - keyboardHeightHelper.keyboardHeight) + 10) : 0)
-                            .animation(.easeOut, value: keyboardHeightHelper.keyboardHeight)
+                            .offset(y: keyboardHeightHelper.height != 0 ? (g.size.height - textFieldYPlusHeight - (g.size.height - keyboardHeightHelper.height) + 10) : 0)
+                            .animation(.easeOut, value: keyboardHeightHelper.height)
                             
                             GeometryReader { g2 in
                                 Button {

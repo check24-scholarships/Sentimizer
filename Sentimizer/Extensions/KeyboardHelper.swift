@@ -1,5 +1,5 @@
 //
-//  KeyboardHeightHelper.swift
+//  KeyboardHelper.swift
 //  Sentimizer
 //
 //  Created by Samuel Ginsberg, 2022
@@ -7,11 +7,11 @@
 import UIKit
 import Foundation
 
-class KeyboardHeightHelper: ObservableObject {
-    @Published var keyboardHeight: CGFloat = 0
+class KeyboardHelper: ObservableObject {
+    @Published var height: CGFloat = 0
 
     init() {
-        self.listenForKeyboardNotifications()
+        listenForKeyboardNotifications()
     }
     
     private func listenForKeyboardNotifications() {
@@ -21,13 +21,13 @@ class KeyboardHeightHelper: ObservableObject {
                                                 guard let userInfo = notification.userInfo,
                                                     let keyboardRect = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
                                                 
-                                                self.keyboardHeight = keyboardRect.height
+                                                self.height = keyboardRect.height
         }
         
         NotificationCenter.default.addObserver(forName: UIResponder.keyboardDidHideNotification,
                                                object: nil,
                                                queue: .main) { (notification) in
-                                                self.keyboardHeight = 0
+                                                self.height = 0
         }
     }
 }
