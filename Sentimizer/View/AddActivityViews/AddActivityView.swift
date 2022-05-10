@@ -42,7 +42,7 @@ struct AddActivityView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.managedObjectContext) var viewContext
     
-    @State var keyboardHeight: CGFloat = 0
+    @ObservedObject var keyboardHeightHelper = KeyboardHeightHelper()
     @State var textFieldYPlusHeight: CGFloat = 0
     
     @State var description = ""
@@ -152,8 +152,8 @@ struct AddActivityView: View {
                                 .opacity(activity.1.isEmpty ? 0.5 : 1)
                                 .disabled(activity.1.isEmpty)
                             }
-                            .offset(y: keyboardHeight != 0 ? (g.size.height - textFieldYPlusHeight - (g.size.height - keyboardHeight) + 10) : 0)
-                            .animation(.easeOut, value: keyboardHeight)
+                            .offset(y: keyboardHeightHelper.keyboardHeight != 0 ? (g.size.height - textFieldYPlusHeight - (g.size.height - keyboardHeightHelper.keyboardHeight) + 10) : 0)
+                            .animation(.easeOut, value: keyboardHeightHelper.keyboardHeight)
                             
                             GeometryReader { g2 in
                                 Button {
@@ -220,21 +220,6 @@ struct AddActivityView: View {
                 
                 if let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.path {
                     print("Documents Directory: \(documentsPath)")
-                }
-                // When the keyboard appears > View slides up
-                NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification,
-                                                       object: nil,
-                                                       queue: .main) { (notification) in
-                    guard let userInfo = notification.userInfo,
-                          let keyboardRect = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
-                    
-                    self.keyboardHeight = keyboardRect.height
-                    
-                }
-                NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification,
-                                                       object: nil,
-                                                       queue: .main) { (notification) in
-                    self.keyboardHeight = 0
                 }
             }
         }

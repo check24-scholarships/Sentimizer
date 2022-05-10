@@ -34,6 +34,23 @@ struct ActivityChooserView: View {
                         .padding()
                         .padding(.top)
                 }
+                
+//                ZStack {
+//                    
+//                    }
+                    
+//                    Group {
+//                        if !textFieldEditing && addTextFieldText.isEmpty {
+//
+//                        } else {
+//                            SentiButton(icon: "plus.circle", title: "", style: .outlined, textColor: .gray, chevron: false, leading: true)
+//                        }
+//                    }
+//                    .onTapGesture {
+//                        textFieldFocus = true
+//                    }
+//                }
+//                .padding()
             }
             .padding()
         }
