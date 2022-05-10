@@ -30,6 +30,18 @@ struct NewActivityView: View {
                     RoundedRectangle(cornerRadius: 25).stroke(lineWidth: 3).foregroundColor(K.brandColor1))
                 .focused($textFieldFocus)
                 .padding()
+                .toolbar {
+                    ToolbarItemGroup(placement: .keyboard) {
+                        HStack {
+                            Spacer()
+                            Button("Done") {
+                                dismissKeyboard()
+                            }
+                            .font(.senti(size: 19))
+                            .foregroundColor(K.brandColor2)
+                        }
+                    }
+                }
             }
             .onTapGesture {
                 textFieldEditing = false

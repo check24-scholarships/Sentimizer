@@ -28,4 +28,8 @@ struct K {
     static let sentimentColors = [Color.red, Color.orange, Color.blue, Color.green.adjust(brightness: 0.1), Color.green.adjust(brightness: -0.1)]
     
     static let timeIntervals = ["Day", "Week", "Month", "Year"]
+    
+    static let defaultActivities =
+    (["Friends", "Hobby", "Meal", "Mindfulness", "Relax", "Shopping", "Sleep", "Sport", "Walk", "Work"],
+     ["person.3.fill", "pianokeys", "fork.knife", "brain.head.profile", "leaf.fill", "takeoutbag.and.cup.and.straw.fill", "bed.double.fill", "bicycle", "figure.walk", "briefcase.fill"])
 }
