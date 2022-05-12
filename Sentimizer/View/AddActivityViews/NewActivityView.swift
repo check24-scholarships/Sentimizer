@@ -12,6 +12,10 @@ struct NewActivityView: View {
     @State var textFieldEditing = false
     @FocusState var textFieldFocus: Bool
     
+    var columns: [GridItem] =
+    [.init(.adaptive(minimum: 35, maximum: 55))]
+    @State var imageWidth: CGFloat = 35
+    
     var body: some View {
         ScrollView {
             VStack {
@@ -29,7 +33,10 @@ struct NewActivityView: View {
                 .background(
                     RoundedRectangle(cornerRadius: 25).stroke(lineWidth: 3).foregroundColor(K.brandColor1))
                 .focused($textFieldFocus)
-                .padding()
+                .padding(.vertical)
+                .onTapGesture {
+                    textFieldFocus = true
+                }
                 .toolbar {
                     ToolbarItemGroup(placement: .keyboard) {
                         HStack {
@@ -42,6 +49,30 @@ struct NewActivityView: View {
                         }
                     }
                 }
+                ForEach(K.defaultIcons, id: \.0.self) { category in
+                    Text(category.0)
+                        .font(.senti(size: 23))
+                    
+                    LazyVGrid(columns: columns, spacing: 10) {
+                        ForEach(category.1, id: \.self) { icon in
+                            Image(systemName: icon)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .overlay(
+                                    GeometryReader { g in
+                                        Color.clear
+                                            .onAppear {
+                                                imageWidth = g.size.width
+                                            }
+                                    }
+                                )
+                                .frame(height: imageWidth)
+                                .padding(3)
+                                .background(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 1).opacity(0.5).frame(width: imageWidth+10, height: imageWidth+10).gradientForeground())
+                        }
+                    }
+                }
+                
             }
             .onTapGesture {
                 textFieldEditing = false
@@ -54,6 +85,7 @@ struct NewActivityView: View {
                 }
             )
         }
+        .padding(.horizontal, 15)
     }
     
     private func saveNewActivity(for activity: String) {
