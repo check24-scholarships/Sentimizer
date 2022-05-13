@@ -22,7 +22,6 @@ struct MainActivityView: View {
     
     @State var deleteSwiped = false
     
-    
     var body: some View {
         ScrollView {
             Group {
@@ -66,7 +65,7 @@ struct MainActivityView: View {
                             
                             ForEach(0 ..< entryContent[day].count, id: \.self) { i in
                                 let c = entryContent[day][i]
-                                Activity(activity: c[0], description: c[3], time: c[1], duration: c[2], sentiment: c[4], id: c[5], isSwiped: $deleteSwiped)
+                                Activity(activity: c[0], description: c[3], time: c[1], duration: c[2], sentiment: c[4], id: c[5], deleteSwiped: $deleteSwiped)
                                     .padding([.bottom, .trailing], 5)
                             }
                         }
@@ -94,6 +93,13 @@ struct MainActivityView: View {
                 (entryDays, entryContent) = DataController.getEntryData(entries: entries)
             }
         }
+        .simultaneousGesture(
+            DragGesture().onChanged { value in
+                withAnimation(.easeOut) {
+                    deleteSwiped = false
+                }
+            }
+        )
     }
     
     init() {
@@ -131,9 +137,8 @@ struct Activity: View {
     let id: String
     
     @State var width: CGFloat = 0
-    @Binding var isSwiped: Bool
-    
-    @State var offset: CGFloat = 0
+    @Binding var deleteSwiped: Bool
+    @State var deleteOffset: CGFloat = 0
     
     var body: some View {
         HStack {
@@ -179,17 +184,18 @@ struct Activity: View {
                                                 width = newValue
                                             }
                                     }
-                            }
+                                }
                         }
                         .padding(5)
-                        if let description = description, !description.isEmpty {
-                            Text(description)
-                                .font(.senti(size: 18))
-                                .opacity(0.7)
-                                .lineLimit(2)
-                                .padding(.horizontal, 10)
-                                .padding(.bottom, 10)
-                        }
+                        
+                        let isEmpty = (description ?? "").isEmpty
+                        let description = (description ?? "").isEmpty ? "Describe your activity..." : description ?? "Describe your activity..."
+                        Text(description)
+                            .font(.senti(size: 18))
+                            .opacity(isEmpty ? 0.5 : 1.0)
+                            .lineLimit(2)
+                            .padding(.horizontal, 10)
+                            .padding(.bottom, 10)
                     }
                     .frame(maxWidth: .infinity)
                     
@@ -204,7 +210,7 @@ struct Activity: View {
                 .background(
                     Rectangle()
                         .gradientForeground())
-                .offset(x: offset)
+                .offset(x: deleteOffset)
                 .gesture(DragGesture().onChanged(onChanged(value:)).onEnded(onEnd(value:)))
             }
             .font(.senti(size: 25))
@@ -214,14 +220,22 @@ struct Activity: View {
                     .gradientForeground())
             .clipShape(RoundedRectangle(cornerRadius: 25))
         }
+        .onChange(of: deleteSwiped) { newValue in
+            if !newValue {
+                withAnimation(.easeOut) {
+                    deleteOffset = 0
+                    print(deleteOffset)
+                }
+            }
+        }
     }
     
     func onChanged(value: DragGesture.Value) {
         if value.translation.width < 0 {
-            if isSwiped {
-                offset = value.translation.width - 90
+            if deleteSwiped {
+                deleteOffset = value.translation.width - 90
             } else {
-                offset = value.translation.width
+                deleteOffset = value.translation.width
             }
         }
     }
@@ -230,18 +244,19 @@ struct Activity: View {
         withAnimation(.easeOut) {
             if value.translation.width < 0 {
                 if -value.translation.width > UIScreen.main.bounds.width / 2 {
-                    offset = -1000
+                    deleteOffset = -1000
                     deleteActivity(moc: viewContext)
-                } else if -offset > 50 {
-                    isSwiped = true
-                    offset = -90
+                    deleteSwiped = false
+                } else if -deleteOffset > 50 {
+                    deleteSwiped = true
+                    deleteOffset = -90
                 } else {
-                    isSwiped = false
-                    offset = 0
+                    deleteSwiped = false
+                    deleteOffset = 0
                 }
             } else {
-                isSwiped = false
-                offset = 0
+                deleteSwiped = false
+                deleteOffset = 0
             }
         }
     }
@@ -260,7 +275,7 @@ struct Activity: View {
             print(error.localizedDescription)
         }
         
-        isSwiped = false
+        deleteSwiped = false
     }
 }
 

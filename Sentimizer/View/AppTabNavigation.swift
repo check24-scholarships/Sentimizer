@@ -25,7 +25,8 @@ struct AppTabNavigation: View {
                     K.bgColor.ignoresSafeArea()
                     MainActivityView()
                         .foregroundColor(K.textColor)
-                        .navigationBarHidden(true)
+                        .padding(.top, -50)
+                        .navigationBarTitleDisplayMode(.inline)
                 }
             }
             .tabItem {
@@ -44,7 +45,8 @@ struct AppTabNavigation: View {
                     K.bgColor.ignoresSafeArea()
                     StatsView()
                         .foregroundColor(K.textColor)
-                        .navigationBarHidden(true)
+                        .padding(.top, -50)
+                        .navigationBarTitleDisplayMode(.inline)
                 }
             }
             .tabItem {
@@ -63,7 +65,8 @@ struct AppTabNavigation: View {
                     K.bgColor.ignoresSafeArea()
                     MainActivityView()
                         .foregroundColor(K.textColor)
-                        .navigationBarHidden(true)
+                        .padding(.top, -50)
+                        .navigationBarTitleDisplayMode(.inline)
                 }
             }
             .tabItem {
@@ -77,6 +80,10 @@ struct AppTabNavigation: View {
             }
             .tag(Tab.calendar)
         }
+    }
+    
+    init() {
+        UINavigationBar.appearance().titleTextAttributes = [.font : UIFont(name: "ArialRoundedMTBold", size: 35)!]
     }
 }
 
