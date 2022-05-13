@@ -84,6 +84,7 @@ struct MainActivityView: View {
         }
         .onAppear() {
             (entryDays, entryContent) = DataController.getEntryData(entries: entries)
+            // deleteAllData(moc: viewContext)
         }
         .onChange(of: addActivitySheetOpened) { _ in
             (entryDays, entryContent) = DataController.getEntryData(entries: entries)
@@ -101,6 +102,20 @@ struct MainActivityView: View {
         f.sortDescriptors = [NSSortDescriptor(key: #keyPath(Entry.date), ascending: true)]
         _entries = FetchRequest(fetchRequest: f)
     }
+}
+
+func deleteAllData(moc: NSManagedObjectContext) {
+    let fetchRequest: NSFetchRequest<Entry>
+    fetchRequest = Entry.fetchRequest()
+    fetchRequest.predicate = NSPredicate(value: true)
+    
+    let entries = try! moc.fetch(fetchRequest)
+    
+    for entry in entries {
+        moc.delete(entry)
+    }
+    
+    try! moc.save()
 }
 
 //MARK: - Activity Bar
@@ -237,6 +252,13 @@ struct Activity: View {
         let object = try! moc.existingObject(with: objectID)
         
         moc.delete(object)
+        
+        do {
+            try moc.save()
+        } catch {
+            print("In \(#function), line \(#line), save activity failed:")
+            print(error.localizedDescription)
+        }
         
         isSwiped = false
     }

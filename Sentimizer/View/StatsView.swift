@@ -33,7 +33,7 @@ func getSentiScore(senti: String) -> Double{
     }
 }
 
-func getStats(entries: FetchedResults<Entry>, interval: String, stamps: Int = 6) -> ([Int], [String]){
+func getStats(entries: FetchedResults<Entry>, interval: String, stamps: Int = 6) -> ([String], ([Double], [Double])){
     print(entries, interval)
     
     var yValues:[Double] = []
@@ -76,13 +76,13 @@ func getStats(entries: FetchedResults<Entry>, interval: String, stamps: Int = 6)
         
         for entry in rEntries {
             yValues.append(getSentiScore(senti: entry.feeling!))
-            xValues.append((lastTime! - (entry.date!.timeIntervalSince1970)) / (lastTime! - firstTime!))
+            xValues.append((entry.date!.timeIntervalSince1970 - firstTime!) / (lastTime! - firstTime!))
         }
         
         print(xAxis, xValues, yValues)
     }
     
-    return ([0, 0], ["", ""])
+    return (xAxis, (xValues, yValues))
 }
 
 struct StatsView: View {
@@ -93,9 +93,11 @@ struct StatsView: View {
     
     @State var width: CGFloat = 0
     
+    @State var xAxis = ["8:15", "8:31", "9:44", "12:57", "14:19", "15:35"]
+    @State var values = ([0.0, 0.3, 0.5, 0.65, 0.75, 1.0], [0.4, 0.2, 0.5, 0.25, 0.75, 1.0])
+    
     @FetchRequest var entries: FetchedResults<Entry>
     
-    let testData = ([0.0, 0.0, 0.5, 0.25, 0.75, 1.0], ["8:15", "8:31", "9:44", "12:57", "14:19", "15:35"])
     let testData2 = (["Walking", "Training", "Lunch"], [0.75, 0.6, 0.15])
     let testData3 = (["Project Work", "Gaming"], [-0.4, -0.1])
     
@@ -119,14 +121,14 @@ struct StatsView: View {
                     UISegmentedControl.appearance().backgroundColor = UIColor(K.brandColor1)
                 }
                 .onReceive([self.timeInterval].publisher.first()) { value in
-                    getStats(entries: entries, interval: value)
+                    (xAxis, values) = getStats(entries: entries, interval: value)
                 }
                 
                 Text("Mood")
                     .font(.senti(size: 20))
                     .padding([.leading, .top])
                 
-                MoodTrendChart(dataPoints: testData)
+                MoodTrendChart(xAxis: xAxis, values: values)
                     .frame(height: 200)
                     .padding()
                     .background(RoundedRectangle(cornerRadius: 25).foregroundColor(K.brandColor1).opacity(0.1))
@@ -169,7 +171,8 @@ struct StatsView: View {
 
 //MARK: MoodTrendChart
 struct MoodTrendChart: View {
-    let dataPoints: ([Double], [String])
+    let xAxis: [String]
+    let values: ([Double], [Double])
     
     var body: some View {
         GeometryReader { g in
@@ -180,16 +183,16 @@ struct MoodTrendChart: View {
                 ZStack {
                     GeometryReader { g2 in
                         ZStack(alignment: .bottom) {
-                            Graph(dataPoints: dataPoints.0)
+                            Graph(values: values)
                                 .shadow(radius: 10)
                                 .padding(.vertical)
                             
                             // Dates
-                            ForEach(0..<dataPoints.1.count, id: \.self) { i in
+                            ForEach(0..<xAxis.count, id: \.self) { i in
                                 let iFloat: CGFloat = CGFloat(i)
-                                let countFloat: CGFloat = CGFloat(dataPoints.1.count-1)
+                                let countFloat: CGFloat = CGFloat(xAxis.count-1)
                                 let x = g2.size.width * (iFloat/countFloat)
-                                Text("\(String(describing: dataPoints.1[i]))")
+                                Text("\(String(describing: xAxis[i]))")
                                     .position(x: x, y: g2.size.height)
                             }
                         }
@@ -231,7 +234,7 @@ struct MoodTrendChart: View {
     }
     
     struct Graph: View {
-        let dataPoints: [Double]
+        let values: ([Double], [Double])
         
         var body: some View {
             GeometryReader { g in
@@ -239,15 +242,17 @@ struct MoodTrendChart: View {
                 let width = g.size.width
                 
                 Path { path in
-                    let y = height * (1-dataPoints[0])
-                    path.move(to: CGPoint(x: -3, y: y))
-                    path.addArc(center: CGPoint(x: 0, y: y), radius: 4, startAngle: .zero, endAngle: .degrees(360), clockwise: false)
-                    
-                    for i in 1..<dataPoints.count {
-                        let x = CGFloat((CGFloat(i)/(CGFloat(dataPoints.count)-1))) * width
-                        let y = height * (1-dataPoints[i])
-                        path.addLine(to: CGPoint(x: x, y: y))
-                        path.addArc(center: CGPoint(x: x, y: y), radius: 4, startAngle: .zero, endAngle: .degrees(360), clockwise: false)
+                    if values.0.count > 0 {
+                        let y = height * (1-values.1[0])
+                        path.move(to: CGPoint(x: -3, y: y))
+                        path.addArc(center: CGPoint(x: 0, y: y), radius: 4, startAngle: .zero, endAngle: .degrees(360), clockwise: false)
+                        
+                        for i in 1..<values.0.count {
+                            let x = width * values.0[i]
+                            let y = height * (1-values.1[i])
+                            path.addLine(to: CGPoint(x: x, y: y))
+                            path.addArc(center: CGPoint(x: x, y: y), radius: 4, startAngle: .zero, endAngle: .degrees(360), clockwise: false)
+                        }
                     }
                 }
                 .stroke(LinearGradient(colors: [K.brandColor2, K.brandColor3], startPoint: .leading, endPoint: .trailing), style: StrokeStyle(lineWidth: 4, lineJoin: .round))
