@@ -216,7 +216,7 @@ struct AddActivityView: View {
             }
             .accentColor(K.brandColor2)
             .onAppear {
-                addSampleData(moc: viewContext) // for debugging
+                // addSampleData(moc: viewContext) // for debugging
                 
                 if let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.path {
                     print("Documents Directory: \(documentsPath)")

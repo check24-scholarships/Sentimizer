@@ -46,7 +46,7 @@ func getStats(entries: FetchedResults<Entry>, interval: String, stamps: Int = 6)
         
         for entry in entries {
             if Calendar.current.isDateInToday(entry.date!) {
-                rEntries.append(entry)
+                rEntries.insert(entry, at:0)
             }
         }
         
@@ -64,9 +64,22 @@ func getStats(entries: FetchedResults<Entry>, interval: String, stamps: Int = 6)
             xAxis.append(formatDate(date: Date(timeIntervalSince1970: firstTime! + stepSize * Double(i)), format: "HH:mm"))
         }
         
+        var lastValue:Double = 0
+        
         for entry in rEntries {
             yValues.append(getSentiScore(senti: entry.feeling!))
-            xValues.append((entry.date!.timeIntervalSince1970 - firstTime!) / (lastTime! - firstTime!))
+            var xValue = (entry.date!.timeIntervalSince1970 - firstTime!) / (lastTime! - firstTime!)
+            if xValue - lastValue < 0.1 {
+                xValue = lastValue + 0.1
+            }
+            
+            xValues.append(xValue)
+            
+            lastValue = xValue
+        }
+        
+        for i in 0..<xValues.count {
+            xValues[i] = xValues[i] / lastValue
         }
     }
     
