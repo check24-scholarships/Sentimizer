@@ -99,7 +99,7 @@ struct MainActivityView: View {
     init() {
         let f:NSFetchRequest<Entry> = Entry.fetchRequest()
         f.fetchLimit = 20
-        f.sortDescriptors = [NSSortDescriptor(key: #keyPath(Entry.date), ascending: true)]
+        f.sortDescriptors = [NSSortDescriptor(key: #keyPath(Entry.date), ascending: false)]
         _entries = FetchRequest(fetchRequest: f)
     }
 }

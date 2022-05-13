@@ -21,7 +21,7 @@ class DataController: ObservableObject {
     
     static func getEntryData(entries: FetchedResults<Entry>) -> ([String], [[[String]]]) {
         var days: [String] = []
-        var content: [[[String]]] = [[[]]]
+        var content: [[[String]]] = []
         
         for entry in entries {
             var day = formatDate(date:entry.date!, format: "EEE, d MMM")
@@ -33,12 +33,13 @@ class DataController: ObservableObject {
             }
             
             if day != days.first {
-                days.insert(day, at: 0)
-                content.insert([], at: 0)
+                days.append(day)
+                content.append([])
             }
             
-            content[0].insert([entry.activity ?? "senting", formatDate(date: entry.date!, format: "HH:mm"), "10", entry.text ?? "", entry.feeling ?? "happy", entry.objectID.uriRepresentation().absoluteString], at:0)
+            content[content.count - 1].append([entry.activity ?? "senting", formatDate(date: entry.date!, format: "HH:mm"), "10", entry.text ?? "", entry.feeling ?? "happy", entry.objectID.uriRepresentation().absoluteString])
         }
+        
         return (days, content)
     }
 

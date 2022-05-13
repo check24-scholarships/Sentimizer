@@ -34,8 +34,6 @@ func getSentiScore(senti: String) -> Double{
 }
 
 func getStats(entries: FetchedResults<Entry>, interval: String, stamps: Int = 6) -> ([String], ([Double], [Double])){
-    print(entries, interval)
-    
     var yValues:[Double] = []
     var xValues: [Double] = []
     var xAxis:[String] = []
@@ -43,22 +41,14 @@ func getStats(entries: FetchedResults<Entry>, interval: String, stamps: Int = 6)
     if interval == K.timeIntervals[0] {
         var rEntries:[Entry] = []
         
-        print("now", Date())
-        
         var firstTime = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: Date())?.timeIntervalSince1970
         var lastTime = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: Date())?.timeIntervalSince1970
         
-        print("after", Date())
-        
         for entry in entries {
-            print(Calendar.current.isDateInToday(entry.date!), entry.date)
-            
             if Calendar.current.isDateInToday(entry.date!) {
                 rEntries.append(entry)
             }
         }
-        
-        print(rEntries.count)
         
         if rEntries.count >= 1 {
             firstTime = rEntries[0].date!.timeIntervalSince1970
@@ -78,8 +68,6 @@ func getStats(entries: FetchedResults<Entry>, interval: String, stamps: Int = 6)
             yValues.append(getSentiScore(senti: entry.feeling!))
             xValues.append((entry.date!.timeIntervalSince1970 - firstTime!) / (lastTime! - firstTime!))
         }
-        
-        print(xAxis, xValues, yValues)
     }
     
     return (xAxis, (xValues, yValues))
@@ -164,7 +152,7 @@ struct StatsView: View {
     init() {
         let f:NSFetchRequest<Entry> = Entry.fetchRequest()
         f.fetchLimit = 20
-        f.sortDescriptors = [NSSortDescriptor(key: #keyPath(Entry.date), ascending: true)]
+        f.sortDescriptors = [NSSortDescriptor(key: #keyPath(Entry.date), ascending: false)]
         _entries = FetchRequest(fetchRequest: f)
     }
 }
