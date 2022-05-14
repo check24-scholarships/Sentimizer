@@ -11,7 +11,7 @@ import CoreData
 struct ActivityDetailView: View {
     let activity: String
     let icon: String
-    let description: String
+    @State var description: String
     let day: String
     let time: String
     let duration: String
@@ -21,6 +21,7 @@ struct ActivityDetailView: View {
     @Environment(\.managedObjectContext) var viewContext
     @Environment(\.dismiss) private var dismiss
     
+    @State var isEditingDescription = false
     @State var isPresentingConfirm = false
     
     var body: some View {
@@ -36,7 +37,7 @@ struct ActivityDetailView: View {
                             .font(.senti(size: 12))
                         Spacer()
                     }
-                        
+                    
                     HStack {
                         Image(systemName: icon)
                             .resizable()
@@ -62,14 +63,85 @@ struct ActivityDetailView: View {
                         .padding(.top, 5)
                         .padding(.bottom)
                     
-                    Text("DESCRIPTION")
-                        .font(.senti(size: 12))
-                        .padding(.top, 5)
-                        .lineLimit(15)
                     
-                    Text(description.isEmpty ? "Describe your activity..." : description)
-                        .font(.senti(size: 18))
-                        .padding(.bottom)
+                    HStack(alignment: .top) {
+                        VStack(alignment: .leading) {
+                            Text("DESCRIPTION")
+                                .font(.senti(size: 12))
+                                .padding(.top, 5)
+                                .lineLimit(15)
+                            
+                            Group {
+                                if isEditingDescription {
+                                    ZStack(alignment: .topLeading) {
+                                        if description.isEmpty {
+                                            Text("Describe your activity and how you feel now...")
+                                                .font(.senti(size: 15))
+                                                .opacity(0.5)
+                                                .padding(7)
+                                        }
+                                        
+                                        TextEditor(text: $description)
+                                            .frame(height: 150)
+                                            .font(.senti(size: 15))
+                                            .onAppear {
+                                                UITextView.appearance().backgroundColor = .clear
+                                            }
+                                            .toolbar {
+                                                ToolbarItemGroup(placement: .keyboard) {
+                                                    HStack {
+                                                        Spacer()
+                                                        Button("Done") {
+                                                            dismissKeyboard()
+                                                            updateActivityDescription(with: description)
+                                                            withAnimation(.easeOut) {
+                                                                isEditingDescription = false
+                                                            }
+                                                        }
+                                                        .font(.senti(size: 19))
+                                                        .foregroundColor(K.brandColor2)
+                                                    }
+                                                }
+                                            }
+                                    }
+                                    .padding()
+                                    .background(RoundedRectangle(cornerRadius: 25).foregroundColor(.gray.opacity(0.3)))
+                                } else {
+                                    Text(description.isEmpty ? "Describe your activity..." : description)
+                                        .font(.senti(size: 18))
+                                        .padding(.bottom)
+                                        .opacity(description.isEmpty ? 0.5 : 1)
+                                }
+                            }
+                            .padding(.top, 1)
+                        }
+                        Spacer()
+                        if isEditingDescription {
+                            Button {
+                                dismissKeyboard()
+                                updateActivityDescription(with: description)
+                                withAnimation(.easeOut) {
+                                    isEditingDescription = false
+                                }
+                            } label: {
+                                Text("Done")
+                                    .bold()
+                            }
+                        } else {
+                            Button {
+                                withAnimation(.easeOut) {
+                                    isEditingDescription = true
+                                }
+                            } label: {
+                                Image(systemName: "pencil")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(height: 20)
+                                    .padding(13)
+                                    .standardBackground()
+                            }
+                        }
+                    }
                 }
                 .padding()
                 .standardBackground()
@@ -113,10 +185,15 @@ struct ActivityDetailView: View {
             print("In \(#function), line \(#line), save activity failed:")
             print(error.localizedDescription)
         }
-    }}
+    }
+    
+    func updateActivityDescription(with description: String) {
+        print(#function)
+    }
+}
 
 struct ActivityDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        ActivityDetailView(activity: "Walking", icon: "figure.walk", description: "helllooooo", day: "Today", time: "08:15", duration: "10 min", sentiment: "happy", id: "")
+        ActivityDetailView(activity: "Walking", icon: "figure.walk", description: "", day: "Today", time: "08:15", duration: "10 min", sentiment: "happy", id: "")
     }
 }
