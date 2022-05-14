@@ -27,7 +27,12 @@ struct ActivityChooserView: View {
                     }
                 }
                 
-                NavigationLink { NewActivityView() } label: {
+                NavigationLink {
+                    ZStack {
+                        K.bgColor.ignoresSafeArea()
+                        NewActivityView()
+                    }
+                } label: {
                     SentiButton(icon: "plus.circle", title: "Add new activity", style: .outlined, fontSize: 20, textColor: .gray)
                         .padding()
                         .padding(.top)

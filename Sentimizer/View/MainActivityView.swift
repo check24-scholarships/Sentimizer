@@ -60,7 +60,12 @@ struct MainActivityView: View {
                             
                             ForEach(0 ..< entryContent[day].count, id: \.self) { i in
                                 let c = entryContent[day][i]
-                                NavigationLink { ActivityDetailView(activity: c[0], icon: "figure.walk", description: c[3], day: entryDays[day], time: c[1], duration: c[2], sentiment: c[4], id: c[5]) } label: {
+                                NavigationLink {
+                                    ZStack {
+                                        K.bgColor.ignoresSafeArea()
+                                        ActivityDetailView(activity: c[0], icon: "figure.walk", description: c[3], day: entryDays[day], time: c[1], duration: c[2], sentiment: c[4], id: c[5])
+                                    }
+                                } label: {
                                     Activity(activity: c[0], description: c[3], time: c[1], duration: c[2], sentiment: c[4], id: c[5])
                                         .padding([.bottom, .trailing], 5)
                                 }

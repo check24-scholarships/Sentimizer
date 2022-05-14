@@ -49,7 +49,12 @@ struct NewActivityView: View {
                     }
                 }
                 
-                NavigationLink { IconChooser(done: $shouldBeDismissed, iconName: $iconName) } label: {
+                NavigationLink {
+                    ZStack {
+                        K.bgColor.ignoresSafeArea()
+                        IconChooser(done: $shouldBeDismissed, iconName: $iconName)
+                    }
+                } label: {
                     SentiButton(icon: nil, title: "Next", fontSize: 15, chevron: false)
                         .frame(width: 150)
                 }
