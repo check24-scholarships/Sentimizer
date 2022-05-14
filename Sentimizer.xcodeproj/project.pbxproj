@@ -25,7 +25,6 @@
 		EB6A3AB12815C2970078F8A8 /* SentiButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6A3AB02815C2970078F8A8 /* SentiButton.swift */; };
 		EB6A3AB5281713570078F8A8 /* ActivityChooserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6A3AB4281713570078F8A8 /* ActivityChooserView.swift */; };
 		EB8539EA28196A6D00C90DD9 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8539E928196A6D00C90DD9 /* StatsView.swift */; };
-		EB8539EE28197CC600C90DD9 /* Image+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8539ED28197CC600C90DD9 /* Image+Extension.swift */; };
 		EB91193128301BA000C82E63 /* SentiTextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB91193028301BA000C82E63 /* SentiTextEditor.swift */; };
 		EBCDD1182827F545006AD5E2 /* WhatNext.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCDD1172827F545006AD5E2 /* WhatNext.swift */; };
 		EBCDD11A282AD30C006AD5E2 /* NewActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCDD119282AD30C006AD5E2 /* NewActivityView.swift */; };
@@ -52,7 +51,6 @@
 		EB6A3AB02815C2970078F8A8 /* SentiButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentiButton.swift; sourceTree = "<group>"; };
 		EB6A3AB4281713570078F8A8 /* ActivityChooserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityChooserView.swift; sourceTree = "<group>"; };
 		EB8539E928196A6D00C90DD9 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
-		EB8539ED28197CC600C90DD9 /* Image+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Extension.swift"; sourceTree = "<group>"; };
 		EB91193028301BA000C82E63 /* SentiTextEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentiTextEditor.swift; sourceTree = "<group>"; };
 		EBCDD1172827F545006AD5E2 /* WhatNext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatNext.swift; sourceTree = "<group>"; };
 		EBCDD119282AD30C006AD5E2 /* NewActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewActivityView.swift; sourceTree = "<group>"; };
@@ -158,7 +156,6 @@
 				EB467FAE28210DB000F9AA4D /* Color+Extension.swift */,
 				EB6888292813459D00C0FDE7 /* Font+Extension.swift */,
 				EB634F2C281427DF00979923 /* View+Extension.swift */,
-				EB8539ED28197CC600C90DD9 /* Image+Extension.swift */,
 				EBCDD11D282AD75E006AD5E2 /* KeyboardHelper.swift */,
 			);
 			path = Extensions;
@@ -245,7 +242,6 @@
 				EB688827281340F500C0FDE7 /* Model.swift in Sources */,
 				EB467FAF28210DB000F9AA4D /* Color+Extension.swift in Sources */,
 				EB634F2B28141FDE00979923 /* K.swift in Sources */,
-				EB8539EE28197CC600C90DD9 /* Image+Extension.swift in Sources */,
 				EB642BFF27FF5DA4001DB273 /* MainActivityView.swift in Sources */,
 				88E6E5B0281C4B7F00EB0D15 /* DataController.swift in Sources */,
 				EB68882A2813459D00C0FDE7 /* Font+Extension.swift in Sources */,

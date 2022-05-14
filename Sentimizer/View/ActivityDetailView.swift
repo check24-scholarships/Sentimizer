@@ -18,6 +18,7 @@ struct ActivityDetailView: View {
     let sentiment: String
     let id: String
     
+    @Environment(\.colorScheme) var colorScheme
     @Environment(\.managedObjectContext) var viewContext
     @Environment(\.dismiss) private var dismiss
     
@@ -60,10 +61,10 @@ struct ActivityDetailView: View {
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 55)
                             .padding(10)
+                            .changeColor(to: colorScheme == .dark ? .white : .gray)
                             .background(RoundedRectangle(cornerRadius: 15).foregroundColor(K.sentimentColors[sentiIndex].opacity(0.2)))
                             .padding(.top, 5)
                             .padding(.bottom)
-                        
                         
                         HStack(alignment: .top) {
                             VStack(alignment: .leading) {

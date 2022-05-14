@@ -27,6 +27,12 @@ extension View {
         }
     }
     
+    /// Colors all the pixels of the specified view.
+    public func changeColor(to color: Color) -> some View {
+        self.overlay(color)
+        .mask(self)
+    }
+    
     func dismissKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
