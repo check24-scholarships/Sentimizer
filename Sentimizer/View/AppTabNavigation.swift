@@ -9,81 +9,83 @@ import SwiftUI
 
 struct AppTabNavigation: View {
     
-    enum Tab {
-        case activities
-        case stats
-        case calendar
-    }
+    let tabs = ["list.bullet.below.rectangle", "chart.bar.fill", "calendar"]
     
-    @State private var selection: Tab = .activities
+    @State private var selection: String = "list.bullet.below.rectangle"
     @Environment(\.managedObjectContext) var moc
 
     var body: some View {
-        TabView(selection: $selection) {
-            NavigationView {
-                ZStack {
-                    K.bgColor.ignoresSafeArea()
-                    MainActivityView()
-                        .foregroundColor(K.textColor)
-                        .navigationTitle("Activities")
+        ZStack {
+            TabView(selection: $selection) {
+                NavigationView {
+                    ZStack {
+                        K.bgColor.ignoresSafeArea()
+                        MainActivityView()
+                            .foregroundColor(K.textColor)
+                            .navigationTitle("Activities")
+                    }
                 }
-            }
-            .tabItem {
-                let activitiesText = Text("Activities", comment: "Activity main tab title")
-                Label {
-                    activitiesText
-                } icon: {
-                    Image(systemName: "house")
+                .tag(tabs[0])
+                
+                NavigationView {
+                    ZStack {
+                        K.bgColor.ignoresSafeArea()
+                        StatsView()
+                            .foregroundColor(K.textColor)
+                            .navigationTitle("Statistics")
+                    }
                 }
-                .accessibility(label: activitiesText)
+                .tag(tabs[1])
+                
+                NavigationView {
+                    ZStack {
+                        K.bgColor.ignoresSafeArea()
+                        MainActivityView()
+                            .foregroundColor(K.textColor)
+                            .navigationTitle("Calendar")
+                    }
+                }
+                .tag(tabs[2])
             }
-            .tag(Tab.activities)
             
-            NavigationView {
-                ZStack {
-                    K.bgColor.ignoresSafeArea()
-                    StatsView()
-                        .foregroundColor(K.textColor)
-                        .navigationTitle("Statistics")
+            VStack {
+                Spacer()
+                
+                HStack {
+                    ForEach(tabs, id: \.self) { tab in
+                        Button {
+                            selection = tab
+                        } label: {
+                            HStack {
+                                Spacer()
+                                Image(systemName: tab)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(maxWidth: 30, maxHeight: 30)
+                                    .padding(12)
+                                    .foregroundColor(selection == tab ? K.brandColor2 : .gray)
+//                                    .background(selection == tab ? RoundedRectangle(cornerRadius: 15).foregroundColor(.gray).opacity(0.2) : nil)
+                                Spacer()
+                            }
+                        }
+                    }
                 }
+                .padding(5)
+                .background(RoundedRectangle(cornerRadius: 50).foregroundColor(K.bgColor).shadow(radius: 10))
+                .background(
+                    RoundedRectangle(cornerRadius: 50)
+                        .stroke(.gray, lineWidth: 1)
+                )
+                .padding(.horizontal)
             }
-            .tabItem {
-                let statsText = Text("Statistics", comment: "Statistics tab title")
-                Label {
-                    statsText
-                } icon: {
-                    Image(systemName: "chart.xyaxis.line")
-                }
-                .accessibility(label: statsText)
-            }
-            .tag(Tab.stats)
-            
-            NavigationView {
-                ZStack {
-                    K.bgColor.ignoresSafeArea()
-                    MainActivityView()
-                        .foregroundColor(K.textColor)
-                        .navigationTitle("Calendar")
-                }
-            }
-            .tabItem {
-                let calendarText = Text("Calendar", comment: "Calendar tab title")
-                Label {
-                    calendarText
-                } icon: {
-                    Image(systemName: "calendar")
-                }
-                .accessibility(label: calendarText)
-            }
-            .tag(Tab.calendar)
         }
     }
     
     init() {
         UINavigationBar.appearance().largeTitleTextAttributes = [.font : UIFont(name: "ArialRoundedMTBold", size: 35)!, .foregroundColor : UIColor(named: "textColor") ?? .label]
         UINavigationBar.appearance().titleTextAttributes = [.font : UIFont(name: "ArialRoundedMTBold", size: 19)!, .foregroundColor : UIColor(named: "textColor") ?? .label]
-        UITabBar.appearance().barTintColor = UIColor(named: "bgColor")
         UINavigationBar.appearance().barTintColor = UIColor(named: "bgColor")
+        UITabBar.appearance().isHidden = true
     }
 }
 
