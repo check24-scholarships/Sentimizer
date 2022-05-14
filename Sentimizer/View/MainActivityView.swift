@@ -20,8 +20,6 @@ struct MainActivityView: View {
     
     @FetchRequest var entries: FetchedResults<Entry>
     
-    @State var deleteSwiped = false
-    
     var body: some View {
         ScrollView {
             Group {
@@ -63,8 +61,10 @@ struct MainActivityView: View {
                             
                             ForEach(0 ..< entryContent[day].count, id: \.self) { i in
                                 let c = entryContent[day][i]
-                                Activity(activity: c[0], description: c[3], time: c[1], duration: c[2], sentiment: c[4], id: c[5], deleteSwiped: $deleteSwiped)
-                                    .padding([.bottom, .trailing], 5)
+                                NavigationLink { ActivityDetailView(activity: c[0], icon: "figure.walk", description: c[3], day: entryDays[day], time: c[1], duration: c[2], sentiment: c[4], id: c[5]) } label: {
+                                    Activity(activity: c[0], description: c[3], time: c[1], duration: c[2], sentiment: c[4], id: c[5])
+                                        .padding([.bottom, .trailing], 5)
+                                }
                             }
                         }
                         .background(RoundedRectangle(cornerRadius: 25).foregroundColor(K.dayViewBgColor).shadow(radius: 10))
@@ -86,18 +86,6 @@ struct MainActivityView: View {
         .onChange(of: addActivitySheetOpened) { _ in
             (entryDays, entryContent) = DataController.getEntryData(entries: entries)
         }
-        .onChange(of: deleteSwiped) { _ in
-            withAnimation(.easeIn) {
-                (entryDays, entryContent) = DataController.getEntryData(entries: entries)
-            }
-        }
-        .simultaneousGesture(
-            DragGesture().onChanged { value in
-                withAnimation(.easeOut) {
-                    deleteSwiped = false
-                }
-            }
-        )
     }
     
     init() {
@@ -124,7 +112,6 @@ func deleteAllData(moc: NSManagedObjectContext) {
 
 //MARK: - Activity Bar
 struct Activity: View {
-    
     @Environment(\.managedObjectContext) var viewContext
     
     let activity: String
@@ -133,10 +120,6 @@ struct Activity: View {
     let duration: String
     let sentiment: String
     let id: String
-    
-    @State var width: CGFloat = 0
-    @Binding var deleteSwiped: Bool
-    @State var deleteOffset: CGFloat = 0
     
     var body: some View {
         HStack {
@@ -148,68 +131,39 @@ struct Activity: View {
             .padding([.leading, .top, .bottom])
             .padding(.trailing, 3)
             
-            ZStack {
-                HStack {
-                    Spacer()
-                    Button {
-                        deleteActivity(moc: viewContext)
-                    } label: {
-                        Image(systemName: "trash")
-                            .font(.title)
-                            .foregroundColor(.white)
-                            .frame(width: 90, height: 50)
+            HStack {
+                VStack(spacing: 0) {
+                    HStack {
+                        Image(systemName: "figure.walk")
+                            .scaleEffect(0.9)
+                            .padding([.leading, .top], 5)
+                        Text(activity)
+                            .padding(.vertical, 5)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.6)
                     }
-                }
-                .background(Rectangle().foregroundColor(.red).frame(height: 200))
-                
-                HStack {
-                    VStack(spacing: 0) {
-                        HStack {
-                            Image(systemName: "figure.walk")
-                                .scaleEffect(0.9)
-                                .padding([.leading, .top], 5)
-                            Text(activity)
-                                .padding(.vertical, 5)
-                                .lineLimit(1)
-                                .minimumScaleFactor(0.6)
-                                .overlay {
-                                    GeometryReader { g in
-                                        Color.clear
-                                            .onAppear {
-                                                width = g.frame(in: .local).width
-                                            }
-                                            .onChange(of: g.frame(in: .local).width) { newValue in
-                                                width = newValue
-                                            }
-                                    }
-                                }
-                        }
-                        .padding(5)
-                        
-                        let isEmpty = (description ?? "").isEmpty
-                        let description = (description ?? "").isEmpty ? "Describe your activity..." : description ?? "Describe your activity..."
-                        Text(description)
-                            .font(.senti(size: 18))
-                            .opacity(isEmpty ? 0.5 : 1.0)
-                            .lineLimit(2)
-                            .padding(.horizontal, 10)
-                            .padding(.bottom, 10)
-                    }
-                    .frame(maxWidth: .infinity)
+                    .padding(5)
                     
-                    Image(sentiment)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 40)
-                        .padding(15)
-                        .changeColor(to: .white)
-                        .background(Rectangle().gradientForeground(.leading, .trailing).frame(height: 100))
+                    let isEmpty = (description ?? "").isEmpty
+                    let description = (description ?? "").isEmpty ? "Describe your activity..." : description ?? "Describe your activity..."
+                    
+                    Text(description)
+                        .font(.senti(size: 18))
+                        .opacity(isEmpty ? 0.5 : 1.0)
+                        .lineLimit(2)
+                        .multilineTextAlignment(.leading)
+                        .padding(.horizontal, 10)
+                        .padding(.bottom, 10)
                 }
-                .background(
-                    Rectangle()
-                        .gradientForeground())
-                .offset(x: deleteOffset)
-                .gesture(DragGesture().onChanged(onChanged(value:)).onEnded(onEnd(value:)))
+                .frame(maxWidth: .infinity)
+                
+                Image(sentiment)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 40)
+                    .padding(15)
+                    .changeColor(to: .white)
+                    .background(Rectangle().gradientForeground(.leading, .trailing).frame(height: 100))
             }
             .font(.senti(size: 25))
             .foregroundColor(.white)
@@ -218,62 +172,6 @@ struct Activity: View {
                     .gradientForeground())
             .clipShape(RoundedRectangle(cornerRadius: 25))
         }
-        .onChange(of: deleteSwiped) { newValue in
-            if !newValue {
-                withAnimation(.easeOut) {
-                    deleteOffset = 0
-                    print(deleteOffset)
-                }
-            }
-        }
-    }
-    
-    func onChanged(value: DragGesture.Value) {
-        if value.translation.width < 0 {
-            if deleteSwiped {
-                deleteOffset = value.translation.width - 90
-            } else {
-                deleteOffset = value.translation.width
-            }
-        }
-    }
-    
-    func onEnd(value: DragGesture.Value) {
-        withAnimation(.easeOut) {
-            if value.translation.width < 0 {
-                if -value.translation.width > UIScreen.main.bounds.width / 2 {
-                    deleteOffset = -1000
-                    deleteActivity(moc: viewContext)
-                    deleteSwiped = false
-                } else if -deleteOffset > 50 {
-                    deleteSwiped = true
-                    deleteOffset = -90
-                } else {
-                    deleteSwiped = false
-                    deleteOffset = 0
-                }
-            } else {
-                deleteSwiped = false
-                deleteOffset = 0
-            }
-        }
-    }
-    
-    func deleteActivity(moc: NSManagedObjectContext) {
-        let objectID = moc.persistentStoreCoordinator!.managedObjectID(forURIRepresentation: URL(string: id)!)!
-        
-        let object = try! moc.existingObject(with: objectID)
-        
-        moc.delete(object)
-        
-        do {
-            try moc.save()
-        } catch {
-            print("In \(#function), line \(#line), save activity failed:")
-            print(error.localizedDescription)
-        }
-        
-        deleteSwiped = false
     }
 }
 
@@ -281,6 +179,6 @@ struct MainActivityView_Previews: PreviewProvider {
     static var previews: some View {
         MainActivityView()
             .environmentObject(Model())
-//        Activity(activity: "Project Work", description: "HellloHellloHellloHellloHellloHellloHellloHellloHellloHellloHellloHellloHellloHelllo ", time: "08:15", duration: "10", sentiment: "happy", id:"0")
+        //        Activity(activity: "Project Work", description: "HellloHellloHellloHellloHellloHellloHellloHellloHellloHellloHellloHellloHellloHelllo ", time: "08:15", duration: "10", sentiment: "happy", id:"0")
     }
 }

@@ -131,10 +131,10 @@
 			children = (
 				EB634F2E28142AAC00979923 /* AppTabNavigation.swift */,
 				EB642BFE27FF5DA4001DB273 /* MainActivityView.swift */,
+				8838ABB1282F7DA100D3599B /* ActivityDetailView.swift */,
 				EBCDD11B282AD419006AD5E2 /* AddActivityViews */,
 				EB8539E928196A6D00C90DD9 /* StatsView.swift */,
 				EB68882B281345AA00C0FDE7 /* Components */,
-				8838ABB1282F7DA100D3599B /* ActivityDetailView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";

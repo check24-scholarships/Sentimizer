@@ -20,6 +20,12 @@ extension View {
         .mask(self)
     }
     
+    public func standardBackground() -> some View {
+        self.background {
+            RoundedRectangle(cornerRadius: 25).foregroundColor(K.brandColor1).opacity(0.1)
+        }
+    }
+    
     func dismissKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }

@@ -38,7 +38,6 @@ func addSampleData(moc: NSManagedObjectContext) {
 }
 
 struct AddActivityView: View {
-    
     @Environment(\.dismiss) private var dismiss
     @Environment(\.managedObjectContext) var viewContext
     
