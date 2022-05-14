@@ -54,13 +54,13 @@ struct ActivityDetailView: View {
                             .font(.senti(size: 12))
                             .padding(.top, 5)
                         
-                        let sentiIndex = K.sentimentsArray.firstIndex(of: sentiment)
-                        Image(K.sentimentsArray[sentiIndex ?? 0])
+                        let sentiIndex = K.sentimentsArray.firstIndex(of: sentiment) ?? 0
+                        Image(K.sentimentsArray[sentiIndex])
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 55)
                             .padding(10)
-                            .background(RoundedRectangle(cornerRadius: 15).foregroundColor(K.sentimentColors[sentiIndex ?? 0].opacity(0.2)))
+                            .background(RoundedRectangle(cornerRadius: 15).foregroundColor(K.sentimentColors[sentiIndex].opacity(0.2)))
                             .padding(.top, 5)
                             .padding(.bottom)
                         

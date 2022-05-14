@@ -101,7 +101,7 @@ struct Activity: View {
     @Environment(\.managedObjectContext) var viewContext
     
     let activity: String
-    let description: String?
+    let description: String
     let time: String
     let duration: String
     let sentiment: String
@@ -130,12 +130,9 @@ struct Activity: View {
                     }
                     .padding(5)
                     
-                    let isEmpty = (description ?? "").isEmpty
-                    let description = (description ?? "").isEmpty ? "Describe your activity..." : description ?? "Describe your activity..."
-                    
-                    Text(description)
+                    Text(description.isEmpty ? "Describe your activity..." : description)
                         .font(.senti(size: 18))
-                        .opacity(isEmpty ? 0.5 : 1.0)
+                        .opacity(description.isEmpty ? 0.5 : 1.0)
                         .lineLimit(2)
                         .multilineTextAlignment(.leading)
                         .padding(.horizontal, 10)
