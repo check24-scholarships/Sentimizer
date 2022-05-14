@@ -66,6 +66,7 @@ struct MainActivityView: View {
                                 }
                             }
                         }
+                        .padding(.bottom)
                         .background(RoundedRectangle(cornerRadius: 25).foregroundColor(K.dayViewBgColor).shadow(radius: 10))
                         .padding(.vertical, 5)
                     }
