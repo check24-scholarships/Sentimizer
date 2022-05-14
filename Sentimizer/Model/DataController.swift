@@ -32,7 +32,7 @@ class DataController: ObservableObject {
                 day = "Yesterday"
             }
             
-            if day != days.first {
+            if day != days.last {
                 days.append(day)
                 content.append([])
             }

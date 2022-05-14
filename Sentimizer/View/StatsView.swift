@@ -33,7 +33,7 @@ func getSentiScore(senti: String) -> Double{
     }
 }
 
-func getStats(entries: FetchedResults<Entry>, interval: String, stamps: Int = 6) -> ([String], ([Double], [Double])){
+func getStats(entries: FetchedResults<Entry>, interval: String, stamps: Int = 5) -> ([String], ([Double], [Double])){
     var yValues:[Double] = []
     var xValues: [Double] = []
     var xAxis:[String] = []
@@ -64,7 +64,7 @@ func getStats(entries: FetchedResults<Entry>, interval: String, stamps: Int = 6)
             xAxis.append(formatDate(date: Date(timeIntervalSince1970: firstTime! + stepSize * Double(i)), format: "HH:mm"))
         }
         
-        var lastValue:Double = 0
+        var lastValue:Double = -1
         
         for entry in rEntries {
             yValues.append(getSentiScore(senti: entry.feeling!))
@@ -78,10 +78,114 @@ func getStats(entries: FetchedResults<Entry>, interval: String, stamps: Int = 6)
             lastValue = xValue
         }
         
-        for i in 0..<xValues.count {
-            xValues[i] = xValues[i] / lastValue
+        if lastValue > 1 {
+            for i in 0..<xValues.count {
+                xValues[i] = xValues[i] / lastValue
+            }
+        }
+    } else if interval == K.timeIntervals[1] {
+        var rEntries:[[Entry]] = [[], [], [], [], [], [], []]
+        
+        let firstTime = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: Date())!.timeIntervalSince1970 - (60 * 60 * 24 * 6)
+        let lastTime = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: Date())!.timeIntervalSince1970
+        
+        for entry in entries {
+            let entryDate = entry.date!.timeIntervalSince1970
+            
+            if firstTime < entryDate && entryDate < lastTime {
+                rEntries[Calendar.current.dateComponents([.weekday], from: entry.date!).weekday! - 1].insert(entry, at:0)
+            }
+        }
+        
+        for i in 0..<7 {
+            xAxis.insert(formatDate(date: Date(timeIntervalSince1970: lastTime - Double(60 * 60 * 24 * i)), format: "EE"), at:0)
+            
+            var mean:Double = 0
+            
+            for entry in rEntries[i] {
+                mean += getSentiScore(senti: entry.feeling!)
+            }
+            
+            if rEntries[i].count != 0 {
+                yValues.append(mean / Double(rEntries[i].count))
+                xValues.append(1 / 6 * Double(i))
+            }
+        }
+    } else if interval == K.timeIntervals[2] {
+        var rEntries:[[Entry]] = []
+        
+        let day = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Calendar.current.startOfDay(for: Date())))!
+        let firstTime = day.timeIntervalSince1970
+        let lastTime = Calendar.current.date(byAdding: DateComponents(month: 1, day: -1), to: day)!.timeIntervalSince1970
+        
+        
+        let stepSize = (lastTime - firstTime) / Double(stamps - 1)
+        
+        for i in 0..<stamps {
+            rEntries.append([])
+            rEntries.append([])
+            xAxis.append(formatDate(date: Date(timeIntervalSince1970: firstTime + stepSize * Double(i)), format: "d MMM"))
+        }
+        
+        for entry in entries {
+            let entryDate = entry.date!.timeIntervalSince1970
+            
+            if firstTime < entryDate && entryDate < lastTime {
+                rEntries[Int((entryDate - firstTime) / (stepSize / 2))].append(entry)
+            }
+        }
+        
+        for i in 0..<(stamps * 2) {
+            var mean:Double = 0
+            
+            for entry in rEntries[i] {
+                mean += getSentiScore(senti: entry.feeling!)
+            }
+            
+            if rEntries[i].count != 0 {
+                yValues.append(mean / Double(rEntries[i].count))
+                xValues.append(1 / Double(((2 * stamps) - 1)) * Double(i))
+            }
+        }
+    } else if interval == K.timeIntervals[3] {
+        var rEntries:[[Entry]] = [[], [], [], [], [], [], [], [], [], [], [], []]
+        
+        let year = Calendar.current.component(.year, from: Date())
+        let firstTime = Calendar.current.date(from: DateComponents(year: year, month: 1, day: 1))!.timeIntervalSince1970
+        let lastTime = Calendar.current.date(byAdding: .day, value: -1, to: Calendar.current.date(from: DateComponents(year: year + 1, month: 1, day: 1))!)!.timeIntervalSince1970
+        
+        
+        print(Date(timeIntervalSince1970: firstTime), Date(timeIntervalSince1970: lastTime))
+        print(firstTime + 60 * 60 * 24 * 31 * 12, lastTime)
+        
+        for entry in entries {
+            let entryDate = entry.date!.timeIntervalSince1970
+
+            if firstTime < entryDate && entryDate < lastTime {
+                rEntries[Calendar.current.component(.month, from: entry.date!) - 1].insert(entry, at:0)
+                // print(formatDate(date: entry.date!, format: "EEEE").capitalized, Calendar.current.dateComponents([.weekday], from: entry.date!).weekday!)
+            }
+        }
+
+        for i in 0..<12 {
+            xAxis.insert(String(Array(formatDate(date: Date(timeIntervalSince1970: lastTime - Double(60 * 60 * 24 * 31 * i)), format: "MMM"))[0]), at:0)
+
+            var mean:Double = 0
+
+            for entry in rEntries[i] {
+                mean += getSentiScore(senti: entry.feeling!)
+            }
+            
+            print(i, mean)
+
+            if rEntries[i].count != 0 {
+                yValues.append(mean / Double(rEntries[i].count))
+                xValues.append(1 / 11 * Double(i))
+            }
         }
     }
+    
+    print(xAxis, xValues, yValues)
     
     return (xAxis, (xValues, yValues))
 }
@@ -164,7 +268,7 @@ struct StatsView: View {
     
     init() {
         let f:NSFetchRequest<Entry> = Entry.fetchRequest()
-        f.fetchLimit = 20
+        // f.fetchLimit = 200
         f.sortDescriptors = [NSSortDescriptor(key: #keyPath(Entry.date), ascending: false)]
         _entries = FetchRequest(fetchRequest: f)
     }
@@ -244,9 +348,10 @@ struct MoodTrendChart: View {
                 
                 Path { path in
                     if values.0.count > 0 {
+                        let x = width * values.0[0]
                         let y = height * (1-values.1[0])
-                        path.move(to: CGPoint(x: -3, y: y))
-                        path.addArc(center: CGPoint(x: 0, y: y), radius: 4, startAngle: .zero, endAngle: .degrees(360), clockwise: false)
+                        path.move(to: CGPoint(x: x-3, y: y))
+                        path.addArc(center: CGPoint(x: x, y: y), radius: 4, startAngle: .zero, endAngle: .degrees(360), clockwise: false)
                         
                         for i in 1..<values.0.count {
                             let x = width * values.0[i]

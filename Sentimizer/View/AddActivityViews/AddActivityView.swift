@@ -14,11 +14,11 @@ func addSampleData(moc: NSManagedObjectContext) {
     let feelings = ["crying", "sad", "neutral", "content", "happy"]
     let activities = ["Walking", "Training", "Gaming", "Project Work", "Lunch"]
     
-    for i in 0..<3 {
+    for i in 0..<12 {
         for j in 0..<3 {
             let entry = Entry(context: moc)
             entry.text = "very important activity"
-            entry.date = Date(timeIntervalSince1970: Date().timeIntervalSince1970 - 60 * 60 * 24 * 32 * (Double(i) + Double(j) * 0.3))
+            entry.date = Date(timeIntervalSince1970: Date().timeIntervalSince1970 - 60 * 60 * 24 * 31 * (Double(i) + Double(j) * 0.3))
             if i < feelings.count {
                 entry.feeling = feelings[i]
                 entry.activity = activities[i]
@@ -216,7 +216,9 @@ struct AddActivityView: View {
             }
             .accentColor(K.brandColor2)
             .onAppear {
-                // addSampleData(moc: viewContext) // for debugging
+                // for debugging
+                // deleteAllData(moc: viewContext)
+                // addSampleData(moc: viewContext)
                 
                 if let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.path {
                     print("Documents Directory: \(documentsPath)")
