@@ -20,6 +20,7 @@ extension View {
         .mask(self)
     }
     
+    /// Sets the background of any view to a rounded rectangle with low opacity.
     public func standardBackground() -> some View {
         self.background {
             RoundedRectangle(cornerRadius: 25).foregroundColor(K.brandColor1).opacity(0.1)
@@ -29,5 +30,4 @@ extension View {
     func dismissKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
-    
 }

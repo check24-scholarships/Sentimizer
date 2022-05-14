@@ -10,7 +10,6 @@ import CoreData
 
 struct MainActivityView: View {
     @EnvironmentObject private var model: Model
-    
     @Environment(\.managedObjectContext) var viewContext
     
     @State var addActivitySheetOpened = false
@@ -81,7 +80,7 @@ struct MainActivityView: View {
         }
         .onAppear() {
             (entryDays, entryContent) = DataController.getEntryData(entries: entries)
-            // deleteAllData(moc: viewContext)
+            // DataController.deleteAllData(moc: viewContext)
         }
         .onChange(of: addActivitySheetOpened) { _ in
             (entryDays, entryContent) = DataController.getEntryData(entries: entries)
@@ -94,20 +93,6 @@ struct MainActivityView: View {
         f.sortDescriptors = [NSSortDescriptor(key: #keyPath(Entry.date), ascending: false)]
         _entries = FetchRequest(fetchRequest: f)
     }
-}
-
-func deleteAllData(moc: NSManagedObjectContext) {
-    let fetchRequest: NSFetchRequest<Entry>
-    fetchRequest = Entry.fetchRequest()
-    fetchRequest.predicate = NSPredicate(value: true)
-    
-    let entries = try! moc.fetch(fetchRequest)
-    
-    for entry in entries {
-        moc.delete(entry)
-    }
-    
-    try! moc.save()
 }
 
 //MARK: - Activity Bar
@@ -179,6 +164,5 @@ struct MainActivityView_Previews: PreviewProvider {
     static var previews: some View {
         MainActivityView()
             .environmentObject(Model())
-        //        Activity(activity: "Project Work", description: "HellloHellloHellloHellloHellloHellloHellloHellloHellloHellloHellloHellloHellloHelllo ", time: "08:15", duration: "10", sentiment: "happy", id:"0")
     }
 }

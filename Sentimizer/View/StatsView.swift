@@ -8,177 +8,7 @@
 import SwiftUI
 import CoreData
 
-// same function as in DataController
-
-func formatDate(date: Date, format: String = "dd MM") -> String {
-    let d = DateFormatter()
-    d.dateFormat = format
-    return d.string(from: date)
-}
-
-func getSentiScore(senti: String) -> Double{
-    switch senti {
-    case "crying":
-        return 0
-    case "sad":
-        return 0.25
-    case "neutral":
-        return 0.5
-    case "content":
-        return 0.75
-    case "happy":
-        return 1
-    default:
-        return 0.5
-    }
-}
-
-func getMeans(stepSize:Double, rEntries:[[Entry]], i:Int, xValues: [Double], yValues:[Double]) -> ([Double], [Double]) {
-    var xValues:[Double] = xValues
-    var yValues: [Double] = yValues
-    
-    var mean:Double = 0
-    
-    for entry in rEntries[i] {
-        mean += getSentiScore(senti: entry.feeling!)
-    }
-    
-    if rEntries[i].count != 0 {
-        yValues.append(mean / Double(rEntries[i].count))
-        xValues.append(stepSize * Double(i))
-    }
-    
-    return (xValues, yValues)
-}
-
-func getStats(entries: FetchedResults<Entry>, interval: String, stamps: Int = 5) -> ([String], ([Double], [Double])){
-    var xValues:[Double] = []
-    var yValues: [Double] = []
-    
-    var xAxis:[String] = []
-    
-    if interval == K.timeIntervals[0] {
-        var rEntries:[Entry] = []
-        
-        var firstTime = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: Date())?.timeIntervalSince1970
-        var lastTime = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: Date())?.timeIntervalSince1970
-        
-        for entry in entries {
-            if Calendar.current.isDateInToday(entry.date!) {
-                rEntries.insert(entry, at:0)
-            }
-        }
-        
-        if rEntries.count >= 1 {
-            firstTime = rEntries[0].date!.timeIntervalSince1970
-        }
-        
-        if rEntries.count >= 2 {
-            lastTime = rEntries.last!.date!.timeIntervalSince1970
-        }
-        
-        let stepSize = (lastTime! - firstTime!) / Double(stamps - 1)
-        
-        for i in 0..<stamps {
-            xAxis.append(formatDate(date: Date(timeIntervalSince1970: firstTime! + stepSize * Double(i)), format: "HH:mm"))
-        }
-        
-        var lastValue:Double = -1
-        
-        for entry in rEntries {
-            yValues.append(getSentiScore(senti: entry.feeling!))
-            var xValue = (entry.date!.timeIntervalSince1970 - firstTime!) / (lastTime! - firstTime!)
-            if xValue - lastValue < 0.1 {
-                xValue = lastValue + 0.1
-            }
-            
-            xValues.append(xValue)
-            
-            lastValue = xValue
-        }
-        
-        if lastValue > 1 {
-            for i in 0..<xValues.count {
-                xValues[i] = xValues[i] / lastValue
-            }
-        }
-    } else if interval == K.timeIntervals[1] {
-        var rEntries:[[Entry]] = [[], [], [], [], [], [], []]
-        
-        let firstTime = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: Date())!.timeIntervalSince1970 - (60 * 60 * 24 * 6)
-        let lastTime = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: Date())!.timeIntervalSince1970
-        
-        for entry in entries {
-            let entryDate = entry.date!.timeIntervalSince1970
-            
-            if firstTime < entryDate && entryDate < lastTime {
-                rEntries[Calendar.current.dateComponents([.weekday], from: entry.date!).weekday! - 1].insert(entry, at:0)
-            }
-        }
-        
-        for i in 0..<7 {
-            xAxis.insert(formatDate(date: Date(timeIntervalSince1970: lastTime - Double(60 * 60 * 24 * i)), format: "EE"), at:0)
-            
-            (xValues, yValues) = getMeans(stepSize: 1 / 6, rEntries: rEntries, i: i, xValues: xValues, yValues: yValues)
-        }
-    } else if interval == K.timeIntervals[2] {
-        var rEntries:[[Entry]] = []
-        
-        let day = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Calendar.current.startOfDay(for: Date())))!
-        let firstTime = day.timeIntervalSince1970
-        let lastTime = Calendar.current.date(byAdding: DateComponents(month: 1, day: -1), to: day)!.timeIntervalSince1970
-        
-        
-        let stepSize = (lastTime - firstTime) / Double(stamps - 1)
-        
-        for i in 0..<stamps {
-            rEntries.append([])
-            rEntries.append([])
-            xAxis.append(formatDate(date: Date(timeIntervalSince1970: firstTime + stepSize * Double(i)), format: "d MMM"))
-        }
-        
-        for entry in entries {
-            let entryDate = entry.date!.timeIntervalSince1970
-            
-            if firstTime < entryDate && entryDate < lastTime {
-                rEntries[Int((entryDate - firstTime) / (stepSize / 2))].append(entry)
-            }
-        }
-        
-        for i in 0..<(stamps * 2) {
-            (xValues, yValues) = getMeans(stepSize: 1 / Double(((2 * stamps) - 1)), rEntries: rEntries, i: i, xValues: xValues, yValues: yValues)
-        }
-    } else if interval == K.timeIntervals[3] {
-        var rEntries:[[Entry]] = [[], [], [], [], [], [], [], [], [], [], [], []]
-        
-        let year = Calendar.current.component(.year, from: Date())
-        let firstTime = Calendar.current.date(from: DateComponents(year: year, month: 1, day: 1))!.timeIntervalSince1970
-        let lastTime = Calendar.current.date(byAdding: .day, value: -1, to: Calendar.current.date(from: DateComponents(year: year + 1, month: 1, day: 1))!)!.timeIntervalSince1970
-        
-        
-        print(Date(timeIntervalSince1970: firstTime), Date(timeIntervalSince1970: lastTime))
-        print(firstTime + 60 * 60 * 24 * 31 * 12, lastTime)
-        
-        for entry in entries {
-            let entryDate = entry.date!.timeIntervalSince1970
-
-            if firstTime < entryDate && entryDate < lastTime {
-                rEntries[Calendar.current.component(.month, from: entry.date!) - 1].insert(entry, at:0)
-            }
-        }
-
-        for i in 0..<12 {
-            xAxis.insert(String(Array(formatDate(date: Date(timeIntervalSince1970: lastTime - Double(60 * 60 * 24 * 31 * i)), format: "MMM"))[0]), at:0)
-
-            (xValues, yValues) = getMeans(stepSize: 1 / 11, rEntries: rEntries, i: i, xValues: xValues, yValues: yValues)
-        }
-    }
-    
-    return (xAxis, (xValues, yValues))
-}
-
 struct StatsView: View {
-    
     @Environment(\.managedObjectContext) var viewContext
     
     @State var timeInterval = K.timeIntervals[0]
@@ -204,12 +34,6 @@ struct StatsView: View {
                 .pickerStyle(SegmentedPickerStyle())
                 .foregroundColor(K.brandColor2)
                 .padding(.vertical, 5)
-                .onAppear {
-                    UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(K.brandColor2)
-                    UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
-                    UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .normal)
-                    UISegmentedControl.appearance().backgroundColor = UIColor(K.brandColor1)
-                }
                 .onReceive([self.timeInterval].publisher.first()) { value in
                     (xAxis, values) = getStats(entries: entries, interval: value)
                 }
@@ -256,10 +80,15 @@ struct StatsView: View {
         // f.fetchLimit = 200
         f.sortDescriptors = [NSSortDescriptor(key: #keyPath(Entry.date), ascending: false)]
         _entries = FetchRequest(fetchRequest: f)
+        
+        UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(K.brandColor2)
+        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
+        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .normal)
+        UISegmentedControl.appearance().backgroundColor = UIColor(K.brandColor1)
     }
 }
 
-//MARK: MoodTrendChart
+//MARK: MoodTrendChart View
 struct MoodTrendChart: View {
     let xAxis: [String]
     let values: ([Double], [Double])
@@ -353,6 +182,7 @@ struct MoodTrendChart: View {
     }
 }
 
+//MARK: - MoodInfluence View
 struct MoodInfluence: View {
     let data: ([String], [Double])
     
@@ -388,6 +218,153 @@ struct MoodInfluence: View {
         .background {
             RoundedRectangle(cornerRadius: 25).foregroundColor(K.brandColor1).opacity(0.1)
         }
+    }
+}
+
+//MARK: - Stats Methods
+extension StatsView {
+    func getMeans(stepSize:Double, rEntries:[[Entry]], i:Int, xValues: [Double], yValues:[Double]) -> ([Double], [Double]) {
+        var xValues:[Double] = xValues
+        var yValues: [Double] = yValues
+        
+        var mean:Double = 0
+        
+        for entry in rEntries[i] {
+            mean += DataController.getSentiScore(for: entry.feeling!)
+        }
+        
+        if rEntries[i].count != 0 {
+            yValues.append(mean / Double(rEntries[i].count))
+            xValues.append(stepSize * Double(i))
+        }
+        
+        return (xValues, yValues)
+    }
+    
+    func getStats(entries: FetchedResults<Entry>, interval: String, stamps: Int = 5) -> ([String], ([Double], [Double])){
+        var xValues:[Double] = []
+        var yValues: [Double] = []
+        
+        var xAxis:[String] = []
+        
+        if interval == K.timeIntervals[0] {
+            var rEntries:[Entry] = []
+            
+            var firstTime = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: Date())?.timeIntervalSince1970
+            var lastTime = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: Date())?.timeIntervalSince1970
+            
+            for entry in entries {
+                if Calendar.current.isDateInToday(entry.date!) {
+                    rEntries.insert(entry, at:0)
+                }
+            }
+            
+            if rEntries.count >= 1 {
+                firstTime = rEntries[0].date!.timeIntervalSince1970
+            }
+            
+            if rEntries.count >= 2 {
+                lastTime = rEntries.last!.date!.timeIntervalSince1970
+            }
+            
+            let stepSize = (lastTime! - firstTime!) / Double(stamps - 1)
+            
+            for i in 0..<stamps {
+                xAxis.append(DataController.formatDate(date: Date(timeIntervalSince1970: firstTime! + stepSize * Double(i)), format: "HH:mm"))
+            }
+            
+            var lastValue:Double = -1
+            
+            for entry in rEntries {
+                yValues.append(DataController.getSentiScore(for: entry.feeling!))
+                var xValue = (entry.date!.timeIntervalSince1970 - firstTime!) / (lastTime! - firstTime!)
+                if xValue - lastValue < 0.1 {
+                    xValue = lastValue + 0.1
+                }
+                
+                xValues.append(xValue)
+                
+                lastValue = xValue
+            }
+            
+            if lastValue > 1 {
+                for i in 0..<xValues.count {
+                    xValues[i] = xValues[i] / lastValue
+                }
+            }
+        } else if interval == K.timeIntervals[1] {
+            var rEntries:[[Entry]] = [[], [], [], [], [], [], []]
+            
+            let firstTime = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: Date())!.timeIntervalSince1970 - (60 * 60 * 24 * 6)
+            let lastTime = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: Date())!.timeIntervalSince1970
+            
+            for entry in entries {
+                let entryDate = entry.date!.timeIntervalSince1970
+                
+                if firstTime < entryDate && entryDate < lastTime {
+                    rEntries[Calendar.current.dateComponents([.weekday], from: entry.date!).weekday! - 1].insert(entry, at:0)
+                }
+            }
+            
+            for i in 0..<7 {
+                xAxis.insert(DataController.formatDate(date: Date(timeIntervalSince1970: lastTime - Double(60 * 60 * 24 * i)), format: "EE"), at:0)
+                
+                (xValues, yValues) = getMeans(stepSize: 1 / 6, rEntries: rEntries, i: i, xValues: xValues, yValues: yValues)
+            }
+        } else if interval == K.timeIntervals[2] {
+            var rEntries:[[Entry]] = []
+            
+            let day = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Calendar.current.startOfDay(for: Date())))!
+            let firstTime = day.timeIntervalSince1970
+            let lastTime = Calendar.current.date(byAdding: DateComponents(month: 1, day: -1), to: day)!.timeIntervalSince1970
+            
+            
+            let stepSize = (lastTime - firstTime) / Double(stamps - 1)
+            
+            for i in 0..<stamps {
+                rEntries.append([])
+                rEntries.append([])
+                xAxis.append(DataController.formatDate(date: Date(timeIntervalSince1970: firstTime + stepSize * Double(i)), format: "d MMM"))
+            }
+            
+            for entry in entries {
+                let entryDate = entry.date!.timeIntervalSince1970
+                
+                if firstTime < entryDate && entryDate < lastTime {
+                    rEntries[Int((entryDate - firstTime) / (stepSize / 2))].append(entry)
+                }
+            }
+            
+            for i in 0..<(stamps * 2) {
+                (xValues, yValues) = getMeans(stepSize: 1 / Double(((2 * stamps) - 1)), rEntries: rEntries, i: i, xValues: xValues, yValues: yValues)
+            }
+        } else if interval == K.timeIntervals[3] {
+            var rEntries:[[Entry]] = [[], [], [], [], [], [], [], [], [], [], [], []]
+            
+            let year = Calendar.current.component(.year, from: Date())
+            let firstTime = Calendar.current.date(from: DateComponents(year: year, month: 1, day: 1))!.timeIntervalSince1970
+            let lastTime = Calendar.current.date(byAdding: .day, value: -1, to: Calendar.current.date(from: DateComponents(year: year + 1, month: 1, day: 1))!)!.timeIntervalSince1970
+            
+            
+            print(Date(timeIntervalSince1970: firstTime), Date(timeIntervalSince1970: lastTime))
+            print(firstTime + 60 * 60 * 24 * 31 * 12, lastTime)
+            
+            for entry in entries {
+                let entryDate = entry.date!.timeIntervalSince1970
+                
+                if firstTime < entryDate && entryDate < lastTime {
+                    rEntries[Calendar.current.component(.month, from: entry.date!) - 1].insert(entry, at:0)
+                }
+            }
+            
+            for i in 0..<12 {
+                xAxis.insert(String(Array(DataController.formatDate(date: Date(timeIntervalSince1970: lastTime - Double(60 * 60 * 24 * 31 * i)), format: "MMM"))[0]), at:0)
+                
+                (xValues, yValues) = getMeans(stepSize: 1 / 11, rEntries: rEntries, i: i, xValues: xValues, yValues: yValues)
+            }
+        }
+        
+        return (xAxis, (xValues, yValues))
     }
 }
 

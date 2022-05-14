@@ -8,35 +8,6 @@
 import SwiftUI
 import CoreData
 
-// adds sample entries
-
-func addSampleData(moc: NSManagedObjectContext) {
-    let feelings = ["crying", "sad", "neutral", "content", "happy"]
-    let activities = ["Walking", "Training", "Gaming", "Project Work", "Lunch"]
-    
-    for i in 0..<12 {
-        for j in 0..<3 {
-            let entry = Entry(context: moc)
-            entry.text = "very important activity"
-            entry.date = Date(timeIntervalSince1970: Date().timeIntervalSince1970 - 60 * 60 * 24 * 31 * (Double(i) + Double(j) * 0.3))
-            if i < feelings.count {
-                entry.feeling = feelings[i]
-                entry.activity = activities[i]
-            } else {
-                entry.feeling = "happy"
-                entry.activity = "Project Work"
-            }
-        }
-    }
-    
-    do {
-        try moc.save()
-    } catch {
-        print("In \(#function), line \(#line), save activity failed:")
-        print(error.localizedDescription)
-    }
-}
-
 struct AddActivityView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.managedObjectContext) var viewContext
@@ -77,76 +48,13 @@ struct AddActivityView: View {
                                         .font(.senti(size: 25))
                                         .padding(.top, 30)
                                     
-                                    HStack(spacing: 0) {
-                                        Button {
-                                            feeling = K.sentimentsArray[0]
-                                        } label: {
-                                            Image(K.sentimentsArray[0])
-                                                .resizable()
-                                                .aspectRatio(contentMode: .fit)
-                                                .frame(width: g.size.width/5 - 30)
-                                                .padding(10)
-                                                .padding(.leading, 7)
-                                                .background(feeling == K.sentimentsArray[0] ? Rectangle().foregroundColor(K.sentimentColors[0].opacity(0.3)).frame(height: 100) : nil)
-                                        }
-                                        ForEach(1..<K.sentimentsArray.count, id: \.self) { index in
-                                            HStack(spacing: 0) {
-                                                Divider()
-                                                    .frame(height: g.size.width/5 - 30)
-                                                Button {
-                                                    feeling = K.sentimentsArray[index]
-                                                } label: {
-                                                    Image(K.sentimentsArray[index])
-                                                        .resizable()
-                                                        .aspectRatio(contentMode: .fit)
-                                                        .frame(width: g.size.width/5 - 30)
-                                                        .padding(10)
-                                                        .padding(.trailing, index == K.sentimentsArray.count-1 ? 7 : 0)
-                                                        .background(feeling == K.sentimentsArray[index] ? Rectangle().foregroundColor(K.sentimentColors[index].opacity(0.2)).frame(height: 100) : nil)
-                                                }
-                                            }
-                                        }
-                                    }
-                                    .padding(.vertical, 7)
-                                    .background(RoundedRectangle(cornerRadius: 25)
-                                        .gradientForeground(.leading, .trailing)
-                                        .shadow(radius: 10))
-                                    .clipShape(RoundedRectangle(cornerRadius: 25))
-                                    
+                                    MoodChooser(g: g, feeling: $feeling)
                                     
                                     Text("What's happening?")
                                         .font(.senti(size: 25))
                                         .padding(.top, 30)
                                     
-                                    ZStack(alignment: .topLeading) {
-                                        if description.isEmpty {
-                                            Text("Describe your activity and how you feel now...")
-                                                .font(.senti(size: 15))
-                                                .opacity(0.5)
-                                                .padding(7)
-                                        }
-                                        
-                                        TextEditor(text: $description)
-                                            .frame(height: 150)
-                                            .font(.senti(size: 15))
-                                            .onAppear {
-                                                UITextView.appearance().backgroundColor = .clear
-                                            }
-                                            .toolbar {
-                                                ToolbarItemGroup(placement: .keyboard) {
-                                                    HStack {
-                                                        Spacer()
-                                                        Button("Done") {
-                                                            dismissKeyboard()
-                                                        }
-                                                        .font(.senti(size: 19))
-                                                        .foregroundColor(K.brandColor2)
-                                                    }
-                                                }
-                                            }
-                                    }
-                                    .padding()
-                                    .background(RoundedRectangle(cornerRadius: 25).foregroundColor(.gray.opacity(0.3)))
+                                    SentiTextEditor(text: $description)
                                 }
                                 .opacity(activity.1.isEmpty ? 0.5 : 1)
                                 .disabled(activity.1.isEmpty)
@@ -156,19 +64,7 @@ struct AddActivityView: View {
                             
                             GeometryReader { g2 in
                                 Button {
-                                    let entry = Entry(context: viewContext)
-                                    entry.text = description
-                                    entry.date = Date()
-                                    entry.feeling = feeling
-                                    entry.activity = activity.1
-                                    
-                                    do {
-                                        try viewContext.save()
-                                        print("saved context")
-                                    } catch {
-                                        print("In \(#function), line \(#line), save activity failed:")
-                                        print(error.localizedDescription)
-                                    }
+                                    DataController.saveActivity(activity: activity.1, icon: activity.0, description: description, feeling: feeling, date: Date(), viewContext: viewContext)
                                     
                                     dismiss()
                                 } label: {
@@ -218,12 +114,53 @@ struct AddActivityView: View {
                 // for debugging
                 // deleteAllData(moc: viewContext)
                 // addSampleData(moc: viewContext)
-                
-                if let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.path {
-                    print("Documents Directory: \(documentsPath)")
+            }
+        }
+    }
+}
+
+//MARK: - MoodChoser View
+struct MoodChooser: View {
+    let g: GeometryProxy
+    
+    @Binding var feeling: String
+    
+    var body: some View {
+        HStack(spacing: 0) {
+            Button {
+                feeling = K.sentimentsArray[0]
+            } label: {
+                Image(K.sentimentsArray[0])
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: g.size.width/5 - 30)
+                    .padding(10)
+                    .padding(.leading, 7)
+                    .background(feeling == K.sentimentsArray[0] ? Rectangle().foregroundColor(K.sentimentColors[0].opacity(0.3)).frame(height: 100) : nil)
+            }
+            ForEach(1..<K.sentimentsArray.count, id: \.self) { index in
+                HStack(spacing: 0) {
+                    Divider()
+                        .frame(height: g.size.width/5 - 30)
+                    Button {
+                        feeling = K.sentimentsArray[index]
+                    } label: {
+                        Image(K.sentimentsArray[index])
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: g.size.width/5 - 30)
+                            .padding(10)
+                            .padding(.trailing, index == K.sentimentsArray.count-1 ? 7 : 0)
+                            .background(feeling == K.sentimentsArray[index] ? Rectangle().foregroundColor(K.sentimentColors[index].opacity(0.2)).frame(height: 100) : nil)
+                    }
                 }
             }
         }
+        .padding(.vertical, 7)
+        .background(RoundedRectangle(cornerRadius: 25)
+            .gradientForeground(.leading, .trailing)
+            .shadow(radius: 10))
+        .clipShape(RoundedRectangle(cornerRadius: 25))
     }
 }
 

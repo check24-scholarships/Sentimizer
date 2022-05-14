@@ -72,16 +72,13 @@ struct NewActivityView: View {
         }
         .padding(.horizontal, 15)
         .onChange(of: shouldBeDismissed) { _ in
-            saveNewActivity(for: activityTextFieldText, icon: iconName)
+            DataController.saveNewActivity(for: activityTextFieldText, icon: iconName)
             dismiss()
         }
     }
-    
-    private func saveNewActivity(for activity: String, icon: String) {
-        print(#function)
-    }
 }
 
+//MARK: - IconChooser View
 struct IconChooser: View {
     @Environment(\.dismiss) private var dismiss
     

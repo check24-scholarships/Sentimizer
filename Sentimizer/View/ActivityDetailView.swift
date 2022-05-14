@@ -75,28 +75,12 @@ struct ActivityDetailView: View {
                                 
                                 Group {
                                     if isEditingDescription {
-                                        ZStack(alignment: .topLeading) {
-                                            if description.isEmpty {
-                                                Text("Describe your activity and how you feel now...")
-                                                    .font(.senti(size: 15))
-                                                    .opacity(0.5)
-                                                    .padding(7)
+                                        SentiTextEditor(text: $description)
+                                            .onTapGesture {
+                                                withAnimation {
+                                                    scrollView.scrollTo(1, anchor: .top)
+                                                }
                                             }
-                                            
-                                            TextEditor(text: $description)
-                                                .frame(height: 150)
-                                                .font(.senti(size: 15))
-                                                .onAppear {
-                                                    UITextView.appearance().backgroundColor = .clear
-                                                }
-                                                .onTapGesture {
-                                                    withAnimation {
-                                                        scrollView.scrollTo(1, anchor: .top)
-                                                    }
-                                                }
-                                        }
-                                        .padding()
-                                        .background(RoundedRectangle(cornerRadius: 25).foregroundColor(.gray.opacity(0.3)))
                                     } else {
                                         Text(description.isEmpty ? "Describe your activity..." : description)
                                             .font(.senti(size: 18))
@@ -154,7 +138,7 @@ struct ActivityDetailView: View {
             }
             .confirmationDialog("Are you sure?", isPresented: $isPresentingConfirm) {
                 Button("Delete activity", role: .destructive) {
-                    deleteActivity(moc: viewContext)
+                    DataController.deleteActivity(viewContext: viewContext, id: id)
                     dismiss()
                 }
             } message: {
@@ -176,22 +160,7 @@ struct ActivityDetailView: View {
                         .foregroundColor(K.brandColor2)
                     }
                 }
-        }
-        }
-    }
-    
-    func deleteActivity(moc: NSManagedObjectContext) {
-        let objectID = moc.persistentStoreCoordinator!.managedObjectID(forURIRepresentation: URL(string: id)!)!
-        
-        let object = try! moc.existingObject(with: objectID)
-        
-        moc.delete(object)
-        
-        do {
-            try moc.save()
-        } catch {
-            print("In \(#function), line \(#line), save activity failed:")
-            print(error.localizedDescription)
+            }
         }
     }
     

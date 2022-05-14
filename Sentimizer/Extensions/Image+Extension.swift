@@ -8,6 +8,7 @@
 import SwiftUI
 
 extension View {
+    /// Colors all the pixels of the specified view.
     public func changeColor(to color: Color) -> some View {
         self.overlay(color)
         .mask(self)

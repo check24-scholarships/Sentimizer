@@ -48,4 +48,96 @@ class DataController: ObservableObject {
         d.dateFormat = format
         return d.string(from: date)
     }
+    
+    static func saveActivity(activity: String, icon: String, description: String, feeling: String, date: Date, viewContext: NSManagedObjectContext) {
+        let entry = Entry(context: viewContext)
+        entry.text = description
+        entry.date = Date()
+        entry.feeling = feeling
+        entry.activity = activity
+        
+        do {
+            try viewContext.save()
+        } catch {
+            print("In \(#function), line \(#line), save activity failed:")
+            print(error.localizedDescription)
+        }
+    }
+    
+    static func deleteActivity(viewContext: NSManagedObjectContext, id: String) {
+        let objectID = viewContext.persistentStoreCoordinator!.managedObjectID(forURIRepresentation: URL(string: id)!)!
+        
+        let object = try! viewContext.existingObject(with: objectID)
+        
+        viewContext.delete(object)
+        
+        do {
+            try viewContext.save()
+        } catch {
+            print("In \(#function), line \(#line), save activity failed:")
+            print(error.localizedDescription)
+        }
+    }
+    
+    static func saveNewActivity(for activity: String, icon: String) {
+        print(#function)
+    }
+    
+    static func getSentiScore(for sentiment: String) -> Double{
+        switch sentiment {
+        case "crying":
+            return 0
+        case "sad":
+            return 0.25
+        case "neutral":
+            return 0.5
+        case "content":
+            return 0.75
+        case "happy":
+            return 1
+        default:
+            return 0.5
+        }
+    }
+    
+    static func addSampleData(moc: NSManagedObjectContext) {
+        let feelings = ["crying", "sad", "neutral", "content", "happy"]
+        let activities = ["Walking", "Training", "Gaming", "Project Work", "Lunch"]
+        
+        for i in 0..<12 {
+            for j in 0..<3 {
+                let entry = Entry(context: moc)
+                entry.text = "very important activity"
+                entry.date = Date(timeIntervalSince1970: Date().timeIntervalSince1970 - 60 * 60 * 24 * 31 * (Double(i) + Double(j) * 0.3))
+                if i < feelings.count {
+                    entry.feeling = feelings[i]
+                    entry.activity = activities[i]
+                } else {
+                    entry.feeling = "happy"
+                    entry.activity = "Project Work"
+                }
+            }
+        }
+        
+        do {
+            try moc.save()
+        } catch {
+            print("In \(#function), line \(#line), save activity failed:")
+            print(error.localizedDescription)
+        }
+    }
+    
+    static func deleteAllData(viewContext: NSManagedObjectContext) {
+        let fetchRequest: NSFetchRequest<Entry>
+        fetchRequest = Entry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(value: true)
+        
+        let entries = try! viewContext.fetch(fetchRequest)
+        
+        for entry in entries {
+            viewContext.delete(entry)
+        }
+        
+        try! viewContext.save()
+    }
 }
