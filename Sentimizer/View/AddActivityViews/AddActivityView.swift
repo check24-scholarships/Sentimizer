@@ -33,10 +33,10 @@ struct AddActivityView: View {
                                 
                                 NavigationLink {
                                     ZStack {
-                                        
+                                        K.bgColor.ignoresSafeArea()
                                         ActivityChooserView(activity: $activity)
                                             .padding(.top, -30)
-                                        .navigationBarTitleDisplayMode(.inline)
+                                            .navigationBarTitleDisplayMode(.inline)
                                     }
                                 } label: {
                                     if activity.1.isEmpty {
