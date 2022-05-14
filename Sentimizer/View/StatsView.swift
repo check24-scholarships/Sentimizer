@@ -33,9 +33,28 @@ func getSentiScore(senti: String) -> Double{
     }
 }
 
+func getMeans(stepSize:Double, rEntries:[[Entry]], i:Int, xValues: [Double], yValues:[Double]) -> ([Double], [Double]) {
+    var xValues:[Double] = xValues
+    var yValues: [Double] = yValues
+    
+    var mean:Double = 0
+    
+    for entry in rEntries[i] {
+        mean += getSentiScore(senti: entry.feeling!)
+    }
+    
+    if rEntries[i].count != 0 {
+        yValues.append(mean / Double(rEntries[i].count))
+        xValues.append(stepSize * Double(i))
+    }
+    
+    return (xValues, yValues)
+}
+
 func getStats(entries: FetchedResults<Entry>, interval: String, stamps: Int = 5) -> ([String], ([Double], [Double])){
-    var yValues:[Double] = []
-    var xValues: [Double] = []
+    var xValues:[Double] = []
+    var yValues: [Double] = []
+    
     var xAxis:[String] = []
     
     if interval == K.timeIntervals[0] {
@@ -100,16 +119,7 @@ func getStats(entries: FetchedResults<Entry>, interval: String, stamps: Int = 5)
         for i in 0..<7 {
             xAxis.insert(formatDate(date: Date(timeIntervalSince1970: lastTime - Double(60 * 60 * 24 * i)), format: "EE"), at:0)
             
-            var mean:Double = 0
-            
-            for entry in rEntries[i] {
-                mean += getSentiScore(senti: entry.feeling!)
-            }
-            
-            if rEntries[i].count != 0 {
-                yValues.append(mean / Double(rEntries[i].count))
-                xValues.append(1 / 6 * Double(i))
-            }
+            (xValues, yValues) = getMeans(stepSize: 1 / 6, rEntries: rEntries, i: i, xValues: xValues, yValues: yValues)
         }
     } else if interval == K.timeIntervals[2] {
         var rEntries:[[Entry]] = []
@@ -136,16 +146,7 @@ func getStats(entries: FetchedResults<Entry>, interval: String, stamps: Int = 5)
         }
         
         for i in 0..<(stamps * 2) {
-            var mean:Double = 0
-            
-            for entry in rEntries[i] {
-                mean += getSentiScore(senti: entry.feeling!)
-            }
-            
-            if rEntries[i].count != 0 {
-                yValues.append(mean / Double(rEntries[i].count))
-                xValues.append(1 / Double(((2 * stamps) - 1)) * Double(i))
-            }
+            (xValues, yValues) = getMeans(stepSize: 1 / Double(((2 * stamps) - 1)), rEntries: rEntries, i: i, xValues: xValues, yValues: yValues)
         }
     } else if interval == K.timeIntervals[3] {
         var rEntries:[[Entry]] = [[], [], [], [], [], [], [], [], [], [], [], []]
@@ -163,29 +164,15 @@ func getStats(entries: FetchedResults<Entry>, interval: String, stamps: Int = 5)
 
             if firstTime < entryDate && entryDate < lastTime {
                 rEntries[Calendar.current.component(.month, from: entry.date!) - 1].insert(entry, at:0)
-                // print(formatDate(date: entry.date!, format: "EEEE").capitalized, Calendar.current.dateComponents([.weekday], from: entry.date!).weekday!)
             }
         }
 
         for i in 0..<12 {
             xAxis.insert(String(Array(formatDate(date: Date(timeIntervalSince1970: lastTime - Double(60 * 60 * 24 * 31 * i)), format: "MMM"))[0]), at:0)
 
-            var mean:Double = 0
-
-            for entry in rEntries[i] {
-                mean += getSentiScore(senti: entry.feeling!)
-            }
-            
-            print(i, mean)
-
-            if rEntries[i].count != 0 {
-                yValues.append(mean / Double(rEntries[i].count))
-                xValues.append(1 / 11 * Double(i))
-            }
+            (xValues, yValues) = getMeans(stepSize: 1 / 11, rEntries: rEntries, i: i, xValues: xValues, yValues: yValues)
         }
     }
-    
-    print(xAxis, xValues, yValues)
     
     return (xAxis, (xValues, yValues))
 }

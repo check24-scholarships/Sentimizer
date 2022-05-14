@@ -23,7 +23,7 @@ func addSampleData(moc: NSManagedObjectContext) {
                 entry.feeling = feelings[i]
                 entry.activity = activities[i]
             } else {
-                entry.feeling = "neutral"
+                entry.feeling = "happy"
                 entry.activity = "Project Work"
             }
         }
