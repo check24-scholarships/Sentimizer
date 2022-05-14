@@ -87,22 +87,7 @@ struct ActivityDetailView: View {
                                             .onAppear {
                                                 UITextView.appearance().backgroundColor = .clear
                                             }
-                                            .toolbar {
-                                                ToolbarItemGroup(placement: .keyboard) {
-                                                    HStack {
-                                                        Spacer()
-                                                        Button("Done") {
-                                                            dismissKeyboard()
-                                                            updateActivityDescription(with: description)
-                                                            withAnimation(.easeOut) {
-                                                                isEditingDescription = false
-                                                            }
-                                                        }
-                                                        .font(.senti(size: 19))
-                                                        .foregroundColor(K.brandColor2)
-                                                    }
-                                                }
-                                            }
+                                            
                                     }
                                     .padding()
                                     .background(RoundedRectangle(cornerRadius: 25).foregroundColor(.gray.opacity(0.3)))
@@ -170,6 +155,22 @@ struct ActivityDetailView: View {
             Text("You cannot undo this action.")
         }
         .navigationTitle(day)
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                HStack {
+                    Spacer()
+                    Button("Done") {
+                        dismissKeyboard()
+                        updateActivityDescription(with: description)
+                        withAnimation(.easeOut) {
+                            isEditingDescription = false
+                        }
+                    }
+                    .font(.senti(size: 19))
+                    .foregroundColor(K.brandColor2)
+                }
+            }
+        }
     }
     
     func deleteActivity(moc: NSManagedObjectContext) {
