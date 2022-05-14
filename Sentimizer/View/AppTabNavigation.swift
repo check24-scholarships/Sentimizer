@@ -25,8 +25,7 @@ struct AppTabNavigation: View {
                     K.bgColor.ignoresSafeArea()
                     MainActivityView()
                         .foregroundColor(K.textColor)
-                        .padding(.top, -50)
-                        .navigationBarTitleDisplayMode(.inline)
+                        .navigationTitle("Activities")
                 }
             }
             .tabItem {
@@ -45,8 +44,7 @@ struct AppTabNavigation: View {
                     K.bgColor.ignoresSafeArea()
                     StatsView()
                         .foregroundColor(K.textColor)
-                        .padding(.top, -50)
-                        .navigationBarTitleDisplayMode(.inline)
+                        .navigationTitle("Statistics")
                 }
             }
             .tabItem {
@@ -65,8 +63,7 @@ struct AppTabNavigation: View {
                     K.bgColor.ignoresSafeArea()
                     MainActivityView()
                         .foregroundColor(K.textColor)
-                        .padding(.top, -50)
-                        .navigationBarTitleDisplayMode(.inline)
+                        .navigationTitle("Calendar")
                 }
             }
             .tabItem {
@@ -83,7 +80,10 @@ struct AppTabNavigation: View {
     }
     
     init() {
-        UINavigationBar.appearance().titleTextAttributes = [.font : UIFont(name: "ArialRoundedMTBold", size: 35)!]
+        UINavigationBar.appearance().largeTitleTextAttributes = [.font : UIFont(name: "ArialRoundedMTBold", size: 35)!, .foregroundColor : UIColor(named: "textColor") ?? .label]
+        UINavigationBar.appearance().titleTextAttributes = [.font : UIFont(name: "ArialRoundedMTBold", size: 19)!, .foregroundColor : UIColor(named: "textColor") ?? .label]
+        UITabBar.appearance().barTintColor = UIColor(named: "bgColor")
+        UINavigationBar.appearance().barTintColor = UIColor(named: "bgColor")
     }
 }
 

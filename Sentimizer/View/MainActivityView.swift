@@ -26,8 +26,6 @@ struct MainActivityView: View {
         ScrollView {
             Group {
                 VStack(alignment: .leading) {
-                    ViewTitle("Activities")
-                    
                     SentiButton(icon: "plus.circle", title: "Add Activity")
                         .lineLimit(1)
                         .minimumScaleFactor(0.5)

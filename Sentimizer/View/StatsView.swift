@@ -196,8 +196,6 @@ struct StatsView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
-                ViewTitle("Statistics")
-                
                 Picker("Time Interval", selection: $timeInterval) {
                     ForEach(K.timeIntervals, id: \.self) { interval in
                         Text(interval)
