@@ -23,7 +23,6 @@ struct AddActivityView: View {
         GeometryReader { g in
             NavigationView {
                 ZStack(alignment: .topLeading) {
-                    K.bgColor.ignoresSafeArea()
                     ScrollView {
                         VStack {
                             Group {
@@ -32,12 +31,9 @@ struct AddActivityView: View {
                                     .padding(.top, 25)
                                 
                                 NavigationLink {
-                                    ZStack {
-                                        K.bgColor.ignoresSafeArea()
-                                        ActivityChooserView(activity: $activity)
-                                            .padding(.top, -30)
-                                            .navigationBarTitleDisplayMode(.inline)
-                                    }
+                                    ActivityChooserView(activity: $activity)
+                                        .padding(.top, -30)
+                                        .navigationBarTitleDisplayMode(.inline)
                                 } label: {
                                     if activity.1.isEmpty {
                                         SentiButton(icon: nil, title: "Choose Activity", style: .outlined, fontSize: 20, textColor: .gray)

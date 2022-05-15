@@ -60,18 +60,12 @@ struct MainActivityView: View {
                             
                             ForEach(0 ..< entryContent[day].count, id: \.self) { i in
                                 let c = entryContent[day][i]
-                                NavigationLink {
-                                    ZStack {
-                                        K.bgColor.ignoresSafeArea()
-                                        ActivityDetailView(activity: c[0], icon: "figure.walk", description: c[3], day: entryDays[day], time: c[1], duration: c[2], sentiment: c[4], id: c[5])
-                                    }
-                                } label: {
+                                NavigationLink { ActivityDetailView(activity: c[0], icon: "figure.walk", description: c[3], day: entryDays[day], time: c[1], duration: c[2], sentiment: c[4], id: c[5]) } label: {
                                     Activity(activity: c[0], description: c[3], time: c[1], duration: c[2], sentiment: c[4], id: c[5])
                                         .padding([.bottom, .trailing], 5)
                                 }
                             }
                         }
-                        .padding(.bottom)
                         .background(RoundedRectangle(cornerRadius: 25).foregroundColor(K.dayViewBgColor).shadow(radius: 10))
                         .padding(.vertical, 5)
                     }
@@ -106,7 +100,7 @@ struct Activity: View {
     @Environment(\.managedObjectContext) var viewContext
     
     let activity: String
-    let description: String
+    let description: String?
     let time: String
     let duration: String
     let sentiment: String
@@ -135,9 +129,12 @@ struct Activity: View {
                     }
                     .padding(5)
                     
-                    Text(description.isEmpty ? "Describe your activity..." : description)
+                    let isEmpty = (description ?? "").isEmpty
+                    let description = (description ?? "").isEmpty ? "Describe your activity..." : description ?? "Describe your activity..."
+                    
+                    Text(description)
                         .font(.senti(size: 18))
-                        .opacity(description.isEmpty ? 0.5 : 1.0)
+                        .opacity(isEmpty ? 0.5 : 1.0)
                         .lineLimit(2)
                         .multilineTextAlignment(.leading)
                         .padding(.horizontal, 10)
