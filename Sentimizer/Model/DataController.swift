@@ -74,7 +74,7 @@ class DataController: ObservableObject {
         do {
             try viewContext.save()
         } catch {
-            print("In \(#function), line \(#line), save activity failed:")
+            print("In \(#function), line \(#line), delete activity failed:")
             print(error.localizedDescription)
         }
     }
@@ -162,7 +162,7 @@ class DataController: ObservableObject {
         do {
             try viewContext.save()
         } catch {
-            print("In \(#function), line \(#line), save activity failed:")
+            print("In \(#function), line \(#line), save new activity failed:")
             print(error.localizedDescription)
         }
     }
@@ -179,7 +179,7 @@ class DataController: ObservableObject {
                 }
             }
         } catch {
-            print("In \(#function), line \(#line), save activity failed:")
+            print("In \(#function), line \(#line), get activity icon failed:")
             print(error.localizedDescription)
         }
         
@@ -216,11 +216,9 @@ class DataController: ObservableObject {
                 }
             }
         } catch {
-            print("In \(#function), line \(#line), save activity failed:")
+            print("In \(#function), line \(#line), get mood count failed:")
             print(error.localizedDescription)
         }
-        
-        print(count)
         
         return count
     }

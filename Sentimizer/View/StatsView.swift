@@ -207,7 +207,7 @@ struct MoodInfluence: View {
                         Text(data.0[index])
                             .font(.senti(size: 20))
                             .padding(5)
-                        Text("\(String(format: "%.0f", abs(data.1[index]) * 100))% \(data.1[index] > 0 ? "positive" : "negative")")
+                        Text("\(String(format: "%.0f", abs(data.1[index]) * 100))%")
                             .font(.senti(size: 15))
                             .foregroundColor(data.1[index] > 0 ? .green : .red)
                     }
