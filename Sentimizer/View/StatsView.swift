@@ -75,7 +75,7 @@ struct StatsView: View {
                         .font(.senti(size: 20))
                         .padding([.leading, .top])
                     
-                    MoodCount(data: DataController.getCount(viewContext: viewContext, interval: "day"), g: g)
+                    MoodCount(data: counts, g: g)
                         .frame(maxWidth: .infinity)
                     
                     
