@@ -11,19 +11,21 @@ import CoreData
 struct ActivityDetailView: View {
     let activity: String
     let icon: String
-    @State var description: String
+    let description: String
     let day: String
     let time: String
     let duration: String
     let sentiment: String
     let id: String
     
+    @State var userDescription = ""
+    
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.managedObjectContext) var viewContext
     @Environment(\.dismiss) private var dismiss
     
-    @State var isEditingDescription = false
-    @State var isPresentingConfirm = false
+    @State private var isEditingDescription = false
+    @State private var isPresentingConfirm = false
     
     var body: some View {
         ScrollViewReader { scrollView in
@@ -76,17 +78,17 @@ struct ActivityDetailView: View {
                                 
                                 Group {
                                     if isEditingDescription {
-                                        SentiTextEditor(text: $description)
+                                        SentiTextEditor(text: $userDescription)
                                             .onTapGesture {
                                                 withAnimation {
                                                     scrollView.scrollTo(1, anchor: .top)
                                                 }
                                             }
                                     } else {
-                                        Text(description.isEmpty ? "Describe your activity..." : description)
+                                        Text(userDescription.isEmpty ? "Describe your activity..." : userDescription)
                                             .font(.senti(size: 18))
                                             .padding(.bottom)
-                                            .opacity(description.isEmpty ? 0.5 : 1)
+                                            .opacity(userDescription.isEmpty ? 0.5 : 1)
                                     }
                                 }
                                 .padding(.top, 1)
@@ -95,7 +97,7 @@ struct ActivityDetailView: View {
                             if isEditingDescription {
                                 Button {
                                     dismissKeyboard()
-                                    updateActivityDescription(with: description, id:id)
+                                    updateActivityDescription(with: userDescription, id: id)
                                     withAnimation(.easeOut) {
                                         isEditingDescription = false
                                     }
@@ -152,7 +154,7 @@ struct ActivityDetailView: View {
                         Spacer()
                         Button("Done") {
                             dismissKeyboard()
-                            updateActivityDescription(with: description, id:id)
+                            updateActivityDescription(with: userDescription, id:id)
                             withAnimation(.easeOut) {
                                 isEditingDescription = false
                             }
@@ -162,6 +164,9 @@ struct ActivityDetailView: View {
                     }
                 }
             }
+        }
+        .onAppear {
+            userDescription = description
         }
     }
     

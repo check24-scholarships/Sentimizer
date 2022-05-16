@@ -11,12 +11,12 @@ import CoreData
 struct StatsView: View {
     @Environment(\.managedObjectContext) var viewContext
     
-    @State var timeInterval = K.timeIntervals[0]
+    @State private var timeInterval = K.timeIntervals[0]
     
-    @State var width: CGFloat = 0
+    @State private var width: CGFloat = 0
     
-    @State var xAxis = ["8:15", "8:31", "9:44", "12:57", "14:19", "15:35"]
-    @State var values = ([0.0, 0.3, 0.5, 0.65, 0.75, 1.0], [0.4, 0.2, 0.5, 0.25, 0.75, 1.0])
+    @State private var xAxis = ["8:15", "8:31", "9:44", "12:57", "14:19", "15:35"]
+    @State private var values = ([0.0, 0.3, 0.5, 0.65, 0.75, 1.0], [0.4, 0.2, 0.5, 0.25, 0.75, 1.0])
     
     @FetchRequest var entries: FetchedResults<Entry>
     
@@ -24,54 +24,63 @@ struct StatsView: View {
     let testData3 = (["Project Work", "Gaming"], [-0.4, -0.1])
     
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading) {
-                Picker("Time Interval", selection: $timeInterval) {
-                    ForEach(K.timeIntervals, id: \.self) { interval in
-                        Text(interval)
-                    }
-                }
-                .pickerStyle(SegmentedPickerStyle())
-                .foregroundColor(K.brandColor2)
-                .padding(.vertical, 5)
-                .onReceive([self.timeInterval].publisher.first()) { value in
-                    (xAxis, values) = getStats(entries: entries, interval: value)
-                }
-                
-                Text("Mood")
-                    .font(.senti(size: 20))
-                    .padding([.leading, .top])
-                
-                MoodTrendChart(xAxis: xAxis, values: values)
-                    .frame(height: 200)
-                    .padding()
-                    .background(RoundedRectangle(cornerRadius: 25).foregroundColor(K.brandColor1).opacity(0.1))
-                
-                Text("Improved Your Mood")
-                    .font(.senti(size: 20))
-                    .padding([.leading, .top])
-                
-                
-                MoodInfluence(data: testData2, width: $width)
-                    .overlay {
-                        GeometryReader { g in
-                            Color.clear
-                                .onAppear() {
-                                    width = g.size.width
-                                }
+        GeometryReader { g in
+            ScrollView {
+                VStack(alignment: .leading) {
+                    Picker("Time Interval", selection: $timeInterval) {
+                        ForEach(K.timeIntervals, id: \.self) { interval in
+                            Text(interval)
                         }
                     }
-                
-                Text("Worsened Your Mood")
-                    .font(.senti(size: 20))
-                    .padding([.leading, .top])
-                
-                MoodInfluence(data: testData3, width: $width)
-                
-                
-                    .padding(.bottom, 30)
+                    .pickerStyle(SegmentedPickerStyle())
+                    .foregroundColor(K.brandColor2)
+                    .padding(.vertical, 5)
+                    .onReceive([self.timeInterval].publisher.first()) { value in
+                        (xAxis, values) = getStats(entries: entries, interval: value)
+                    }
+                    
+                    Text("Mood")
+                        .font(.senti(size: 20))
+                        .padding([.leading, .top])
+                    
+                    MoodTrendChart(xAxis: xAxis, values: values)
+                        .frame(height: 200)
+                        .padding()
+                        .background(RoundedRectangle(cornerRadius: 25).foregroundColor(K.brandColor1).opacity(0.1))
+                    
+                    Text("Improved Your Mood")
+                        .font(.senti(size: 20))
+                        .padding([.leading, .top])
+                    
+                    
+                    MoodInfluence(data: testData2, width: $width)
+                        .overlay {
+                            GeometryReader { g in
+                                Color.clear
+                                    .onAppear() {
+                                        width = g.size.width
+                                    }
+                            }
+                        }
+                    
+                    Text("Worsened Your Mood")
+                        .font(.senti(size: 20))
+                        .padding([.leading, .top])
+                    
+                    MoodInfluence(data: testData3, width: $width)
+                    
+                    Text("Mood Count")
+                        .font(.senti(size: 20))
+                        .padding([.leading, .top])
+                    
+                    MoodCount(data: [12, 2, 19, 5, 10], g: g)
+                        .frame(maxWidth: .infinity)
+                    
+                    
+                        .padding(.bottom, 30)
+                }
+                .padding(.horizontal, 15)
             }
-            .padding(.horizontal, 15)
         }
     }
     
@@ -217,6 +226,84 @@ struct MoodInfluence: View {
         .padding()
         .background {
             RoundedRectangle(cornerRadius: 25).foregroundColor(K.brandColor1).opacity(0.1)
+        }
+    }
+}
+
+//MARK: - MoodCount View
+struct MoodCount: View {
+    let data: [Int]
+    let g: GeometryProxy
+    
+    var count: Int {
+        var count = 0
+        for number in data {
+            count += number
+        }
+        return count
+    }
+    
+    
+    var sizes: [(Double, Double)] {
+        var sizes: [(Double, Double)] = []
+        var currentOffset = 0.0
+        for index in 0..<data.count {
+            let size = Double(data[index])/Double(count) * 0.5
+            sizes.append((currentOffset, size + currentOffset))
+            currentOffset += size
+        }
+        return sizes
+    }
+    
+    @State private var circleWidth: CGFloat = 0
+    
+    var body: some View {
+        ZStack {
+            ForEach(0..<data.count, id: \.self) { index in
+                Circle()
+                    .trim(from: sizes[index].0, to: sizes[index].1)
+                    .stroke(style: StrokeStyle(lineWidth: 40))
+                    .frame(width: g.size.width - g.size.width/3, height: g.size.width - g.size.width/3)
+                    .foregroundColor(K.sentimentColors[index < 5 ? index : 0])
+                    .rotationEffect(Angle(degrees: 180))
+                    .overlay(
+                        GeometryReader { g in
+                            Color.clear
+                                .onAppear {
+                                    circleWidth = g.size.width
+                                }
+                        }
+                    )
+            }
+            HStack {
+                Image(K.sentimentsArray[0])
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: circleWidth/6)
+                    .changeColor(to: K.sentimentColors[0])
+                Text(" - ")
+                    .font(.senti(size: 50))
+                    .offset(y: -5)
+                Image(K.sentimentsArray[4])
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: circleWidth/6)
+                    .changeColor(to: K.sentimentColors[4])
+            }
+            .offset(y: -10)
+        }
+        .shadow(radius: 10)
+        .padding(20)
+        .background {
+            RoundedRectangle(cornerRadius: 25)
+                .foregroundColor(K.brandColor1)
+                .opacity(0.1)
+                .frame(width: circleWidth + 70, height: circleWidth/2 + 70)
+                .offset(y: -(circleWidth + 20)/4)
+        }
+        .offset(y: 30)
+        .onAppear {
+            circleWidth = circleWidth
         }
     }
 }

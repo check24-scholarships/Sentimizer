@@ -12,10 +12,10 @@ struct MainActivityView: View {
     @EnvironmentObject private var model: Model
     @Environment(\.managedObjectContext) var viewContext
     
-    @State var addActivitySheetOpened = false
+    @State private var addActivitySheetOpened = false
     
-    @State var entryDays: [String] = []
-    @State var entryContent: [[[String]]] = [[]]
+    @State private var entryDays: [String] = []
+    @State private var entryContent: [[[String]]] = [[]]
     
     @FetchRequest var entries: FetchedResults<Entry>
     
@@ -67,7 +67,7 @@ struct MainActivityView: View {
                                 }
                             }
                         }
-                        .background(RoundedRectangle(cornerRadius: 25).foregroundColor(K.dayViewBgColor).shadow(radius: 10))
+                        .background(RoundedRectangle(cornerRadius: 25).foregroundColor(K.dayViewBgColor).shadow(color: .gray.opacity(0.7), radius: 10))
                         .padding(.vertical, 5)
                     }
                 }

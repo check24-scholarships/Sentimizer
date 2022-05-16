@@ -13,11 +13,11 @@ struct AddActivityView: View {
     @Environment(\.managedObjectContext) var viewContext
     
     @ObservedObject var keyboardHeightHelper = KeyboardHelper()
-    @State var textFieldYPlusHeight: CGFloat = 0
+    @State private var textFieldYPlusHeight: CGFloat = 0
     
-    @State var description = ""
-    @State var feeling = ""
-    @State var activity = ("", "")
+    @State private var description = ""
+    @State private var feeling = ""
+    @State private var activity = ("", "")
     
     var body: some View {
         GeometryReader { g in

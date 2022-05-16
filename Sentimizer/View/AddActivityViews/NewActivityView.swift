@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct NewActivityView: View {
-    @State var activityTextFieldText = ""
-    @State var textFieldEditing = false
+    @State private var activityTextFieldText = ""
+    @State private var textFieldEditing = false
     @FocusState var textFieldFocus: Bool
     
-    @State var iconName = ""
+    @State private var iconName = ""
     
     @Environment(\.dismiss) private var dismiss
-    @State var shouldBeDismissed = false
+    @State private var shouldBeDismissed = false
     
     @Environment(\.managedObjectContext) var viewContext
     
@@ -95,7 +95,7 @@ struct IconChooser: View {
     
     var columns: [GridItem] =
     [.init(.adaptive(minimum: 40, maximum: 55))]
-    @State var imageBounds: CGSize = CGSize(width: 35, height: 35)
+    @State private var imageBounds: CGSize = CGSize(width: 35, height: 35)
     
     var body: some View {
         ScrollView {
