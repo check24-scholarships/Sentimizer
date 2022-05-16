@@ -95,7 +95,7 @@ struct ActivityDetailView: View {
                             if isEditingDescription {
                                 Button {
                                     dismissKeyboard()
-                                    updateActivityDescription(with: description)
+                                    updateActivityDescription(with: description, id:id)
                                     withAnimation(.easeOut) {
                                         isEditingDescription = false
                                     }
@@ -152,7 +152,7 @@ struct ActivityDetailView: View {
                         Spacer()
                         Button("Done") {
                             dismissKeyboard()
-                            updateActivityDescription(with: description)
+                            updateActivityDescription(with: description, id:id)
                             withAnimation(.easeOut) {
                                 isEditingDescription = false
                             }
@@ -165,8 +165,19 @@ struct ActivityDetailView: View {
         }
     }
     
-    func updateActivityDescription(with description: String) {
-        print(#function)
+    func updateActivityDescription(with description: String, id:String) {
+        let objectID = viewContext.persistentStoreCoordinator!.managedObjectID(forURIRepresentation: URL(string: id)!)!
+        
+        let object = try! viewContext.existingObject(with: objectID)
+        
+        (object as! Entry).text = description
+        
+        do {
+            try viewContext.save()
+        } catch {
+            print("In \(#function), line \(#line), save activity failed:")
+            print(error.localizedDescription)
+        }
     }
 }
 

@@ -156,7 +156,6 @@ class DataController: ObservableObject {
         let activities = try? viewContext.fetch(request)
         
         for activity in activities! {
-            print(activity.name!, name)
             if activity.name! == name {
                 return activity.icon!
             }
