@@ -9,7 +9,7 @@ import SwiftUI
 import CoreData
 
 class DataController: ObservableObject {
-    let container = NSPersistentContainer(name: "Entry")
+    let container = NSPersistentContainer(name: "Model")
     
     init() {
         container.loadPersistentStores(completionHandler: {description, error in
@@ -79,10 +79,6 @@ class DataController: ObservableObject {
         }
     }
     
-    static func saveNewActivity(for activity: String, icon: String) {
-        print(#function)
-    }
-    
     static func getSentiScore(for sentiment: String) -> Double{
         switch sentiment {
         case "crying":
@@ -100,13 +96,13 @@ class DataController: ObservableObject {
         }
     }
     
-    static func addSampleData(moc: NSManagedObjectContext) {
+    static func addSampleData(viewContext: NSManagedObjectContext) {
         let feelings = ["crying", "sad", "neutral", "content", "happy"]
         let activities = ["Walking", "Training", "Gaming", "Project Work", "Lunch"]
         
         for i in 0..<12 {
             for j in 0..<3 {
-                let entry = Entry(context: moc)
+                let entry = Entry(context: viewContext)
                 entry.text = "very important activity"
                 entry.date = Date(timeIntervalSince1970: Date().timeIntervalSince1970 - 60 * 60 * 24 * 31 * (Double(i) + Double(j) * 0.3))
                 if i < feelings.count {
@@ -120,7 +116,7 @@ class DataController: ObservableObject {
         }
         
         do {
-            try moc.save()
+            try viewContext.save()
         } catch {
             print("In \(#function), line \(#line), save activity failed:")
             print(error.localizedDescription)
@@ -139,5 +135,39 @@ class DataController: ObservableObject {
         }
         
         try! viewContext.save()
+    }
+
+    static func saveNewActivity(viewContext: NSManagedObjectContext,name: String, icon: String) {
+        let activity = Activity(context: viewContext)
+        activity.name = name
+        activity.icon = icon
+        
+        do {
+            try viewContext.save()
+        } catch {
+            print("In \(#function), line \(#line), save activity failed:")
+            print(error.localizedDescription)
+        }
+    }
+    
+    static func getActivityIcon(viewContext: NSManagedObjectContext, name: String) -> String {
+        let request = Activity.fetchRequest()
+        
+        let activities = try? viewContext.fetch(request)
+        
+        for activity in activities! {
+            print(activity.name!, name)
+            if activity.name! == name {
+                return activity.icon!
+            }
+        }
+        
+        for i in 0..<K.defaultActivities.0.count {
+            if K.defaultActivities.0[i] == name {
+                return K.defaultActivities.1[i]
+            }
+        }
+        
+        return "figure.walk"
     }
 }

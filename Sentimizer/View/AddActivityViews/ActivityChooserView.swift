@@ -12,6 +12,8 @@ struct ActivityChooserView: View {
     
     @Binding var activity: (String, String)
     
+    @FetchRequest(sortDescriptors: []) var activities: FetchedResults<Activity>
+    
     var body: some View {
         ScrollView {
             VStack {
@@ -27,6 +29,15 @@ struct ActivityChooserView: View {
                     }
                 }
                 
+                ForEach(0 ..< activities.count, id: \.self) { i in
+                    Button {
+                        activity = (activities[i].icon!, activities[i].name!)
+                        dismiss()
+                    } label: {
+                        SentiButton(icon: activities[i].icon!, title: activities[i].name!)
+                    }
+                }
+                
                 NavigationLink {
                     ZStack {
                         K.bgColor.ignoresSafeArea()
@@ -39,9 +50,10 @@ struct ActivityChooserView: View {
                 }
             }
             .padding()
+        }.onAppear() {
+            print(activities)
         }
     }
-    
 }
 
 struct ActivityChooser_Previews: PreviewProvider {

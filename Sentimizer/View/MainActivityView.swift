@@ -60,8 +60,9 @@ struct MainActivityView: View {
                             
                             ForEach(0 ..< entryContent[day].count, id: \.self) { i in
                                 let c = entryContent[day][i]
-                                NavigationLink { ActivityDetailView(activity: c[0], icon: "figure.walk", description: c[3], day: entryDays[day], time: c[1], duration: c[2], sentiment: c[4], id: c[5]) } label: {
-                                    Activity(activity: c[0], description: c[3], time: c[1], duration: c[2], sentiment: c[4], id: c[5])
+                                let icon = DataController.getActivityIcon(viewContext: viewContext, name: c[0])
+                                NavigationLink { ActivityDetailView(activity: c[0], icon: icon, description: c[3], day: entryDays[day], time: c[1], duration: c[2], sentiment: c[4], id: c[5]) } label: {
+                                    ActivityView(activity: c[0], description: c[3], time: (c[1], c[2]), sentiment: c[4], id: c[5], icon:icon)
                                         .padding([.bottom, .trailing], 5)
                                 }
                             }
@@ -96,21 +97,21 @@ struct MainActivityView: View {
 }
 
 //MARK: - Activity Bar
-struct Activity: View {
+struct ActivityView: View {
     @Environment(\.managedObjectContext) var viewContext
     
     let activity: String
     let description: String?
-    let time: String
-    let duration: String
+    let time: (String, String)
     let sentiment: String
     let id: String
+    let icon: String
     
     var body: some View {
         HStack {
             VStack {
-                Text(time)
-                Text(duration + " min")
+                Text(time.0)
+                Text(time.1 + " min")
             }
             .font(.senti(size: 20))
             .padding([.leading, .top, .bottom])
@@ -119,7 +120,7 @@ struct Activity: View {
             HStack {
                 VStack(spacing: 0) {
                     HStack {
-                        Image(systemName: "figure.walk")
+                        Image(systemName: icon)
                             .scaleEffect(0.9)
                             .padding([.leading, .top], 5)
                         Text(activity)

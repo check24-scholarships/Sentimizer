@@ -301,8 +301,10 @@ extension StatsView {
             for entry in entries {
                 let entryDate = entry.date!.timeIntervalSince1970
                 
+                let dIndex = (Calendar.current.dateComponents([.weekday], from: entry.date!).weekday! - 1) + 6 - (Calendar.current.dateComponents([.weekday], from: Date()).weekday! - 1)
+                
                 if firstTime < entryDate && entryDate < lastTime {
-                    rEntries[Calendar.current.dateComponents([.weekday], from: entry.date!).weekday! - 1].insert(entry, at:0)
+                    rEntries[dIndex < 7 ? dIndex : dIndex - 7].insert(entry, at:0)
                 }
             }
             

@@ -17,6 +17,8 @@ struct NewActivityView: View {
     @Environment(\.dismiss) private var dismiss
     @State var shouldBeDismissed = false
     
+    @Environment(\.managedObjectContext) var viewContext
+    
     var body: some View {
         ScrollView {
             VStack {
@@ -77,8 +79,9 @@ struct NewActivityView: View {
         }
         .padding(.horizontal, 15)
         .onChange(of: shouldBeDismissed) { _ in
-            DataController.saveNewActivity(for: activityTextFieldText, icon: iconName)
             dismiss()
+            
+            DataController.saveNewActivity(viewContext: viewContext, name: activityTextFieldText, icon: iconName)
         }
     }
 }
