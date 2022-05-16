@@ -17,6 +17,7 @@ struct StatsView: View {
     
     @State private var xAxis = ["8:15", "8:31", "9:44", "12:57", "14:19", "15:35"]
     @State private var values = ([0.0, 0.3, 0.5, 0.65, 0.75, 1.0], [0.4, 0.2, 0.5, 0.25, 0.75, 1.0])
+    @State private var counts = [0, 0, 0, 0, 0]
     
     @FetchRequest var entries: FetchedResults<Entry>
     
@@ -37,6 +38,7 @@ struct StatsView: View {
                     .padding(.vertical, 5)
                     .onReceive([self.timeInterval].publisher.first()) { value in
                         (xAxis, values) = getStats(entries: entries, interval: value)
+                        counts = DataController.getCount(viewContext: viewContext, interval: value)
                     }
                     
                     Text("Mood")
@@ -73,7 +75,7 @@ struct StatsView: View {
                         .font(.senti(size: 20))
                         .padding([.leading, .top])
                     
-                    MoodCount(data: [12, 2, 19, 5, 10], g: g)
+                    MoodCount(data: DataController.getCount(viewContext: viewContext, interval: "day"), g: g)
                         .frame(maxWidth: .infinity)
                     
                     

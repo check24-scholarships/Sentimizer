@@ -96,6 +96,23 @@ class DataController: ObservableObject {
         }
     }
     
+    static func getSentiIndex(for sentiment: String) -> Int {
+        switch sentiment {
+        case "crying":
+            return 0
+        case "sad":
+            return 1
+        case "neutral":
+            return 2
+        case "content":
+            return 3
+        case "happy":
+            return 4
+        default:
+            return 0
+        }
+    }
+    
     static func addSampleData(viewContext: NSManagedObjectContext) {
         let feelings = ["crying", "sad", "neutral", "content", "happy"]
         let activities = ["Walking", "Training", "Gaming", "Project Work", "Lunch"]
@@ -153,12 +170,17 @@ class DataController: ObservableObject {
     static func getActivityIcon(viewContext: NSManagedObjectContext, name: String) -> String {
         let request = Activity.fetchRequest()
         
-        let activities = try? viewContext.fetch(request)
-        
-        for activity in activities! {
-            if activity.name! == name {
-                return activity.icon!
+        do {
+            let activities = try viewContext.fetch(request)
+            
+            for activity in activities {
+                if activity.name! == name {
+                    return activity.icon!
+                }
             }
+        } catch {
+            print("In \(#function), line \(#line), save activity failed:")
+            print(error.localizedDescription)
         }
         
         for i in 0..<K.defaultActivities.0.count {
@@ -168,5 +190,38 @@ class DataController: ObservableObject {
         }
         
         return "figure.walk"
+    }
+    
+    static func getCount(viewContext: NSManagedObjectContext, interval: String) -> [Int] {
+        let request = Entry.fetchRequest()
+        var count = [0, 0, 0, 0, 0]
+        var lastTime:Double = 0
+        
+        if interval == K.timeIntervals[0] {
+            lastTime = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: Date())!.timeIntervalSince1970
+        } else if interval == K.timeIntervals[1] {
+            lastTime = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: Date())!.timeIntervalSince1970 - (60 * 60 * 24 * 6)
+        } else if interval == K.timeIntervals[2] {
+            lastTime = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Calendar.current.startOfDay(for: Date())))!.timeIntervalSince1970
+        } else if interval == K.timeIntervals[3] {
+            lastTime = Calendar.current.date(from: DateComponents(year: Calendar.current.component(.year, from: Date()), month: 1, day: 1))!.timeIntervalSince1970
+        }
+        
+        do {
+            let entries = try viewContext.fetch(request)
+            
+            for entry in entries {
+                if entry.date!.timeIntervalSince1970 > lastTime {
+                    count[getSentiIndex(for: entry.feeling!)] += 1
+                }
+            }
+        } catch {
+            print("In \(#function), line \(#line), save activity failed:")
+            print(error.localizedDescription)
+        }
+        
+        print(count)
+        
+        return count
     }
 }
