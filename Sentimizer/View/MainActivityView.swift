@@ -100,7 +100,6 @@ struct MainActivityView: View {
 
 //MARK: - Activity Bar
 struct ActivityView: View {
-    @Environment(\.managedObjectContext) var viewContext
     
     let activity: String
     let description: String?
@@ -111,40 +110,33 @@ struct ActivityView: View {
     
     var body: some View {
         HStack {
-            VStack {
-                Text(time.0)
-                Text(time.1 + " min")
-            }
-            .font(.senti(size: 20))
-            .padding([.leading, .top, .bottom])
-            .padding(.trailing, 3)
+            Text(time.0)
+                .font(.senti(size: 20))
+                .padding([.leading, .top, .bottom])
+                .padding(.trailing, 3)
             
             HStack {
-                VStack(spacing: 0) {
-                    HStack {
-                        Image(systemName: icon)
-                            .scaleEffect(0.9)
-                            .padding([.leading, .top], 5)
-                        Text(activity)
-                            .padding(.vertical, 5)
-                            .lineLimit(1)
-                            .minimumScaleFactor(0.6)
-                    }
-                    .padding(5)
+                Image(systemName: icon)
+                    .padding(.leading)
+                
+                VStack(alignment: .leading, spacing: 0) {
+                    Text(activity)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.6)
+                        .padding(.top, 5)
+                        .padding(2)
                     
                     let isEmpty = (description ?? "").isEmpty
                     let description = (description ?? "").isEmpty ? "Describe your activity..." : description ?? "Describe your activity..."
-                    
                     Text(description)
                         .font(.senti(size: 18))
                         .opacity(isEmpty ? 0.5 : 1.0)
                         .lineLimit(2)
                         .multilineTextAlignment(.leading)
-                        .padding(.horizontal, 10)
                         .padding(.bottom, 10)
+                        .padding(.leading, 2)
                 }
-                .frame(maxWidth: .infinity)
-                
+                Spacer()
                 Image(sentiment)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
