@@ -65,7 +65,7 @@ struct MainActivityView: View {
                                 let icon = dataController.getActivityIcon(viewContext: viewContext, name: c[0])
                                 NavigationLink { ActivityDetailView(activity: c[0], icon: icon, description: c[3], day: entryDays[day], time: c[1], duration: c[2], sentiment: c[4], id: c[5]) } label: {
                                     ActivityView(activity: c[0], description: c[3], time: (c[1], c[2]), sentiment: c[4], id: c[5], icon:icon)
-                                        .padding([.bottom, .trailing], 5)
+                                        .padding([.bottom, .trailing], 10)
                                 }
                             }
                         }
