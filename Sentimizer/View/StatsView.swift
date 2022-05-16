@@ -11,6 +11,8 @@ import CoreData
 struct StatsView: View {
     @Environment(\.managedObjectContext) var viewContext
     
+    @StateObject private var dataController = DataController()
+    
     @State private var timeInterval = K.timeIntervals[0]
     
     @State private var width: CGFloat = 0
@@ -38,7 +40,7 @@ struct StatsView: View {
                     .padding(.vertical, 5)
                     .onReceive([self.timeInterval].publisher.first()) { value in
                         (xAxis, values) = getStats(entries: entries, interval: value)
-                        counts = DataController.getCount(viewContext: viewContext, interval: value)
+                        counts = dataController.getCount(viewContext: viewContext, interval: value)
                     }
                     
                     Text("Mood")
@@ -82,6 +84,10 @@ struct StatsView: View {
                         .padding(.bottom, 30)
                 }
                 .padding(.horizontal, 15)
+            }
+            .onAppear {
+                (xAxis, values) = getStats(entries: entries, interval: timeInterval)
+                counts = dataController.getCount(viewContext: viewContext, interval: timeInterval)
             }
         }
     }
@@ -186,7 +192,7 @@ struct MoodTrendChart: View {
                         }
                     }
                 }
-                .stroke(LinearGradient(colors: [K.brandColor2, K.brandColor3], startPoint: .leading, endPoint: .trailing), style: StrokeStyle(lineWidth: 4, lineJoin: .round))
+                .stroke(LinearGradient(colors: [K.brandColor2, K.brandColor3.adjust(brightness: -0.05)], startPoint: .leading, endPoint: .trailing), style: StrokeStyle(lineWidth: 4, lineJoin: .round))
             }
             .padding(.vertical)
         }
@@ -319,7 +325,7 @@ extension StatsView {
         var mean:Double = 0
         
         for entry in rEntries[i] {
-            mean += DataController.getSentiScore(for: entry.feeling!)
+            mean += dataController.getSentiScore(for: entry.feeling!)
         }
         
         if rEntries[i].count != 0 {
@@ -359,13 +365,13 @@ extension StatsView {
             let stepSize = (lastTime! - firstTime!) / Double(stamps - 1)
             
             for i in 0..<stamps {
-                xAxis.append(DataController.formatDate(date: Date(timeIntervalSince1970: firstTime! + stepSize * Double(i)), format: "HH:mm"))
+                xAxis.append(dataController.formatDate(date: Date(timeIntervalSince1970: firstTime! + stepSize * Double(i)), format: "HH:mm"))
             }
             
             var lastValue:Double = -1
             
             for entry in rEntries {
-                yValues.append(DataController.getSentiScore(for: entry.feeling!))
+                yValues.append(dataController.getSentiScore(for: entry.feeling!))
                 var xValue = (entry.date!.timeIntervalSince1970 - firstTime!) / (lastTime! - firstTime!)
                 if xValue - lastValue < 0.1 {
                     xValue = lastValue + 0.1
@@ -398,7 +404,7 @@ extension StatsView {
             }
             
             for i in 0..<7 {
-                xAxis.insert(DataController.formatDate(date: Date(timeIntervalSince1970: lastTime - Double(60 * 60 * 24 * i)), format: "EE"), at:0)
+                xAxis.insert(dataController.formatDate(date: Date(timeIntervalSince1970: lastTime - Double(60 * 60 * 24 * i)), format: "EE"), at:0)
                 
                 (xValues, yValues) = getMeans(stepSize: 1 / 6, rEntries: rEntries, i: i, xValues: xValues, yValues: yValues)
             }
@@ -415,7 +421,7 @@ extension StatsView {
             for i in 0..<stamps {
                 rEntries.append([])
                 rEntries.append([])
-                xAxis.append(DataController.formatDate(date: Date(timeIntervalSince1970: firstTime + stepSize * Double(i)), format: "d MMM"))
+                xAxis.append(dataController.formatDate(date: Date(timeIntervalSince1970: firstTime + stepSize * Double(i)), format: "d MMM"))
             }
             
             for entry in entries {
@@ -449,7 +455,7 @@ extension StatsView {
             }
             
             for i in 0..<12 {
-                xAxis.insert(String(Array(DataController.formatDate(date: Date(timeIntervalSince1970: lastTime - Double(60 * 60 * 24 * 31 * i)), format: "MMM"))[0]), at:0)
+                xAxis.insert(String(Array(dataController.formatDate(date: Date(timeIntervalSince1970: lastTime - Double(60 * 60 * 24 * 31 * i)), format: "MMM"))[0]), at:0)
                 
                 (xValues, yValues) = getMeans(stepSize: 1 / 11, rEntries: rEntries, i: i, xValues: xValues, yValues: yValues)
             }

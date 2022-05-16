@@ -19,6 +19,8 @@ struct NewActivityView: View {
     
     @Environment(\.managedObjectContext) var viewContext
     
+    @StateObject private var dataController = DataController()
+    
     var body: some View {
         ScrollView {
             VStack {
@@ -81,7 +83,7 @@ struct NewActivityView: View {
         .onChange(of: shouldBeDismissed) { _ in
             dismiss()
             
-            DataController.saveNewActivity(viewContext: viewContext, name: activityTextFieldText, icon: iconName)
+            dataController.saveNewActivity(viewContext: viewContext, name: activityTextFieldText, icon: iconName)
         }
     }
 }

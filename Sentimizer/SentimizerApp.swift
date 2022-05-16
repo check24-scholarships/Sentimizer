@@ -18,7 +18,7 @@ struct SentimizerApp: App {
                 .font(.senti(size: 12))
                 .minimumScaleFactor(0.8)
                 .foregroundColor(K.textColor)
-                .environment(\.managedObjectContext, dataController.container.viewContext)
+                .environment(\.managedObjectContext, dataController.context)
         }
     }
 }

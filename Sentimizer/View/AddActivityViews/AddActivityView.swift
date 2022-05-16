@@ -12,6 +12,8 @@ struct AddActivityView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.managedObjectContext) var viewContext
     
+    @StateObject private var dataController = DataController()
+    
     @ObservedObject var keyboardHeightHelper = KeyboardHelper()
     @State private var textFieldYPlusHeight: CGFloat = 0
     
@@ -64,7 +66,7 @@ struct AddActivityView: View {
                             
                             GeometryReader { g2 in
                                 Button {
-                                    DataController.saveActivity(activity: activity.1, icon: activity.0, description: description, feeling: feeling, date: Date(), viewContext: viewContext)
+                                    dataController.saveActivity(activity: activity.1, icon: activity.0, description: description, feeling: feeling, date: Date(), viewContext: viewContext)
                                     
                                     dismiss()
                                 } label: {

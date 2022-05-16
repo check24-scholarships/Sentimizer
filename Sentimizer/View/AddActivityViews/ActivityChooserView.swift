@@ -12,7 +12,7 @@ struct ActivityChooserView: View {
     
     @Binding var activity: (String, String)
     
-    @FetchRequest(sortDescriptors: []) var activities: FetchedResults<Activity>
+    @FetchRequest(entity: Activity.entity(), sortDescriptors: []) var activities: FetchedResults<Activity>
     
     var body: some View {
         ScrollView {
