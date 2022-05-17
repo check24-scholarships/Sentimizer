@@ -20,6 +20,13 @@ struct StatsView: View {
     @State private var xAxis = ["8:15", "8:31", "9:44", "12:57", "14:19", "15:35"]
     @State private var values = ([0.0, 0.3, 0.5, 0.65, 0.75, 1.0], [0.4, 0.2, 0.5, 0.25, 0.75, 1.0])
     @State private var counts = [0, 0, 0, 0, 0]
+    private var totalCount: Int {
+        var count = 0
+        for c in counts {
+            count += c
+        }
+        return count
+    }
     
     @FetchRequest var entries: FetchedResults<Entry>
     
@@ -43,45 +50,63 @@ struct StatsView: View {
                         counts = dataController.getCount(viewContext: viewContext, interval: value)
                     }
                     
-                    Text("Mood")
-                        .font(.senti(size: 20))
-                        .padding([.leading, .top])
-                    
-                    MoodTrendChart(xAxis: xAxis, values: values)
-                        .frame(height: 200)
-                        .padding()
-                        .background(RoundedRectangle(cornerRadius: 25).foregroundColor(K.brandColor1).opacity(0.1))
-                    
-                    Text("Improved Your Mood")
-                        .font(.senti(size: 20))
-                        .padding([.leading, .top])
-                    
-                    
-                    MoodInfluence(data: testData2, width: $width)
-                        .overlay {
-                            GeometryReader { g in
-                                Color.clear
-                                    .onAppear() {
-                                        width = g.size.width
-                                    }
+                    if totalCount < 1 {
+                        VStack {
+                            HStack {
+                                Image(systemName: "chart.line.uptrend.xyaxis")
+                                Image(systemName: "chart.pie")
                             }
+                            .font(.title)
+                            Text("There is not enough data to show statistics. Check back later or choose a larger time interval.")
+                                .font(.senti(size: 15))
+                                .bold()
+                                .multilineTextAlignment(.center)
+                                .padding()
                         }
-                    
-                    Text("Worsened Your Mood")
-                        .font(.senti(size: 20))
-                        .padding([.leading, .top])
-                    
-                    MoodInfluence(data: testData3, width: $width)
-                    
-                    Text("Mood Count")
-                        .font(.senti(size: 20))
-                        .padding([.leading, .top])
-                    
-                    MoodCount(data: counts, g: g)
                         .frame(maxWidth: .infinity)
-                    
-                    
-                        .padding(.bottom, 30)
+                        .padding(.top, 50)
+                    } else {
+                        
+                        Text("Mood")
+                            .font(.senti(size: 20))
+                            .padding([.leading, .top])
+                        
+                        MoodTrendChart(xAxis: xAxis, values: values)
+                            .frame(height: 200)
+                            .padding()
+                            .background(RoundedRectangle(cornerRadius: 25).foregroundColor(K.brandColor1).opacity(0.1))
+                        
+                        Text("Improved Your Mood")
+                            .font(.senti(size: 20))
+                            .padding([.leading, .top])
+                        
+                        
+                        MoodInfluence(data: testData2, width: $width)
+                            .overlay {
+                                GeometryReader { g in
+                                    Color.clear
+                                        .onAppear() {
+                                            width = g.size.width
+                                        }
+                                }
+                            }
+                        
+                        Text("Worsened Your Mood")
+                            .font(.senti(size: 20))
+                            .padding([.leading, .top])
+                        
+                        MoodInfluence(data: testData3, width: $width)
+                        
+                        Text("Mood Count")
+                            .font(.senti(size: 20))
+                            .padding([.leading, .top])
+                        
+                        MoodCount(data: counts, g: g)
+                            .frame(maxWidth: .infinity)
+                        
+                        
+                            .padding(.bottom, 30)
+                    }
                 }
                 .padding(.horizontal, 15)
             }
@@ -306,13 +331,15 @@ struct MoodCount: View {
             RoundedRectangle(cornerRadius: 25)
                 .foregroundColor(K.brandColor1)
                 .opacity(0.1)
+                .onAppear {
+                    circleWidth += 1
+                    circleWidth -= 1
+                }
                 .frame(width: circleWidth + 70, height: circleWidth/2 + 70)
                 .offset(y: -(circleWidth + 20)/4)
         }
         .offset(y: 30)
-        .onAppear {
-            circleWidth = circleWidth
-        }
+        
     }
 }
 
