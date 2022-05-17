@@ -12,6 +12,7 @@
 		88E6E5AE281C4ACD00EB0D15 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 88E6E5AC281C4ACD00EB0D15 /* Model.xcdatamodeld */; };
 		88E6E5B0281C4B7F00EB0D15 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E6E5AF281C4B7F00EB0D15 /* DataController.swift */; };
 		EB153FFE282FFD3500468859 /* ViewTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB153FFD282FFD3500468859 /* ViewTitle.swift */; };
+		EB33D13C2833E84900F4634C /* EditActivityCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB33D13B2833E84900F4634C /* EditActivityCategoryView.swift */; };
 		EB467FAF28210DB000F9AA4D /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB467FAE28210DB000F9AA4D /* Color+Extension.swift */; };
 		EB634F2B28141FDE00979923 /* K.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB634F2A28141FDE00979923 /* K.swift */; };
 		EB634F2D281427DF00979923 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB634F2C281427DF00979923 /* View+Extension.swift */; };
@@ -41,6 +42,7 @@
 		88E6E5AD281C4ACD00EB0D15 /* Entry.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Entry.xcdatamodel; sourceTree = "<group>"; };
 		88E6E5AF281C4B7F00EB0D15 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		EB153FFD282FFD3500468859 /* ViewTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewTitle.swift; sourceTree = "<group>"; };
+		EB33D13B2833E84900F4634C /* EditActivityCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditActivityCategoryView.swift; sourceTree = "<group>"; };
 		EB467FAE28210DB000F9AA4D /* Color+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		EB634F2A28141FDE00979923 /* K.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = K.swift; sourceTree = "<group>"; };
 		EB634F2C281427DF00979923 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 				EB8539E928196A6D00C90DD9 /* StatsView.swift */,
 				EBDB9F6F2833CBC000586EB7 /* CalendarView.swift */,
 				EBDB9F712833DB9100586EB7 /* SettingsView.swift */,
+				EB33D13B2833E84900F4634C /* EditActivityCategoryView.swift */,
 				EB68882B281345AA00C0FDE7 /* Components */,
 			);
 			path = View;
@@ -244,6 +247,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EB8539EA28196A6D00C90DD9 /* StatsView.swift in Sources */,
+				EB33D13C2833E84900F4634C /* EditActivityCategoryView.swift in Sources */,
 				EB91193128301BA000C82E63 /* SentiTextEditor.swift in Sources */,
 				EBDB9F702833CBC000586EB7 /* CalendarView.swift in Sources */,
 				EBCDD1182827F545006AD5E2 /* WhatNext.swift in Sources */,
@@ -395,7 +399,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Sentimizer/Preview Content\"";
-				DEVELOPMENT_TEAM = 75GYQCC934;
+				DEVELOPMENT_TEAM = A38QNMLM4C;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -409,7 +413,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = saginsberg.de;
+				PRODUCT_BUNDLE_IDENTIFIER = sentimizer.de;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -425,7 +429,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Sentimizer/Preview Content\"";
-				DEVELOPMENT_TEAM = 75GYQCC934;
+				DEVELOPMENT_TEAM = A38QNMLM4C;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -439,7 +443,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = saginsberg.de;
+				PRODUCT_BUNDLE_IDENTIFIER = sentimizer.de;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
