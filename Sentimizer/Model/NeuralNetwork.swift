@@ -16,13 +16,40 @@ func mse(_ y_hat: Double, _ y: Double) -> Double{
     return (y_hat - y) * (y_hat - y)
 }
 
+func getParams(arch: [Int], mul: Double) -> ([[[Double]]], [[Double]]) {
+    var biases:[[Double]] = []
+    var weights:[[[Double]]] = []
+    
+    for layer in 0 ..< arch.count - 1 {
+        biases.append([])
+        weights.append([])
+        
+        for neuron in 0 ..< arch[layer + 1] {
+            biases[layer].append(Double.random(in: -1..<1) * mul)
+            
+            weights[layer].append([])
+            
+            for _ in 0 ..< arch[layer] {
+                weights[layer][neuron].append(Double.random(in: -1..<1))
+            }
+        }
+    }
+    
+    return (weights, biases)
+}
+
 class NeuralNetwork {
     var arch:[Int]
     
     var data:[[[Double]]] // [date, date] date = [data, result], data = [double, double] result = [int]
     
+    var lr:Double = 1
+    
     var weights:[[[Double]]] = []
     var biases:[[Double]] = []
+    
+    var cWeights:[[[Double]]] = []
+    var cBiases:[[Double]] = []
     
     var results:[[Double]] = []
     
@@ -30,26 +57,14 @@ class NeuralNetwork {
         self.arch = arch
         self.data = data
         
-        for layer in 0 ..< self.arch.count - 1 {
-            self.biases.append([])
-            self.weights.append([])
-            
-            for neuron in 0 ..< self.arch[layer + 1] {
-                self.biases[layer].append(Double.random(in: -1..<1))
-                
-                self.weights[layer].append([])
-                
-                for _ in 0 ..< self.arch[layer] {
-                    self.weights[layer][neuron].append(Double.random(in: -1..<1))
-                }
-            }
-        }
+        (weights, biases) = getParams(arch: arch, mul: 1)
+        (cWeights, cBiases) = getParams(arch: arch, mul: 0)
         
         print("biases", biases)
         print("weights", weights)
     }
     
-    func feedforward (input:[Double]) {
+    func feedforward (input:[Double]) -> [Double] {
         var input:[Double] = input
         
         results = [input]
@@ -73,32 +88,75 @@ class NeuralNetwork {
         }
         
         print("results", results)
+        
+        return results.last!
     }
     
     func backpropagtion() {
-        
+        var cost = 0.0
         
         for date in data {
             let x = date[0]
             let y = date[1]
             
-            print(x, y)
+            print("dat", x, y)
             
-            let outer_d:[Double] = []
+            let y_hat = feedforward(input: x)
+            
+            var outer_d:[Double] = []
             
             for i in 0 ..< arch.last! {
-                
+                outer_d.append(mse_prime(y_hat[i], y[i]))
+                cost += mse(y_hat[i], y[i])
             }
             
             for layer in 0 ..< arch.count - 1 {
-                let onion = arch.count - 1 - layer
+                let onion = arch.count - 2 - layer
                 
-                for neuron in 0 ..< arch[onion] {
-                    for connection in 0 ..< arch[onion - 1] {
-                        print("arch", onion, neuron, connection)
+                print("aaa bbb", biases[onion])
+                
+                print("ooo", onion)
+                
+                var prev_d:[Double] = []
+                
+                for _ in 0 ..< arch[onion] {
+                    prev_d.append(0)
+                }
+                
+                for i in 0 ..< arch[onion + 1] {
+                    print("ooo", i, onion + 1, "r", results)
+                    outer_d[i] *= sigmoid_prime(results[onion + 1][i])
+                }
+                
+                for neuron in 0 ..< arch[onion + 1] {
+                    cBiases[onion][neuron] -= outer_d[neuron]
+                    
+                    for connection in 0 ..< arch[onion] {
+                        cWeights[onion][neuron][connection] -= outer_d[neuron] * results[onion][connection]
+                        
+                        prev_d[connection] += outer_d[neuron] * weights[onion][neuron][connection]
                     }
+                }
+                
+                outer_d = prev_d
+            }
+        }
+        
+        print("ooo cost: ", cost)
+    }
+    
+    func updateParams(div: Double) {
+        for layer in 0 ..< arch.count - 1 {
+            for neuron in 0 ..< arch[layer + 1] {
+                biases[layer][neuron] += cBiases[layer][neuron] * lr / div
+                
+                for connection in 0 ..< arch[layer] {
+                    weights[layer][neuron][connection] += cWeights[layer][neuron][connection] * lr / div
                 }
             }
         }
+        
+        
+        (cWeights, cBiases) = getParams(arch: arch, mul: 0)
     }
 }

@@ -228,7 +228,7 @@ class DataController: ObservableObject {
     }
     
     static func getInfluence(viewContext: NSManagedObjectContext, interval: String) -> (([String], [Double]), ([String], [Double])){
-        let neuralNetwork = NeuralNetwork(arch: [2, 3, 2], data: [[[1, 0], [0]]])
+        let neuralNetwork = NeuralNetwork(arch: [2, 3, 2], data: [[[1, 0], [0, 0]]])
         
         let request = Entry.fetchRequest()
         var lastTime:Double = 0
@@ -254,8 +254,12 @@ class DataController: ObservableObject {
             print(error.localizedDescription)
         }
         
-        neuralNetwork.feedforward(input: [0.2, 0.3])
-        neuralNetwork.backpropagtion()
+        // neuralNetwork.feedforward(input: [0.2, 0.3])
+        
+        for i in 0 ..< 100 {
+            neuralNetwork.backpropagtion()
+            neuralNetwork.updateParams(div: 1)
+        }
         
         return ((["Soccer"], [0.5]), (["Project"], [0.2]))
     }

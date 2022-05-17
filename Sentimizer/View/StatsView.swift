@@ -49,6 +49,7 @@ struct StatsView: View {
                     .onReceive([self.timeInterval].publisher.first()) { value in
                         (xAxis, values) = getStats(entries: entries, interval: value)
                         counts = dataController.getCount(viewContext: viewContext, interval: value)
+                        (improved, worsened) = DataController.getInfluence(viewContext: viewContext, interval: value)
                     }
                     
                     if totalCount < 1 {
