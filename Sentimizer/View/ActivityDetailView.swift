@@ -176,7 +176,6 @@ struct ActivityDetailView: View {
             }
         }
         .onAppear {
-            print("NOW")
             userActivity = (icon, activity)
             userMood = sentiment
             userDescription = description
@@ -205,8 +204,6 @@ struct ActivityDetailView: View {
     }
     
     func updateActivity(with activity: (String, String)) {
-        print("aaa", activity)
-        // (icon, activity name)
         let objectID = viewContext.persistentStoreCoordinator!.managedObjectID(forURIRepresentation: URL(string: id)!)!
         
         let object = try! viewContext.existingObject(with: objectID)
