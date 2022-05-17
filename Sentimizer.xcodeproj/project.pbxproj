@@ -78,6 +78,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EB33D13D283410E500F4634C /* SettingsViews */ = {
+			isa = PBXGroup;
+			children = (
+				EBDB9F712833DB9100586EB7 /* SettingsView.swift */,
+				EB33D13B2833E84900F4634C /* EditActivityCategoryView.swift */,
+			);
+			path = SettingsViews;
+			sourceTree = "<group>";
+		};
 		EB642BF027FF5DA4001DB273 = {
 			isa = PBXGroup;
 			children = (
@@ -148,8 +157,7 @@
 				EBCDD11B282AD419006AD5E2 /* AddActivityViews */,
 				EB8539E928196A6D00C90DD9 /* StatsView.swift */,
 				EBDB9F6F2833CBC000586EB7 /* CalendarView.swift */,
-				EBDB9F712833DB9100586EB7 /* SettingsView.swift */,
-				EB33D13B2833E84900F4634C /* EditActivityCategoryView.swift */,
+				EB33D13D283410E500F4634C /* SettingsViews */,
 				EB68882B281345AA00C0FDE7 /* Components */,
 			);
 			path = View;
