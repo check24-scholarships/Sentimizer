@@ -187,12 +187,35 @@ struct ActivityDetailView: View {
     }
     
     func updateMood(with mood: String) {
-        print(#function)
+        let objectID = viewContext.persistentStoreCoordinator!.managedObjectID(forURIRepresentation: URL(string: id)!)!
+        
+        let object = try! viewContext.existingObject(with: objectID)
+        
+        (object as! Entry).feeling = mood
+        
+        do {
+            try viewContext.save()
+        } catch {
+            print("In \(#function), line \(#line), save activity failed:")
+            print(error.localizedDescription)
+        }
     }
     
     func updateActivity(with activity: (String, String)) {
+        print("aaa", activity)
         // (icon, activity name)
-        print(#function)
+        let objectID = viewContext.persistentStoreCoordinator!.managedObjectID(forURIRepresentation: URL(string: id)!)!
+        
+        let object = try! viewContext.existingObject(with: objectID)
+        
+        (object as! Entry).activity = activity.1
+        
+        do {
+            try viewContext.save()
+        } catch {
+            print("In \(#function), line \(#line), save activity failed:")
+            print(error.localizedDescription)
+        }
     }
     
     func updateActivityDescription(with description: String, id: String) {
