@@ -11,6 +11,7 @@ struct ActivityChooserView: View {
     @Environment(\.dismiss) private var dismiss
     
     @Binding var activity: (String, String)
+    var redirectToEdit: Bool = false
     
     @FetchRequest(entity: Activity.entity(), sortDescriptors: []) var activities: FetchedResults<Activity>
     
@@ -20,21 +21,32 @@ struct ActivityChooserView: View {
                 ViewTitle("Choose your activity", fontSize: 30)
                     .frame(maxWidth: .infinity)
                 
-                ForEach(0 ..< K.defaultActivities.0.count, id: \.self) { i in
-                    Button {
-                        activity = (K.defaultActivities.1[i], K.defaultActivities.0[i])
-                        dismiss()
-                    } label: {
-                        SentiButton(icon: K.defaultActivities.1[i], title: K.defaultActivities.0[i])
+                
+                if !redirectToEdit {
+                    ForEach(0 ..< K.defaultActivities.0.count, id: \.self) { i in
+                        Button {
+                            activity = (K.defaultActivities.1[i], K.defaultActivities.0[i])
+                            dismiss()
+                        } label: {
+                            SentiButton(icon: K.defaultActivities.1[i], title: K.defaultActivities.0[i])
+                        }
                     }
                 }
                 
                 ForEach(0 ..< activities.count, id: \.self) { i in
-                    Button {
-                        activity = (activities[i].icon!, activities[i].name!)
-                        dismiss()
-                    } label: {
-                        SentiButton(icon: activities[i].icon!, title: activities[i].name!)
+                    if redirectToEdit {
+                        NavigationLink {
+                            EditActivityCategoryView(activityName: activities[i].name!, icon: activities[i].icon!)
+                        } label: {
+                            SentiButton(icon: activities[i].icon!, title: activities[i].name!)
+                        }
+                    } else {
+                        Button {
+                            activity = (activities[i].icon!, activities[i].name!)
+                            dismiss()
+                        } label: {
+                            SentiButton(icon: activities[i].icon!, title: activities[i].name!)
+                        }
                     }
                 }
                 

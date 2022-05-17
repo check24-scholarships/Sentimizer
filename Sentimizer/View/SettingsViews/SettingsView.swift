@@ -11,7 +11,7 @@ struct SettingsView: View {
     var body: some View {
         List {
             NavigationLink {
-                ActivityChooserView(activity: .constant(("", "")))
+                ActivityChooserView(activity: .constant(("", "")), redirectToEdit: true)
                     .padding(.top, -30)
                     .navigationBarTitleDisplayMode(.inline)
             } label: {
