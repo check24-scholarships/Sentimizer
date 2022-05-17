@@ -13,7 +13,7 @@ struct AppTabNavigation: View {
         case activities
         case stats
         case calendar
-        case more
+        case settings
     }
     
     @State private var selection: Tab = .activities
@@ -83,19 +83,19 @@ struct AppTabNavigation: View {
                     K.bgColor.ignoresSafeArea()
                     SettingsView()
                         .foregroundColor(K.textColor)
-                        .navigationTitle("More")
+                        .navigationTitle("Settings")
                 }
             }
             .tabItem {
-                let moreText = Text("More", comment: "More tab title")
+                let settingsText = Text("Settings", comment: "Settings tab title")
                 Label {
-                    moreText
+                    settingsText
                 } icon: {
                     Image(systemName: "gearshape.fill")
                 }
-                .accessibility(label: moreText)
+                .accessibility(label: settingsText)
             }
-            .tag(Tab.more)
+            .tag(Tab.settings)
         }
     }
     
