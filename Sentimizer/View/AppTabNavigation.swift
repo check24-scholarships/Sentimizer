@@ -13,6 +13,7 @@ struct AppTabNavigation: View {
         case activities
         case stats
         case calendar
+        case settings
     }
     
     @State private var selection: Tab = .activities
@@ -61,7 +62,7 @@ struct AppTabNavigation: View {
             NavigationView {
                 ZStack {
                     K.bgColor.ignoresSafeArea()
-                    MainActivityView()
+                    CalendarView()
                         .foregroundColor(K.textColor)
                         .navigationTitle("Calendar")
                 }
@@ -76,6 +77,25 @@ struct AppTabNavigation: View {
                 .accessibility(label: calendarText)
             }
             .tag(Tab.calendar)
+            
+            NavigationView {
+                ZStack {
+                    K.bgColor.ignoresSafeArea()
+                    SettingsView()
+                        .foregroundColor(K.textColor)
+                        .navigationTitle("Settings")
+                }
+            }
+            .tabItem {
+                let settingsText = Text("Settings", comment: "Settings tab title")
+                Label {
+                    settingsText
+                } icon: {
+                    Image(systemName: "gearshape.fill")
+                }
+                .accessibility(label: settingsText)
+            }
+            .tag(Tab.settings)
         }
     }
     
