@@ -31,6 +31,7 @@
 		EBCDD11A282AD30C006AD5E2 /* NewActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCDD119282AD30C006AD5E2 /* NewActivityView.swift */; };
 		EBCDD11E282AD75E006AD5E2 /* KeyboardHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCDD11D282AD75E006AD5E2 /* KeyboardHelper.swift */; };
 		EBDB9F6E2833A22000586EB7 /* MoodPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDB9F6D2833A22000586EB7 /* MoodPicker.swift */; };
+		EBDB9F702833CBC000586EB7 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDB9F6F2833CBC000586EB7 /* CalendarView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,6 +60,7 @@
 		EBCDD119282AD30C006AD5E2 /* NewActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewActivityView.swift; sourceTree = "<group>"; };
 		EBCDD11D282AD75E006AD5E2 /* KeyboardHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHelper.swift; sourceTree = "<group>"; };
 		EBDB9F6D2833A22000586EB7 /* MoodPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodPicker.swift; sourceTree = "<group>"; };
+		EBDB9F6F2833CBC000586EB7 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,6 +143,7 @@
 				8838ABB1282F7DA100D3599B /* ActivityDetailView.swift */,
 				EBCDD11B282AD419006AD5E2 /* AddActivityViews */,
 				EB8539E928196A6D00C90DD9 /* StatsView.swift */,
+				EBDB9F6F2833CBC000586EB7 /* CalendarView.swift */,
 				EB68882B281345AA00C0FDE7 /* Components */,
 			);
 			path = View;
@@ -239,6 +242,7 @@
 			files = (
 				EB8539EA28196A6D00C90DD9 /* StatsView.swift in Sources */,
 				EB91193128301BA000C82E63 /* SentiTextEditor.swift in Sources */,
+				EBDB9F702833CBC000586EB7 /* CalendarView.swift in Sources */,
 				EBCDD1182827F545006AD5E2 /* WhatNext.swift in Sources */,
 				EB6A3AAF2815BBC80078F8A8 /* AddActivityView.swift in Sources */,
 				88E6E5AE281C4ACD00EB0D15 /* Model.xcdatamodeld in Sources */,
