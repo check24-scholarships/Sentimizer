@@ -12,6 +12,8 @@ struct AddActivityView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.managedObjectContext) var viewContext
     
+    @StateObject private var dataController = DataController()
+    
     @ObservedObject var keyboardHeightHelper = KeyboardHelper()
     @State private var textFieldYPlusHeight: CGFloat = 0
     
@@ -62,29 +64,32 @@ struct AddActivityView: View {
                             .offset(y: keyboardHeightHelper.height != 0 ? (g.size.height - textFieldYPlusHeight - (g.size.height - keyboardHeightHelper.height) + 10) : 0)
                             .animation(.easeOut, value: keyboardHeightHelper.height)
                             
-                            GeometryReader { g2 in
-                                Button {
-                                    DataController.saveActivity(activity: activity.1, icon: activity.0, description: description, feeling: feeling, date: Date(), viewContext: viewContext)
-                                    
-                                    dismiss()
-                                } label: {
-                                    SentiButton(icon: nil, title: "Save", chevron: false)
-                                        .lineLimit(1)
-                                        .frame(width: 250)
-                                        .frame(maxWidth: .infinity)
-                                        .padding(.top, 30)
-                                        .padding(.bottom)
-                                }
-                                .onAppear {
-                                    textFieldYPlusHeight = g2.frame(in: CoordinateSpace.global).origin.y
-                                }
-                                .onChange(of: g2.frame(in: CoordinateSpace.global).origin.y) { newValue in
-                                    textFieldYPlusHeight = newValue
-                                }
-                                .opacity(feeling.isEmpty || activity.1.isEmpty ? 0.5 : 1)
-                                .disabled(feeling.isEmpty || activity.1.isEmpty)
-                                .animation(.easeIn, value: feeling.isEmpty)
+                            
+                            Button {
+                                dataController.saveActivity(activity: activity.1, icon: activity.0, description: description, feeling: feeling, date: Date(), viewContext: viewContext)
+                                dismiss()
+                            } label: {
+                                SentiButton(icon: nil, title: "Save", chevron: false)
+                                    .lineLimit(1)
+                                    .frame(width: 250)
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.top, 30)
+                                    .padding(.bottom, 30)
                             }
+                            .overlay {
+                                GeometryReader { g in
+                                    Color.clear
+                                        .onAppear {
+                                            textFieldYPlusHeight = g.frame(in: CoordinateSpace.global).origin.y
+                                        }
+                                        .onChange(of: g.frame(in: CoordinateSpace.global).origin.y) { newValue in
+                                            textFieldYPlusHeight = newValue
+                                        }
+                                }
+                            }
+                            .opacity(feeling.isEmpty || activity.1.isEmpty ? 0.5 : 1)
+                            .disabled(feeling.isEmpty || activity.1.isEmpty)
+                            .animation(.easeIn, value: feeling.isEmpty)
                         }
                         .foregroundColor(K.textColor)
                         .padding(.horizontal, 20)

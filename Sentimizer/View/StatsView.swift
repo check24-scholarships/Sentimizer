@@ -11,6 +11,8 @@ import CoreData
 struct StatsView: View {
     @Environment(\.managedObjectContext) var viewContext
     
+    @StateObject private var dataController = DataController()
+    
     @State private var timeInterval = K.timeIntervals[0]
     
     @State private var width: CGFloat = 0
@@ -22,6 +24,14 @@ struct StatsView: View {
     @State var improved = (["Walking", "Training", "Lunch"], [0.75, 0.6, 0.15])
     @State var worsened = (["Project Work", "Gaming"], [-0.4, -0.1])
     
+    private var totalCount: Int {
+        var count = 0
+        for c in counts {
+            count += c
+        }
+        return count
+    }
+    
     @FetchRequest var entries: FetchedResults<Entry>
     
     var body: some View {
@@ -30,31 +40,14 @@ struct StatsView: View {
                 VStack(alignment: .leading) {
                     Picker("Time Interval", selection: $timeInterval) {
                         ForEach(K.timeIntervals, id: \.self) { interval in
-                            Text(interval)
-                        }
+                        counts = dataController.getCount(viewContext: viewContext, interval: value)
                     }
                     .pickerStyle(SegmentedPickerStyle())
-                    .foregroundColor(K.brandColor2)
-                    .padding(.vertical, 5)
-                    .onReceive([self.timeInterval].publisher.first()) { value in
-                        (xAxis, values) = getStats(entries: entries, interval: value)
-                        counts = DataController.getCount(viewContext: viewContext, interval: value)
-                        (improved, worsened) = DataController.getInfluence(viewContext: viewContext, interval: value)
-                    }
-                    
-                    Text("Mood")
-                        .font(.senti(size: 20))
-                        .padding([.leading, .top])
-                    
-                    MoodTrendChart(xAxis: xAxis, values: values)
-                        .frame(height: 200)
-                        .padding()
-                        .background(RoundedRectangle(cornerRadius: 25).foregroundColor(K.brandColor1).opacity(0.1))
-                    
-                    Text("Improved Your Mood")
-                        .font(.senti(size: 20))
-                        .padding([.leading, .top])
-                    
+                    if totalCount < 1 {
+                        VStack {
+                            HStack {
+                                Image(systemName: "chart.line.uptrend.xyaxis")
+                                Image(systemName: "chart.pie")
                     
                     MoodInfluence(data: improved, width: $width)
                         .overlay {
@@ -64,6 +57,12 @@ struct StatsView: View {
                                         width = g.size.width
                                     }
                             }
+                            .font(.title)
+                            Text("There is not enough data to show statistics. Check back later or choose a larger time interval.")
+                                .font(.senti(size: 15))
+                                .bold()
+                                .multilineTextAlignment(.center)
+                                .padding()
                         }
                     
                     Text("Worsened Your Mood")
@@ -78,11 +77,55 @@ struct StatsView: View {
                     
                     MoodCount(data: counts, g: g)
                         .frame(maxWidth: .infinity)
-                    
-                    
-                        .padding(.bottom, 30)
+                        .padding(.top, 50)
+                    } else {
+                        
+                        Text("Mood")
+                            .font(.senti(size: 20))
+                            .padding([.leading, .top])
+                        
+                        MoodTrendChart(xAxis: xAxis, values: values)
+                            .frame(height: 200)
+                            .padding()
+                            .background(RoundedRectangle(cornerRadius: 25).foregroundColor(K.brandColor1).opacity(0.1))
+                        
+                        Text("Improved Your Mood")
+                            .font(.senti(size: 20))
+                            .padding([.leading, .top])
+                        
+                        
+                        MoodInfluence(data: testData2, width: $width)
+                            .overlay {
+                                GeometryReader { g in
+                                    Color.clear
+                                        .onAppear() {
+                                            width = g.size.width
+                                        }
+                                }
+                            }
+                        
+                        Text("Worsened Your Mood")
+                            .font(.senti(size: 20))
+                            .padding([.leading, .top])
+                        
+                        MoodInfluence(data: testData3, width: $width)
+                        
+                        Text("Mood Count")
+                            .font(.senti(size: 20))
+                            .padding([.leading, .top])
+                        
+                        MoodCount(data: counts, g: g)
+                            .frame(maxWidth: .infinity)
+                        
+                        
+                            .padding(.bottom, 30)
+                    }
                 }
                 .padding(.horizontal, 15)
+            }
+            .onAppear {
+                (xAxis, values) = getStats(entries: entries, interval: timeInterval)
+                counts = dataController.getCount(viewContext: viewContext, interval: timeInterval)
             }
         }
     }
@@ -187,7 +230,7 @@ struct MoodTrendChart: View {
                         }
                     }
                 }
-                .stroke(LinearGradient(colors: [K.brandColor2, K.brandColor3], startPoint: .leading, endPoint: .trailing), style: StrokeStyle(lineWidth: 4, lineJoin: .round))
+                .stroke(LinearGradient(colors: [K.brandColor2, K.brandColor3.adjust(brightness: -0.05)], startPoint: .leading, endPoint: .trailing), style: StrokeStyle(lineWidth: 4, lineJoin: .round))
             }
             .padding(.vertical)
         }
@@ -208,7 +251,7 @@ struct MoodInfluence: View {
                         Text(data.0[index])
                             .font(.senti(size: 20))
                             .padding(5)
-                        Text("\(String(format: "%.0f", abs(data.1[index]) * 100))% \(data.1[index] > 0 ? "positive" : "negative")")
+                        Text("\(String(format: "%.0f", abs(data.1[index]) * 100))%")
                             .font(.senti(size: 15))
                             .foregroundColor(data.1[index] > 0 ? .green : .red)
                     }
@@ -301,13 +344,15 @@ struct MoodCount: View {
             RoundedRectangle(cornerRadius: 25)
                 .foregroundColor(K.brandColor1)
                 .opacity(0.1)
+                .onAppear {
+                    circleWidth += 1
+                    circleWidth -= 1
+                }
                 .frame(width: circleWidth + 70, height: circleWidth/2 + 70)
                 .offset(y: -(circleWidth + 20)/4)
         }
         .offset(y: 30)
-        .onAppear {
-            circleWidth = circleWidth
-        }
+        
     }
 }
 
@@ -320,7 +365,7 @@ extension StatsView {
         var mean:Double = 0
         
         for entry in rEntries[i] {
-            mean += DataController.getSentiScore(for: entry.feeling!)
+            mean += dataController.getSentiScore(for: entry.feeling!)
         }
         
         if rEntries[i].count != 0 {
@@ -360,13 +405,13 @@ extension StatsView {
             let stepSize = (lastTime! - firstTime!) / Double(stamps - 1)
             
             for i in 0..<stamps {
-                xAxis.append(DataController.formatDate(date: Date(timeIntervalSince1970: firstTime! + stepSize * Double(i)), format: "HH:mm"))
+                xAxis.append(dataController.formatDate(date: Date(timeIntervalSince1970: firstTime! + stepSize * Double(i)), format: "HH:mm"))
             }
             
             var lastValue:Double = -1
             
             for entry in rEntries {
-                yValues.append(DataController.getSentiScore(for: entry.feeling!))
+                yValues.append(dataController.getSentiScore(for: entry.feeling!))
                 var xValue = (entry.date!.timeIntervalSince1970 - firstTime!) / (lastTime! - firstTime!)
                 if xValue - lastValue < 0.1 {
                     xValue = lastValue + 0.1
@@ -399,7 +444,7 @@ extension StatsView {
             }
             
             for i in 0..<7 {
-                xAxis.insert(DataController.formatDate(date: Date(timeIntervalSince1970: lastTime - Double(60 * 60 * 24 * i)), format: "EE"), at:0)
+                xAxis.insert(dataController.formatDate(date: Date(timeIntervalSince1970: lastTime - Double(60 * 60 * 24 * i)), format: "EE"), at:0)
                 
                 (xValues, yValues) = getMeans(stepSize: 1 / 6, rEntries: rEntries, i: i, xValues: xValues, yValues: yValues)
             }
@@ -416,7 +461,7 @@ extension StatsView {
             for i in 0..<stamps {
                 rEntries.append([])
                 rEntries.append([])
-                xAxis.append(DataController.formatDate(date: Date(timeIntervalSince1970: firstTime + stepSize * Double(i)), format: "d MMM"))
+                xAxis.append(dataController.formatDate(date: Date(timeIntervalSince1970: firstTime + stepSize * Double(i)), format: "d MMM"))
             }
             
             for entry in entries {
@@ -450,7 +495,7 @@ extension StatsView {
             }
             
             for i in 0..<12 {
-                xAxis.insert(String(Array(DataController.formatDate(date: Date(timeIntervalSince1970: lastTime - Double(60 * 60 * 24 * 31 * i)), format: "MMM"))[0]), at:0)
+                xAxis.insert(String(Array(dataController.formatDate(date: Date(timeIntervalSince1970: lastTime - Double(60 * 60 * 24 * 31 * i)), format: "MMM"))[0]), at:0)
                 
                 (xValues, yValues) = getMeans(stepSize: 1 / 11, rEntries: rEntries, i: i, xValues: xValues, yValues: yValues)
             }

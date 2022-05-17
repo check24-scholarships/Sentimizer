@@ -9,17 +9,21 @@ import SwiftUI
 import CoreData
 
 class DataController: ObservableObject {
-    let container = NSPersistentContainer(name: "Model")
-    
-    init() {
+    private static var container: NSPersistentContainer {
+        let container = NSPersistentContainer(name: "Model")
         container.loadPersistentStores(completionHandler: {description, error in
             if let error = error {
                 print("Core Data failed to load: \(error.localizedDescription)")
             }
         })
+        return container
     }
     
-    static func getEntryData(entries: FetchedResults<Entry>) -> ([String], [[[String]]]) {
+    var context: NSManagedObjectContext {
+        return DataController.container.viewContext
+    }
+    
+    func getEntryData(entries: FetchedResults<Entry>) -> ([String], [[[String]]]) {
         var days: [String] = []
         var content: [[[String]]] = []
         
@@ -43,13 +47,13 @@ class DataController: ObservableObject {
         return (days, content)
     }
 
-    static func formatDate(date: Date, format: String = "dd MM") -> String {
+    func formatDate(date: Date, format: String = "dd MM") -> String {
         let d = DateFormatter()
         d.dateFormat = format
         return d.string(from: date)
     }
     
-    static func saveActivity(activity: String, icon: String, description: String, feeling: String, date: Date, viewContext: NSManagedObjectContext) {
+    func saveActivity(activity: String, icon: String, description: String, feeling: String, date: Date, viewContext: NSManagedObjectContext) {
         let entry = Entry(context: viewContext)
         entry.text = description
         entry.date = Date()
@@ -64,7 +68,7 @@ class DataController: ObservableObject {
         }
     }
     
-    static func deleteActivity(viewContext: NSManagedObjectContext, id: String) {
+    func deleteActivity(viewContext: NSManagedObjectContext, id: String) {
         let objectID = viewContext.persistentStoreCoordinator!.managedObjectID(forURIRepresentation: URL(string: id)!)!
         
         let object = try! viewContext.existingObject(with: objectID)
@@ -74,12 +78,12 @@ class DataController: ObservableObject {
         do {
             try viewContext.save()
         } catch {
-            print("In \(#function), line \(#line), save activity failed:")
+            print("In \(#function), line \(#line), delete activity failed:")
             print(error.localizedDescription)
         }
     }
     
-    static func getSentiScore(for sentiment: String) -> Double{
+    func getSentiScore(for sentiment: String) -> Double{
         switch sentiment {
         case "crying":
             return 0
@@ -96,7 +100,7 @@ class DataController: ObservableObject {
         }
     }
     
-    static func getSentiIndex(for sentiment: String) -> Int {
+    func getSentiIndex(for sentiment: String) -> Int {
         switch sentiment {
         case "crying":
             return 0
@@ -113,7 +117,7 @@ class DataController: ObservableObject {
         }
     }
     
-    static func addSampleData(viewContext: NSManagedObjectContext) {
+    func addSampleData(viewContext: NSManagedObjectContext) {
         let feelings = ["crying", "sad", "neutral", "content", "happy"]
         let activities = ["Walking", "Training", "Gaming", "Project Work", "Lunch"]
         
@@ -140,7 +144,7 @@ class DataController: ObservableObject {
         }
     }
     
-    static func deleteAllData(viewContext: NSManagedObjectContext) {
+    func deleteAllData(viewContext: NSManagedObjectContext) {
         let fetchRequest: NSFetchRequest<Entry>
         fetchRequest = Entry.fetchRequest()
         fetchRequest.predicate = NSPredicate(value: true)
@@ -154,7 +158,7 @@ class DataController: ObservableObject {
         try! viewContext.save()
     }
 
-    static func saveNewActivity(viewContext: NSManagedObjectContext,name: String, icon: String) {
+    func saveNewActivity(viewContext: NSManagedObjectContext,name: String, icon: String) {
         let activity = Activity(context: viewContext)
         activity.name = name
         activity.icon = icon
@@ -162,12 +166,12 @@ class DataController: ObservableObject {
         do {
             try viewContext.save()
         } catch {
-            print("In \(#function), line \(#line), save activity failed:")
+            print("In \(#function), line \(#line), save new activity failed:")
             print(error.localizedDescription)
         }
     }
     
-    static func getActivityIcon(viewContext: NSManagedObjectContext, name: String) -> String {
+    func getActivityIcon(viewContext: NSManagedObjectContext, name: String) -> String {
         let request = Activity.fetchRequest()
         
         do {
@@ -179,7 +183,7 @@ class DataController: ObservableObject {
                 }
             }
         } catch {
-            print("In \(#function), line \(#line), save activity failed:")
+            print("In \(#function), line \(#line), get activity icon failed:")
             print(error.localizedDescription)
         }
         
@@ -192,10 +196,10 @@ class DataController: ObservableObject {
         return "figure.walk"
     }
     
-    static func getCount(viewContext: NSManagedObjectContext, interval: String) -> [Int] {
+    func getCount(viewContext: NSManagedObjectContext, interval: String) -> [Int] {
         let request = Entry.fetchRequest()
         var count = [0, 0, 0, 0, 0]
-        var lastTime:Double = 0
+        var lastTime: Double = 0
         
         if interval == K.timeIntervals[0] {
             lastTime = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: Date())!.timeIntervalSince1970
@@ -216,7 +220,7 @@ class DataController: ObservableObject {
                 }
             }
         } catch {
-            print("In \(#function), line \(#line), save activity failed:")
+            print("In \(#function), line \(#line), get mood count failed:")
             print(error.localizedDescription)
         }
         

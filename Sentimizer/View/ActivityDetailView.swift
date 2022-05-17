@@ -24,6 +24,8 @@ struct ActivityDetailView: View {
     @Environment(\.managedObjectContext) var viewContext
     @Environment(\.dismiss) private var dismiss
     
+    @StateObject private var dataController = DataController()
+    
     @State private var isEditingDescription = false
     @State private var isPresentingConfirm = false
     
@@ -141,7 +143,7 @@ struct ActivityDetailView: View {
             }
             .confirmationDialog("Are you sure?", isPresented: $isPresentingConfirm) {
                 Button("Delete activity", role: .destructive) {
-                    DataController.deleteActivity(viewContext: viewContext, id: id)
+                    dataController.deleteActivity(viewContext: viewContext, id: id)
                     dismiss()
                 }
             } message: {
