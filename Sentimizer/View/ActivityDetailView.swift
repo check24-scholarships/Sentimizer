@@ -9,14 +9,14 @@ import SwiftUI
 import CoreData
 
 struct ActivityDetailView: View {
-    let activity: String
-    let icon: String
-    let description: String
-    let day: String
-    let time: String
-    let duration: String
-    let sentiment: String
-    let id: String
+    @State var activity: String
+    @State var icon: String
+    @State var description: String
+    @State var day: String
+    @State var time: String
+    @State var duration: String
+    @State var sentiment: String
+    @State var id: String
     
     @State private var userDescription = ""
     @State private var userMood = ""
@@ -52,9 +52,6 @@ struct ActivityDetailView: View {
                             ActivityChooserView(activity: $userActivity)
                                 .padding(.top, -30)
                                 .navigationBarTitleDisplayMode(.inline)
-                                .onChange(of: userActivity.1) { newValue in
-                                    updateActivity(with: userActivity)
-                                }
                         } label: {
                             SentiButton(icon: userActivity.0, title: userActivity.1, chevron: false)
                                 .scaleEffect(0.9)
@@ -179,10 +176,14 @@ struct ActivityDetailView: View {
             }
         }
         .onAppear {
+            print("NOW")
             userActivity = (icon, activity)
             userMood = sentiment
             userDescription = description
             
+        }
+        .onChange(of: userActivity.1) { newValue in
+            updateActivity(with: userActivity)
         }
     }
     
@@ -192,11 +193,13 @@ struct ActivityDetailView: View {
         let object = try! viewContext.existingObject(with: objectID)
         
         (object as! Entry).feeling = mood
+        sentiment = mood
+        userMood = mood
         
         do {
             try viewContext.save()
         } catch {
-            print("In \(#function), line \(#line), save activity failed:")
+            print("In \(#function), line \(#line), update mood failed:")
             print(error.localizedDescription)
         }
     }
@@ -209,11 +212,14 @@ struct ActivityDetailView: View {
         let object = try! viewContext.existingObject(with: objectID)
         
         (object as! Entry).activity = activity.1
+        self.activity = activity.1
+        icon = activity.0
+        userActivity = activity
         
         do {
             try viewContext.save()
         } catch {
-            print("In \(#function), line \(#line), save activity failed:")
+            print("In \(#function), line \(#line), update activity failed:")
             print(error.localizedDescription)
         }
     }
@@ -224,6 +230,8 @@ struct ActivityDetailView: View {
         let object = try! viewContext.existingObject(with: objectID)
         
         (object as! Entry).text = description
+        self.description = description
+        userDescription = description
         
         do {
             try viewContext.save()
