@@ -41,7 +41,7 @@ func getParams(arch: [Int], mul: Double) -> ([[[Double]]], [[Double]]) {
 class NeuralNetwork {
     var arch:[Int]
     
-    var data:[[[Double]]] // [date, date] date = [data, result], data = [double, double] result = [int]
+    var data:[[[Double]]] = [] // [date, date] date = [data, result], data = [double, double] result = [int]
     
     var lr:Double = 1
     

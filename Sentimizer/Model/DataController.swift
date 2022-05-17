@@ -83,7 +83,7 @@ class DataController: ObservableObject {
         }
     }
     
-    func getSentiScore(for sentiment: String) -> Double{
+    static func getSentiScore(for sentiment: String) -> Double{
         switch sentiment {
         case "crying":
             return 0
@@ -227,8 +227,8 @@ class DataController: ObservableObject {
         return count
     }
     
-    static func getInfluence(viewContext: NSManagedObjectContext, interval: String) -> (([String], [Double]), ([String], [Double])){
-        let neuralNetwork = NeuralNetwork(arch: [2, 3, 2], data: [[[1, 0], [0, 0]]])
+    static func getInfluence(viewContext: NSManagedObjectContext, interval: String, activities: FetchedResults<Activity>) -> (([String], [Double]), ([String], [Double])){
+        let neuralNetwork = NeuralNetwork(arch: [K.defaultActivities.0.count + activities.count, 10, 1], data: [])
         
         let request = Entry.fetchRequest()
         var lastTime:Double = 0
@@ -243,27 +243,78 @@ class DataController: ObservableObject {
             lastTime = Calendar.current.date(from: DateComponents(year: Calendar.current.component(.year, from: Date()), month: 1, day: 1))!.timeIntervalSince1970
         }
         
+        var customActivites:[String] = []
+        
+        for activity in activities {
+            customActivites.append(activity.name!)
+        }
+        
         do {
             let entries = try viewContext.fetch(request)
             
+            var lastDate = Date()
+            
+            var x: [[Double]] = []
+            var y: [[Double]] = []
+            
+            
             for entry in entries {
-                // print("et", entry.date!)
+                if entry.date!.timeIntervalSince1970 < lastTime {
+                    continue
+                }
+                
+                if x.count == 0 || !Calendar.current.isDate(lastDate, inSameDayAs: entry.date!) {
+                    x.append([])
+                    y.append([0])
+                    
+                    var empty:[Double] = []
+                    
+                    for i in 0 ..< (K.defaultActivities.0.count + activities.count) {
+                        empty.append(0)
+                    }
+                    
+                    x[x.count - 1].append(contentsOf: empty)
+                    
+                    lastDate = entry.date!
+                }
+                
+                var activityIndex = K.defaultActivities.0.firstIndex(of: entry.activity!)
+                
+                if activityIndex == nil {
+                    activityIndex = customActivites.firstIndex(of: entry.activity!)! + K.defaultActivities.0.count
+                }
+                
+                x[x.count - 1][activityIndex!] += 1
+                y[y.count - 1][0] += getSentiScore(for: entry.feeling!)
             }
+            
+            // data: [[[1, 0], [0, 0]]]
+            
+            for i in 0 ..< x.count {
+                neuralNetwork.data.append([x[i], y[i]])
+            }
+            
+            for i in 0 ..< 100 {
+                neuralNetwork.backpropagtion()
+                neuralNetwork.updateParams(div: Double(x.count) / 10)
+            }
+            
+            print("d", neuralNetwork.data)
+            
         } catch {
             print("In \(#function), line \(#line), save activity failed:")
             print(error.localizedDescription)
         }
         
         // neuralNetwork.feedforward(input: [0.2, 0.3])
-        
-        for b in 0 ..< 100 {
-            for i in 0 ..< 10 {
-                // neuralNetwork.backpropagtion()
-            }
-            
-            
-            neuralNetwork.updateParams(div: 10)
-        }
+//
+//        for b in 0 ..< 100 {
+//            for i in 0 ..< 10 {
+//                 neuralNetwork.backpropagtion()
+//            }
+//
+//
+//        }
         
         return ((["Soccer"], [0.5]), (["Project"], [0.2]))
     }

@@ -30,6 +30,7 @@ struct StatsView: View {
     }
     
     @FetchRequest var entries: FetchedResults<Entry>
+    @FetchRequest(entity: Activity.entity(), sortDescriptors: []) var activities: FetchedResults<Activity>
     
     @State var improved = (["Walking", "Training", "Lunch"], [0.75, 0.6, 0.15])
     @State var worsened = (["Project Work", "Gaming"], [-0.4, -0.1])
@@ -49,7 +50,7 @@ struct StatsView: View {
                     .onReceive([self.timeInterval].publisher.first()) { value in
                         (xAxis, values) = getStats(entries: entries, interval: value)
                         counts = dataController.getCount(viewContext: viewContext, interval: value)
-                        (improved, worsened) = DataController.getInfluence(viewContext: viewContext, interval: value)
+                        (improved, worsened) = DataController.getInfluence(viewContext: viewContext, interval: value, activities: activities)
                     }
                     
                     if totalCount < 1 {
@@ -354,7 +355,7 @@ extension StatsView {
         var mean:Double = 0
         
         for entry in rEntries[i] {
-            mean += dataController.getSentiScore(for: entry.feeling!)
+            mean += DataController.getSentiScore(for: entry.feeling!)
         }
         
         if rEntries[i].count != 0 {
@@ -400,7 +401,7 @@ extension StatsView {
             var lastValue:Double = -1
             
             for entry in rEntries {
-                yValues.append(dataController.getSentiScore(for: entry.feeling!))
+                yValues.append(DataController.getSentiScore(for: entry.feeling!))
                 var xValue = (entry.date!.timeIntervalSince1970 - firstTime!) / (lastTime! - firstTime!)
                 if xValue - lastValue < 0.1 {
                     xValue = lastValue + 0.1
