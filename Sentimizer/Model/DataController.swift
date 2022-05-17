@@ -228,7 +228,7 @@ class DataController: ObservableObject {
     }
     
     static func getInfluence(viewContext: NSManagedObjectContext, interval: String, activities: FetchedResults<Activity>) -> (([String], [Double]), ([String], [Double])){
-        let neuralNetwork = NeuralNetwork(arch: [K.defaultActivities.0.count + activities.count, 10, 1], data: [])
+        let neuralNetwork = NeuralNetwork(arch: [K.defaultActivities.0.count + activities.count, 1], data: [])
         
         let request = Entry.fetchRequest()
         var lastTime:Double = 0
@@ -269,7 +269,7 @@ class DataController: ObservableObject {
                     
                     var empty:[Double] = []
                     
-                    for i in 0 ..< (K.defaultActivities.0.count + activities.count) {
+                    for _ in 0 ..< (K.defaultActivities.0.count + activities.count) {
                         empty.append(0)
                     }
                     
@@ -291,30 +291,33 @@ class DataController: ObservableObject {
             // data: [[[1, 0], [0, 0]]]
             
             for i in 0 ..< x.count {
-                neuralNetwork.data.append([x[i], y[i]])
+                var normalized: [Double] = x[i]
+                
+                for j in 0 ..< normalized.count {
+                    normalized[j] = normalized[j] / (1 + normalized[j])
+                }
+                
+                neuralNetwork.data.append([normalized, [y[i][0] / x[i].reduce(.zero, +)]])
+                
+                // print("ccc", x[i], x[i].reduce(.zero, +), [y[i][0] / x[i].reduce(.zero, +)], y[i])
             }
             
-            for i in 0 ..< 100 {
-                neuralNetwork.backpropagtion()
-                neuralNetwork.updateParams(div: Double(x.count) / 10)
+            
+            // print("dab", neuralNetwork.data)
+            
+            for _ in 0 ..< 20 {
+                neuralNetwork.backpropagation()
+                neuralNetwork.updateParams(div: Double(x.count))
             }
             
-            print("d", neuralNetwork.data)
+            let derivatives = neuralNetwork.backpropagation()
+            
+            print(derivatives)
             
         } catch {
             print("In \(#function), line \(#line), save activity failed:")
             print(error.localizedDescription)
         }
-        
-        // neuralNetwork.feedforward(input: [0.2, 0.3])
-//
-//        for b in 0 ..< 100 {
-//            for i in 0 ..< 10 {
-//                 neuralNetwork.backpropagtion()
-//            }
-//
-//
-//        }
         
         return ((["Soccer"], [0.5]), (["Project"], [0.2]))
     }
