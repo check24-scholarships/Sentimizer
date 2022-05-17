@@ -18,7 +18,11 @@ struct ActivityDetailView: View {
     let sentiment: String
     let id: String
     
-    @State var userDescription = ""
+    @State private var userDescription = ""
+    @State private var userMood = ""
+    @State private var userActivity = ("", "")
+    
+    @State private var width: CGFloat = 150
     
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.managedObjectContext) var viewContext
@@ -44,30 +48,29 @@ struct ActivityDetailView: View {
                             Spacer()
                         }
                         
-                        HStack {
-                            Image(systemName: icon)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(maxWidth: 45, maxHeight: 45)
-                            Text(activity)
-                                .font(.senti(size: 30))
+                        NavigationLink {
+                            ActivityChooserView(activity: $userActivity)
+                                .padding(.top, -30)
+                                .navigationBarTitleDisplayMode(.inline)
+                                .onChange(of: userActivity.1) { newValue in
+                                    updateActivity(with: userActivity)
+                                }
+                        } label: {
+                            SentiButton(icon: userActivity.0, title: userActivity.1, chevron: false)
+                                .scaleEffect(0.9)
+                                .padding(.top)
                         }
                         .padding(.bottom)
-                        .gradientForeground()
                         
                         Text("MOOD")
                             .font(.senti(size: 12))
                             .padding(.top, 5)
                         
-                        let sentiIndex = K.sentimentsArray.firstIndex(of: sentiment) ?? 0
-                        Image(K.sentimentsArray[sentiIndex])
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 55)
-                            .padding(10)
-                            .changeColor(to: colorScheme == .dark ? .white : .gray)
-                            .background(RoundedRectangle(cornerRadius: 15).foregroundColor(K.sentimentColors[sentiIndex].opacity(0.2)))
-                            .padding(.top, 5)
+                        MoodPicker(width: width, opaque: true, feeling: $userMood)
+                            .onChange(of: userMood) { newValue in
+                                updateMood(with: newValue)
+                            }
+                            .frame(maxWidth: .infinity)
                             .padding(.bottom)
                         
                         HStack(alignment: .top) {
@@ -123,6 +126,14 @@ struct ActivityDetailView: View {
                             }
                         }
                     }
+                    .overlay(
+                        GeometryReader { g in
+                            Color.clear
+                                .onAppear {
+                                    width = g.size.width
+                                }
+                        }
+                    )
                     .padding()
                     .standardBackground()
                     .padding(.horizontal, 15)
@@ -168,11 +179,23 @@ struct ActivityDetailView: View {
             }
         }
         .onAppear {
+            userActivity = (icon, activity)
+            userMood = sentiment
             userDescription = description
+            
         }
     }
     
-    func updateActivityDescription(with description: String, id:String) {
+    func updateMood(with mood: String) {
+        print(#function)
+    }
+    
+    func updateActivity(with activity: (String, String)) {
+        // (icon, activity name)
+        print(#function)
+    }
+    
+    func updateActivityDescription(with description: String, id: String) {
         let objectID = viewContext.persistentStoreCoordinator!.managedObjectID(forURIRepresentation: URL(string: id)!)!
         
         let object = try! viewContext.existingObject(with: objectID)

@@ -50,7 +50,7 @@ struct AddActivityView: View {
                                         .font(.senti(size: 25))
                                         .padding(.top, 30)
                                     
-                                    MoodChooser(g: g, feeling: $feeling)
+                                    MoodPicker(width: g.size.width, feeling: $feeling)
                                     
                                     Text("What's happening?")
                                         .font(.senti(size: 25))
@@ -121,51 +121,6 @@ struct AddActivityView: View {
                 // addSampleData(moc: viewContext)
             }
         }
-    }
-}
-
-//MARK: - MoodChoser View
-struct MoodChooser: View {
-    let g: GeometryProxy
-    
-    @Binding var feeling: String
-    
-    var body: some View {
-        HStack(spacing: 0) {
-            Button {
-                feeling = K.sentimentsArray[0]
-            } label: {
-                Image(K.sentimentsArray[0])
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: g.size.width/5 - 30)
-                    .padding(10)
-                    .padding(.leading, 7)
-                    .background(feeling == K.sentimentsArray[0] ? Rectangle().foregroundColor(K.sentimentColors[0].opacity(0.3)).frame(height: 100) : nil)
-            }
-            ForEach(1..<K.sentimentsArray.count, id: \.self) { index in
-                HStack(spacing: 0) {
-                    Divider()
-                        .frame(height: g.size.width/5 - 30)
-                    Button {
-                        feeling = K.sentimentsArray[index]
-                    } label: {
-                        Image(K.sentimentsArray[index])
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: g.size.width/5 - 30)
-                            .padding(10)
-                            .padding(.trailing, index == K.sentimentsArray.count-1 ? 7 : 0)
-                            .background(feeling == K.sentimentsArray[index] ? Rectangle().foregroundColor(K.sentimentColors[index].opacity(0.2)).frame(height: 100) : nil)
-                    }
-                }
-            }
-        }
-        .padding(.vertical, 7)
-        .background(RoundedRectangle(cornerRadius: 25)
-            .gradientForeground(.leading, .trailing)
-            .shadow(radius: 10))
-        .clipShape(RoundedRectangle(cornerRadius: 25))
     }
 }
 
