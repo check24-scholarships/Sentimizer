@@ -32,6 +32,7 @@
 		EBCDD11E282AD75E006AD5E2 /* KeyboardHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCDD11D282AD75E006AD5E2 /* KeyboardHelper.swift */; };
 		EBDB9F6E2833A22000586EB7 /* MoodPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDB9F6D2833A22000586EB7 /* MoodPicker.swift */; };
 		EBDB9F702833CBC000586EB7 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDB9F6F2833CBC000586EB7 /* CalendarView.swift */; };
+		EBDB9F722833DB9100586EB7 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDB9F712833DB9100586EB7 /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,6 +62,7 @@
 		EBCDD11D282AD75E006AD5E2 /* KeyboardHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHelper.swift; sourceTree = "<group>"; };
 		EBDB9F6D2833A22000586EB7 /* MoodPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodPicker.swift; sourceTree = "<group>"; };
 		EBDB9F6F2833CBC000586EB7 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		EBDB9F712833DB9100586EB7 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +146,7 @@
 				EBCDD11B282AD419006AD5E2 /* AddActivityViews */,
 				EB8539E928196A6D00C90DD9 /* StatsView.swift */,
 				EBDB9F6F2833CBC000586EB7 /* CalendarView.swift */,
+				EBDB9F712833DB9100586EB7 /* SettingsView.swift */,
 				EB68882B281345AA00C0FDE7 /* Components */,
 			);
 			path = View;
@@ -249,6 +252,7 @@
 				8838ABB72833672000D3599B /* NeuralNetwork.swift in Sources */,
 				EBCDD11A282AD30C006AD5E2 /* NewActivityView.swift in Sources */,
 				EB634F2F28142AAC00979923 /* AppTabNavigation.swift in Sources */,
+				EBDB9F722833DB9100586EB7 /* SettingsView.swift in Sources */,
 				EB6A3AB5281713570078F8A8 /* ActivityChooserView.swift in Sources */,
 				EB688827281340F500C0FDE7 /* Model.swift in Sources */,
 				EB467FAF28210DB000F9AA4D /* Color+Extension.swift in Sources */,

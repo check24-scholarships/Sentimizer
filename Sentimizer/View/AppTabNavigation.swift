@@ -13,6 +13,7 @@ struct AppTabNavigation: View {
         case activities
         case stats
         case calendar
+        case more
     }
     
     @State private var selection: Tab = .activities
@@ -76,6 +77,25 @@ struct AppTabNavigation: View {
                 .accessibility(label: calendarText)
             }
             .tag(Tab.calendar)
+            
+            NavigationView {
+                ZStack {
+                    K.bgColor.ignoresSafeArea()
+                    SettingsView()
+                        .foregroundColor(K.textColor)
+                        .navigationTitle("More")
+                }
+            }
+            .tabItem {
+                let moreText = Text("More", comment: "More tab title")
+                Label {
+                    moreText
+                } icon: {
+                    Image(systemName: "gearshape.fill")
+                }
+                .accessibility(label: moreText)
+            }
+            .tag(Tab.more)
         }
     }
     
