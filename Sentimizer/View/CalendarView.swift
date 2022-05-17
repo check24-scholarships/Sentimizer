@@ -12,7 +12,6 @@ struct CalendarView: View {
         VStack {
             CalendarBar()
                 .padding(5)
-                .shadow(radius: 8)
             
             ScrollView {
                 DateCalendar()
@@ -47,6 +46,7 @@ struct CalendarBar: View {
         .background {
             RoundedRectangle(cornerRadius: 25)
                 .foregroundColor(K.brandColor2)
+                .shadow(radius: 10)
         }
     }
     
