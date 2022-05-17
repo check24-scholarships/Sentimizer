@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8838ABB2282F7DA100D3599B /* ActivityDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838ABB1282F7DA100D3599B /* ActivityDetailView.swift */; };
+		8838ABB72833672000D3599B /* NeuralNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838ABB62833672000D3599B /* NeuralNetwork.swift */; };
 		88E6E5AE281C4ACD00EB0D15 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 88E6E5AC281C4ACD00EB0D15 /* Model.xcdatamodeld */; };
 		88E6E5B0281C4B7F00EB0D15 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E6E5AF281C4B7F00EB0D15 /* DataController.swift */; };
 		EB153FFE282FFD3500468859 /* ViewTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB153FFD282FFD3500468859 /* ViewTitle.swift */; };
@@ -33,6 +34,7 @@
 
 /* Begin PBXFileReference section */
 		8838ABB1282F7DA100D3599B /* ActivityDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityDetailView.swift; sourceTree = "<group>"; };
+		8838ABB62833672000D3599B /* NeuralNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeuralNetwork.swift; sourceTree = "<group>"; };
 		88E6E5AD281C4ACD00EB0D15 /* Entry.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Entry.xcdatamodel; sourceTree = "<group>"; };
 		88E6E5AF281C4B7F00EB0D15 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		EB153FFD282FFD3500468859 /* ViewTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewTitle.swift; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 				EB634F2A28141FDE00979923 /* K.swift */,
 				88E6E5AC281C4ACD00EB0D15 /* Model.xcdatamodeld */,
 				88E6E5AF281C4B7F00EB0D15 /* DataController.swift */,
+				8838ABB62833672000D3599B /* NeuralNetwork.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -236,6 +239,7 @@
 				EBCDD1182827F545006AD5E2 /* WhatNext.swift in Sources */,
 				EB6A3AAF2815BBC80078F8A8 /* AddActivityView.swift in Sources */,
 				88E6E5AE281C4ACD00EB0D15 /* Model.xcdatamodeld in Sources */,
+				8838ABB72833672000D3599B /* NeuralNetwork.swift in Sources */,
 				EBCDD11A282AD30C006AD5E2 /* NewActivityView.swift in Sources */,
 				EB634F2F28142AAC00979923 /* AppTabNavigation.swift in Sources */,
 				EB6A3AB5281713570078F8A8 /* ActivityChooserView.swift in Sources */,
@@ -379,7 +383,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Sentimizer/Preview Content\"";
-				DEVELOPMENT_TEAM = A38QNMLM4C;
+				DEVELOPMENT_TEAM = 75GYQCC934;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -409,7 +413,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Sentimizer/Preview Content\"";
-				DEVELOPMENT_TEAM = A38QNMLM4C;
+				DEVELOPMENT_TEAM = 75GYQCC934;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

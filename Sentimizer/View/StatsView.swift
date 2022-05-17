@@ -15,14 +15,14 @@ struct StatsView: View {
     
     @State private var width: CGFloat = 0
     
-    @State private var xAxis = ["8:15", "8:31", "9:44", "12:57", "14:19", "15:35"]
-    @State private var values = ([0.0, 0.3, 0.5, 0.65, 0.75, 1.0], [0.4, 0.2, 0.5, 0.25, 0.75, 1.0])
-    @State private var counts = [0, 0, 0, 0, 0]
+    @State private var xAxis:[String] = []
+    @State private var values:([Double], [Double]) = ([], [])
+    @State private var counts:[Int] = []
+    
+    @State var improved = (["Walking", "Training", "Lunch"], [0.75, 0.6, 0.15])
+    @State var worsened = (["Project Work", "Gaming"], [-0.4, -0.1])
     
     @FetchRequest var entries: FetchedResults<Entry>
-    
-    let testData2 = (["Walking", "Training", "Lunch"], [0.75, 0.6, 0.15])
-    let testData3 = (["Project Work", "Gaming"], [-0.4, -0.1])
     
     var body: some View {
         GeometryReader { g in
@@ -39,6 +39,7 @@ struct StatsView: View {
                     .onReceive([self.timeInterval].publisher.first()) { value in
                         (xAxis, values) = getStats(entries: entries, interval: value)
                         counts = DataController.getCount(viewContext: viewContext, interval: value)
+                        (improved, worsened) = DataController.getInfluence(viewContext: viewContext, interval: value)
                     }
                     
                     Text("Mood")
@@ -55,7 +56,7 @@ struct StatsView: View {
                         .padding([.leading, .top])
                     
                     
-                    MoodInfluence(data: testData2, width: $width)
+                    MoodInfluence(data: improved, width: $width)
                         .overlay {
                             GeometryReader { g in
                                 Color.clear
@@ -69,7 +70,7 @@ struct StatsView: View {
                         .font(.senti(size: 20))
                         .padding([.leading, .top])
                     
-                    MoodInfluence(data: testData3, width: $width)
+                    MoodInfluence(data: worsened, width: $width)
                     
                     Text("Mood Count")
                         .font(.senti(size: 20))

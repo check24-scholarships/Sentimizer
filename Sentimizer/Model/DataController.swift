@@ -220,8 +220,39 @@ class DataController: ObservableObject {
             print(error.localizedDescription)
         }
         
-        print(count)
-        
         return count
+    }
+    
+    static func getInfluence(viewContext: NSManagedObjectContext, interval: String) -> (([String], [Double]), ([String], [Double])){
+        let neuralNetwork = NeuralNetwork(arch: [2, 3, 2], data: [[[1, 0], [0]]])
+        
+        let request = Entry.fetchRequest()
+        var lastTime:Double = 0
+        
+        if interval == K.timeIntervals[0] {
+            lastTime = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: Date())!.timeIntervalSince1970
+        } else if interval == K.timeIntervals[1] {
+            lastTime = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: Date())!.timeIntervalSince1970 - (60 * 60 * 24 * 6)
+        } else if interval == K.timeIntervals[2] {
+            lastTime = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Calendar.current.startOfDay(for: Date())))!.timeIntervalSince1970
+        } else if interval == K.timeIntervals[3] {
+            lastTime = Calendar.current.date(from: DateComponents(year: Calendar.current.component(.year, from: Date()), month: 1, day: 1))!.timeIntervalSince1970
+        }
+        
+        do {
+            let entries = try viewContext.fetch(request)
+            
+            for entry in entries {
+                // print("et", entry.date!)
+            }
+        } catch {
+            print("In \(#function), line \(#line), save activity failed:")
+            print(error.localizedDescription)
+        }
+        
+        neuralNetwork.feedforward(input: [0.2, 0.3])
+        neuralNetwork.backpropagtion()
+        
+        return ((["Soccer"], [0.5]), (["Project"], [0.2]))
     }
 }
