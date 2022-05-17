@@ -256,9 +256,13 @@ class DataController: ObservableObject {
         
         // neuralNetwork.feedforward(input: [0.2, 0.3])
         
-        for i in 0 ..< 100 {
-            neuralNetwork.backpropagtion()
-            neuralNetwork.updateParams(div: 1)
+        for b in 0 ..< 100 {
+            for i in 0 ..< 10 {
+                // neuralNetwork.backpropagtion()
+            }
+            
+            
+            neuralNetwork.updateParams(div: 10)
         }
         
         return ((["Soccer"], [0.5]), (["Project"], [0.2]))

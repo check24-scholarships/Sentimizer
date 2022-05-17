@@ -5,7 +5,7 @@ func sigmoid(_ x:Double) -> Double {
 }
 
 func sigmoid_prime(_ x: Double) -> Double {
-    return x * (x - 1)
+    return x * (1 - x)
 }
 
 func mse_prime(_ y_hat: Double, _ y: Double) -> Double {
@@ -155,7 +155,6 @@ class NeuralNetwork {
                 }
             }
         }
-        
         
         (cWeights, cBiases) = getParams(arch: arch, mul: 0)
     }
