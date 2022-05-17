@@ -21,9 +21,6 @@ struct StatsView: View {
     @State private var values:([Double], [Double]) = ([], [])
     @State private var counts:[Int] = []
     
-    @State var improved = (["Walking", "Training", "Lunch"], [0.75, 0.6, 0.15])
-    @State var worsened = (["Project Work", "Gaming"], [-0.4, -0.1])
-    
     private var totalCount: Int {
         var count = 0
         for c in counts {
@@ -34,28 +31,31 @@ struct StatsView: View {
     
     @FetchRequest var entries: FetchedResults<Entry>
     
+    @State var improved = (["Walking", "Training", "Lunch"], [0.75, 0.6, 0.15])
+    @State var worsened = (["Project Work", "Gaming"], [-0.4, -0.1])
+    
     var body: some View {
         GeometryReader { g in
             ScrollView {
                 VStack(alignment: .leading) {
                     Picker("Time Interval", selection: $timeInterval) {
                         ForEach(K.timeIntervals, id: \.self) { interval in
-                        counts = dataController.getCount(viewContext: viewContext, interval: value)
+                            Text(interval)
+                        }
                     }
                     .pickerStyle(SegmentedPickerStyle())
+                    .foregroundColor(K.brandColor2)
+                    .padding(.vertical, 5)
+                    .onReceive([self.timeInterval].publisher.first()) { value in
+                        (xAxis, values) = getStats(entries: entries, interval: value)
+                        counts = dataController.getCount(viewContext: viewContext, interval: value)
+                    }
+                    
                     if totalCount < 1 {
                         VStack {
                             HStack {
                                 Image(systemName: "chart.line.uptrend.xyaxis")
                                 Image(systemName: "chart.pie")
-                    
-                    MoodInfluence(data: improved, width: $width)
-                        .overlay {
-                            GeometryReader { g in
-                                Color.clear
-                                    .onAppear() {
-                                        width = g.size.width
-                                    }
                             }
                             .font(.title)
                             Text("There is not enough data to show statistics. Check back later or choose a larger time interval.")
@@ -64,18 +64,6 @@ struct StatsView: View {
                                 .multilineTextAlignment(.center)
                                 .padding()
                         }
-                    
-                    Text("Worsened Your Mood")
-                        .font(.senti(size: 20))
-                        .padding([.leading, .top])
-                    
-                    MoodInfluence(data: worsened, width: $width)
-                    
-                    Text("Mood Count")
-                        .font(.senti(size: 20))
-                        .padding([.leading, .top])
-                    
-                    MoodCount(data: counts, g: g)
                         .frame(maxWidth: .infinity)
                         .padding(.top, 50)
                     } else {
@@ -94,7 +82,7 @@ struct StatsView: View {
                             .padding([.leading, .top])
                         
                         
-                        MoodInfluence(data: testData2, width: $width)
+                        MoodInfluence(data: improved, width: $width)
                             .overlay {
                                 GeometryReader { g in
                                     Color.clear
@@ -108,7 +96,7 @@ struct StatsView: View {
                             .font(.senti(size: 20))
                             .padding([.leading, .top])
                         
-                        MoodInfluence(data: testData3, width: $width)
+                        MoodInfluence(data: worsened, width: $width)
                         
                         Text("Mood Count")
                             .font(.senti(size: 20))
