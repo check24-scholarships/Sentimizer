@@ -30,7 +30,7 @@ func getParams(arch: [Int], mul: Double) -> ([[[Double]]], [[Double]]) {
             weights[layer].append([])
             
             for _ in 0 ..< arch[layer] {
-                weights[layer][neuron].append(Double.random(in: -1..<1) * mul / sqrt(Double(arch[layer])))
+                weights[layer][neuron].append(mul / sqrt(Double(arch[layer])))
             }
         }
     }
@@ -53,11 +53,13 @@ class NeuralNetwork {
     
     var results:[[Double]] = []
     
+    var generator = RandomNumberGeneratorWithSeed(seed: 1000)
+    
     init(arch:[Int], data:[[[Double]]]) {
         self.arch = arch
         self.data = data
         
-        (weights, biases) = getParams(arch: arch, mul: 1)
+        (weights, biases) = getParams(arch: arch, mul: Double.random(in: -1..<1, using: &generator))
         (cWeights, cBiases) = getParams(arch: arch, mul: 0)
         
         // print("biases", biases)
@@ -92,9 +94,8 @@ class NeuralNetwork {
         return results.last!
     }
     
-    func backpropagation() -> [Double]{
+    func backpropagation() {
         var cost = 0.0
-        var derivatives: [Double] = Array(repeating: 0, count: arch.first!)
         
         for date in data {
             let x = date[0]
@@ -139,23 +140,60 @@ class NeuralNetwork {
                 
                 outer_d = prev_d
             }
-            
-            // print("GG", outer_d)
-            
-            for i in 0 ..< arch.first! {
-                derivatives[i] += outer_d[i] / mse_prime(y_hat[0], y[0])
-            }
         }
         
-        // print("ooo cost: ", cost)
+        print("ooo cost: ", cost)
         
-        // print("unbalanced ggg", derivatives)
+        
+        // print("total ggg", derivatives, data.count)
+    }
+    
+    func getDerivatives() -> [Double]{
+        var derivatives: [Double] = Array(repeating: 0, count: arch.first!)
+        
+        for date in data {
+            let x = date[0]
+            
+            let _ = feedforward(input: x)
+            
+            var outer_d:[Double] = Array(repeating: 1, count: arch.last!)
+            
+            for layer in 0 ..< arch.count - 1 {
+                let onion = arch.count - 2 - layer
+                
+                var prev_d:[Double] = []
+                
+                for _ in 0 ..< arch[onion] {
+                    prev_d.append(0)
+                }
+                
+                for i in 0 ..< arch[onion + 1] {
+                    outer_d[i] *= sigmoid_prime(results[onion + 1][i])
+                }
+                
+                for neuron in 0 ..< arch[onion + 1] {
+                    cBiases[onion][neuron] -= outer_d[neuron]
+                    
+                    for connection in 0 ..< arch[onion] {
+                        cWeights[onion][neuron][connection] -= outer_d[neuron] * results[onion][connection]
+                        
+                        prev_d[connection] += outer_d[neuron] * weights[onion][neuron][connection]
+                    }
+                }
+                
+                // print("HH", prev_d)
+                
+                outer_d = prev_d
+            }
+            
+            for i in 0 ..< arch.first! {
+                derivatives[i] += outer_d[i]
+            }
+        }
         
         for i in 0 ..< arch.first! {
             derivatives[i] = derivatives[i] / Double(data.count)
         }
-        
-        // print("total ggg", derivatives, data.count)
         
         return derivatives
     }

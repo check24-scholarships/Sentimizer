@@ -373,6 +373,7 @@ extension StatsView {
     
     func getStats(entries: FetchedResults<Entry>, interval: String, stamps: Int = 5) -> ([String], ([Double], [Double])){
         // dataController.deleteAllData(viewContext: viewContext)
+        // dataController.addSampleData(viewContext: viewContext)
         var xValues:[Double] = []
         var yValues: [Double] = []
         

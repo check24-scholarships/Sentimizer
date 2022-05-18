@@ -56,7 +56,7 @@ class DataController: ObservableObject {
     func saveActivity(activity: String, icon: String, description: String, feeling: String, date: Date, viewContext: NSManagedObjectContext) {
         let entry = Entry(context: viewContext)
         entry.text = description
-        entry.date = Date()
+        entry.date = Date() // Date(timeIntervalSince1970: Date().timeIntervalSince1970 - 60 * 60 * 24 * 5.1)
         entry.feeling = feeling
         entry.activity = activity
         
@@ -228,32 +228,26 @@ class DataController: ObservableObject {
     }
     
     static func getInfluence(viewContext: NSManagedObjectContext, interval: String, activities: FetchedResults<Activity>) -> (([String], [Double]), ([String], [Double])){
-        print("getting influence")
         var allActivities:[String] = K.defaultActivities.0.map { $0.copy() as! String }
         
         for activity in activities {
             allActivities.append(activity.name!)
         }
         
-        let neuralNetwork = NeuralNetwork(arch: [allActivities.count, 1], data: [])
+        let neuralNetwork = NeuralNetwork(arch: [allActivities.count, 20, 1], data: [])
         
         let request = Entry.fetchRequest()
         var lastTime:Double = 0
         
         if interval == K.timeIntervals[0] {
-            lastTime = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: Date())!.timeIntervalSince1970
+            // lastTime = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: Date())!.timeIntervalSince1970
+            lastTime = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: Date())!.timeIntervalSince1970 - (60 * 60 * 24 * 6)
         } else if interval == K.timeIntervals[1] {
             lastTime = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: Date())!.timeIntervalSince1970 - (60 * 60 * 24 * 6)
         } else if interval == K.timeIntervals[2] {
             lastTime = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Calendar.current.startOfDay(for: Date())))!.timeIntervalSince1970
         } else if interval == K.timeIntervals[3] {
             lastTime = Calendar.current.date(from: DateComponents(year: Calendar.current.component(.year, from: Date()), month: 1, day: 1))!.timeIntervalSince1970
-        }
-        
-        var customActivites:[String] = []
-        
-        for activity in activities {
-            customActivites.append(activity.name!)
         }
         
         do {
@@ -263,9 +257,6 @@ class DataController: ObservableObject {
             
             var x: [[Double]] = []
             var y: [[Double]] = []
-            
-            // print("ccc", entries.count)
-            
             
             for entry in entries {
                 if entry.date!.timeIntervalSince1970 < lastTime {
@@ -308,14 +299,15 @@ class DataController: ObservableObject {
             
             // print("dab", neuralNetwork.data)
             
-            for _ in 0 ..< 20 {
+            for _ in 0 ..< 200 {
                 neuralNetwork.backpropagation()
-                neuralNetwork.updateParams(div: Double(x.count))
+                neuralNetwork.updateParams(div: Double(x.count) / 15)
             }
             
-            var derivatives = neuralNetwork.backpropagation()
+            var derivatives = neuralNetwork.getDerivatives()
             
-            // print(derivatives)
+            print("data", neuralNetwork.data)
+            print("d", derivatives)
             
             let num = 3
             
@@ -328,11 +320,21 @@ class DataController: ObservableObject {
             for n in 0 ..< num {
                 for d in 0 ..< derivatives.count {
                     if derivatives[d] > improved.1[n] {
-                        improved.1[n] = derivatives[d]
+                        if derivatives[d] < 0.8 {
+                            improved.1[n] = derivatives[d]
+                        } else {
+                            improved.1[n] = 0.8
+                        }
+                        
                         improved.0[n] = allActivities[d]
                         biggestIndex = d
                     } else if derivatives[d] < worsened.1[n] {
-                        worsened.1[n] = derivatives[d]
+                        if derivatives[d] > -0.8 {
+                            worsened.1[n] = derivatives[d]
+                        } else {
+                            worsened.1[n] = -0.8
+                        }
+                        
                         worsened.0[n] = allActivities[d]
                         smallIndex = d
                     }
@@ -342,21 +344,23 @@ class DataController: ObservableObject {
                 derivatives[biggestIndex] = 0
             }
             
-            print("i, w", (improved, worsened))
-            
             // return (improved, worsened)
             
-            print("i", improved.1)
-            
-            var vals:[Double] = Array(repeating: 0, count: improved.1.count)
-            
-            for v in 0 ..< improved.1.count {
-                vals[v] += improved.1[v]
+            var res: (([String], [Double]), ([String], [Double])) = (([], []), ([], []))
+
+            for n in 0 ..< num {
+                if improved.1[n] > 0.01 {
+                    res.0.0.append(improved.0[n])
+                    res.0.1.append(improved.1[n])
+                }
+
+                if worsened.1[n] < -0.01 {
+                    res.1.0.append(worsened.0[n])
+                    res.1.1.append(worsened.1[n])
+                }
             }
-            
-            vals = [0.6, 0.4, 0.2] // wenn du das entfernst gibt es keinen inf loop
-            
-            return ((improved.0, vals), (["a", "b", "c"], [-0.2, -0.42, -0.2]))
+
+            return res
             
         } catch {
             print("In \(#function), line \(#line), save activity failed:")
