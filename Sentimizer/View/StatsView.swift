@@ -62,7 +62,7 @@ struct StatsView: View {
                                 Image(systemName: "chart.pie")
                             }
                             .font(.title)
-                            Text("There is not enough data to show statistics. Check back later or choose a smaller time interval.")
+                            Text("There is not enough data to show statistics. Check back later or choose a larger time interval.")
                                 .font(.senti(size: 15))
                                 .bold()
                                 .multilineTextAlignment(.center)
