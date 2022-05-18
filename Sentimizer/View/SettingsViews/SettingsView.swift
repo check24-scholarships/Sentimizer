@@ -10,17 +10,19 @@ import SwiftUI
 struct SettingsView: View {
     var body: some View {
         List {
-            NavigationLink {
-                ActivityChooserView(activity: .constant(("", "")), redirectToEdit: true)
-                    .padding(.top, -30)
-                    .navigationBarTitleDisplayMode(.inline)
-            } label: {
-                HStack {
-                    Image(systemName: "person.crop.rectangle.stack")
-                    Text("Activities")
+            Section {
+                NavigationLink {
+                    ActivityChooserView(activity: .constant(("", "")), redirectToEdit: true)
+                        .padding(.top, -30)
+                        .navigationBarTitleDisplayMode(.inline)
+                } label: {
+                    HStack {
+                        Image(systemName: "person.crop.rectangle.stack")
+                        Text("Activities")
+                    }
                 }
+                .listRowBackground(K.brandColor2Light)
             }
-            .listRowBackground(K.brandColor2Light)
             
             Section {
                 NavigationLink {

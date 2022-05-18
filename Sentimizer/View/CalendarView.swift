@@ -10,7 +10,7 @@ import SwiftUI
 struct CalendarView: View {
     var body: some View {
         VStack {
-            CalendarBar()
+            WeekDays()
                 .padding(5)
             
             ScrollView {
@@ -34,37 +34,25 @@ struct CalendarView: View {
 }
 
 //MARK: - Calendar Bar
-struct CalendarBar: View {
+struct WeekDays: View {
     let weekDays = ["S", "M", "T", "W", "T", "F", "S"]
     
     var body: some View {
         HStack {
-            ForEach(weekDays, id: \.self) { day in
-                Day(day)
+            ForEach(0..<7, id: \.self) { index in
+                Spacer()
+                Text(weekDays[index])
+                    .bold()
+                    .padding(9)
+                    .foregroundColor(.white)
+                    .font(.senti(size: 25))
+                Spacer()
             }
         }
         .background {
             RoundedRectangle(cornerRadius: 25)
                 .foregroundColor(K.brandColor2)
                 .shadow(radius: 10)
-        }
-    }
-    
-    struct Day: View {
-        let day: String
-        
-        init(_ day: String) {
-            self.day = day
-        }
-        
-        var body: some View {
-            Spacer()
-            Text(day)
-                .bold()
-                .padding(9)
-                .foregroundColor(.white)
-                .font(.senti(size: 25))
-            Spacer()
         }
     }
 }
@@ -88,22 +76,6 @@ struct MonthItem: View{
     var body: some View {
         GeometryReader { geo in
             VStack {
-                ZStack{
-                    Rectangle()
-                        .foregroundColor(K.brandColor2)
-                        .opacity(0.20)
-                    
-                    HStack {
-                        Spacer()
-                        
-                        Text(getter.monthName)
-                            .padding(.trailing, 30)
-                            .font(.senti(size: 30))
-                            .foregroundColor(K.brandColor2)
-                    }
-                }
-                .padding([.bottom])
-                .frame(height: 60)
                 
                 VStack {
                     ForEach(0..<(Int(getter.monthDayNumber/7 + 1))) { week in
