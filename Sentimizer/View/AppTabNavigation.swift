@@ -62,7 +62,7 @@ struct AppTabNavigation: View {
             NavigationView {
                 ZStack {
                     K.bgColor.ignoresSafeArea()
-                    CalendarView(data: [CalendarData(date: Date(), activity: "Walking", icon: "figure.walk"), CalendarData(date: Date(), activity: "School", icon: "suitcase.fill")])
+                    CalendarView(data: [CalendarData(date: Date(), activity: "Walk", icon: "figure.walk"), CalendarData(date: Date(), activity: "School", icon: "suitcase.fill")])
                         .foregroundColor(K.textColor)
                         .navigationTitle("Calendar")
                 }

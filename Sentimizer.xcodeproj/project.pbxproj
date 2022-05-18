@@ -29,6 +29,8 @@
 		EB6A3AB5281713570078F8A8 /* ActivityChooserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6A3AB4281713570078F8A8 /* ActivityChooserView.swift */; };
 		EB8539EA28196A6D00C90DD9 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8539E928196A6D00C90DD9 /* StatsView.swift */; };
 		EB91193128301BA000C82E63 /* SentiTextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB91193028301BA000C82E63 /* SentiTextEditor.swift */; };
+		EBA5A3E328356F1600F0B26A /* CalendarDayDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBA5A3E228356F1500F0B26A /* CalendarDayDetailView.swift */; };
+		EBA5A3E6283572C800F0B26A /* CalendarData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBA5A3E5283572C800F0B26A /* CalendarData.swift */; };
 		EBCDD1182827F545006AD5E2 /* WhatNext.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCDD1172827F545006AD5E2 /* WhatNext.swift */; };
 		EBCDD11A282AD30C006AD5E2 /* NewActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCDD119282AD30C006AD5E2 /* NewActivityView.swift */; };
 		EBCDD11E282AD75E006AD5E2 /* KeyboardHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCDD11D282AD75E006AD5E2 /* KeyboardHelper.swift */; };
@@ -61,6 +63,8 @@
 		EB6A3AB4281713570078F8A8 /* ActivityChooserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityChooserView.swift; sourceTree = "<group>"; };
 		EB8539E928196A6D00C90DD9 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
 		EB91193028301BA000C82E63 /* SentiTextEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentiTextEditor.swift; sourceTree = "<group>"; };
+		EBA5A3E228356F1500F0B26A /* CalendarDayDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDayDetailView.swift; sourceTree = "<group>"; };
+		EBA5A3E5283572C800F0B26A /* CalendarData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarData.swift; sourceTree = "<group>"; };
 		EBCDD1172827F545006AD5E2 /* WhatNext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatNext.swift; sourceTree = "<group>"; };
 		EBCDD119282AD30C006AD5E2 /* NewActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewActivityView.swift; sourceTree = "<group>"; };
 		EBCDD11D282AD75E006AD5E2 /* KeyboardHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHelper.swift; sourceTree = "<group>"; };
@@ -158,11 +162,21 @@
 				8838ABB1282F7DA100D3599B /* ActivityDetailView.swift */,
 				EBCDD11B282AD419006AD5E2 /* AddActivityViews */,
 				EB8539E928196A6D00C90DD9 /* StatsView.swift */,
-				EBDB9F6F2833CBC000586EB7 /* CalendarView.swift */,
+				EBA5A3E4283572AE00F0B26A /* Calendar */,
 				EB33D13D283410E500F4634C /* SettingsViews */,
 				EB68882B281345AA00C0FDE7 /* Components */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		EBA5A3E4283572AE00F0B26A /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+				EBDB9F6F2833CBC000586EB7 /* CalendarView.swift */,
+				EBA5A3E228356F1500F0B26A /* CalendarDayDetailView.swift */,
+				EBA5A3E5283572C800F0B26A /* CalendarData.swift */,
+			);
+			path = Calendar;
 			sourceTree = "<group>";
 		};
 		EBCDD11B282AD419006AD5E2 /* AddActivityViews */ = {
@@ -258,6 +272,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EB8539EA28196A6D00C90DD9 /* StatsView.swift in Sources */,
+				EBA5A3E6283572C800F0B26A /* CalendarData.swift in Sources */,
 				EB33D13C2833E84900F4634C /* EditActivityCategoryView.swift in Sources */,
 				EB91193128301BA000C82E63 /* SentiTextEditor.swift in Sources */,
 				EBDB9F702833CBC000586EB7 /* CalendarView.swift in Sources */,
@@ -274,6 +289,7 @@
 				EB467FAF28210DB000F9AA4D /* Color+Extension.swift in Sources */,
 				EB634F2B28141FDE00979923 /* K.swift in Sources */,
 				EB642BFF27FF5DA4001DB273 /* MainActivityView.swift in Sources */,
+				EBA5A3E328356F1600F0B26A /* CalendarDayDetailView.swift in Sources */,
 				88E6E5B0281C4B7F00EB0D15 /* DataController.swift in Sources */,
 				EBDB9F6E2833A22000586EB7 /* MoodPicker.swift in Sources */,
 				EB68882A2813459D00C0FDE7 /* Font+Extension.swift in Sources */,

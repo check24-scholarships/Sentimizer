@@ -7,12 +7,6 @@
 
 import SwiftUI
 
-struct CalendarData {
-    let date: Date
-    let activity: String
-    let icon: String
-}
-
 struct CalendarView: View {
     let data: [CalendarData]
     
@@ -22,6 +16,8 @@ struct CalendarView: View {
     var month: String {
         Calendar.current.monthSymbols[Calendar.current.component(.month, from: date)-1]
     }
+    
+    @State private var daySheetPresented = false
     	
     var body: some View {
         VStack(alignment: .leading) {
@@ -54,9 +50,9 @@ struct CalendarView: View {
                             }
                             .padding(.bottom, 70)
                         }
-//                        .background(
-//                            RoundedRectangle(cornerRadius: 5).opacity(0.1)
-//                        )
+                        .onTapGesture {
+                            daySheetPresented = true
+                        }
                     }
                 }
                 .padding(.trailing, 3)
@@ -64,6 +60,9 @@ struct CalendarView: View {
         }
         .padding(.top, 5)
         .navigationTitle(month + " \(Calendar.current.component(.year, from: date))")
+        .sheet(isPresented: $daySheetPresented) {
+            CalendarDayDetailView(data: data)
+        }
     }
 }
 
@@ -83,10 +82,6 @@ struct WeekDays: View {
                 Spacer()
             }
         }
-//        .background {
-//            RoundedRectangle(cornerRadius: 25)
-//                .foregroundColor(.gray.opacity(0.7))
-//        }
     }
 }
 
@@ -132,6 +127,6 @@ extension CalendarView {
 
 struct CalendarView_Previews: PreviewProvider {
     static var previews: some View {
-        CalendarView(data: [CalendarData(date: Date(), activity: "Walking", icon: "figure.walk"), CalendarData(date: Date(), activity: "School", icon: "suitcase.fill")])
+        CalendarView(data: [CalendarData(date: Date(), activity: "Walk", icon: "figure.walk"), CalendarData(date: Date(), activity: "School", icon: "suitcase.fill")])
     }
 }
