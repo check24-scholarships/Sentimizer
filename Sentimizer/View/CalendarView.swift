@@ -7,7 +7,14 @@
 
 import SwiftUI
 
+struct CalendarData {
+    let date: Date
+    let activity: String
+    let icon: String
+}
+
 struct CalendarView: View {
+    let data: [CalendarData]
     
     let sevenColumnGrid = Array(repeating: GridItem(.flexible(), spacing: 0), count: 7)
     
@@ -18,10 +25,10 @@ struct CalendarView: View {
     	
     var body: some View {
         VStack(alignment: .leading) {
-            Text(month + " \(Calendar.current.component(.year, from: date))")
-                .font(.senti(size: 35))
-                .gradientForeground()
-                .padding()
+//            Text(month + " \(Calendar.current.component(.year, from: date))")
+//                .font(.senti(size: 35))
+//                .gradientForeground()
+//                .padding()
             
             WeekDays()
                 .padding(.bottom, 5)
@@ -31,14 +38,32 @@ struct CalendarView: View {
                     ForEach(0..<getDaysInMonth().count, id: \.self) { index in
                         HStack {
                             Spacer()
-                            Text(getDaysInMonth()[index].0)
-                                .padding(.bottom, 70)
+                            VStack {
+                                ForEach(getActivityIconsForDay(date: getDaysInMonth()[index].1), id: \.self) { icon in
+                                    Image(systemName: icon)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(maxWidth: 15)
+                                }
+                            }
+                            .offset(x: 5)
+                            
+                            HStack {
+                                Text(getDaysInMonth()[index].0)
+                                    .lineLimit(1)
+                            }
+                            .padding(.bottom, 70)
                         }
+//                        .background(
+//                            RoundedRectangle(cornerRadius: 5).opacity(0.1)
+//                        )
                     }
                 }
+                .padding(.trailing, 3)
             }
         }
-        .navigationTitle("Calendar")
+        .padding(.top, 5)
+        .navigationTitle(month + " \(Calendar.current.component(.year, from: date))")
     }
 }
 
@@ -66,7 +91,7 @@ struct WeekDays: View {
 }
 
 extension CalendarView {
-    func getDaysInMonth() -> [(String, UUID)] {
+    func getDaysInMonth() -> [(String, Date)] {
         let dateComponents = DateComponents(year: Calendar.current.component(.year, from: date), month: Calendar.current.component(.month, from: date))
         let calendar = Calendar.current
         
@@ -74,21 +99,39 @@ extension CalendarView {
         
         let range = calendar.range(of: .day, in: .month, for: date)!
         
-        let array = Array(range)
-        var stringArray = array.map { (String($0), UUID()) }
+        var dayDates: [Date] = []
+        var count = 0
+        for _ in range {
+            dayDates.append(Calendar.current.date(byAdding: .day, value: count, to: Calendar.current.date(from: dateComponents)!)!)
+            count += 1
+        }
+        
+        var result: [(String, Date)] = []
+        for i in range {
+            result.append((String(i), dayDates[i-1]))
+        }
         
         let dayNumber = Calendar.current.component(.weekday, from: date)-1
         for _ in 0..<dayNumber {
-            stringArray.insert(("", UUID()), at: 0)
+            result.insert(("", Date()), at: 0)
         }
         
-        return stringArray
+        return result
     }
     
+    func getActivityIconsForDay(date: Date) -> [String] {
+        var icons: [String] = []
+        for d in data {
+            if Calendar.current.isDate(d.date, inSameDayAs: date) {
+                icons.append(d.icon)
+            }
+        }
+        return icons
+    }
 }
 
 struct CalendarView_Previews: PreviewProvider {
     static var previews: some View {
-        CalendarView()
+        CalendarView(data: [CalendarData(date: Date(), activity: "Walking", icon: "figure.walk"), CalendarData(date: Date(), activity: "School", icon: "suitcase.fill")])
     }
 }
