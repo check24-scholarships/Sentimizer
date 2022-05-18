@@ -142,7 +142,7 @@ class NeuralNetwork {
             }
         }
         
-        print("ooo cost: ", cost)
+        // print("ooo cost: ", cost)
         
         
         // print("total ggg", derivatives, data.count)

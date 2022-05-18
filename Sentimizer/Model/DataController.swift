@@ -306,8 +306,8 @@ class DataController: ObservableObject {
             
             var derivatives = neuralNetwork.getDerivatives()
             
-            print("data", neuralNetwork.data)
-            print("d", derivatives)
+            // print("data", neuralNetwork.data)
+            // print("d", derivatives)
             
             let num = 3
             
