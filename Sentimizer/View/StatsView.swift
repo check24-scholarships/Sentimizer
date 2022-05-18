@@ -60,7 +60,7 @@ struct StatsView: View {
                                 Image(systemName: "chart.pie")
                             }
                             .font(.title)
-                            Text("There is not enough data to show statistics. Check back later or choose a larger time interval.")
+                            Text("There is not enough data to show statistics. Check back later or choose a smaller time interval.")
                                 .font(.senti(size: 15))
                                 .bold()
                                 .multilineTextAlignment(.center)
@@ -367,6 +367,7 @@ extension StatsView {
     }
     
     func getStats(entries: FetchedResults<Entry>, interval: String, stamps: Int = 5) -> ([String], ([Double], [Double])){
+        // dataController.deleteAllData(viewContext: viewContext)
         var xValues:[Double] = []
         var yValues: [Double] = []
         

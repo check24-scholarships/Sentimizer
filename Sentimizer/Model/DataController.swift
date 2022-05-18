@@ -46,7 +46,7 @@ class DataController: ObservableObject {
         
         return (days, content)
     }
-
+    
     func formatDate(date: Date, format: String = "dd MM") -> String {
         let d = DateFormatter()
         d.dateFormat = format
@@ -119,19 +119,19 @@ class DataController: ObservableObject {
     
     func addSampleData(viewContext: NSManagedObjectContext) {
         let feelings = ["crying", "sad", "neutral", "content", "happy"]
-        let activities = ["Walking", "Training", "Gaming", "Project Work", "Lunch"]
+        let activities = ["Walk", "Sport", "Hobby", "Friends", "Sleep"]
         
         for i in 0..<12 {
             for j in 0..<3 {
                 let entry = Entry(context: viewContext)
                 entry.text = "very important activity"
-                entry.date = Date(timeIntervalSince1970: Date().timeIntervalSince1970 - 60 * 60 * 24 * 31 * (Double(i) + Double(j) * 0.3))
+                entry.date = Date(timeIntervalSince1970: Date().timeIntervalSince1970 - 60 * 60 * 24 * 3 * (Double(i) + Double(j) * 0.3))
                 if i < feelings.count {
                     entry.feeling = feelings[i]
                     entry.activity = activities[i]
                 } else {
                     entry.feeling = "happy"
-                    entry.activity = "Project Work"
+                    entry.activity = "Sleep"
                 }
             }
         }
@@ -157,7 +157,7 @@ class DataController: ObservableObject {
         
         try! viewContext.save()
     }
-
+    
     func saveNewActivity(viewContext: NSManagedObjectContext,name: String, icon: String) {
         let activity = Activity(context: viewContext)
         activity.name = name
@@ -228,7 +228,14 @@ class DataController: ObservableObject {
     }
     
     static func getInfluence(viewContext: NSManagedObjectContext, interval: String, activities: FetchedResults<Activity>) -> (([String], [Double]), ([String], [Double])){
-        let neuralNetwork = NeuralNetwork(arch: [K.defaultActivities.0.count + activities.count, 1], data: [])
+        print("getting influence")
+        var allActivities:[String] = K.defaultActivities.0.map { $0.copy() as! String }
+        
+        for activity in activities {
+            allActivities.append(activity.name!)
+        }
+        
+        let neuralNetwork = NeuralNetwork(arch: [allActivities.count, 1], data: [])
         
         let request = Entry.fetchRequest()
         var lastTime:Double = 0
@@ -257,6 +264,8 @@ class DataController: ObservableObject {
             var x: [[Double]] = []
             var y: [[Double]] = []
             
+            // print("ccc", entries.count)
+            
             
             for entry in entries {
                 if entry.date!.timeIntervalSince1970 < lastTime {
@@ -269,7 +278,7 @@ class DataController: ObservableObject {
                     
                     var empty:[Double] = []
                     
-                    for _ in 0 ..< (K.defaultActivities.0.count + activities.count) {
+                    for _ in 0 ..< (allActivities.count) {
                         empty.append(0)
                     }
                     
@@ -278,13 +287,7 @@ class DataController: ObservableObject {
                     lastDate = entry.date!
                 }
                 
-                var activityIndex = K.defaultActivities.0.firstIndex(of: entry.activity!)
-                
-                if activityIndex == nil {
-                    activityIndex = customActivites.firstIndex(of: entry.activity!)! + K.defaultActivities.0.count
-                }
-                
-                x[x.count - 1][activityIndex!] += 1
+                x[x.count - 1][allActivities.firstIndex(of: entry.activity!)!] += 1
                 y[y.count - 1][0] += getSentiScore(for: entry.feeling!)
             }
             
@@ -310,15 +313,56 @@ class DataController: ObservableObject {
                 neuralNetwork.updateParams(div: Double(x.count))
             }
             
-            let derivatives = neuralNetwork.backpropagation()
+            var derivatives = neuralNetwork.backpropagation()
             
-            print(derivatives)
+            // print(derivatives)
+            
+            let num = 3
+            
+            var improved = (Array.init(repeating: "", count: num), Array.init(repeating: 0.0, count: num))
+            var worsened = (Array.init(repeating: "", count: num), Array.init(repeating: 0.0, count: num))
+            
+            var smallIndex = 0
+            var biggestIndex = 0
+            
+            for n in 0 ..< num {
+                for d in 0 ..< derivatives.count {
+                    if derivatives[d] > improved.1[n] {
+                        improved.1[n] = derivatives[d]
+                        improved.0[n] = allActivities[d]
+                        biggestIndex = d
+                    } else if derivatives[d] < worsened.1[n] {
+                        worsened.1[n] = derivatives[d]
+                        worsened.0[n] = allActivities[d]
+                        smallIndex = d
+                    }
+                }
+                
+                derivatives[smallIndex] = 0
+                derivatives[biggestIndex] = 0
+            }
+            
+            print("i, w", (improved, worsened))
+            
+            // return (improved, worsened)
+            
+            print("i", improved.1)
+            
+            var vals:[Double] = Array(repeating: 0, count: improved.1.count)
+            
+            for v in 0 ..< improved.1.count {
+                vals[v] += improved.1[v]
+            }
+            
+            vals = [0.6, 0.4, 0.2] // wenn du das entfernst gibt es keinen inf loop
+            
+            return ((improved.0, vals), (["a", "b", "c"], [-0.2, -0.42, -0.2]))
             
         } catch {
             print("In \(#function), line \(#line), save activity failed:")
             print(error.localizedDescription)
         }
         
-        return ((["Soccer"], [0.5]), (["Project"], [0.2]))
+        return ((["Soccer"], [0.5]), (["Project"], [-0.2]))
     }
 }

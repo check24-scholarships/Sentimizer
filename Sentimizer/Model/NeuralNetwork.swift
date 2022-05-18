@@ -143,7 +143,7 @@ class NeuralNetwork {
             // print("GG", outer_d)
             
             for i in 0 ..< arch.first! {
-                derivatives[i] += outer_d[i]
+                derivatives[i] += outer_d[i] / mse_prime(y_hat[0], y[0])
             }
         }
         
@@ -152,7 +152,7 @@ class NeuralNetwork {
         // print("unbalanced ggg", derivatives)
         
         for i in 0 ..< arch.first! {
-            derivatives[i] = derivatives[i] / Double(data.count) * 100
+            derivatives[i] = derivatives[i] / Double(data.count)
         }
         
         // print("total ggg", derivatives, data.count)
