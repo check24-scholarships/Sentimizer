@@ -8,127 +8,83 @@
 import SwiftUI
 
 struct CalendarView: View {
+    
+    let sevenColumnGrid = Array(repeating: GridItem(.flexible(), spacing: 0), count: 7)
+    
+    var date = Date()
+    var month: String {
+        Calendar.current.monthSymbols[Calendar.current.component(.month, from: date)-1]
+    }
+    	
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
+            Text(month + " \(Calendar.current.component(.year, from: date))")
+                .font(.senti(size: 35))
+                .gradientForeground()
+                .padding()
+            
             WeekDays()
-                .padding(5)
+                .padding(.bottom, 5)
             
             ScrollView {
-                DateCalendar()
-            }
-        }
-        .navigationTitle("Calendar")
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                VStack {
-                    Button  {
-                    } label: {
-                        Image(systemName: "plus.circle")
-                            .font(.system(size: 18))
-                            .foregroundColor(.blue)
+                LazyVGrid(columns: sevenColumnGrid) {
+                    ForEach(0..<getDaysInMonth().count, id: \.self) { index in
+                        HStack {
+                            Spacer()
+                            Text(getDaysInMonth()[index].0)
+                                .padding(.bottom, 70)
+                        }
                     }
                 }
             }
         }
+        .navigationTitle("Calendar")
     }
 }
 
-//MARK: - Calendar Bar
+//MARK: - WeekDays View
 struct WeekDays: View {
-    let weekDays = ["S", "M", "T", "W", "T", "F", "S"]
+    let weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
     
     var body: some View {
-        HStack {
+        HStack(spacing: 0) {
             ForEach(0..<7, id: \.self) { index in
                 Spacer()
                 Text(weekDays[index])
                     .bold()
-                    .padding(9)
-                    .foregroundColor(.white)
-                    .font(.senti(size: 25))
+//                    .foregroundColor(.white)
+                    .font(.senti(size: 15))
+                    .minimumScaleFactor(0.7)
                 Spacer()
             }
         }
-        .background {
-            RoundedRectangle(cornerRadius: 25)
-                .foregroundColor(K.brandColor2)
-                .shadow(radius: 10)
-        }
+//        .background {
+//            RoundedRectangle(cornerRadius: 25)
+//                .foregroundColor(.gray.opacity(0.7))
+//        }
     }
 }
 
-//MARK: - Calendar
-struct DateCalendar: View {
-    var body: some View {
-        VStack {
-            MonthItem(monthName: "Mai")
+extension CalendarView {
+    func getDaysInMonth() -> [(String, UUID)] {
+        let dateComponents = DateComponents(year: Calendar.current.component(.year, from: date), month: Calendar.current.component(.month, from: date))
+        let calendar = Calendar.current
+        
+        let date = calendar.date(from: dateComponents)!
+        
+        let range = calendar.range(of: .day, in: .month, for: date)!
+        
+        let array = Array(range)
+        var stringArray = array.map { (String($0), UUID()) }
+        
+        let dayNumber = Calendar.current.component(.weekday, from: date)-1
+        for _ in 0..<dayNumber {
+            stringArray.insert(("", UUID()), at: 0)
         }
-    }
-}
-
-//MARK: - Month Item
-struct MonthItem: View{
-    
-    let getter = MonthGetter()
-    let week = 2
-    let monthName: String
-    
-    var body: some View {
-        GeometryReader { geo in
-            VStack {
-                
-                VStack {
-                    ForEach(0..<(Int(getter.monthDayNumber/7 + 1))) { week in
-                        HStack {
-                            ForEach(1..<8) { day in
-                                if getter.firstWeekday > day+week*7 || day+week*7-getter.firstWeekday+1 > getter.monthDayNumber {
-                                    Spacer()
-                                        .frame(width: geo.size.width/7)
-                                } else {
-                                    DayItem(day+week*7-getter.firstWeekday+1)
-                                }
-                            }
-                        }   .frame(height: 80)
-                    }
-                }
-                .padding(.trailing)
-            }
-        }
-    }
-}
-
-//MARK: - Day Item
-struct DayItem: View {
-    
-    let dayNumber: Int
-    
-    init(_ number: Int) {
-        dayNumber = number
+        
+        return stringArray
     }
     
-    var body: some View {
-        Button {
-            
-        } label: {
-            VStack{
-                HStack{
-                    Spacer()
-                    Text(String(dayNumber))
-                        .font(.system(size: 18))
-                }
-                Spacer()
-            }
-        }
-    }
-}
-
-//MARK: - MonthGetter
-struct MonthGetter {
-    let monthDayNumber = 31
-    let dateFormatter = DateFormatter()
-    let now = Date()
-    let firstWeekday = 2
-    let monthName = "Mai"
 }
 
 struct CalendarView_Previews: PreviewProvider {
