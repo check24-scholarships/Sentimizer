@@ -47,10 +47,12 @@ struct StatsView: View {
                     .pickerStyle(SegmentedPickerStyle())
                     .foregroundColor(K.brandColor2)
                     .padding(.vertical, 5)
-                    .onReceive([self.timeInterval].publisher.first()) { value in
-                        (xAxis, values) = getStats(entries: entries, interval: value)
-                        counts = dataController.getCount(viewContext: viewContext, interval: value)
-                        (improved, worsened) = DataController.getInfluence(viewContext: viewContext, interval: value, activities: activities)
+                    .onChange(of: timeInterval) { newValue in
+                        DispatchQueue.global(qos: .userInitiated).async {
+                            (xAxis, values) = getStats(entries: entries, interval: newValue)
+                            counts = dataController.getCount(viewContext: viewContext, interval: newValue)
+                            (improved, worsened) = DataController.getInfluence(viewContext: viewContext, interval: newValue, activities: activities)
+                        }
                     }
                     
                     if totalCount < 1 {
@@ -114,8 +116,11 @@ struct StatsView: View {
                 .padding(.horizontal, 15)
             }
             .onAppear {
-                (xAxis, values) = getStats(entries: entries, interval: timeInterval)
-                counts = dataController.getCount(viewContext: viewContext, interval: timeInterval)
+                DispatchQueue.global(qos: .userInitiated).async {
+                    (xAxis, values) = getStats(entries: entries, interval: timeInterval)
+                    counts = dataController.getCount(viewContext: viewContext, interval: timeInterval)
+                    (improved, worsened) = DataController.getInfluence(viewContext: viewContext, interval: timeInterval, activities: activities)
+                }
             }
         }
     }
