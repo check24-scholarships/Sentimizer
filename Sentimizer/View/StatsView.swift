@@ -19,10 +19,10 @@ struct StatsView: View {
     
     @State private var xAxis:[String] = []
     @State private var values:([Double], [Double]) = ([], [])
-    @State private var counts:[Double] = []
+    @State private var counts:[Int] = []
     
-    private var totalCount: Double {
-        var count = 0.0
+    private var totalCount: Int {
+        var count = 0
         for c in counts {
             count += c
         }
@@ -273,11 +273,11 @@ struct MoodInfluence: View {
 
 //MARK: - MoodCount View
 struct MoodCount: View {
-    let data: [Double]
+    let data: [Int]
     let g: GeometryProxy
     
-    var count: Double {
-        var count = 0.0
+    var count: Int {
+        var count = 0
         for number in data {
             count += number
         }

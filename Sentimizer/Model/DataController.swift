@@ -196,9 +196,9 @@ class DataController: ObservableObject {
         return "figure.walk"
     }
     
-    func getCount(viewContext: NSManagedObjectContext, interval: String) -> [Double] {
+    func getCount(viewContext: NSManagedObjectContext, interval: String) -> [Int] {
         let request = Entry.fetchRequest()
-        var count:[Double] = [0.1, 0.1, 0.1, 0.1, 0.1]
+        var count:[Int] = [0, 0, 0, 0, 0]
         var lastTime: Double = 0
         
         if interval == K.timeIntervals[0] {
