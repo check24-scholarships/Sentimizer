@@ -32,7 +32,7 @@ struct CalendarDayDetailView: View {
             VStack(alignment: .leading) {
                 Image(systemName: "sun.and.horizon.fill")
                 
-                ActivityBarView(activity: "Walk", description: , time: <#T##(String, String)#>, sentiment: <#T##String#>, id: <#T##String#>, icon: <#T##String#>)
+                ActivityBarView(activity: "Walk", description: "", time: ("08:03", "10"), sentiment: "happy", id: "1", icon: "figure.walk")
                 
                     .padding(.top)
             }
