@@ -39,7 +39,7 @@ struct CalendarView: View {
                                     Image(systemName: icon)
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
-                                        .frame(maxWidth: 15)
+                                        .frame(maxWidth: 12)
                                 }
                             }
                             .offset(x: 5)
@@ -61,7 +61,7 @@ struct CalendarView: View {
         .padding(.top, 5)
         .navigationTitle(month + " \(Calendar.current.component(.year, from: date))")
         .sheet(isPresented: $daySheetPresented) {
-            CalendarDayDetailView(data: data)
+            CalendarDayDetailView(data: getActivitiesForDay(date: date))
         }
     }
 }
@@ -122,6 +122,16 @@ extension CalendarView {
             }
         }
         return icons
+    }
+    
+    func getActivitiesForDay(date: Date) -> [CalendarData] {
+        var activities: [CalendarData] = []
+        for d in data {
+            if Calendar.current.isDate(d.date, inSameDayAs: date) {
+                activities.append(d)
+            }
+        }
+        return activities
     }
 }
 
