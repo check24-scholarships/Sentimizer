@@ -29,23 +29,13 @@ struct CalendarDayDetailView: View {
         ScrollView {
             ViewTitle(day)
             
-            ZStack {
-                VStack {
-                    ForEach(hours, id: \.self) { hour in
-                        HStack {
-                            Text(hour)
-                                .padding(.leading)
-                                .opacity(0.7)
-                            Rectangle()
-                                .frame(height: 1)
-                                .opacity(0.7)
-                                .padding(.horizontal)
-                        }
-                        .padding(.bottom, 30)
-                    }
-                }
+            VStack(alignment: .leading) {
+                Image(systemName: "sun.and.horizon.fill")
+                
+                
+                
+                    .padding(.top)
             }
-            .padding(.top)
         }
     }
 }
