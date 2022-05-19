@@ -187,7 +187,7 @@ class NeuralNetwork {
             }
             
             for i in 0 ..< arch.first! {
-                derivatives[i] += outer_d[i]
+                derivatives[i] += outer_d[i] / pow((x[i] + 1), 2)
             }
         }
         
