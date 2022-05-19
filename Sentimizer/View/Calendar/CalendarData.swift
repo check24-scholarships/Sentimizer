@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CalendarData {
+struct CalendarData: Hashable {
     let date: Date
     let activity: String
     let icon: String

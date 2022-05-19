@@ -29,13 +29,19 @@ struct CalendarDayDetailView: View {
         ScrollView {
             ViewTitle(day)
             
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 0) {
                 Image(systemName: "sun.and.horizon.fill")
                 
-                ActivityBar(activity: "Walk", description: "", time: ("08:03", "10"), sentiment: "happy", id: "1", icon: "figure.walk")
+                ForEach(data, id: \.self) { activity in
+                    ActivityBar(activity: "Walk", description: "", time: ("08:03", "10"), sentiment: "happy", id: "1", icon: "figure.walk")
+                        .background(RoundedRectangle(cornerRadius: 25).foregroundColor(.gray).opacity(0.2))
+                        .shadow(radius: 10)
+                }
+                
                 
                     .padding(.top)
             }
+            .padding(.horizontal, 15)
         }
     }
 }
@@ -59,6 +65,6 @@ extension CalendarDayDetailView {
 
 struct CalendarDayDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        CalendarDayDetailView(data: [CalendarData(date: Date(), activity: "Walk", icon: "figure.walk")])
+        CalendarDayDetailView(data: [CalendarData(date: Date(), activity: "Walk", icon: "figure.walk"), CalendarData(date: Date(), activity: "Walk", icon: "figure.walk")])
     }
 }
