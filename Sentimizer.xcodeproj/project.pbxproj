@@ -31,6 +31,7 @@
 		EB91193128301BA000C82E63 /* SentiTextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB91193028301BA000C82E63 /* SentiTextEditor.swift */; };
 		EBA5A3E328356F1600F0B26A /* CalendarDayDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBA5A3E228356F1500F0B26A /* CalendarDayDetailView.swift */; };
 		EBA5A3E6283572C800F0B26A /* CalendarData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBA5A3E5283572C800F0B26A /* CalendarData.swift */; };
+		EBB26CEB2836CD4700E48506 /* ActivityBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB26CEA2836CD4700E48506 /* ActivityBar.swift */; };
 		EBCDD1182827F545006AD5E2 /* WhatNext.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCDD1172827F545006AD5E2 /* WhatNext.swift */; };
 		EBCDD11A282AD30C006AD5E2 /* NewActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCDD119282AD30C006AD5E2 /* NewActivityView.swift */; };
 		EBCDD11E282AD75E006AD5E2 /* KeyboardHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCDD11D282AD75E006AD5E2 /* KeyboardHelper.swift */; };
@@ -65,6 +66,7 @@
 		EB91193028301BA000C82E63 /* SentiTextEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentiTextEditor.swift; sourceTree = "<group>"; };
 		EBA5A3E228356F1500F0B26A /* CalendarDayDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDayDetailView.swift; sourceTree = "<group>"; };
 		EBA5A3E5283572C800F0B26A /* CalendarData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarData.swift; sourceTree = "<group>"; };
+		EBB26CEA2836CD4700E48506 /* ActivityBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityBar.swift; sourceTree = "<group>"; };
 		EBCDD1172827F545006AD5E2 /* WhatNext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatNext.swift; sourceTree = "<group>"; };
 		EBCDD119282AD30C006AD5E2 /* NewActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewActivityView.swift; sourceTree = "<group>"; };
 		EBCDD11D282AD75E006AD5E2 /* KeyboardHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHelper.swift; sourceTree = "<group>"; };
@@ -150,6 +152,7 @@
 				EB153FFD282FFD3500468859 /* ViewTitle.swift */,
 				EB91193028301BA000C82E63 /* SentiTextEditor.swift */,
 				EBDB9F6D2833A22000586EB7 /* MoodPicker.swift */,
+				EBB26CEA2836CD4700E48506 /* ActivityBar.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -282,6 +285,7 @@
 				8838ABB72833672000D3599B /* NeuralNetwork.swift in Sources */,
 				EBCDD11A282AD30C006AD5E2 /* NewActivityView.swift in Sources */,
 				8838ABB9283529EC00D3599B /* RandomNumberGenerator.swift in Sources */,
+				EBB26CEB2836CD4700E48506 /* ActivityBar.swift in Sources */,
 				EB634F2F28142AAC00979923 /* AppTabNavigation.swift in Sources */,
 				EBDB9F722833DB9100586EB7 /* SettingsView.swift in Sources */,
 				EB6A3AB5281713570078F8A8 /* ActivityChooserView.swift in Sources */,
