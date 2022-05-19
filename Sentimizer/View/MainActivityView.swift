@@ -102,7 +102,7 @@ struct MainActivityView: View {
 struct ActivityBarView: View {
     
     let activity: String
-    let description: String?
+    let description: String
     let time: (String, String)
     let sentiment: String
     let id: String
@@ -126,8 +126,8 @@ struct ActivityBarView: View {
                         .padding(.top, 5)
                         .padding(2)
                     
-                    let isEmpty = (description ?? "").isEmpty
-                    let description = (description ?? "").isEmpty ? "Describe your activity..." : description ?? "Describe your activity..."
+                    let isEmpty = description.isEmpty
+                    let description = description.isEmpty ? "Describe your activity..." : description
                     Text(description)
                         .font(.senti(size: 18))
                         .opacity(isEmpty ? 0.5 : 1.0)
