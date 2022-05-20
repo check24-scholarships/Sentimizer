@@ -17,6 +17,7 @@ struct CalendarView: View {
         Calendar.current.monthSymbols[Calendar.current.component(.month, from: date)-1]
     }
     
+    @State private var tappedDate = Date()
     @State private var daySheetPresented = false
     	
     var body: some View {
@@ -51,6 +52,7 @@ struct CalendarView: View {
                             .padding(.bottom, 70)
                         }
                         .onTapGesture {
+                            tappedDate = getDaysInMonth()[index].1
                             daySheetPresented = true
                         }
                     }
@@ -61,7 +63,7 @@ struct CalendarView: View {
         .padding(.top, 5)
         .navigationTitle(month + " \(Calendar.current.component(.year, from: date))")
         .sheet(isPresented: $daySheetPresented) {
-            CalendarDayDetailView(data: getActivitiesForDay(date: date))
+            CalendarDayDetailView(data: getActivitiesForDay(date: tappedDate), date: tappedDate)
         }
     }
 }
