@@ -90,7 +90,6 @@ extension CalendarDayDetailView {
         var newData: [CalendarData] = []
         for d in data {
             let hour = Calendar.current.component(.hour, from: d.date)
-            print(hour)
             
             switch timeSection {
             case K.timeSections[0]:
