@@ -10,7 +10,8 @@
 		8838ABB2282F7DA100D3599B /* ActivityDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838ABB1282F7DA100D3599B /* ActivityDetailView.swift */; };
 		8838ABB72833672000D3599B /* NeuralNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838ABB62833672000D3599B /* NeuralNetwork.swift */; };
 		8838ABB9283529EC00D3599B /* RandomNumberGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838ABB8283529EC00D3599B /* RandomNumberGenerator.swift */; };
-		8838ABC72837F90500D3599B /* TestModel.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8838ABC62837F90500D3599B /* TestModel.mlmodel */; };
+		8838ABDA2838194800D3599B /* TestModel.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 8838ABD92838194800D3599B /* TestModel.mlpackage */; settings = {ATTRIBUTES = (no_codegen, ); }; };
+		8838ABDC283819BA00D3599B /* TestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838ABDB283819BA00D3599B /* TestModel.swift */; };
 		88E6E5AE281C4ACD00EB0D15 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 88E6E5AC281C4ACD00EB0D15 /* Model.xcdatamodeld */; };
 		88E6E5B0281C4B7F00EB0D15 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E6E5AF281C4B7F00EB0D15 /* DataController.swift */; };
 		EB153FFE282FFD3500468859 /* ViewTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB153FFD282FFD3500468859 /* ViewTitle.swift */; };
@@ -45,7 +46,8 @@
 		8838ABB1282F7DA100D3599B /* ActivityDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityDetailView.swift; sourceTree = "<group>"; };
 		8838ABB62833672000D3599B /* NeuralNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeuralNetwork.swift; sourceTree = "<group>"; };
 		8838ABB8283529EC00D3599B /* RandomNumberGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomNumberGenerator.swift; sourceTree = "<group>"; };
-		8838ABC62837F90500D3599B /* TestModel.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = TestModel.mlmodel; path = ../../../../PycharmProjects/Sentimizer/Senti/TestModel.mlmodel; sourceTree = "<group>"; };
+		8838ABD92838194800D3599B /* TestModel.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; name = TestModel.mlpackage; path = ../../../../PycharmProjects/Sentimizer/Senti/TestModel.mlpackage; sourceTree = "<group>"; };
+		8838ABDB283819BA00D3599B /* TestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestModel.swift; sourceTree = "<group>"; };
 		88E6E5AD281C4ACD00EB0D15 /* Entry.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Entry.xcdatamodel; sourceTree = "<group>"; };
 		88E6E5AF281C4B7F00EB0D15 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		EB153FFD282FFD3500468859 /* ViewTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewTitle.swift; sourceTree = "<group>"; };
@@ -137,12 +139,13 @@
 		EB688828281340FB00C0FDE7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				8838ABC62837F90500D3599B /* TestModel.mlmodel */,
+				8838ABD92838194800D3599B /* TestModel.mlpackage */,
 				EB688826281340F500C0FDE7 /* Model.swift */,
 				EB634F2A28141FDE00979923 /* K.swift */,
 				88E6E5AC281C4ACD00EB0D15 /* Model.xcdatamodeld */,
 				88E6E5AF281C4B7F00EB0D15 /* DataController.swift */,
 				8838ABB62833672000D3599B /* NeuralNetwork.swift */,
+				8838ABDB283819BA00D3599B /* TestModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -285,6 +288,7 @@
 				EBCDD1182827F545006AD5E2 /* WhatNext.swift in Sources */,
 				EB6A3AAF2815BBC80078F8A8 /* AddActivityView.swift in Sources */,
 				88E6E5AE281C4ACD00EB0D15 /* Model.xcdatamodeld in Sources */,
+				8838ABDC283819BA00D3599B /* TestModel.swift in Sources */,
 				8838ABB72833672000D3599B /* NeuralNetwork.swift in Sources */,
 				EBCDD11A282AD30C006AD5E2 /* NewActivityView.swift in Sources */,
 				8838ABB9283529EC00D3599B /* RandomNumberGenerator.swift in Sources */,
@@ -297,13 +301,13 @@
 				EB634F2B28141FDE00979923 /* K.swift in Sources */,
 				EB642BFF27FF5DA4001DB273 /* MainActivityView.swift in Sources */,
 				EBA5A3E328356F1600F0B26A /* CalendarDayDetailView.swift in Sources */,
+				8838ABDA2838194800D3599B /* TestModel.mlpackage in Sources */,
 				88E6E5B0281C4B7F00EB0D15 /* DataController.swift in Sources */,
 				EBDB9F6E2833A22000586EB7 /* MoodPicker.swift in Sources */,
 				EB68882A2813459D00C0FDE7 /* Font+Extension.swift in Sources */,
 				EB634F2D281427DF00979923 /* View+Extension.swift in Sources */,
 				EBCDD11E282AD75E006AD5E2 /* KeyboardHelper.swift in Sources */,
 				EB6A3AB12815C2970078F8A8 /* SentiButton.swift in Sources */,
-				8838ABC72837F90500D3599B /* TestModel.mlmodel in Sources */,
 				8838ABB2282F7DA100D3599B /* ActivityDetailView.swift in Sources */,
 				EB642BFD27FF5DA4001DB273 /* SentimizerApp.swift in Sources */,
 				EB153FFE282FFD3500468859 /* ViewTitle.swift in Sources */,
