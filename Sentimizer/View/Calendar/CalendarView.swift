@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreML
 
 struct CalendarView: View {
     let data: [CalendarData]
@@ -19,13 +20,13 @@ struct CalendarView: View {
     
     @State private var tappedDate = Date()
     @State private var daySheetPresented = false
-    	
+    
     var body: some View {
         VStack(alignment: .leading) {
-//            Text(month + " \(Calendar.current.component(.year, from: date))")
-//                .font(.senti(size: 35))
-//                .gradientForeground()
-//                .padding()
+            //            Text(month + " \(Calendar.current.component(.year, from: date))")
+            //                .font(.senti(size: 35))
+            //                .gradientForeground()
+            //                .padding()
             
             WeekDays()
                 .padding(.bottom, 5)
@@ -64,6 +65,22 @@ struct CalendarView: View {
         .navigationTitle(month + " \(Calendar.current.component(.year, from: date))")
         .sheet(isPresented: $daySheetPresented) {
             CalendarDayDetailView(data: getActivitiesForDay(date: tappedDate), date: tappedDate)
+        }.onAppear() {
+            print("hi")
+            let x:[[Float]] = [[0.2, 0.2], [0.5, 0.5]]
+            
+            let mlMultiArrayInput = try? MLMultiArray(shape:[1, 2], dataType:MLMultiArrayDataType.double)
+            print("MLI", mlMultiArrayInput)
+            mlMultiArrayInput![0] = NSNumber(floatLiteral: Double(0.42))
+            mlMultiArrayInput![1] = NSNumber(floatLiteral: Double(0.0))
+            // mlMultiArrayInput![2] = NSNumber(floatLiteral: Double(0))
+            
+            print("after", mlMultiArrayInput)
+            
+            let model = TestModel()
+            
+            let pred = try? model.prediction(input: TestModelInput(ip: mlMultiArrayInput!))
+            print("pred", pred, pred?.var_6)
         }
     }
 }
@@ -78,7 +95,7 @@ struct WeekDays: View {
                 Spacer()
                 Text(weekDays[index])
                     .bold()
-//                    .foregroundColor(.white)
+                //                    .foregroundColor(.white)
                     .font(.senti(size: 15))
                     .minimumScaleFactor(0.7)
                 Spacer()
