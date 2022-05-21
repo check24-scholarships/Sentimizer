@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
-import CoreML
 
 struct CalendarView: View {
+    @StateObject private var dataController = DataController()
+    
     let data: [CalendarData]
     
     let sevenColumnGrid = Array(repeating: GridItem(.flexible(), spacing: 0), count: 7)
@@ -65,78 +66,9 @@ struct CalendarView: View {
         .navigationTitle(month + " \(Calendar.current.component(.year, from: date))")
         .sheet(isPresented: $daySheetPresented) {
             CalendarDayDetailView(data: getActivitiesForDay(date: tappedDate), date: tappedDate)
-        }.onAppear() {
-            print("hi")
-            let x:[[Float]] = [[0.2, 0.2], [0.5, 0.5]]
-            
-            let mlMultiArrayInput = try? MLMultiArray(shape:[1, 2], dataType:MLMultiArrayDataType.double)
-            print("MLI", mlMultiArrayInput)
-            mlMultiArrayInput![0] = NSNumber(floatLiteral: Double(0.42))
-            mlMultiArrayInput![1] = NSNumber(floatLiteral: Double(0.0))
-            // mlMultiArrayInput![2] = NSNumber(floatLiteral: Double(0))
-            
-            print("after", mlMultiArrayInput)
-            
-            let model = TestModel()
-            
-            let pred = try? model.prediction(input: TestModelInput(ip: mlMultiArrayInput!))
-            print("pred", pred, pred?.var_6)
-            
-            // fetch model
-            
-            //            let url = URL(string: "http://127.0.0.1:8000/")
-            //            let urlSession = URLSession(configuration: .default)
-            //            let downloadTask = urlSession.downloadTask(with: url!, completionHandler: { url, _,_ in
-            //                print("abc", url)
-            //
-            //                let model = try? TestModel(contentsOf: url!)
-            //
-            //                print("m", model)
-            //
-            //                let pred = try? model!.prediction(input: TestModelInput(ip: mlMultiArrayInput!))
-            //
-            //                print("pred", pred, pred?.var_6)
-            //            })
-            //            downloadTask.resume()
-            
-//             downloadFile()
-            
-            
-            let resourceDocPath = (FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)).last! as URL
-            let pdfNameFromUrl = "TestModel.mlmodelc"
-            let actualPath = resourceDocPath.appendingPathComponent(pdfNameFromUrl)
-            
-            guard let url = URL(string: "http://127.0.0.1:8000/") else { return }
-            let request = URLRequest(url: url)
-            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-                guard let data = data else { return }
-                do {
-                    try data.write(to: actualPath)
-                    
-                    print(actualPath)
-                    
-                    let pls = try MLModel.compileModel(at: actualPath)
-                    
-                    print("pLs", pls)
-                    
-                    let permanentURL = try FileManager.default.url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent(pls.lastPathComponent)
-                    _ = try FileManager.default.replaceItemAt(permanentURL, withItemAt: pls)
-                    
-                    let model = try TestModel(contentsOf: permanentURL)
-                    
-                    print("mOdEl", model)
-                    
-                    let mlMultiArrayInput = try? MLMultiArray(shape:[1, 2], dataType:MLMultiArrayDataType.double)
-                    print("MLI", mlMultiArrayInput)
-                    mlMultiArrayInput![0] = NSNumber(floatLiteral: Double(0.2))
-                    mlMultiArrayInput![1] = NSNumber(floatLiteral: Double(0.2))
-                    
-                    print("p", try model.prediction(input: TestModelInput(ip: mlMultiArrayInput!)).var_6)
-                } catch let error {
-                    print(error)
-                }
-            }
-            task.resume()
+        }
+        .onAppear() {
+            print(dataController.feedforward(ip: [0.2, 0.2, 0.2, 0.4]))
         }
     }
 }
@@ -215,39 +147,3 @@ struct CalendarView_Previews: PreviewProvider {
         CalendarView(data: [CalendarData(date: Date(), activity: "Walk", icon: "figure.walk"), CalendarData(date: Date(), activity: "School", icon: "suitcase.fill")])
     }
 }
-
-func downloadFile(){
-    let url = "http://127.0.0.1:8000/"
-    let fileName = "TestModel.mlmodel"
-    
-    savePdf(urlString: url, fileName: fileName)
-    
-}
-
-func savePdf(urlString:String, fileName:String) {
-    DispatchQueue.main.async {
-        let url = URL(string: urlString)
-        let pdfData = try? Data.init(contentsOf: url!)
-        let resourceDocPath = (FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)).last! as URL
-        let pdfNameFromUrl = fileName
-        let actualPath = resourceDocPath.appendingPathComponent(pdfNameFromUrl)
-        do {
-            try pdfData?.write(to: actualPath, options: .atomic)
-            print("pdf successfully saved!")
-            print(actualPath)
-            
-            let fileManager = FileManager.default
-            let appSupportDirectory = try! fileManager.url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-
-            let permanentUrl = appSupportDirectory.appendingPathComponent(actualPath.absoluteString)
-
-            let model = try? TestModel(contentsOf: permanentUrl)
-            
-            print("MODEL", model)
-            //file is downloaded in app data container, I can find file from x code > devices > MyApp > download Container >This container has the file
-        } catch {
-            print("Pdf could not be saved")
-        }
-    }
-}
-
