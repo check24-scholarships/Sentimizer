@@ -240,7 +240,7 @@ struct ActivityDetailView: View {
 }
 
 struct ActivityDetailView_Previews: PreviewProvider {
-    static var previews: some View {
+    static var previews : some View {
         ActivityDetailView(activity: "Walking", icon: "figure.walk", description: "", day: "Today", time: "08:15", duration: "10 min", sentiment: "happy", id: "")
     }
 }

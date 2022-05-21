@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct EditActivityCategoryView: View {
     @State var activityName: String
@@ -15,6 +16,7 @@ struct EditActivityCategoryView: View {
     @State private var userIcon = ""
     
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.managedObjectContext) var viewContext
     
     @State private var iconChosen = false
     @State private var textFieldEditing = false
@@ -92,13 +94,39 @@ struct EditActivityCategoryView: View {
     }
     
     func updateActivityName(with activityName: String) {
-        // set activityName AND userActivityName to new value (see ActivityDetailView)
-        print(#function)
+        print("LEL", icon, activityName, userIcon, userActivityName)
+        let fetchRequest: NSFetchRequest<Activity>
+        fetchRequest = Activity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(value: true)
+        
+        let activities = try! viewContext.fetch(fetchRequest)
+        
+        for activity in activities {
+            if activity.name == userActivityName && activity.icon == userIcon {
+                print("true", userActivityName, activityName)
+                activity.name = activityName
+            }
+        }
+        
+        try! viewContext.save()
     }
     
     func updateActivityIcon(with icon: String) {
-        // set icon AND userIcon to new value (see ActivityDetailView)
-        print(#function)
+        print("LEL", icon, activityName, userIcon, userActivityName)
+        let fetchRequest: NSFetchRequest<Activity>
+        fetchRequest = Activity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(value: true)
+        
+        let activities = try! viewContext.fetch(fetchRequest)
+        
+        for activity in activities {
+            if activity.name == activityName && activity.icon == icon {
+                print("HERE", activity.name, activity.icon)
+                activity.icon = userIcon
+            }
+        }
+        
+        try! viewContext.save()
     }
 }
 

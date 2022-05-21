@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreData
+import CoreML
 
 class DataController: ObservableObject {
     private static var container: NSPersistentContainer {
@@ -18,6 +19,8 @@ class DataController: ObservableObject {
         })
         return container
     }
+    
+    var defaults = UserDefaults.standard
     
     var context: NSManagedObjectContext {
         return DataController.container.viewContext
@@ -66,6 +69,10 @@ class DataController: ObservableObject {
             print("In \(#function), line \(#line), save activity failed:")
             print(error.localizedDescription)
         }
+        
+        // hier musst du den entry an django senden und speichern
+        // Das musst du in glaube ich in django speichern:
+        print("Django: activity: \(activity) id \(entry.objectID.uriRepresentation().absoluteString) feeling \(getSentiScore(for: feeling)) datum \(Date())")
     }
     
     func deleteActivity(viewContext: NSManagedObjectContext, id: String) {
@@ -81,9 +88,13 @@ class DataController: ObservableObject {
             print("In \(#function), line \(#line), delete activity failed:")
             print(error.localizedDescription)
         }
+        
+        // hier das Object mit der id id auf dem Server löschen
+        
+        print("Django: id ", id)
     }
     
-    static func getSentiScore(for sentiment: String) -> Double{
+    func getSentiScore(for sentiment: String) -> Double{
         switch sentiment {
         case "crying":
             return 0
@@ -227,7 +238,7 @@ class DataController: ObservableObject {
         return count
     }
     
-    static func getInfluence(viewContext: NSManagedObjectContext, interval: String, activities: FetchedResults<Activity>) -> (([String], [Double]), ([String], [Double])){
+    func getInfluence(viewContext: NSManagedObjectContext, interval: String, activities: FetchedResults<Activity>) -> (([String], [Double]), ([String], [Double])){
         var allActivities:[String] = K.defaultActivities.0.map { $0.copy() as! String }
         
         for activity in activities {
@@ -368,5 +379,67 @@ class DataController: ObservableObject {
         }
         
         return ((["Soccer"], [0.5]), (["Project"], [-0.2]))
+    }
+    
+    func getModel() {
+        let resourceDocPath = (FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)).last! as URL
+        let modelName = "TestModel.mlmodelc"
+        let actualPath = resourceDocPath.appendingPathComponent(modelName)
+        
+        guard let url = URL(string: "http://127.0.0.1:8000/") else { return }
+        let request = URLRequest(url: url)
+        let task = URLSession.shared.dataTask(with: request) { [self] (data, response, error) in
+            guard let data = data else { return }
+            do {
+                try data.write(to: actualPath)
+                
+                print(actualPath)
+                
+                let model = try MLModel.compileModel(at: actualPath)
+                
+                print("pLs", model)
+                
+                let permanentURL = try FileManager.default.url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent(model.lastPathComponent)
+                _ = try FileManager.default.replaceItemAt(permanentURL, withItemAt: model)
+                
+                self.defaults.set(permanentURL.absoluteString, forKey: K.modelURL)
+                
+                print("absolute", permanentURL, permanentURL.absoluteString)
+            } catch let error {
+                print(error)
+            }
+        }
+        task.resume()
+    }
+    
+    func feedforward(ip: [Double]) -> [Double] {
+        do {
+            let permanentURL = self.defaults.object(forKey: K.modelURL)
+            let model = try TestModel(contentsOf: URL(string: permanentURL as! String)!)
+            
+            let mlMultiArrayInput = try? MLMultiArray(shape:[1, NSNumber(value: ip.count)], dataType:MLMultiArrayDataType.double)
+            
+            for i in 0 ..< ip.count {
+                mlMultiArrayInput![i] = ip[i] as NSNumber
+            }
+            
+            print("MLI", mlMultiArrayInput as Any)
+            
+            let output = try model.prediction(input: TestModelInput(ip: mlMultiArrayInput!)).var_6
+            
+            print(output)
+            
+            var result:[Double] = []
+            
+            for i in 0 ..< output.count {
+                result.append(Double(truncating: output[i]))
+            }
+            
+            return result
+        } catch let error {
+            print(error)
+        }
+        
+        return []
     }
 }

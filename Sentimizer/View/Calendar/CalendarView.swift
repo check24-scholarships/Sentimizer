@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
-import CoreML
 
 struct CalendarView: View {
+    @StateObject private var dataController = DataController()
+    
     let data: [CalendarData]
     
     let sevenColumnGrid = Array(repeating: GridItem(.flexible(), spacing: 0), count: 7)
@@ -65,22 +66,9 @@ struct CalendarView: View {
         .navigationTitle(month + " \(Calendar.current.component(.year, from: date))")
         .sheet(isPresented: $daySheetPresented) {
             CalendarDayDetailView(data: getActivitiesForDay(date: tappedDate), date: tappedDate)
-        }.onAppear() {
-            print("hi")
-            let x:[[Float]] = [[0.2, 0.2], [0.5, 0.5]]
-            
-            let mlMultiArrayInput = try? MLMultiArray(shape:[1, 2], dataType:MLMultiArrayDataType.double)
-            print("MLI", mlMultiArrayInput)
-            mlMultiArrayInput![0] = NSNumber(floatLiteral: Double(0.42))
-            mlMultiArrayInput![1] = NSNumber(floatLiteral: Double(0.0))
-            // mlMultiArrayInput![2] = NSNumber(floatLiteral: Double(0))
-            
-            print("after", mlMultiArrayInput)
-            
-            let model = TestModel()
-            
-            let pred = try? model.prediction(input: TestModelInput(ip: mlMultiArrayInput!))
-            print("pred", pred, pred?.var_6)
+        }
+        .onAppear() {
+            print(dataController.feedforward(ip: [0.2, 0.2, 0.2, 0.4]))
         }
     }
 }
