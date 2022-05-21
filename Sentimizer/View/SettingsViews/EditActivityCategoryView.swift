@@ -38,7 +38,9 @@ struct EditActivityCategoryView: View {
                 .standardBackground()
                 .padding()
                 .onChange(of: userIcon) { newValue in
-                    updateActivityIcon(with: newValue)
+                    updateActivityIcon(with: newValue, activityName: userActivityName)
+                    icon = newValue
+                    activityName = userActivityName
                 }
                 
                 TextField("Activity name", text: $userActivityName) { editing in
@@ -56,7 +58,8 @@ struct EditActivityCategoryView: View {
                     textFieldFocus = true
                 }
                 .onChange(of: userActivityName, perform: { newValue in
-                    updateActivityName(with: newValue)
+                    updateActivityName(with: newValue, oldName: activityName)
+                    activityName = userActivityName
                 })
                 .toolbar {
                     ToolbarItemGroup(placement: .keyboard) {
@@ -93,8 +96,7 @@ struct EditActivityCategoryView: View {
         }
     }
     
-    func updateActivityName(with activityName: String) {
-        print("LEL", icon, activityName, userIcon, userActivityName)
+    func updateActivityName(with activityName: String, oldName: String) {
         let fetchRequest: NSFetchRequest<Activity>
         fetchRequest = Activity.fetchRequest()
         fetchRequest.predicate = NSPredicate(value: true)
@@ -102,8 +104,7 @@ struct EditActivityCategoryView: View {
         let activities = try! viewContext.fetch(fetchRequest)
         
         for activity in activities {
-            if activity.name == userActivityName && activity.icon == userIcon {
-                print("true", userActivityName, activityName)
+            if activity.name == oldName {
                 activity.name = activityName
             }
         }
@@ -111,8 +112,7 @@ struct EditActivityCategoryView: View {
         try! viewContext.save()
     }
     
-    func updateActivityIcon(with icon: String) {
-        print("LEL", icon, activityName, userIcon, userActivityName)
+    func updateActivityIcon(with icon: String, activityName: String) {
         let fetchRequest: NSFetchRequest<Activity>
         fetchRequest = Activity.fetchRequest()
         fetchRequest.predicate = NSPredicate(value: true)
@@ -120,9 +120,8 @@ struct EditActivityCategoryView: View {
         let activities = try! viewContext.fetch(fetchRequest)
         
         for activity in activities {
-            if activity.name == activityName && activity.icon == icon {
-                print("HERE", activity.name, activity.icon)
-                activity.icon = userIcon
+            if activity.name == activityName {
+                activity.icon = icon
             }
         }
         
