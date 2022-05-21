@@ -19,6 +19,9 @@ struct SentimizerApp: App {
                 .minimumScaleFactor(0.8)
                 .foregroundColor(K.textColor)
                 .environment(\.managedObjectContext, dataController.context)
+                .onAppear() {
+                     dataController.getModel()
+                }
         }
     }
 }
