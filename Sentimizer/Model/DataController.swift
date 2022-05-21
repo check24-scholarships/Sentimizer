@@ -69,6 +69,10 @@ class DataController: ObservableObject {
             print("In \(#function), line \(#line), save activity failed:")
             print(error.localizedDescription)
         }
+        
+        // hier musst du den entry an django senden und speichern
+        // Das musst du in glaube ich in django speichern:
+        print("Django: activity: \(activity) id \(entry.objectID.uriRepresentation().absoluteString) feeling \(getSentiScore(for: feeling)) datum \(Date())")
     }
     
     func deleteActivity(viewContext: NSManagedObjectContext, id: String) {
@@ -84,9 +88,13 @@ class DataController: ObservableObject {
             print("In \(#function), line \(#line), delete activity failed:")
             print(error.localizedDescription)
         }
+        
+        // hier das Object mit der id id auf dem Server löschen
+        
+        print("Django: id ", id)
     }
     
-    static func getSentiScore(for sentiment: String) -> Double{
+    func getSentiScore(for sentiment: String) -> Double{
         switch sentiment {
         case "crying":
             return 0
@@ -230,7 +238,7 @@ class DataController: ObservableObject {
         return count
     }
     
-    static func getInfluence(viewContext: NSManagedObjectContext, interval: String, activities: FetchedResults<Activity>) -> (([String], [Double]), ([String], [Double])){
+    func getInfluence(viewContext: NSManagedObjectContext, interval: String, activities: FetchedResults<Activity>) -> (([String], [Double]), ([String], [Double])){
         var allActivities:[String] = K.defaultActivities.0.map { $0.copy() as! String }
         
         for activity in activities {

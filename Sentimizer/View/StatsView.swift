@@ -51,7 +51,7 @@ struct StatsView: View {
                         DispatchQueue.global(qos: .userInitiated).async {
                             (xAxis, values) = getStats(entries: entries, interval: newValue)
                             counts = dataController.getCount(viewContext: viewContext, interval: newValue)
-                            (improved, worsened) = DataController.getInfluence(viewContext: viewContext, interval: newValue, activities: activities)
+                            (improved, worsened) = dataController.getInfluence(viewContext: viewContext, interval: newValue, activities: activities)
                         }
                     }
                     
@@ -119,7 +119,7 @@ struct StatsView: View {
                 DispatchQueue.global(qos: .userInitiated).async {
                     (xAxis, values) = getStats(entries: entries, interval: timeInterval)
                     counts = dataController.getCount(viewContext: viewContext, interval: timeInterval)
-                    (improved, worsened) = DataController.getInfluence(viewContext: viewContext, interval: timeInterval, activities: activities)
+                    (improved, worsened) = dataController.getInfluence(viewContext: viewContext, interval: timeInterval, activities: activities)
                 }
             }
         }
@@ -360,7 +360,7 @@ extension StatsView {
         var mean:Double = 0
         
         for entry in rEntries[i] {
-            mean += DataController.getSentiScore(for: entry.feeling!)
+            mean += dataController.getSentiScore(for: entry.feeling!)
         }
         
         if rEntries[i].count != 0 {
@@ -408,7 +408,7 @@ extension StatsView {
             var lastValue:Double = -1
             
             for entry in rEntries {
-                yValues.append(DataController.getSentiScore(for: entry.feeling!))
+                yValues.append(dataController.getSentiScore(for: entry.feeling!))
                 var xValue = (entry.date!.timeIntervalSince1970 - firstTime!) / (lastTime! - firstTime!)
                 if xValue - lastValue < 0.1 {
                     xValue = lastValue + 0.1
