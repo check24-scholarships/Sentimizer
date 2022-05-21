@@ -27,7 +27,7 @@ struct SentiTextEditor: View {
                 .onAppear {
                     UITextView.appearance().backgroundColor = .clear
                 }
-                .toolbar {
+                .toolbar { 
                     ToolbarItemGroup(placement: .keyboard) {
                         HStack {
                             Spacer()
