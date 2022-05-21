@@ -1,0 +1,10 @@
+{
+  "MLModelVersionStringKey" : "1.0",
+  "MLModelDescriptionKey" : "Test Model",
+  "MLModelCreatorDefinedKey" : {
+    "com.github.apple.coremltools.version" : "5.2.0",
+    "com.github.apple.coremltools.source" : "torch==1.11.0"
+  },
+  "MLModelAuthorKey" : "Justin Hohenstein",
+  "MLModelLicenseKey" : "@Sentimizer"
+}
