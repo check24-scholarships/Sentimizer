@@ -62,10 +62,12 @@ struct NewActivityCategoryView: View {
             
             dataController.saveNewActivityCategory(name: activityTextFieldText, icon: iconName, viewContext)
         }
-        .alert("This name already exists. Please choose another one.", isPresented: $showingDoubleNameAlert) {
-            Button("OK", role: .cancel) {
+        .alert(isPresented: $showingDoubleNameAlert) {
+            Alert(title: Text("Error"),
+                  message: Text("This name already exists. Please choose another one."),
+                  dismissButton: .default(Text("OK"), action: {
                 activityTextFieldText = ""
-            }
+            }))
         }
     }
 }
