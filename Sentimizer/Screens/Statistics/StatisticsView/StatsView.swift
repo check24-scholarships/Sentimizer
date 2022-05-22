@@ -85,22 +85,29 @@ struct StatsView: View {
                             .font(.senti(size: 20))
                             .padding([.leading, .top])
                         
-                        
-                        MoodInfluence(data: improved, width: $width)
-                            .overlay {
-                                GeometryReader { g in
-                                    Color.clear
-                                        .onAppear() {
-                                            width = g.size.width
-                                        }
+                        if improved.0.count == 0 {
+                                NotEnoughData()
+                        } else {
+                            MoodInfluence(data: improved, width: $width)
+                                .overlay {
+                                    GeometryReader { g in
+                                        Color.clear
+                                            .onAppear() {
+                                                width = g.size.width
+                                            }
+                                    }
                                 }
-                            }
+                        }
                         
                         Text("Worsened Your Mood")
                             .font(.senti(size: 20))
                             .padding([.leading, .top])
                         
-                        MoodInfluence(data: worsened, width: $width)
+                        if worsened.0.count == 0 {
+                            NotEnoughData()
+                        } else {
+                            MoodInfluence(data: worsened, width: $width)
+                        }
                         
                         Text("Mood Count")
                             .font(.senti(size: 20))
