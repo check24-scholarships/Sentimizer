@@ -203,9 +203,9 @@
 			isa = PBXGroup;
 			children = (
 				EB8539E928196A6D00C90DD9 /* StatsView.swift */,
+				EB410CDC283A51A700D629B2 /* MoodTrendChart.swift */,
 				EB410CDE283A51CD00D629B2 /* MoodInfluence.swift */,
 				EB410CE0283A51E500D629B2 /* MoodCount.swift */,
-				EB410CDC283A51A700D629B2 /* MoodTrendChart.swift */,
 				EB410CEE283A9F1700D629B2 /* NotEnoughData.swift */,
 			);
 			path = StatisticsView;

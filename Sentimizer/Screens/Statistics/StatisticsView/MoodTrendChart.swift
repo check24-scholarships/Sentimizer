@@ -46,7 +46,7 @@ struct MoodTrendChart: View {
                         path.move(to: CGPoint(x: 40, y: height/5 - 8))
                         path.addLine(to: CGPoint(x: width, y: height/5 - 8))
                     }
-                    .stroke(LinearGradient(colors: [K.brandColor2.opacity(0.5), K.brandColor3.opacity(0.5)], startPoint: .leading, endPoint: .trailing), style: StrokeStyle(lineWidth: 2, lineJoin: .round))
+                    .stroke(LinearGradient(colors: [K.brandColor2.opacity(0.5), K.brandColor3.opacity(0.5).adjust(brightness: -0.05)], startPoint: .leading, endPoint: .trailing), style: StrokeStyle(lineWidth: 2, lineJoin: .round))
                 }
                 
                 // Senti images
