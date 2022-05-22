@@ -188,15 +188,40 @@ class DataController: ObservableObject {
     }
     
     func deleteActivityCategory(with categoryName: String, _ viewContext: NSManagedObjectContext) {
+        let fetchRequest: NSFetchRequest<Activity>
+        fetchRequest = Activity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(value: true)
         
+        let activities = try! viewContext.fetch(fetchRequest)
+        
+        for activity in activities {
+            if activity.name == categoryName {
+                viewContext.delete(activity)
+            }
+        }
+        
+        try! viewContext.save()
     }
     
     func activityCategoryNameAlreadyExists(for categoryName: String, _ viewContext: NSManagedObjectContext) -> Bool {
+        let fetchRequest: NSFetchRequest<Activity>
+        fetchRequest = Activity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(value: true)
+        
+        let activities = try! viewContext.fetch(fetchRequest)
+        
+        for activity in activities {
+            if activity.name == categoryName {
+                return true
+            }
+        }
         
         return false
     }
     
     func updateActivityCategoryName(with activityName: String, oldName: String, _ viewContext: NSManagedObjectContext) {
+        print("an", activityName, "on", oldName)
+    
         let fetchRequest: NSFetchRequest<Activity>
         fetchRequest = Activity.fetchRequest()
         fetchRequest.predicate = NSPredicate(value: true)
