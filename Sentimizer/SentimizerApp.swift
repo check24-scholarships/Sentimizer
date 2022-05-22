@@ -14,13 +14,12 @@ struct SentimizerApp: App {
     var body: some Scene {
         WindowGroup {
             AppTabNavigation()
-                .environmentObject(Model())
                 .font(.senti(size: 12))
-                .minimumScaleFactor(0.8)
                 .foregroundColor(K.textColor)
+//                .environmentObject(Model())
                 .environment(\.managedObjectContext, dataController.context)
                 .onAppear() {
-                     dataController.getModel()
+                     MachineLearning.getModel()
                 }
         }
     }
