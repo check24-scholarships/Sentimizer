@@ -191,6 +191,11 @@ class DataController: ObservableObject {
         
     }
     
+    func activityCategoryNameAlreadyExists(for categoryName: String, _ viewContext: NSManagedObjectContext) -> Bool {
+        
+        return false
+    }
+    
     func updateActivityCategoryName(with activityName: String, oldName: String, _ viewContext: NSManagedObjectContext) {
         let fetchRequest: NSFetchRequest<Activity>
         fetchRequest = Activity.fetchRequest()

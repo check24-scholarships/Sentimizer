@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct NewActivityCategoryView: View {
+    @Environment(\.managedObjectContext) var viewContext
+    
+    @StateObject private var dataController = DataController()
+    
     @State private var activityTextFieldText = ""
     @State private var textFieldEditing = false
     
@@ -15,10 +19,7 @@ struct NewActivityCategoryView: View {
     
     @Environment(\.dismiss) private var dismiss
     @State private var shouldBeDismissed = false
-    
-    @Environment(\.managedObjectContext) var viewContext
-    
-    @StateObject private var dataController = DataController()
+    @State private var showingDoubleNameAlert = false
     
     var body: some View {
         ScrollView {
@@ -37,9 +38,13 @@ struct NewActivityCategoryView: View {
                         .frame(width: 150)
                 }
                 .disabled(activityTextFieldText.isEmpty)
+                .disabled(dataController.activityCategoryNameAlreadyExists(for: activityTextFieldText, viewContext))
                 .opacity(activityTextFieldText.isEmpty ? 0.3 : 1)
                 .animation(.easeOut, value: activityTextFieldText)
                 .padding(.top)
+                .onTapGesture {
+                    showingDoubleNameAlert = true
+                }
             }
             .onTapGesture {
                 textFieldEditing = false
@@ -56,6 +61,11 @@ struct NewActivityCategoryView: View {
             dismiss()
             
             dataController.saveNewActivityCategory(name: activityTextFieldText, icon: iconName, viewContext)
+        }
+        .alert("This name already exists. Please choose another one.", isPresented: $showingDoubleNameAlert) {
+            Button("OK", role: .cancel) {
+                activityTextFieldText = ""
+            }
         }
     }
 }

@@ -109,7 +109,7 @@ struct StatsView: View {
                             MoodInfluence(data: worsened, width: $width)
                         }
                         
-                        Text("Mood Count")
+                        Text("Mood Ratio")
                             .font(.senti(size: 20))
                             .padding([.leading, .top])
                         
@@ -117,7 +117,7 @@ struct StatsView: View {
                             .frame(maxWidth: .infinity)
                         
                         
-                            .padding(.bottom, 30)
+                            .padding(.bottom, 20)
                     }
                 }
                 .padding(.horizontal, 15)
