@@ -46,6 +46,11 @@ struct EditActivityCategoryView: View {
                 
                 SentiTextField(placeholder: "Activity category name", text: $userActivityName, textFieldEditing: $textFieldEditing, done: $userEditingDone)
                 
+                SentiDeleteButton(label: "Delete activity category") {
+                    dataController.deleteActivityCategory(with: activityName, viewContext)
+                    dismiss()
+                }
+                
                 Button {
                     dismiss()
                 } label: {

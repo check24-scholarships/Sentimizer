@@ -187,6 +187,10 @@ class DataController: ObservableObject {
         }
     }
     
+    func deleteActivityCategory(with categoryName: String, _ viewContext: NSManagedObjectContext) {
+        
+    }
+    
     func updateActivityCategoryName(with activityName: String, oldName: String, _ viewContext: NSManagedObjectContext) {
         let fetchRequest: NSFetchRequest<Activity>
         fetchRequest = Activity.fetchRequest()

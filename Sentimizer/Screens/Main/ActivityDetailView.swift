@@ -32,7 +32,6 @@ struct ActivityDetailView: View {
     @StateObject private var dataController = DataController()
     
     @State private var isEditingDescription = false
-    @State private var isPresentingConfirm = false
     
     var body: some View {
         ScrollViewReader { scrollView in
@@ -139,27 +138,11 @@ struct ActivityDetailView: View {
                     .standardBackground()
                     .padding(.horizontal, 15)
                     
-                    Button {
-                        isPresentingConfirm = true
-                    } label: {
-                        Text("Delete this activity")
-                            .font(.senti(size: 20))
-                            .foregroundColor(.red)
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(RoundedRectangle(cornerRadius: 25).foregroundColor(K.brandColor1).opacity(0.1))
-                            .padding()
-                            .padding(.top)
+                    SentiDeleteButton(label: "Delete this activity") {
+                        dataController.deleteActivity(id: id, viewContext)
+                        dismiss()
                     }
                 }
-            }
-            .confirmationDialog("Are you sure?", isPresented: $isPresentingConfirm) {
-                Button("Delete activity", role: .destructive) {
-                    dataController.deleteActivity(id: id, viewContext)
-                    dismiss()
-                }
-            } message: {
-                Text("You cannot undo this action.")
             }
             .navigationTitle(day)
             .toolbar {
