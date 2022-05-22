@@ -52,19 +52,13 @@ struct MoodCount: View {
                     )
             }
             HStack {
-                Image(K.sentimentsArray[0])
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: circleWidth/6)
-                    .changeColor(to: K.sentimentColors[0])
-                Text(" - ")
-                    .font(.senti(size: 50))
-                    .offset(y: -5)
-                Image(K.sentimentsArray[4])
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: circleWidth/6)
-                    .changeColor(to: K.sentimentColors[4])
+                ForEach(0..<K.sentimentsArray.count, id: \.self) { index in
+                    Image(K.sentimentsArray[index])
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: circleWidth/10)
+                        .changeColor(to: K.sentimentColors[index])
+                }
             }
             .offset(y: -10)
         }
@@ -82,7 +76,6 @@ struct MoodCount: View {
                 .offset(y: -(circleWidth + 20)/4)
         }
         .offset(y: 30)
-        
     }
 }
 
