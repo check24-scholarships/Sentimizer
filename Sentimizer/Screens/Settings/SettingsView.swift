@@ -18,31 +18,65 @@ struct SettingsView: View {
                 } label: {
                     HStack {
                         Image(systemName: "person.crop.rectangle.stack")
-                        Text("Activities")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 20)
+                            .padding(10)
+                            .background(RoundedRectangle(cornerRadius: 10).foregroundColor(K.brandColor2))
+                        Text("Edit Activity Categories")
+                            .minimumScaleFactor(0.8)
                     }
                 }
-                .listRowBackground(K.brandColor2Light)
             }
             
-            Section {
-                NavigationLink {
-                    ActivityChooserView(activity: .constant(""), icon: .constant(""))
-                        .padding(.top, -30)
-                        .navigationBarTitleDisplayMode(.inline)
-                } label: {
+            Section(header: Text("Color Scheme").foregroundColor(.gray)) {
+                Button {} label: {
                     HStack {
-                        Image(systemName: "rays")
-                        Text("Appearance")
+                        Image(systemName: "sun.max.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 20)
+                            .padding(10)
+                            .background(RoundedRectangle(cornerRadius: 10).foregroundColor(K.brandColor4))
+                        Text("Light")
+                        Spacer()
+                        Image(systemName: "checkmark")
+                            .foregroundColor(.blue)
                     }
                 }
+                HStack {
+                    Image(systemName: "moon.stars")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 20)
+                        .padding(10)
+                        .background(RoundedRectangle(cornerRadius: 10).foregroundColor(K.brandColor4))
+                    Text("Dark")
+                    Spacer()
+                    Image(systemName: "checkmark")
+                        .foregroundColor(.blue)
+                }
+                HStack {
+                    Image(systemName: "gearshape.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 20)
+                        .padding(10)
+                        .background(RoundedRectangle(cornerRadius: 10).foregroundColor(K.brandColor4))
+                    Text("Auto")
+                    Spacer()
+                    Image(systemName: "checkmark")
+                        .foregroundColor(.blue)
+                }
             }
-            .listRowBackground(K.brandColor2Light)
         }
+        .listStyle(.insetGrouped)
+        .font(.senti(size: 20))
         .padding(.top)
-        .background(K.bgColor)
         .onAppear {
             UITableView.appearance().backgroundColor = .clear // tableview background
         }
+        .foregroundColor(.black)
     }
 }
 
