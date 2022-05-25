@@ -2,15 +2,17 @@
 //  Image+Extension.swift
 //  Sentimizer
 //
-//  Created by Samuel Ginsberg on 27.04.22.
+//  Created by Samuel Ginsberg on 25.05.22.
 //
 
 import SwiftUI
 
-extension View {
-    /// Colors all the pixels of the specified view.
-    public func changeColor(to color: Color) -> some View {
-        self.overlay(color)
-        .mask(self)
+extension Image {
+    /// Sets the standard properties for an Icon: resizable, content mode fit, frame dimensions.
+    public func standardIcon(width: CGFloat = 30, shouldBeMaxWidthHeight: Bool = false, maxWidthHeight: CGFloat = 12) -> some View {
+        self.resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(width: shouldBeMaxWidthHeight ? nil : width)
+            .frame(maxWidth: shouldBeMaxWidthHeight ? maxWidthHeight : nil)
     }
 }

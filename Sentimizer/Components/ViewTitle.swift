@@ -10,18 +10,20 @@ import SwiftUI
 /// Displays the standard Sentimizer view title.
 struct ViewTitle: View {
     let title: String
+    var padding: Bool
     
     var fontSize: CGFloat
     
     var body: some View {
         Text(title)
             .font(.senti(size: fontSize))
-            .padding()
-            .padding(.top, 25)
+            .padding(padding ? 10 : 0)
+            .padding(.top, padding ? 25 : 0)
     }
     
-    init(_ title: String, fontSize: CGFloat = 35) {
+    init(_ title: String, padding: Bool = true, fontSize: CGFloat = 35) {
         self.title = title
+        self.padding = padding
         self.fontSize = fontSize
     }
 }

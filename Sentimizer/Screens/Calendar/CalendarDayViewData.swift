@@ -8,10 +8,10 @@
 import SwiftUI
 
 extension CalendarDayDetailView {
-    func getHours() -> [Int] {
-        if data.count > 0 {
-            let firstHour = Calendar.current.component(.hour, from: data[0].date)
-            let lastHour = Calendar.current.component(.hour, from: data[data.count-1].date)
+    func getHours(content: [CalendarModel]) -> [Int] {
+        if content.count > 0 {
+            let firstHour = Calendar.current.component(.hour, from: content[0].date)
+            let lastHour = Calendar.current.component(.hour, from: content[content.count-1].date)
             
             var hours: [Int] = []
             for i in firstHour...lastHour {
@@ -38,9 +38,9 @@ extension CalendarDayDetailView {
         }
     }
     
-    func getDataForSection(_ timeSection: String) -> [CalendarModel] {
+    func getDataForSection(content: [CalendarModel], _ timeSection: String) -> [CalendarModel] {
         var newData: [CalendarModel] = []
-        for d in data {
+        for d in content {
             let hour = Calendar.current.component(.hour, from: d.date)
             
             switch timeSection {

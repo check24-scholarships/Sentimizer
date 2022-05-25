@@ -72,7 +72,7 @@ struct SettingsView: View {
         }
         .listStyle(.insetGrouped)
         .font(.senti(size: 20))
-        .padding(.top)
+        .padding(.top, 5)
         .onAppear {
             UITableView.appearance().backgroundColor = .clear // tableview background
         }

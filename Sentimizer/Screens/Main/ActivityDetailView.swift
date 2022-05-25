@@ -117,8 +117,7 @@ struct ActivityDetailView: View {
                                     }
                                 } label: {
                                     Image(systemName: "pencil")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
+                                        .standardIcon()
                                         .frame(height: 20)
                                         .padding(13)
                                         .standardBackground()

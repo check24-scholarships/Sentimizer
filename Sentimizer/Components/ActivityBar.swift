@@ -12,6 +12,7 @@ struct ActivityBar: View {
     let activity: String
     let description: String
     let time: (String, String)
+    var showsTime: Bool = true
     let sentiment: String
     let id: String
     let icon: String
@@ -22,6 +23,7 @@ struct ActivityBar: View {
                 .font(.senti(size: 20))
                 .padding([.leading, .top, .bottom])
                 .padding(.trailing, 3)
+                .opacity(showsTime ? 1 : 0)
             
             HStack {
                 Image(systemName: icon)

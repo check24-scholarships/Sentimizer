@@ -21,6 +21,7 @@ struct IconChooser: View {
         ScrollView {
             VStack(alignment: .leading) {
                 ViewTitle("Choose your icon", fontSize: 30)
+                    .padding(.top, -10)
                 
                 ForEach(K.defaultIcons, id: \.0.self) { category in
                     Text(category.0.uppercased())
