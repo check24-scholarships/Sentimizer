@@ -35,31 +35,37 @@ struct CalendarView: View {
             ScrollView {
                 LazyVGrid(columns: sevenColumnGrid) {
                     ForEach(0..<getDaysInMonth().count, id: \.self) { index in
-                        HStack {
-                            Spacer()
-                            VStack {
-                                ForEach(getActivityIconsForDay(date: getDaysInMonth()[index].1), id: \.self) { icon in
-                                    Image(systemName: icon)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(maxWidth: 12)
-                                }
-                            }
-                            .offset(x: 5)
-                            
+                        VStack {
                             HStack {
                                 Text(getDaysInMonth()[index].0)
                                     .lineLimit(1)
                             }
-                            .padding(.bottom, 70)
+                            
+                            Spacer()
+                            
+                            VStack {
+                                ForEach(getActivityIconsForDay(date: getDaysInMonth()[index].1), id: \.self) { icon in
+                                    Image(systemName: icon)
+                                        .standardIcon(shouldBeMaxWidthHeight: true, maxWidthHeight: 18)
+                                        .gradientForeground()
+                                        .padding(.bottom, 5)
+                                }
+                            }
+                            .offset(x: 5)
+                            
                         }
+                        .frame(height: 100)
+                        .frame(maxWidth: .infinity)
+                        .background((((index+1)%7 == 0 || index%7 == 0) ?
+                                     K.brandColor2Light.opacity(0.3)
+                                     : .clear).ignoresSafeArea().padding(.top, -8))
                         .onTapGesture {
                             tappedDate = getDaysInMonth()[index].1
                             daySheetPresented = true
                         }
                     }
                 }
-                .padding(.trailing, 3)
+                .padding([.top, .trailing], 3)
             }
         }
         .padding(.top, 5)
@@ -83,7 +89,7 @@ struct WeekDays: View {
                 Spacer()
                 Text(weekDays[index])
                     .bold()
-                //                    .foregroundColor(.white)
+                    .foregroundColor(K.brandColor2)
                     .font(.senti(size: 15))
                     .minimumScaleFactor(0.7)
                 Spacer()

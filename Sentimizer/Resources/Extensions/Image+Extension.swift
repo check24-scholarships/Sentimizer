@@ -14,5 +14,6 @@ extension Image {
             .aspectRatio(contentMode: .fit)
             .frame(width: shouldBeMaxWidthHeight ? nil : width)
             .frame(maxWidth: shouldBeMaxWidthHeight ? maxWidthHeight : nil)
+            .frame(maxHeight: shouldBeMaxWidthHeight ? maxWidthHeight : nil)
     }
 }
