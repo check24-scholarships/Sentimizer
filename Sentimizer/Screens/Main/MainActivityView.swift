@@ -12,7 +12,7 @@ struct MainActivityView: View {
 //    @EnvironmentObject private var model: Model
     @Environment(\.managedObjectContext) var viewContext
     
-    @StateObject private var dataController = DataController()
+    @StateObject private var persistenceController = PersistenceController()
     
     @State private var addActivitySheetOpened = false
     
@@ -62,7 +62,7 @@ struct MainActivityView: View {
                             
                             ForEach(0 ..< entryContent[day].count, id: \.self) { i in
                                 let c = entryContent[day][i]
-                                let icon = dataController.getActivityIcon(activityName: c[0], viewContext)
+                                let icon = persistenceController.getActivityIcon(activityName: c[0], viewContext)
                                 NavigationLink { ActivityDetailView(activity: c[0], icon: icon, description: c[3], day: entryDays[day], time: c[1], duration: c[2], sentiment: c[4], id: c[5]) } label: {
                                     ActivityBar(activity: c[0], description: c[3], time: (c[1], c[2]), sentiment: c[4], id: c[5], icon:icon)
                                         .padding([.bottom, .trailing], 10)
@@ -82,11 +82,11 @@ struct MainActivityView: View {
                 .environment(\.managedObjectContext, self.viewContext)
         }
         .onAppear() {
-            (entryDays, entryContent) = dataController.getEntryData(entries: entries)
-            // DataController.deleteAllData(viewContext)
+            (entryDays, entryContent) = persistenceController.getEntryData(entries: entries)
+            // persistenceController.deleteAllData(viewContext)
         }
         .onChange(of: addActivitySheetOpened) { _ in
-            (entryDays, entryContent) = dataController.getEntryData(entries: entries)
+            (entryDays, entryContent) = persistenceController.getEntryData(entries: entries)
         }
     }
     

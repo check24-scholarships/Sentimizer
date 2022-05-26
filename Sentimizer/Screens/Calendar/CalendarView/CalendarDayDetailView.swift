@@ -11,7 +11,7 @@ struct CalendarDayDetailView: View {
     let data: [ActivityData]
     let date: Date
     
-    @StateObject private var dataController = DataController()
+    @StateObject private var persistenceController = PersistenceController()
     
     @State private var content: [ActivityData] = []
     

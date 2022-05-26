@@ -1,5 +1,5 @@
 //
-//  DataController.swift
+//  PersistenceController.swift
 //  Sentimizer
 //
 //  Created by Justin Hohenstein on 29.04.22.
@@ -8,7 +8,7 @@
 import SwiftUI
 import CoreData
 
-class DataController: ObservableObject {
+class PersistenceController: ObservableObject {
     private static var container: NSPersistentContainer {
         let container = NSPersistentContainer(name: "Model")
         container.loadPersistentStores(completionHandler: {description, error in
@@ -20,7 +20,7 @@ class DataController: ObservableObject {
     }
     
     var context: NSManagedObjectContext {
-        return DataController.container.viewContext
+        return PersistenceController.container.viewContext
     }
     
     //MARK: - Entity: Entry

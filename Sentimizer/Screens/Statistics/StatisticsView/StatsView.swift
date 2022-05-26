@@ -11,7 +11,7 @@ import CoreData
 struct StatsView: View {
     @Environment(\.managedObjectContext) var viewContext
     
-    @StateObject private var dataController = DataController()
+    @StateObject private var persistenceController = PersistenceController()
     
     @State private var timeInterval = K.timeIntervals[0]
     

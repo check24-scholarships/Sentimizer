@@ -10,7 +10,7 @@ import SwiftUI
 struct NewActivityCategoryView: View {
     @Environment(\.managedObjectContext) var viewContext
     
-    @StateObject private var dataController = DataController()
+    @StateObject private var persistenceController = PersistenceController()
     
     @State private var activityTextFieldText = ""
     @State private var textFieldEditing = false
@@ -38,7 +38,7 @@ struct NewActivityCategoryView: View {
                         .frame(width: 150)
                 }
                 .disabled(activityTextFieldText.isEmpty)
-                .disabled(dataController.activityCategoryNameAlreadyExists(for: activityTextFieldText, viewContext))
+                .disabled(persistenceController.activityCategoryNameAlreadyExists(for: activityTextFieldText, viewContext))
                 .opacity(activityTextFieldText.isEmpty ? 0.3 : 1)
                 .animation(.easeOut, value: activityTextFieldText)
                 .padding(.top)
@@ -60,7 +60,7 @@ struct NewActivityCategoryView: View {
         .onChange(of: shouldBeDismissed) { _ in
             dismiss()
             
-            dataController.saveNewActivityCategory(name: activityTextFieldText, icon: iconName, viewContext)
+            persistenceController.saveNewActivityCategory(name: activityTextFieldText, icon: iconName, viewContext)
         }
         .alert(isPresented: $showingDoubleNameAlert) {
             Alert(title: Text("Error"),

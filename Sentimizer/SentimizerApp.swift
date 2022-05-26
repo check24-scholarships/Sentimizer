@@ -9,7 +9,7 @@ import SwiftUI
 
 @main
 struct SentimizerApp: App {
-    @StateObject private var dataController = DataController()
+    @StateObject private var persistenceController = PersistenceController()
     
     var body: some Scene {
         WindowGroup {
@@ -17,7 +17,7 @@ struct SentimizerApp: App {
                 .font(.senti(size: 12))
                 .foregroundColor(.textColor)
             //                .environmentObject(Model())
-                .environment(\.managedObjectContext, dataController.context)
+                .environment(\.managedObjectContext, persistenceController.context)
                 .onAppear() {
                     MachineLearning.getModel()
                 }

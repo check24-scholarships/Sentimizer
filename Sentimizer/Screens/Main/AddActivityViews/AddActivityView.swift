@@ -12,7 +12,7 @@ struct AddActivityView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.managedObjectContext) var viewContext
     
-    @StateObject private var dataController = DataController()
+    @StateObject private var persistenceController = PersistenceController()
     
     @ObservedObject var keyboardHeightHelper = KeyboardHelper()
     @State private var textFieldYPlusHeight: CGFloat = 0
@@ -67,7 +67,7 @@ struct AddActivityView: View {
                             
                             
                             Button {
-                                dataController.saveActivity(activity: activity, icon: icon, description: description, feeling: feeling, date: Date(), viewContext)
+                                persistenceController.saveActivity(activity: activity, icon: icon, description: description, feeling: feeling, date: Date(), viewContext)
                                 dismiss()
                             } label: {
                                 SentiButton(icon: nil, title: "Save", chevron: false)

@@ -29,7 +29,7 @@ struct ActivityDetailView: View {
     @Environment(\.managedObjectContext) var viewContext
     @Environment(\.dismiss) private var dismiss
     
-    @StateObject private var dataController = DataController()
+    @StateObject private var persistenceController = PersistenceController()
     
     @State private var isEditingDescription = false
     
@@ -65,7 +65,7 @@ struct ActivityDetailView: View {
                         
                         MoodPicker(width: width, opaque: true, feeling: $userMood)
                             .onChange(of: userMood) { newValue in
-                                dataController.updateMood(with: newValue, id: id, viewContext)
+                                persistenceController.updateMood(with: newValue, id: id, viewContext)
                                 sentiment = newValue
                                 userMood = newValue
                             }
@@ -101,7 +101,7 @@ struct ActivityDetailView: View {
                             if isEditingDescription {
                                 Button {
                                     dismissKeyboard()
-                                    dataController.updateActivityDescription(with: userDescription, id: id, viewContext)
+                                    persistenceController.updateActivityDescription(with: userDescription, id: id, viewContext)
                                     description = userDescription
                                     withAnimation(.easeOut) {
                                         isEditingDescription = false
@@ -138,7 +138,7 @@ struct ActivityDetailView: View {
                     .padding(.horizontal, 15)
                     
                     SentiDeleteButton(label: "Delete this activity") {
-                        dataController.deleteActivity(id: id, viewContext)
+                        persistenceController.deleteActivity(id: id, viewContext)
                         dismiss()
                     }
                 }
@@ -150,7 +150,7 @@ struct ActivityDetailView: View {
                         Spacer()
                         Button("Done") {
                             dismissKeyboard()
-                            dataController.updateActivityDescription(with: userDescription, id: id, viewContext)
+                            persistenceController.updateActivityDescription(with: userDescription, id: id, viewContext)
                             description = userDescription
                             withAnimation(.easeOut) {
                                 isEditingDescription = false
@@ -170,7 +170,7 @@ struct ActivityDetailView: View {
             
         }
         .onChange(of: userActivity) { newValue in
-            dataController.updateActivity(with: userActivity, id: id, viewContext)
+            persistenceController.updateActivity(with: userActivity, id: id, viewContext)
             activity = userActivity
             icon = userIcon
         }

@@ -19,7 +19,7 @@ struct EditActivityCategoryView: View {
     
     @Environment(\.dismiss) private var dismiss
     @Environment(\.managedObjectContext) var viewContext
-    @StateObject private var dataController = DataController()
+    @StateObject private var persistenceController = PersistenceController()
     
     @State private var iconChosen = false
     
@@ -39,7 +39,7 @@ struct EditActivityCategoryView: View {
                 .standardBackground()
                 .padding()
                 .onChange(of: userIcon) { newValue in
-                    dataController.updateActivityCategoryIcon(with: newValue, activityName: userActivityName, viewContext)
+                    persistenceController.updateActivityCategoryIcon(with: newValue, activityName: userActivityName, viewContext)
                     icon = newValue
                     activityName = userActivityName
                 }
@@ -47,7 +47,7 @@ struct EditActivityCategoryView: View {
                 SentiTextField(placeholder: "Activity category name", text: $userActivityName, textFieldEditing: $textFieldEditing, done: $userEditingDone)
                 
                 SentiDeleteButton(label: "Delete activity category") {
-                    dataController.deleteActivityCategory(with: activityName, viewContext)
+                    persistenceController.deleteActivityCategory(with: activityName, viewContext)
                     dismiss()
                 }
                 
@@ -80,7 +80,7 @@ struct EditActivityCategoryView: View {
             userIcon = icon
         }
         .onChange(of: userEditingDone) { _ in
-            dataController.updateActivityCategoryName(with: userActivityName, oldName: activityName, viewContext)
+            persistenceController.updateActivityCategoryName(with: userActivityName, oldName: activityName, viewContext)
             activityName = userActivityName
         }
     }

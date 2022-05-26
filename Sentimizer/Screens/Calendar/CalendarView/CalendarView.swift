@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CalendarView: View {
-    @StateObject private var dataController = DataController()
+    @StateObject private var persistenceController = PersistenceController()
     
     let data: [ActivityData]
     
