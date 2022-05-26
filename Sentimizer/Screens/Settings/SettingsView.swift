@@ -20,7 +20,7 @@ struct SettingsView: View {
                 } label: {
                     HStack {
                         Image(systemName: "person.crop.rectangle.stack")
-                            .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: K.brandColor2)
+                            .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2)
                         Text("Edit Activity Categories")
                             .minimumScaleFactor(0.8)
                     }
@@ -34,7 +34,7 @@ struct SettingsView: View {
                 } label: {
                     HStack {
                         Image(systemName: "sun.max.fill")
-                            .standardSentiSettingsIcon(foregroundColor: .gray, backgroundColor: K.brandColor4)
+                            .standardSentiSettingsIcon(foregroundColor: .gray, backgroundColor: .brandColor4)
                         Text("Light")
                         Spacer()
                         if(colorScheme == .light) {
@@ -49,7 +49,7 @@ struct SettingsView: View {
                 } label: {
                     HStack {
                         Image(systemName: "moon.stars")
-                            .standardSentiSettingsIcon(foregroundColor: .gray, backgroundColor: K.brandColor4)
+                            .standardSentiSettingsIcon(foregroundColor: .gray, backgroundColor: .brandColor4)
                         Text("Dark")
                         Spacer()
                         if(colorScheme == .dark) {
@@ -64,7 +64,7 @@ struct SettingsView: View {
                 } label: {
                     HStack {
                         Image(systemName: "gearshape.fill")
-                            .standardSentiSettingsIcon(foregroundColor: .gray, backgroundColor: K.brandColor4)
+                            .standardSentiSettingsIcon(foregroundColor: .gray, backgroundColor: .brandColor4)
                         Text("Auto")
                         Spacer()
                         if(colorScheme == .auto) {
@@ -81,7 +81,7 @@ struct SettingsView: View {
         .onAppear {
             UITableView.appearance().backgroundColor = .clear // tableview background
         }
-        .foregroundColor(K.textColor)
+        .foregroundColor(.textColor)
     }
 }
 

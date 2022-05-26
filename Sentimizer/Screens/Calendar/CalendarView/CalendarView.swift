@@ -57,7 +57,7 @@ struct CalendarView: View {
                         .frame(height: 100)
                         .frame(maxWidth: .infinity)
                         .background((((index+1)%7 == 0 || index%7 == 0) ?
-                                     K.brandColor2Light.opacity(0.3)
+                                     Color.brandColor2Light.opacity(0.3)
                                      : .clear).ignoresSafeArea().padding(.top, -8))
                         .onTapGesture {
                             tappedDate = getDaysInMonth()[index].1
@@ -89,7 +89,7 @@ struct WeekDays: View {
                 Spacer()
                 Text(weekDays[index])
                     .bold()
-                    .foregroundColor(K.brandColor2)
+                    .foregroundColor(.brandColor2)
                     .font(.senti(size: 15))
                     .minimumScaleFactor(0.7)
                 Spacer()

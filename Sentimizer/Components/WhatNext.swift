@@ -22,7 +22,7 @@ struct WhatNext: View {
                 .scaleEffect(0.8)
         }
         .padding()
-        .background(RoundedRectangle(cornerRadius: 25).foregroundColor(K.dayViewBgColor).opacity(0.8))
+        .background(RoundedRectangle(cornerRadius: 25).foregroundColor(.dayViewBgColor).opacity(0.8))
     }
 }
 

@@ -66,7 +66,7 @@ struct MoodCount: View {
         .padding(20)
         .background {
             RoundedRectangle(cornerRadius: 25)
-                .foregroundColor(K.brandColor1)
+                .foregroundColor(.brandColor1)
                 .opacity(0.1)
                 .onAppear {
                     circleWidth += 1

@@ -157,7 +157,7 @@ struct ActivityDetailView: View {
                             }
                         }
                         .font(.senti(size: 19))
-                        .foregroundColor(K.brandColor2)
+                        .foregroundColor(.brandColor2)
                     }
                 }
             }

@@ -34,7 +34,7 @@ struct EditActivityCategoryView: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(maxWidth: 50, maxHeight: 50)
                 }
-                .foregroundColor(K.brandColor2)
+                .foregroundColor(.brandColor2)
                 .padding()
                 .standardBackground()
                 .padding()

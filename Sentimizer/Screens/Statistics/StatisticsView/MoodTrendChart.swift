@@ -46,7 +46,7 @@ struct MoodTrendChart: View {
                         path.move(to: CGPoint(x: 40, y: height/5 - 8))
                         path.addLine(to: CGPoint(x: width, y: height/5 - 8))
                     }
-                    .stroke(LinearGradient(colors: [K.brandColor2.opacity(0.5), K.brandColor3.opacity(0.5).adjust(brightness: -0.05)], startPoint: .leading, endPoint: .trailing), style: StrokeStyle(lineWidth: 2, lineJoin: .round))
+                    .stroke(LinearGradient(colors: [.brandColor2.opacity(0.5), .brandColor3.opacity(0.5).adjust(brightness: -0.05)], startPoint: .leading, endPoint: .trailing), style: StrokeStyle(lineWidth: 2, lineJoin: .round))
                 }
                 
                 // Senti images
@@ -58,7 +58,7 @@ struct MoodTrendChart: View {
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 25)
                                 .rotationEffect(.degrees(180))
-                                .changeColor(to: K.brandColor2)
+                                .changeColor(to: .brandColor2)
                         } else {
                             Spacer()
                                 .frame(height: 42)
@@ -93,7 +93,7 @@ struct MoodTrendChart: View {
                         }
                     }
                 }
-                .stroke(LinearGradient(colors: [K.brandColor2, K.brandColor3.adjust(brightness: -0.05)], startPoint: .leading, endPoint: .trailing), style: StrokeStyle(lineWidth: 4, lineJoin: .round))
+                .stroke(LinearGradient(colors: [.brandColor2, .brandColor3.adjust(brightness: -0.05)], startPoint: .leading, endPoint: .trailing), style: StrokeStyle(lineWidth: 4, lineJoin: .round))
             }
             .padding(.vertical)
         }

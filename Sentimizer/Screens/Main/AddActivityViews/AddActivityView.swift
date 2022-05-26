@@ -92,7 +92,7 @@ struct AddActivityView: View {
                             .disabled(feeling.isEmpty || activity.isEmpty)
                             .animation(.easeIn, value: feeling.isEmpty)
                         }
-                        .foregroundColor(K.textColor)
+                        .foregroundColor(.textColor)
                         .padding(.horizontal, 20)
                         .onTapGesture {
                             dismissKeyboard()
@@ -115,7 +115,7 @@ struct AddActivityView: View {
                     .padding([.leading, .top])
                 }
             }
-            .accentColor(K.brandColor2)
+            .accentColor(.brandColor2)
             .onAppear {
                 // for debugging
                 // deleteAllData(moc: viewContext)

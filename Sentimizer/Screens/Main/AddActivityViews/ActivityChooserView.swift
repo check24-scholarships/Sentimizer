@@ -55,7 +55,7 @@ struct ActivityChooserView: View {
                 
                 NavigationLink {
                     ZStack {
-                        K.bgColor.ignoresSafeArea()
+                        Color.bgColor.ignoresSafeArea()
                         NewActivityCategoryView()
                     }
                 } label: {

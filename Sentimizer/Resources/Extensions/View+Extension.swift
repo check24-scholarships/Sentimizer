@@ -23,7 +23,7 @@ extension View {
     /// Sets the background of any view to a rounded rectangle with low opacity.
     public func standardBackground() -> some View {
         self.background {
-            RoundedRectangle(cornerRadius: 25).foregroundColor(K.brandColor1).opacity(0.1)
+            RoundedRectangle(cornerRadius: 25).foregroundColor(.brandColor1).opacity(0.1)
         }
     }
     

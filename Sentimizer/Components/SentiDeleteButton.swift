@@ -22,7 +22,7 @@ struct SentiDeleteButton: View {
                 .foregroundColor(.red)
                 .padding()
                 .frame(maxWidth: .infinity)
-                .background(RoundedRectangle(cornerRadius: 25).foregroundColor(K.brandColor1).opacity(0.1))
+                .background(RoundedRectangle(cornerRadius: 25).foregroundColor(.brandColor1).opacity(0.1))
                 .padding()
                 .padding(.top)
         }

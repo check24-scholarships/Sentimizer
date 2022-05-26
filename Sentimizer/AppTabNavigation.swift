@@ -23,9 +23,9 @@ struct AppTabNavigation: View {
         TabView(selection: $selection) {
             NavigationView {
                 ZStack {
-                    K.bgColor.ignoresSafeArea()
+                    Color.bgColor.ignoresSafeArea()
                     MainActivityView()
-                        .foregroundColor(K.textColor)
+                        .foregroundColor(.textColor)
                         .navigationTitle("Activities")
                 }
             }
@@ -42,9 +42,9 @@ struct AppTabNavigation: View {
             
             NavigationView {
                 ZStack {
-                    K.bgColor.ignoresSafeArea()
+                    Color.bgColor.ignoresSafeArea()
                     StatsView()
-                        .foregroundColor(K.textColor)
+                        .foregroundColor(.textColor)
                         .navigationTitle("Statistics")
                 }
             }
@@ -61,9 +61,9 @@ struct AppTabNavigation: View {
             
             NavigationView {
                 ZStack {
-                    K.bgColor.ignoresSafeArea()
+                    Color.bgColor.ignoresSafeArea()
                     CalendarView(data: [ActivityData(id: "1", activity: "Walk", icon: "figure.walk", date: Date(), description: ""), ActivityData(id: "2", activity: "Walk", icon: "figure.walk", date: Date(), description: ""), ActivityData(id: "3", activity: "Walk", icon: "figure.walk", date: Date(), description: ""), ActivityData(id: "4", activity: "Walk", icon: "figure.walk", date: Date(), description: "")])
-                        .foregroundColor(K.textColor)
+                        .foregroundColor(.textColor)
                         .navigationTitle("Calendar")
                 }
             }
@@ -80,9 +80,9 @@ struct AppTabNavigation: View {
             
             NavigationView {
                 ZStack {
-                    K.bgColor.ignoresSafeArea()
+                    Color.bgColor.ignoresSafeArea()
                     SettingsView()
-                        .foregroundColor(K.textColor)
+                        .foregroundColor(.textColor)
                         .navigationTitle("Settings")
                 }
             }

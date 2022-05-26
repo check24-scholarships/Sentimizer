@@ -20,10 +20,10 @@ struct SentiTextField: View {
             textFieldEditing = editing
         }
         .padding()
-        .background(K.dayViewBgColor)
+        .background(Color.dayViewBgColor)
         .cornerRadius(25)
         .background(
-            RoundedRectangle(cornerRadius: 25).stroke(lineWidth: 3).foregroundColor(K.brandColor1))
+            RoundedRectangle(cornerRadius: 25).stroke(lineWidth: 3).foregroundColor(.brandColor1))
         .focused($textFieldFocus)
         .padding(.vertical)
         .padding(.horizontal, 2)
@@ -41,7 +41,7 @@ struct SentiTextField: View {
                         dismissKeyboard()
                     }
                     .font(.senti(size: 19))
-                    .foregroundColor(K.brandColor2)
+                    .foregroundColor(.brandColor2)
                 }
             }
         }

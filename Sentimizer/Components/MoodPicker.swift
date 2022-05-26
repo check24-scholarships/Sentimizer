@@ -46,7 +46,7 @@ struct MoodPicker: View {
         }
         .padding(.vertical, 7)
         .background(RoundedRectangle(cornerRadius: 25)
-            .gradientForeground(colors: [K.brandColor2, K.brandColor2Light], .leading, .trailing).opacity(opaque ? 0.7 : 1)
+            .gradientForeground(colors: [.brandColor2, .brandColor2Light], .leading, .trailing).opacity(opaque ? 0.7 : 1)
             .shadow(radius: 10))
         .clipShape(RoundedRectangle(cornerRadius: 25))
     }

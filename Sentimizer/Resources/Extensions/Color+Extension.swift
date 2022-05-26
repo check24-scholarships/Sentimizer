@@ -8,6 +8,15 @@
 import SwiftUI
 
 extension Color {
+    static let bgColor = Color("bgColor")
+    static let brandColor1 = Color("brandColor1")
+    static let brandColor2 = Color("brandColor2")
+    static let brandColor2Light = Color("brandColor2Light")
+    static let brandColor3 = Color("brandColor3")
+    static let brandColor4 = Color("brandColor4")
+    static let textColor = Color("textColor")
+    static let dayViewBgColor = Color("dayViewBg")
+    
     func adjust(hue: CGFloat = 0, saturation: CGFloat = 0, brightness: CGFloat = 0, opacity: CGFloat = 1) -> Color {
         let color = UIColor(self)
         var currentHue: CGFloat = 0

@@ -69,7 +69,7 @@ struct MainActivityView: View {
                                 }
                             }
                         }
-                        .background(RoundedRectangle(cornerRadius: 25).foregroundColor(K.dayViewBgColor).shadow(color: .gray.opacity(0.7), radius: 10))
+                        .background(RoundedRectangle(cornerRadius: 25).foregroundColor(.dayViewBgColor).shadow(color: .gray.opacity(0.7), radius: 10))
                         .padding(.vertical, 5)
                     }
                 }

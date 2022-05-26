@@ -35,7 +35,7 @@ struct SentiTextEditor: View {
                                 dismissKeyboard()
                             }
                             .font(.senti(size: 19))
-                            .foregroundColor(K.brandColor2)
+                            .foregroundColor(.brandColor2)
                         }
                     }
                 }

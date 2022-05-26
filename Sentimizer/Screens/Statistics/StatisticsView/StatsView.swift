@@ -45,7 +45,7 @@ struct StatsView: View {
                         }
                     }
                     .pickerStyle(SegmentedPickerStyle())
-                    .foregroundColor(K.brandColor2)
+                    .foregroundColor(.brandColor2)
                     .padding(.vertical, 5)
                     .onChange(of: timeInterval) { newValue in
                         DispatchQueue.global(qos: .userInitiated).async {
@@ -79,7 +79,7 @@ struct StatsView: View {
                         MoodTrendChart(xAxis: xAxis, values: values)
                             .frame(height: 200)
                             .padding()
-                            .background(RoundedRectangle(cornerRadius: 25).foregroundColor(K.brandColor1).opacity(0.1))
+                            .background(RoundedRectangle(cornerRadius: 25).foregroundColor(.brandColor1).opacity(0.1))
                         
                         Text("Improved Your Mood")
                             .font(.senti(size: 20))
@@ -138,10 +138,10 @@ struct StatsView: View {
         f.sortDescriptors = [NSSortDescriptor(key: #keyPath(Entry.date), ascending: false)]
         _entries = FetchRequest(fetchRequest: f)
         
-        UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(K.brandColor2)
+        UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(.brandColor2)
         UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
         UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .normal)
-        UISegmentedControl.appearance().backgroundColor = UIColor(K.brandColor1)
+        UISegmentedControl.appearance().backgroundColor = UIColor(.brandColor1)
     }
 }
 

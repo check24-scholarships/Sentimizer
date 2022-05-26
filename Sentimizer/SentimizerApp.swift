@@ -15,7 +15,7 @@ struct SentimizerApp: App {
         WindowGroup {
             AppTabNavigation()
                 .font(.senti(size: 12))
-                .foregroundColor(K.textColor)
+                .foregroundColor(.textColor)
             //                .environmentObject(Model())
                 .environment(\.managedObjectContext, dataController.context)
                 .onAppear() {
