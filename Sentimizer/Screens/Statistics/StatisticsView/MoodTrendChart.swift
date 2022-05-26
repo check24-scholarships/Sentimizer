@@ -80,16 +80,15 @@ struct MoodTrendChart: View {
                 
                 Path { path in
                     if values.0.count > 0 {
-                        let x = width * values.0[0]
-                        let y = height * (1-values.1[0])
-                        path.move(to: CGPoint(x: x-3, y: y))
-                        path.addArc(center: CGPoint(x: x, y: y), radius: 4, startAngle: .zero, endAngle: .degrees(360), clockwise: false)
-                        
-                        for i in 1..<values.0.count {
+                        for i in 0..<values.0.count {
                             let x = width * values.0[i]
                             let y = height * (1-values.1[i])
                             path.addLine(to: CGPoint(x: x, y: y))
                             path.addArc(center: CGPoint(x: x, y: y), radius: 4, startAngle: .zero, endAngle: .degrees(360), clockwise: false)
+                            if i == 0 {
+                                path.addArc(center: CGPoint(x: x, y: y), radius: 2, startAngle: .zero, endAngle: .degrees(360), clockwise: false)
+                            }
+                            path.move(to: CGPoint(x: x, y: y))
                         }
                     }
                 }
