@@ -10,7 +10,7 @@ import SwiftUI
 struct CalendarView: View {
     @StateObject private var dataController = DataController()
     
-    let data: [CalendarModel]
+    let data: [ActivityData]
     
     let sevenColumnGrid = Array(repeating: GridItem(.flexible(), spacing: 0), count: 7)
     
@@ -100,6 +100,6 @@ struct WeekDays: View {
 
 struct CalendarView_Previews: PreviewProvider {
     static var previews: some View {
-        CalendarView(data: [CalendarModel(date: Date(), activity: "Walk", icon: "figure.walk"), CalendarModel(date: Date(), activity: "School", icon: "suitcase.fill")])
+        CalendarView(data: [ActivityData(id: "", activity: "Walk", icon: "figure.walk", date: Date(), description: ""), ActivityData(id: "", activity: "Walk", icon: "figure.walk", date: Date(), description: "")])
     }
 }

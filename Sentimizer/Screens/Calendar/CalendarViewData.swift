@@ -39,15 +39,17 @@ extension CalendarView {
     func getActivityIconsForDay(date: Date) -> [String] {
         var icons: [String] = []
         for d in data {
-            if Calendar.current.isDate(d.date, inSameDayAs: date) {
-                icons.append(d.icon)
+            if icons.count < 2 {
+                if Calendar.current.isDate(d.date, inSameDayAs: date) {
+                    icons.append(d.icon)
+                }
             }
         }
         return icons
     }
     
-    func getActivitiesForDay(date: Date) -> [CalendarModel] {
-        var activities: [CalendarModel] = []
+    func getActivitiesForDay(date: Date) -> [ActivityData] {
+        var activities: [ActivityData] = []
         for d in data {
             if Calendar.current.isDate(d.date, inSameDayAs: date) {
                 activities.append(d)

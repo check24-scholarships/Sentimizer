@@ -29,6 +29,8 @@
 		EB410CED283A965E00D629B2 /* SentiDeleteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB410CEC283A965E00D629B2 /* SentiDeleteButton.swift */; };
 		EB410CEF283A9F1700D629B2 /* NotEnoughData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB410CEE283A9F1700D629B2 /* NotEnoughData.swift */; };
 		EB410CF3283E6A1900D629B2 /* Image+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB410CF2283E6A1900D629B2 /* Image+Extension.swift */; };
+		EB410CF5283EBDEB00D629B2 /* ActivityData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB410CF4283EBDEB00D629B2 /* ActivityData.swift */; };
+		EB410CF7283FB50700D629B2 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB410CF6283FB50700D629B2 /* Settings.swift */; };
 		EB467FAF28210DB000F9AA4D /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB467FAE28210DB000F9AA4D /* Color+Extension.swift */; };
 		EB634F2B28141FDE00979923 /* K.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB634F2A28141FDE00979923 /* K.swift */; };
 		EB634F2D281427DF00979923 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB634F2C281427DF00979923 /* View+Extension.swift */; };
@@ -44,7 +46,6 @@
 		EB8539EA28196A6D00C90DD9 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8539E928196A6D00C90DD9 /* StatsView.swift */; };
 		EB91193128301BA000C82E63 /* SentiTextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB91193028301BA000C82E63 /* SentiTextEditor.swift */; };
 		EBA5A3E328356F1600F0B26A /* CalendarDayDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBA5A3E228356F1500F0B26A /* CalendarDayDetailView.swift */; };
-		EBA5A3E6283572C800F0B26A /* CalendarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBA5A3E5283572C800F0B26A /* CalendarModel.swift */; };
 		EBB26CEB2836CD4700E48506 /* ActivityBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB26CEA2836CD4700E48506 /* ActivityBar.swift */; };
 		EBCDD1182827F545006AD5E2 /* WhatNext.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCDD1172827F545006AD5E2 /* WhatNext.swift */; };
 		EBCDD11A282AD30C006AD5E2 /* NewActivityCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCDD119282AD30C006AD5E2 /* NewActivityCategoryView.swift */; };
@@ -77,6 +78,8 @@
 		EB410CEC283A965E00D629B2 /* SentiDeleteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentiDeleteButton.swift; sourceTree = "<group>"; };
 		EB410CEE283A9F1700D629B2 /* NotEnoughData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotEnoughData.swift; sourceTree = "<group>"; };
 		EB410CF2283E6A1900D629B2 /* Image+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Extension.swift"; sourceTree = "<group>"; };
+		EB410CF4283EBDEB00D629B2 /* ActivityData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityData.swift; sourceTree = "<group>"; };
+		EB410CF6283FB50700D629B2 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		EB467FAE28210DB000F9AA4D /* Color+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		EB634F2A28141FDE00979923 /* K.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = K.swift; sourceTree = "<group>"; };
 		EB634F2C281427DF00979923 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
@@ -93,7 +96,6 @@
 		EB8539E928196A6D00C90DD9 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
 		EB91193028301BA000C82E63 /* SentiTextEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentiTextEditor.swift; sourceTree = "<group>"; };
 		EBA5A3E228356F1500F0B26A /* CalendarDayDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDayDetailView.swift; sourceTree = "<group>"; };
-		EBA5A3E5283572C800F0B26A /* CalendarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarModel.swift; sourceTree = "<group>"; };
 		EBB26CEA2836CD4700E48506 /* ActivityBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityBar.swift; sourceTree = "<group>"; };
 		EBCDD1172827F545006AD5E2 /* WhatNext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatNext.swift; sourceTree = "<group>"; };
 		EBCDD119282AD30C006AD5E2 /* NewActivityCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewActivityCategoryView.swift; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 		EB33D13D283410E500F4634C /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				EB410CF6283FB50700D629B2 /* Settings.swift */,
 				EBDB9F712833DB9100586EB7 /* SettingsView.swift */,
 				EB33D13B2833E84900F4634C /* EditActivityCategoryView.swift */,
 			);
@@ -234,6 +237,7 @@
 			children = (
 				EB642BFC27FF5DA4001DB273 /* SentimizerApp.swift */,
 				EB634F2E28142AAC00979923 /* AppTabNavigation.swift */,
+				EB410CF4283EBDEB00D629B2 /* ActivityData.swift */,
 				EB410CE2283A535900D629B2 /* Resources */,
 				EB410CCC283A453700D629B2 /* Persistence */,
 				EB410CCD283A455700D629B2 /* ML */,
@@ -271,7 +275,6 @@
 		EBA5A3E4283572AE00F0B26A /* Calendar */ = {
 			isa = PBXGroup;
 			children = (
-				EBA5A3E5283572C800F0B26A /* CalendarModel.swift */,
 				EB410CE6283A5A1C00D629B2 /* CalendarViewData.swift */,
 				EB410CE8283A5AD100D629B2 /* CalendarDayViewData.swift */,
 				EB410CD3283A4A5800D629B2 /* CalendarView */,
@@ -373,7 +376,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				EB8539EA28196A6D00C90DD9 /* StatsView.swift in Sources */,
-				EBA5A3E6283572C800F0B26A /* CalendarModel.swift in Sources */,
 				EB410CE1283A51E500D629B2 /* MoodCount.swift in Sources */,
 				EB410CEB283A5D4A00D629B2 /* SentiTextField.swift in Sources */,
 				EB33D13C2833E84900F4634C /* EditActivityCategoryView.swift in Sources */,
@@ -414,6 +416,8 @@
 				EB410CE7283A5A1C00D629B2 /* CalendarViewData.swift in Sources */,
 				EB410CEF283A9F1700D629B2 /* NotEnoughData.swift in Sources */,
 				EB410CD7283A4C6300D629B2 /* StatisticsData.swift in Sources */,
+				EB410CF5283EBDEB00D629B2 /* ActivityData.swift in Sources */,
+				EB410CF7283FB50700D629B2 /* Settings.swift in Sources */,
 				EB410CD9283A4DDD00D629B2 /* MachineLearning.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

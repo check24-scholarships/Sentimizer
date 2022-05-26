@@ -16,10 +16,15 @@ struct SentimizerApp: App {
             AppTabNavigation()
                 .font(.senti(size: 12))
                 .foregroundColor(K.textColor)
-//                .environmentObject(Model())
+            //                .environmentObject(Model())
                 .environment(\.managedObjectContext, dataController.context)
                 .onAppear() {
-                     MachineLearning.getModel()
+                    MachineLearning.getModel()
+                }
+                .onAppear {
+                    if let scheme = UserDefaults.standard.string(forKey: K.colorSchemeURL) {
+                        Settings.setColorScheme(scheme == K.AppColorScheme.light.rawValue ? .light : (scheme == K.AppColorScheme.dark.rawValue ? .dark : .auto))
+                    }
                 }
         }
     }

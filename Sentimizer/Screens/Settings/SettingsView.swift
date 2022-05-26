@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @State private var colorScheme: K.AppColorScheme = Settings.getColorScheme()
+    
     var body: some View {
         List {
             Section {
@@ -18,11 +20,7 @@ struct SettingsView: View {
                 } label: {
                     HStack {
                         Image(systemName: "person.crop.rectangle.stack")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 20)
-                            .padding(10)
-                            .background(RoundedRectangle(cornerRadius: 10).foregroundColor(K.brandColor2))
+                            .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: K.brandColor2)
                         Text("Edit Activity Categories")
                             .minimumScaleFactor(0.8)
                     }
@@ -30,43 +28,50 @@ struct SettingsView: View {
             }
             
             Section(header: Text("Color Scheme").foregroundColor(.gray)) {
-                Button {} label: {
+                Button {
+                    Settings.saveColorScheme(.light)
+                    colorScheme = Settings.getColorScheme()
+                } label: {
                     HStack {
                         Image(systemName: "sun.max.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 20)
-                            .padding(10)
-                            .background(RoundedRectangle(cornerRadius: 10).foregroundColor(K.brandColor4))
+                            .standardSentiSettingsIcon(foregroundColor: .gray, backgroundColor: K.brandColor4)
                         Text("Light")
                         Spacer()
-                        Image(systemName: "checkmark")
-                            .foregroundColor(.blue)
+                        if(colorScheme == .light) {
+                            Image(systemName: "checkmark")
+                                .foregroundColor(.blue)
+                        }
                     }
                 }
-                HStack {
-                    Image(systemName: "moon.stars")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 20)
-                        .padding(10)
-                        .background(RoundedRectangle(cornerRadius: 10).foregroundColor(K.brandColor4))
-                    Text("Dark")
-                    Spacer()
-                    Image(systemName: "checkmark")
-                        .foregroundColor(.blue)
+                Button {
+                    Settings.saveColorScheme(.dark)
+                    colorScheme = Settings.getColorScheme()
+                } label: {
+                    HStack {
+                        Image(systemName: "moon.stars")
+                            .standardSentiSettingsIcon(foregroundColor: .gray, backgroundColor: K.brandColor4)
+                        Text("Dark")
+                        Spacer()
+                        if(colorScheme == .dark) {
+                            Image(systemName: "checkmark")
+                                .foregroundColor(.blue)
+                        }
+                    }
                 }
-                HStack {
-                    Image(systemName: "gearshape.fill")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 20)
-                        .padding(10)
-                        .background(RoundedRectangle(cornerRadius: 10).foregroundColor(K.brandColor4))
-                    Text("Auto")
-                    Spacer()
-                    Image(systemName: "checkmark")
-                        .foregroundColor(.blue)
+                Button {
+                    Settings.saveColorScheme(.auto)
+                    colorScheme = Settings.getColorScheme()
+                } label: {
+                    HStack {
+                        Image(systemName: "gearshape.fill")
+                            .standardSentiSettingsIcon(foregroundColor: .gray, backgroundColor: K.brandColor4)
+                        Text("Auto")
+                        Spacer()
+                        if(colorScheme == .auto) {
+                            Image(systemName: "checkmark")
+                                .foregroundColor(.blue)
+                        }
+                    }
                 }
             }
         }
@@ -76,7 +81,7 @@ struct SettingsView: View {
         .onAppear {
             UITableView.appearance().backgroundColor = .clear // tableview background
         }
-        .foregroundColor(.black)
+        .foregroundColor(K.textColor)
     }
 }
 
