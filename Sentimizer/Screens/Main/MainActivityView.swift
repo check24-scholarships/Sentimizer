@@ -16,6 +16,8 @@ struct MainActivityView: View {
     
     @State private var addActivitySheetOpened = false
     
+    @State private var selectedMonth = Date()
+    
     @State private var entryDays: [String] = []
     @State private var entryContent: [[[String]]] = [[]]
     
@@ -23,6 +25,9 @@ struct MainActivityView: View {
     
     var body: some View {
         ScrollView {
+            MonthSwitcher(selectedMonth: $selectedMonth)
+                .padding(.bottom)
+            
             Group {
                 VStack(alignment: .leading) {
                     SentiButton(icon: "plus.circle", title: "Add Activity")
@@ -31,9 +36,9 @@ struct MainActivityView: View {
                         .onTapGesture {
                             addActivitySheetOpened = true
                         }
-                        .padding(.vertical, 25)
                 }
                 .padding(.horizontal, 5)
+                .padding(.bottom)
                 
                 if entryDays.count < 1 {
                     VStack {
@@ -75,7 +80,6 @@ struct MainActivityView: View {
                 }
             }
             .padding(.horizontal, 10)
-            .padding(.bottom, 30)
         }
         .sheet(isPresented: $addActivitySheetOpened) {
             AddActivityView()
@@ -83,7 +87,6 @@ struct MainActivityView: View {
         }
         .onAppear() {
             (entryDays, entryContent) = persistenceController.getEntryData(entries: entries)
-            // persistenceController.deleteAllData(viewContext)
         }
         .onChange(of: addActivitySheetOpened) { _ in
             (entryDays, entryContent) = persistenceController.getEntryData(entries: entries)

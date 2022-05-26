@@ -14,9 +14,12 @@ struct SettingsView: View {
         List {
             Section {
                 NavigationLink {
-                    ActivityChooserView(activity: .constant(""), icon: .constant(""), redirectToEdit: true)
-                        .padding(.top, -30)
-                        .navigationBarTitleDisplayMode(.inline)
+                    ZStack {
+                        Color.bgColor.ignoresSafeArea()
+                        ActivityChooserView(activity: .constant(""), icon: .constant(""), redirectToEdit: true)
+                            .padding(.top, -30)
+                            .navigationBarTitleDisplayMode(.inline)
+                    }
                 } label: {
                     HStack {
                         Image(systemName: "person.crop.rectangle.stack")

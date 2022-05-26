@@ -15,19 +15,14 @@ struct CalendarView: View {
     let sevenColumnGrid = Array(repeating: GridItem(.flexible(), spacing: 0), count: 7)
     
     var date = Date()
-    var month: String {
-        Calendar.current.monthSymbols[Calendar.current.component(.month, from: date)-1]
-    }
+    @State var selectedMonth = Date()
     
     @State private var tappedDate = Date()
     @State private var daySheetPresented = false
     
     var body: some View {
         VStack(alignment: .leading) {
-            //            Text(month + " \(Calendar.current.component(.year, from: date))")
-            //                .font(.senti(size: 35))
-            //                .gradientForeground()
-            //                .padding()
+            MonthSwitcher(selectedMonth: $selectedMonth)
             
             WeekDays()
                 .padding(.bottom, 5)
@@ -69,7 +64,6 @@ struct CalendarView: View {
             }
         }
         .padding(.top, 5)
-        .navigationTitle(month + " \(Calendar.current.component(.year, from: date))")
         .sheet(isPresented: $daySheetPresented) {
             CalendarDayDetailView(data: getActivitiesForDay(date: tappedDate), date: tappedDate)
         }
