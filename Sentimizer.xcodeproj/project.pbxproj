@@ -16,6 +16,7 @@
 		EB153FFE282FFD3500468859 /* ViewTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB153FFD282FFD3500468859 /* ViewTitle.swift */; };
 		EB15CF7A283FD9C200564728 /* MonthSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB15CF79283FD9C200564728 /* MonthSwitcher.swift */; };
 		EB15CF7E2842AA4000564728 /* DismissButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB15CF7D2842AA4000564728 /* DismissButton.swift */; };
+		EB15CF802842AB8700564728 /* SwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB15CF7F2842AB8700564728 /* SwiftUIView.swift */; };
 		EB33D13C2833E84900F4634C /* EditActivityCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB33D13B2833E84900F4634C /* EditActivityCategoryView.swift */; };
 		EB410CCF283A45CD00D629B2 /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB410CCE283A45CD00D629B2 /* DateFormatter+Extension.swift */; };
 		EB410CD2283A46EB00D629B2 /* SentiScoreHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB410CD1283A46EB00D629B2 /* SentiScoreHelper.swift */; };
@@ -55,6 +56,7 @@
 		EBDB9F6E2833A22000586EB7 /* MoodPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDB9F6D2833A22000586EB7 /* MoodPicker.swift */; };
 		EBDB9F702833CBC000586EB7 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDB9F6F2833CBC000586EB7 /* CalendarView.swift */; };
 		EBDB9F722833DB9100586EB7 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDB9F712833DB9100586EB7 /* SettingsView.swift */; };
+		EBE02ACC2842B18400B18555 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EBE02ACB2842B18300B18555 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,6 +69,7 @@
 		EB153FFD282FFD3500468859 /* ViewTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewTitle.swift; sourceTree = "<group>"; };
 		EB15CF79283FD9C200564728 /* MonthSwitcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthSwitcher.swift; sourceTree = "<group>"; };
 		EB15CF7D2842AA4000564728 /* DismissButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissButton.swift; sourceTree = "<group>"; };
+		EB15CF7F2842AB8700564728 /* SwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIView.swift; sourceTree = "<group>"; };
 		EB33D13B2833E84900F4634C /* EditActivityCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditActivityCategoryView.swift; sourceTree = "<group>"; };
 		EB410CCE283A45CD00D629B2 /* DateFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extension.swift"; sourceTree = "<group>"; };
 		EB410CD1283A46EB00D629B2 /* SentiScoreHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentiScoreHelper.swift; sourceTree = "<group>"; };
@@ -107,6 +110,7 @@
 		EBDB9F6D2833A22000586EB7 /* MoodPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodPicker.swift; sourceTree = "<group>"; };
 		EBDB9F6F2833CBC000586EB7 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		EBDB9F712833DB9100586EB7 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		EBE02ACB2842B18300B18555 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,6 +188,7 @@
 			children = (
 				EBDB9F6F2833CBC000586EB7 /* CalendarView.swift */,
 				EBA5A3E228356F1500F0B26A /* CalendarDayDetailView.swift */,
+				EB15CF7F2842AB8700564728 /* SwiftUIView.swift */,
 			);
 			path = CalendarView;
 			sourceTree = "<group>";
@@ -203,6 +208,7 @@
 				EB634F2A28141FDE00979923 /* K.swift */,
 				EBCDD11C282AD73D006AD5E2 /* Extensions */,
 				EB410CD0283A46DC00D629B2 /* Helpers */,
+				EBE02ACB2842B18300B18555 /* LaunchScreen.storyboard */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -385,6 +391,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EBE02ACC2842B18400B18555 /* LaunchScreen.storyboard in Resources */,
 				EB642C0427FF5DAB001DB273 /* Preview Assets.xcassets in Resources */,
 				EB642C0127FF5DAB001DB273 /* Assets.xcassets in Resources */,
 			);
@@ -410,6 +417,7 @@
 				8838ABEC28391EE700D3599B /* TestModel.mlpackage in Sources */,
 				88E6E5AE281C4ACD00EB0D15 /* Model.xcdatamodeld in Sources */,
 				EB410CF3283E6A1900D629B2 /* Image+Extension.swift in Sources */,
+				EB15CF802842AB8700564728 /* SwiftUIView.swift in Sources */,
 				8838ABB72833672000D3599B /* NeuralNetwork.swift in Sources */,
 				EBCDD11A282AD30C006AD5E2 /* NewActivityCategoryView.swift in Sources */,
 				8838ABB9283529EC00D3599B /* RandomNumberGenerator.swift in Sources */,
@@ -577,6 +585,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -607,6 +616,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
