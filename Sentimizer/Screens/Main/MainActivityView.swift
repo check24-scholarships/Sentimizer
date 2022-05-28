@@ -91,6 +91,9 @@ struct MainActivityView: View {
         .onChange(of: addActivitySheetOpened) { _ in
             (entryDays, entryContent) = persistenceController.getEntryData(entries: entries)
         }
+        .onChange(of: selectedMonth) { newValue in
+            (entryDays, entryContent) = persistenceController.getEntryData(entries: entries, month: newValue)
+        }
     }
     
     init() {

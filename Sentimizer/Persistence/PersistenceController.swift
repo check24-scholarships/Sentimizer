@@ -25,7 +25,7 @@ class PersistenceController: ObservableObject {
     
     //MARK: - Entity: Entry
     
-    func getEntryData(entries: FetchedResults<Entry>) -> ([String], [[[String]]]) {
+    func getEntryData(entries: FetchedResults<Entry>, month: Date = Date()) -> ([String], [[[String]]]) {
         var days: [String] = []
         var content: [[[String]]] = []
         
