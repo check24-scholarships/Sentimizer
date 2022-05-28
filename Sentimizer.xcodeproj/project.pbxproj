@@ -118,6 +118,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EB15CF7B2842A9DB00564728 /* Text */ = {
+			isa = PBXGroup;
+			children = (
+				EB91193028301BA000C82E63 /* SentiTextEditor.swift */,
+				EB410CEA283A5D4A00D629B2 /* SentiTextField.swift */,
+			);
+			path = Text;
+			sourceTree = "<group>";
+		};
+		EB15CF7C2842A9F100564728 /* Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				EB6A3AB02815C2970078F8A8 /* SentiButton.swift */,
+				EBDB9F6D2833A22000586EB7 /* MoodPicker.swift */,
+				EB410CEC283A965E00D629B2 /* SentiDeleteButton.swift */,
+			);
+			path = Buttons;
+			sourceTree = "<group>";
+		};
 		EB33D13D283410E500F4634C /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -263,13 +282,10 @@
 			isa = PBXGroup;
 			children = (
 				EB153FFD282FFD3500468859 /* ViewTitle.swift */,
-				EB6A3AB02815C2970078F8A8 /* SentiButton.swift */,
-				EB91193028301BA000C82E63 /* SentiTextEditor.swift */,
-				EB410CEA283A5D4A00D629B2 /* SentiTextField.swift */,
+				EB15CF7C2842A9F100564728 /* Buttons */,
+				EB15CF7B2842A9DB00564728 /* Text */,
 				EBCDD1172827F545006AD5E2 /* WhatNext.swift */,
-				EBDB9F6D2833A22000586EB7 /* MoodPicker.swift */,
 				EBB26CEA2836CD4700E48506 /* ActivityBar.swift */,
-				EB410CEC283A965E00D629B2 /* SentiDeleteButton.swift */,
 				EB15CF79283FD9C200564728 /* MonthSwitcher.swift */,
 			);
 			path = Components;

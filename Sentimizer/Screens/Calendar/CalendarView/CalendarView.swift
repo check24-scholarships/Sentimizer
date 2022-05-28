@@ -14,7 +14,7 @@ struct CalendarView: View {
     
     let sevenColumnGrid = Array(repeating: GridItem(.flexible(), spacing: 0), count: 7)
     
-    var date = Date()
+    let date = Date()
     @State var selectedMonth = Date()
     
     @State private var tappedDate = Date()
@@ -40,10 +40,12 @@ struct CalendarView: View {
                             
                             VStack {
                                 ForEach(getActivityIconsForDay(date: getDaysInMonth()[index].1), id: \.self) { icon in
-                                    Image(systemName: icon)
-                                        .standardIcon(shouldBeMaxWidthHeight: true, maxWidthHeight: 18)
-                                        .gradientForeground()
-                                        .padding(.bottom, 5)
+                                    if !icon.isEmpty {
+                                        Image(systemName: icon)
+                                            .standardIcon(shouldBeMaxWidthHeight: true, maxWidthHeight: 18)
+                                            .gradientForeground()
+                                            .padding(.bottom, 5)
+                                    }
                                 }
                             }
                             .offset(x: 5)
@@ -55,8 +57,10 @@ struct CalendarView: View {
                                      Color.brandColor2Light.opacity(0.3)
                                      : .clear).ignoresSafeArea().padding(.top, -8))
                         .onTapGesture {
-                            tappedDate = getDaysInMonth()[index].1
-                            daySheetPresented = true
+                            if let date = getDaysInMonth()[index].1 {
+                                tappedDate = date
+                                daySheetPresented = true
+                            }
                         }
                     }
                 }
