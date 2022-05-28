@@ -15,6 +15,7 @@
 		88E6E5B0281C4B7F00EB0D15 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E6E5AF281C4B7F00EB0D15 /* PersistenceController.swift */; };
 		EB153FFE282FFD3500468859 /* ViewTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB153FFD282FFD3500468859 /* ViewTitle.swift */; };
 		EB15CF7A283FD9C200564728 /* MonthSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB15CF79283FD9C200564728 /* MonthSwitcher.swift */; };
+		EB15CF7E2842AA4000564728 /* DismissButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB15CF7D2842AA4000564728 /* DismissButton.swift */; };
 		EB33D13C2833E84900F4634C /* EditActivityCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB33D13B2833E84900F4634C /* EditActivityCategoryView.swift */; };
 		EB410CCF283A45CD00D629B2 /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB410CCE283A45CD00D629B2 /* DateFormatter+Extension.swift */; };
 		EB410CD2283A46EB00D629B2 /* SentiScoreHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB410CD1283A46EB00D629B2 /* SentiScoreHelper.swift */; };
@@ -65,6 +66,7 @@
 		88E6E5AF281C4B7F00EB0D15 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		EB153FFD282FFD3500468859 /* ViewTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewTitle.swift; sourceTree = "<group>"; };
 		EB15CF79283FD9C200564728 /* MonthSwitcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthSwitcher.swift; sourceTree = "<group>"; };
+		EB15CF7D2842AA4000564728 /* DismissButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissButton.swift; sourceTree = "<group>"; };
 		EB33D13B2833E84900F4634C /* EditActivityCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditActivityCategoryView.swift; sourceTree = "<group>"; };
 		EB410CCE283A45CD00D629B2 /* DateFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extension.swift"; sourceTree = "<group>"; };
 		EB410CD1283A46EB00D629B2 /* SentiScoreHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentiScoreHelper.swift; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 				EB6A3AB02815C2970078F8A8 /* SentiButton.swift */,
 				EBDB9F6D2833A22000586EB7 /* MoodPicker.swift */,
 				EB410CEC283A965E00D629B2 /* SentiDeleteButton.swift */,
+				EB15CF7D2842AA4000564728 /* DismissButton.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -430,6 +433,7 @@
 				EBCDD11E282AD75E006AD5E2 /* KeyboardHelper.swift in Sources */,
 				EB410CE9283A5AD100D629B2 /* CalendarDayViewData.swift in Sources */,
 				EB6A3AB12815C2970078F8A8 /* SentiButton.swift in Sources */,
+				EB15CF7E2842AA4000564728 /* DismissButton.swift in Sources */,
 				8838ABB2282F7DA100D3599B /* ActivityDetailView.swift in Sources */,
 				EB642BFD27FF5DA4001DB273 /* SentimizerApp.swift in Sources */,
 				EB153FFE282FFD3500468859 /* ViewTitle.swift in Sources */,

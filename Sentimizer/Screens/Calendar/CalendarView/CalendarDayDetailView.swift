@@ -32,100 +32,106 @@ struct CalendarDayDetailView: View {
     
     var body: some View {
 //        NavigationView {
+        ZStack(alignment: .topLeading) {
             ScrollView {
-                VStack(spacing: 0) {
-                    HStack(alignment: .top) {
-                        ViewTitle(day, padding: false)
-                            .padding(.leading)
-                            .padding(.top, 10)
-                        Spacer()
-                        Button {
-                            withAnimation {
-                                editing.toggle()
-                            }
-                        } label: {
-                            VStack {
-                                if !editing {
-                                    Image(systemName: "list.number")
-                                        .standardIcon(width: 25)
-                                        .frame(height: 25)
-                                        .padding(13)
-                                        .standardBackground()
+                    VStack(spacing: 0) {
+                        HStack(alignment: .top) {
+                            ViewTitle(day, padding: false)
+                                .padding(.top, 10)
+                                .frame(maxWidth: .infinity)
+                                .padding(.leading)
+                            
+                            Spacer()
+                            
+                            Button {
+                                withAnimation {
+                                    editing.toggle()
                                 }
-                                Text(editing ? "Done" : "Edit order")
-                                    .bold()
-                                    .padding(editing ? 20 : 0)
-                                    .font(.senti(size: editing ? 20 : 12))
+                            } label: {
+                                VStack {
+                                    if !editing {
+                                        Image(systemName: "list.number")
+                                            .standardIcon(width: 25)
+                                            .frame(height: 25)
+                                            .padding(13)
+                                            .standardBackground()
+                                    }
+                                    Text(editing ? "Done" : "Edit order")
+                                        .bold()
+                                        .padding(editing ? 20 : 0)
+                                        .font(.senti(size: editing ? 20 : 12))
+                                }
+                                .padding(.trailing)
                             }
-                            .padding(.trailing)
                         }
-                    }
-                    .padding(.top, 25)
-                    
-                    VStack(alignment: .leading, spacing: 0) {
-                        ForEach(K.timeSections, id: \.self) { timeSection in
-                            
-                            if getDataForSection(content: content, timeSection).count > 0 {
-                                getTitleForSection(timeSection)
-                                    .font(.senti(size: 20))
-                                    .gradientForeground()
-                            }
-                            
-                            ForEach(getDataForSection(content: content, timeSection), id: \.self) { activity in
-                                let index = content.firstIndex(of: activity)!
+                        .padding(.top, 25)
+                        
+                        VStack(alignment: .leading, spacing: 0) {
+                            ForEach(K.timeSections, id: \.self) { timeSection in
                                 
-                                ZStack {
-//                                    NavigationLink { ActivityDetailView(activity: activity.activity, icon: activity.icon, description: activity.description, day: "Today", time: "10:05", duration: "10", sentiment: "happy", id: "") } label: {
-                                        ZStack {
-                                            ActivityBar(activity: activity.activity, description: "", time: (DateFormatter.formatDate(date: Date(), format: "HH:mm"), "10"), showsTime: !editing, sentiment: "happy", id: "1", icon: "figure.walk")
-                                                .background(RoundedRectangle(cornerRadius: 25).foregroundColor(.gray).opacity(0.2))
-                                                .shadow(radius: 10)
-                                            RoundedRectangle(cornerRadius: 25).foregroundColor(.gray).opacity(editing ? 0.4 : 0)
-                                        }
-//                                    }
+                                if getDataForSection(content: content, timeSection).count > 0 {
+                                    getTitleForSection(timeSection)
+                                        .font(.senti(size: 20))
+                                        .gradientForeground()
+                                }
+                                
+                                ForEach(getDataForSection(content: content, timeSection), id: \.self) { activity in
+                                    let index = content.firstIndex(of: activity)!
                                     
-                                    if editing {
-                                        HStack {
-                                            VStack {
-                                                if index > 0 {
-                                                    Button {
-                                                        withAnimation(.easeOut) {
-                                                            (content[index-1], content[index]) = (content[index], content[index-1])
-                                                        }
-                                                    } label: {
-                                                        Image(systemName: "arrow.up.circle")
-                                                            .standardIcon(width: 35)
-                                                            .gradientForeground()
-                                                    }
-                                                }
-                                                if index < content.count-1 {
-                                                    Button {
-                                                        withAnimation(.easeOut) {
-                                                            (content[index+1], content[index]) = (content[index], content[index+1])
-                                                        }
-                                                    } label: {
-                                                        Image(systemName: "arrow.down.circle")
-                                                            .standardIcon(width: 35)
-                                                            .gradientForeground()
-                                                    }
-                                                }
+                                    ZStack {
+    //                                    NavigationLink { ActivityDetailView(activity: activity.activity, icon: activity.icon, description: activity.description, day: "Today", time: "10:05", duration: "10", sentiment: "happy", id: "") } label: {
+                                            ZStack {
+                                                ActivityBar(activity: activity.activity, description: "", time: (DateFormatter.formatDate(date: Date(), format: "HH:mm"), "10"), showsTime: !editing, sentiment: "happy", id: "1", icon: "figure.walk")
+                                                    .background(RoundedRectangle(cornerRadius: 25).foregroundColor(.gray).opacity(0.2))
+                                                    .shadow(radius: 10)
+                                                RoundedRectangle(cornerRadius: 25).foregroundColor(.gray).opacity(editing ? 0.4 : 0)
                                             }
-                                            .padding(.leading, 25)
-                                            
-                                            Spacer()
+    //                                    }
+                                        
+                                        if editing {
+                                            HStack {
+                                                VStack {
+                                                    if index > 0 {
+                                                        Button {
+                                                            withAnimation(.easeOut) {
+                                                                (content[index-1], content[index]) = (content[index], content[index-1])
+                                                            }
+                                                        } label: {
+                                                            Image(systemName: "arrow.up.circle")
+                                                                .standardIcon(width: 35)
+                                                                .gradientForeground()
+                                                        }
+                                                    }
+                                                    if index < content.count-1 {
+                                                        Button {
+                                                            withAnimation(.easeOut) {
+                                                                (content[index+1], content[index]) = (content[index], content[index+1])
+                                                            }
+                                                        } label: {
+                                                            Image(systemName: "arrow.down.circle")
+                                                                .standardIcon(width: 35)
+                                                                .gradientForeground()
+                                                        }
+                                                    }
+                                                }
+                                                .padding(.leading, 25)
+                                                
+                                                Spacer()
+                                            }
                                         }
                                     }
                                 }
                             }
+                            .padding(.top)
                         }
-                        .padding(.top)
+                        .padding(.horizontal, 15)
                     }
-                    .padding(.horizontal, 15)
-                }
-                .onAppear {
-                    content = data
-                }
+                    .onAppear {
+                        content = data
+                    }
             }
+            DismissButton()
+        }
 //        }
 //        .navigationBarTitleDisplayMode(.inline)
 //        .navigationBarHidden(true)
