@@ -32,8 +32,26 @@ struct StatsView: View {
     @FetchRequest var entries: FetchedResults<Entry>
     @FetchRequest(entity: Activity.entity(), sortDescriptors: []) var activities: FetchedResults<Activity>
     
-    @State var improved = (["Walking", "Training", "Lunch"], [0.75, 0.6, 0.15])
-    @State var worsened = (["Project Work", "Gaming"], [-0.4, -0.1])
+    @State private var improved = (["Walking", "Training", "Lunch"], [0.75, 0.6, 0.15])
+    @State private var worsened = (["Project Work", "Gaming"], [-0.4, -0.1])
+    
+    @State private var loading: Bool = false
+    var getDataTask: DispatchWorkItem {
+        let workItem = DispatchWorkItem {
+            loading = true
+            let chart1 = StatisticsData.getStats(entries: entries, interval: timeInterval)
+            let chart2 = StatisticsData.getInfluence(viewContext: viewContext, interval: timeInterval, activities: activities)
+            let chart3 =  StatisticsData.getCount(interval: timeInterval, viewContext: viewContext)
+            
+            DispatchQueue.main.async {
+                (xAxis, values) = chart1
+                (improved, worsened) = chart2
+                counts = chart3
+                loading = false
+            }
+        }
+        return workItem
+    }
     
     var body: some View {
         GeometryReader { g in
@@ -48,10 +66,18 @@ struct StatsView: View {
                     .foregroundColor(.brandColor2)
                     .padding(.vertical, 5)
                     .onChange(of: timeInterval) { newValue in
-                        DispatchQueue.global(qos: .userInitiated).async {
-                            (xAxis, values) = StatisticsData.getStats(entries: entries, interval: newValue)
-                            counts = StatisticsData.getCount(interval: newValue, viewContext: viewContext)
-                            (improved, worsened) = StatisticsData.getInfluence(viewContext: viewContext, interval: newValue, activities: activities)
+                        DispatchQueue.main.async {
+                            getDataTask.cancel()
+                        }
+                        DispatchQueue.global(qos: .userInitiated).async(execute: getDataTask)
+                    }
+                    
+                    if loading {
+                        VStack {
+                            ProgressView()
+                                .frame(maxWidth: .infinity)
+                            Text("Loading")
+                                .font(.senti(size: 15))
                         }
                     }
                     
