@@ -9,13 +9,17 @@ import SwiftUI
 import CoreData
 
 class PersistenceController: ObservableObject {
-    private static var container: NSPersistentContainer {
-        let container = NSPersistentContainer(name: "Model")
+    private static var container: NSPersistentCloudKitContainer {
+        let container = NSPersistentCloudKitContainer(name: "Model")
         container.loadPersistentStores(completionHandler: {description, error in
             if let error = error {
                 print("Core Data failed to load: \(error.localizedDescription)")
             }
         })
+        
+        container.viewContext.automaticallyMergesChangesFromParent = true
+        container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        
         return container
     }
     

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21E230" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21F79" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
     <entity name="Activity" representedClassName="Activity" syncable="YES" codeGenerationType="class">
-        <attribute name="icon" attributeType="String"/>
-        <attribute name="name" attributeType="String"/>
+        <attribute name="icon" attributeType="String" defaultValueString="ellipsis.circle.fill"/>
+        <attribute name="name" attributeType="String" defaultValueString="Unknown"/>
     </entity>
     <entity name="Entry" representedClassName="Entry" syncable="YES" codeGenerationType="class">
         <attribute name="activity" optional="YES" attributeType="String"/>

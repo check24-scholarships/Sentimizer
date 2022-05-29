@@ -71,6 +71,7 @@
 		EB15CF7D2842AA4000564728 /* DismissButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissButton.swift; sourceTree = "<group>"; };
 		EB15CF7F2842AB8700564728 /* SwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIView.swift; sourceTree = "<group>"; };
 		EB33D13B2833E84900F4634C /* EditActivityCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditActivityCategoryView.swift; sourceTree = "<group>"; };
+		EB39D9D02843C55000E74250 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		EB410CCE283A45CD00D629B2 /* DateFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extension.swift"; sourceTree = "<group>"; };
 		EB410CD1283A46EB00D629B2 /* SentiScoreHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentiScoreHelper.swift; sourceTree = "<group>"; };
 		EB410CD6283A4C6300D629B2 /* StatisticsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsData.swift; sourceTree = "<group>"; };
@@ -265,6 +266,7 @@
 		EB642BFB27FF5DA4001DB273 /* Sentimizer */ = {
 			isa = PBXGroup;
 			children = (
+				EB39D9D02843C55000E74250 /* Info.plist */,
 				EB642BFC27FF5DA4001DB273 /* SentimizerApp.swift */,
 				EB634F2E28142AAC00979923 /* AppTabNavigation.swift */,
 				EB410CF4283EBDEB00D629B2 /* ActivityData.swift */,
@@ -582,6 +584,7 @@
 				DEVELOPMENT_TEAM = A38QNMLM4C;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Sentimizer/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -610,9 +613,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Sentimizer/Preview Content\"";
-				DEVELOPMENT_TEAM = 75GYQCC934;
+				DEVELOPMENT_TEAM = A38QNMLM4C;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Sentimizer/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
