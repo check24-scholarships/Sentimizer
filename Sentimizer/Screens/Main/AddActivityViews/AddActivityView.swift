@@ -105,7 +105,14 @@ struct AddActivityView: View {
                     }
                     .navigationBarHidden(true)
                     
-                    DismissButton()
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark.circle.fill")
+                            .font(.title)
+                            .foregroundColor(.gray)
+                    }
+                    .padding([.leading, .top])
                 }
             }
             .accentColor(.brandColor2)
