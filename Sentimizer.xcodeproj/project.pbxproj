@@ -293,11 +293,11 @@
 			isa = PBXGroup;
 			children = (
 				EB153FFD282FFD3500468859 /* ViewTitle.swift */,
-				EB15CF7C2842A9F100564728 /* Buttons */,
-				EB15CF7B2842A9DB00564728 /* Text */,
 				EBCDD1172827F545006AD5E2 /* WhatNext.swift */,
 				EBB26CEA2836CD4700E48506 /* ActivityBar.swift */,
 				EB15CF79283FD9C200564728 /* MonthSwitcher.swift */,
+				EB15CF7C2842A9F100564728 /* Buttons */,
+				EB15CF7B2842A9DB00564728 /* Text */,
 			);
 			path = Components;
 			sourceTree = "<group>";

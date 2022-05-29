@@ -68,6 +68,7 @@ struct CalendarView: View {
             }
         }
         .padding(.top, 5)
+        .padding(.bottom)
         .sheet(isPresented: $daySheetPresented) {
             CalendarDayDetailView(data: getActivitiesForDay(date: tappedDate), date: tappedDate)
         }

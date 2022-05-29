@@ -71,6 +71,7 @@ struct IconChooser: View {
                 .disabled(iconName.isEmpty)
                 .opacity(iconName.isEmpty ? 0.3 : 1)
                 .animation(.easeOut, value: iconName)
+                .padding(.bottom, 50)
             }
             .padding(.horizontal, 15)
         }

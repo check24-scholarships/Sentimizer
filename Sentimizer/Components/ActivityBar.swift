@@ -27,6 +27,7 @@ struct ActivityBar: View {
             
             HStack {
                 Image(systemName: icon)
+                    .standardIcon(shouldBeMaxWidthHeight: true, maxWidthHeight: 30)
                     .padding(.leading)
                 
                 VStack(alignment: .leading, spacing: 0) {
