@@ -45,6 +45,10 @@ struct EditActivityCategoryView: View {
                 }
                 
                 SentiTextField(placeholder: "Activity category name", text: $userActivityName, textFieldEditing: $textFieldEditing, done: $userEditingDone)
+                    .onChange(of: userActivityName) { newValue in
+                        persistenceController.updateActivityCategoryName(with: userActivityName, oldName: activityName, viewContext)
+                        activityName = userActivityName
+                    }
                 
                 SentiDeleteButton(label: "Delete activity category") {
                     persistenceController.deleteActivityCategory(with: activityName, viewContext)
