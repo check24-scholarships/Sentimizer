@@ -66,6 +66,12 @@ struct CalendarDayDetailView: View {
                         }
                         .padding(.top, 25)
                         
+                        if(getDataForSection(content: content, K.timeSections[0]).count + getDataForSection(content: content, K.timeSections[1]).count + getDataForSection(content: content, K.timeSections[2]).count + getDataForSection(content: content, K.timeSections[3]).count < 1) {
+                            Text("There are no entries for this day. Add entries or choose another.")
+                                .font(.senti(size: 15))
+                                .padding()
+                        }
+                        
                         VStack(alignment: .leading, spacing: 0) {
                             ForEach(K.timeSections, id: \.self) { timeSection in
                                 
