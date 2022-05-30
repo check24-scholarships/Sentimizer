@@ -38,16 +38,27 @@ struct StatsView: View {
     @State private var loading: Bool = false
     var getDataTask: DispatchWorkItem {
         let workItem = DispatchWorkItem {
-            loading = true
-            let chart1 = StatisticsData.getStats(entries: entries, interval: timeInterval)
-            let chart2 = StatisticsData.getInfluence(viewContext: viewContext, interval: timeInterval, activities: activities)
-            let chart3 =  StatisticsData.getCount(interval: timeInterval, viewContext: viewContext)
+            withAnimation {
+                loading = true
+            }
             
+            let chart1 = StatisticsData.getStats(entries: entries, interval: timeInterval)
             DispatchQueue.main.async {
                 (xAxis, values) = chart1
-                (improved, worsened) = chart2
+            }
+            
+            let chart3 =  StatisticsData.getCount(interval: timeInterval, viewContext: viewContext)
+            DispatchQueue.main.async {
                 counts = chart3
-                loading = false
+            }
+            
+            let chart2 = StatisticsData.getInfluence(viewContext: viewContext, interval: timeInterval, activities: activities)
+            DispatchQueue.main.async {
+                (improved, worsened) = chart2
+                
+                withAnimation {
+                    loading = false
+                }
             }
         }
         return workItem
