@@ -22,6 +22,21 @@ struct ActivityChooserView: View {
                 ViewTitle("Choose your category", fontSize: 30)
                     .frame(maxWidth: .infinity)
                 
+                if redirectToEdit && activities.count < 1 {
+                    VStack {
+                        HStack {
+                            Image(systemName: "figure.walk")
+                            Image(systemName: "fork.knife")
+                            Image(systemName: "briefcase.fill")
+                        }
+                        .font(.title2)
+                        Text("There are no custom categories yet.")
+                            .font(.senti(size: 15))
+                            .bold()
+                            .padding()
+                    }
+                    .padding(.top, 30)
+                }
                 
                 if !redirectToEdit {
                     ForEach(0 ..< K.defaultActivities.0.count, id: \.self) { i in
