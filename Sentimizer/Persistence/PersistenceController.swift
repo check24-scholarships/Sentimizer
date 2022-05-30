@@ -219,7 +219,7 @@ class PersistenceController: ObservableObject {
         let activities = try! viewContext.fetch(fetchRequest)
         
         for activity in activities {
-            if activity.name == categoryName {
+            if categoryName.trimmingCharacters(in: .whitespacesAndNewlines).compare(activity.name!.trimmingCharacters(in: .whitespacesAndNewlines), options: .caseInsensitive) == .orderedSame {
                 return true
             }
         }
