@@ -34,20 +34,22 @@ class PersistenceController: ObservableObject {
         var content: [[[String]]] = []
         
         for entry in entries {
-            var day = DateFormatter.formatDate(date:entry.date!, format: "EEE, d MMM")
-            
-            if (Calendar.current.isDateInToday(entry.date!)) {
-                day = "Today"
-            } else if (Calendar.current.isDateInYesterday(entry.date!)) {
-                day = "Yesterday"
+            if Calendar.current.isDate(entry.date!, equalTo: month, toGranularity: .month) {
+                var day = DateFormatter.formatDate(date:entry.date!, format: "EEE, d MMM")
+                
+                if (Calendar.current.isDateInToday(entry.date!)) {
+                    day = "Today"
+                } else if (Calendar.current.isDateInYesterday(entry.date!)) {
+                    day = "Yesterday"
+                }
+                
+                if day != days.last {
+                    days.append(day)
+                    content.append([])
+                }
+                
+                content[content.count - 1].append([entry.activity ?? "senting", DateFormatter.formatDate(date: entry.date!, format: "HH:mm"), "10", entry.text ?? "", entry.feeling ?? "happy", entry.objectID.uriRepresentation().absoluteString])
             }
-            
-            if day != days.last {
-                days.append(day)
-                content.append([])
-            }
-            
-            content[content.count - 1].append([entry.activity ?? "senting", DateFormatter.formatDate(date: entry.date!, format: "HH:mm"), "10", entry.text ?? "", entry.feeling ?? "happy", entry.objectID.uriRepresentation().absoluteString])
         }
         
         return (days, content)
@@ -204,6 +206,8 @@ class PersistenceController: ObservableObject {
             }
         }
         
+        changeEntryCategories(viewContext: viewContext, oldName: categoryName)
+        
         try! viewContext.save()
     }
     
@@ -237,6 +241,8 @@ class PersistenceController: ObservableObject {
                 activity.name = activityName
             }
         }
+        
+        changeEntryCategories(viewContext: viewContext, oldName: oldName, newName: activityName)
         
         try! viewContext.save()
     }
@@ -282,6 +288,20 @@ class PersistenceController: ObservableObject {
         } catch {
             print("In \(#function), line \(#line), save activity failed:")
             print(error.localizedDescription)
+        }
+    }
+    
+    func changeEntryCategories(viewContext: NSManagedObjectContext, oldName: String, newName: String = "Unspecified") {
+        let fetchRequest: NSFetchRequest<Entry>
+        fetchRequest = Entry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(value: true)
+        
+        let entries = try! viewContext.fetch(fetchRequest)
+        
+        for entry in entries {
+            if entry.activity == oldName {
+                entry.activity = newName
+            }
         }
     }
 }
