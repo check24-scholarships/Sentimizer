@@ -67,9 +67,8 @@ struct MainActivityView: View {
                             
                             ForEach(0 ..< entryContent[day].count, id: \.self) { i in
                                 let c = entryContent[day][i]
-                                let icon = persistenceController.getActivityIcon(activityName: c[0], viewContext)
-                                NavigationLink { ActivityDetailView(activity: c[0], icon: icon, description: c[3], day: entryDays[day], time: c[1], duration: c[2], sentiment: c[4], id: c[5]) } label: {
-                                    ActivityBar(activity: c[0], description: c[3], time: (c[1], c[2]), sentiment: c[4], id: c[5], icon:icon)
+                                NavigationLink { ActivityDetailView(activity: c[0], icon: persistenceController.getActivityIcon(activityName: c[0], viewContext), description: c[3], day: entryDays[day], time: c[1], duration: c[2], sentiment: c[4], id: c[5]) } label: {
+                                    ActivityBar(activity: c[0], description: c[3], time: (c[1], c[2]), sentiment: c[4], id: c[5], icon: persistenceController.getActivityIcon(activityName: c[0], viewContext))
                                         .padding([.bottom, .trailing], 10)
                                 }
                             }
