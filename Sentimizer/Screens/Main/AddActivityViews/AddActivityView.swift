@@ -17,6 +17,8 @@ struct AddActivityView: View {
     @ObservedObject var keyboardHeightHelper = KeyboardHelper()
     @State private var textFieldYPlusHeight: CGFloat = 0
     
+    @FetchRequest(entity: Activity.entity(), sortDescriptors: []) var activities: FetchedResults<Activity>
+    
     @State private var description = ""
     @State private var feeling = ""
     @State private var activity = ""
@@ -67,7 +69,27 @@ struct AddActivityView: View {
                             
                             
                             Button {
-                                persistenceController.saveActivity(activity: activity, icon: icon, description: description, feeling: feeling, date: Date(), viewContext)
+                                DispatchQueue.global(qos: .userInitiated).async {
+                                    print("This is run on a background queue")
+                                    
+                                    persistenceController.saveActivity(activity: activity, icon: icon, description: description, feeling: feeling, date: Date(), viewContext)
+                                    
+                                    let monthInfluence = StatisticsData.getInfluence(viewContext: viewContext, interval: K.timeIntervals[2], activities: activities)
+                                    
+                                    
+                                    persistenceController.saveInfluence(with: K.monthInfluence, for: monthInfluence)
+                                    
+                                    let yearInfluence = StatisticsData.getInfluence(viewContext: viewContext, interval: K.timeIntervals[3], activities: activities)
+                                    
+                                    persistenceController.saveInfluence(with: K.yearInfluence, for: yearInfluence)
+
+                                    DispatchQueue.main.async {
+                                        print("This is run on the main queue, after the previous code in outer block")
+                                    }
+                                }
+                                
+                                print("DONE SAVING TO P")
+                                
                                 dismiss()
                             } label: {
                                 SentiButton(icon: nil, title: "Save", chevron: false)

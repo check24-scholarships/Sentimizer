@@ -324,4 +324,39 @@ class PersistenceController: ObservableObject {
             }
         }
     }
+    
+    // UserDefaults
+    
+    func saveInfluence(with key: String, for data: (([String], [Double]), ([String], [Double]))) {
+        let defaults = UserDefaults.standard
+        
+        defaults.set(data.0.0, forKey: key + "i_name")
+        defaults.set(data.0.1, forKey: key + "i_val")
+        
+        defaults.set(data.1.0, forKey: key + "w_name")
+        defaults.set(data.1.1, forKey: key + "w_val")
+    }
+    
+    func getInfluence(with key: String) -> (([String], [Double]), ([String], [Double])) {
+        print("VALUE", key)
+        let defaults = UserDefaults.standard
+        
+        var res: (([String], [Double]), ([String], [Double])) = (([], []), ([], []))
+        
+        if let iname = defaults.object(forKey: key + "i_name") as? [String] {
+            res.0.0 = iname
+        }
+        if let ival = defaults.object(forKey: key + "i_val") as? [Double] {
+            res.0.1 = ival
+        }
+            
+        if let wname = defaults.object(forKey: key + "w_name") as? [String] {
+            res.1.0 = wname
+        }
+        if let wval = defaults.object(forKey: key + "w_val") as? [Double] {
+            res.1.1 = wval
+        }
+        
+        return res
+    }
 }

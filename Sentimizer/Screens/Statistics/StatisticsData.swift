@@ -188,7 +188,7 @@ struct StatisticsData {
         return count
     }
     
-    static func getInfluence(viewContext: NSManagedObjectContext, interval: String, activities: FetchedResults<Activity>) -> (([String], [Double]), ([String], [Double])){
+    static func getInfluence(viewContext: NSManagedObjectContext, interval: String, activities: FetchedResults<Activity>) -> (([String], [Double]), ([String], [Double])) {
         var allActivities:[String] = K.defaultActivities.0.map { $0.copy() as! String }
         
         for activity in activities {

@@ -11,6 +11,7 @@
 		8838ABB72833672000D3599B /* NeuralNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838ABB62833672000D3599B /* NeuralNetwork.swift */; };
 		8838ABB9283529EC00D3599B /* RandomNumberGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838ABB8283529EC00D3599B /* RandomNumberGenerator.swift */; };
 		8838ABEC28391EE700D3599B /* TestModel.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 8838ABEB28391EE700D3599B /* TestModel.mlpackage */; };
+		886E846528463DA200E5D6F6 /* InfluenceData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886E846428463DA200E5D6F6 /* InfluenceData.swift */; };
 		88E6E5AE281C4ACD00EB0D15 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 88E6E5AC281C4ACD00EB0D15 /* Model.xcdatamodeld */; };
 		88E6E5B0281C4B7F00EB0D15 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E6E5AF281C4B7F00EB0D15 /* PersistenceController.swift */; };
 		EB153FFE282FFD3500468859 /* ViewTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB153FFD282FFD3500468859 /* ViewTitle.swift */; };
@@ -64,6 +65,7 @@
 		8838ABB62833672000D3599B /* NeuralNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeuralNetwork.swift; sourceTree = "<group>"; };
 		8838ABB8283529EC00D3599B /* RandomNumberGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomNumberGenerator.swift; sourceTree = "<group>"; };
 		8838ABEB28391EE700D3599B /* TestModel.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = TestModel.mlpackage; sourceTree = "<group>"; };
+		886E846428463DA200E5D6F6 /* InfluenceData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfluenceData.swift; sourceTree = "<group>"; };
 		88E6E5AD281C4ACD00EB0D15 /* Entry.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Entry.xcdatamodel; sourceTree = "<group>"; };
 		88E6E5AF281C4B7F00EB0D15 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		EB153FFD282FFD3500468859 /* ViewTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewTitle.swift; sourceTree = "<group>"; };
@@ -197,6 +199,7 @@
 		EB410CD5283A4C5500D629B2 /* Statistics */ = {
 			isa = PBXGroup;
 			children = (
+				886E846428463DA200E5D6F6 /* InfluenceData.swift */,
 				EB410CD6283A4C6300D629B2 /* StatisticsData.swift */,
 				EB410CE5283A53B600D629B2 /* StatisticsView */,
 			);
@@ -439,6 +442,7 @@
 				EB410CDB283A515D00D629B2 /* IconChooserView.swift in Sources */,
 				EBDB9F6E2833A22000586EB7 /* MoodPicker.swift in Sources */,
 				EB68882A2813459D00C0FDE7 /* Font+Extension.swift in Sources */,
+				886E846528463DA200E5D6F6 /* InfluenceData.swift in Sources */,
 				EB634F2D281427DF00979923 /* View+Extension.swift in Sources */,
 				EBCDD11E282AD75E006AD5E2 /* KeyboardHelper.swift in Sources */,
 				EB410CE9283A5AD100D629B2 /* CalendarDayViewData.swift in Sources */,

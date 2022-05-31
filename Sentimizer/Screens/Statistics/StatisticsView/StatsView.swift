@@ -35,34 +35,40 @@ struct StatsView: View {
     @State private var improved = (["Walking", "Training", "Lunch"], [0.75, 0.6, 0.15])
     @State private var worsened = (["Project Work", "Gaming"], [-0.4, -0.1])
     
-    @State private var loading: Bool = false
-    var getDataTask: DispatchWorkItem {
-        let workItem = DispatchWorkItem {
-            withAnimation {
-                loading = true
-            }
+//    @State private var loading: Bool = false
+//    var getDataTask: DispatchWorkItem {
+//        let workItem = DispatchWorkItem {
+//            withAnimation {
+//                loading = true
+//            }
+//
+//            let chart1 = StatisticsData.getStats(entries: entries, interval: timeInterval)
+//            DispatchQueue.main.async {
+//                (xAxis, values) = chart1
+//            }
+//
+//            let chart3 =  StatisticsData.getCount(interval: timeInterval, viewContext: viewContext)
+//            DispatchQueue.main.async {
+//                counts = chart3
+//            }
             
-            let chart1 = StatisticsData.getStats(entries: entries, interval: timeInterval)
-            DispatchQueue.main.async {
-                (xAxis, values) = chart1
-            }
+//            let chart2 = StatisticsData.getInfluence(viewContext: viewContext, interval: timeInterval, activities: activities)
+//            DispatchQueue.main.async {
+//                (improved, worsened) = chart2
+//
+//                withAnimation {
+//                    loading = false
+//                }
+//            }
             
-            let chart3 =  StatisticsData.getCount(interval: timeInterval, viewContext: viewContext)
-            DispatchQueue.main.async {
-                counts = chart3
-            }
-            
-            let chart2 = StatisticsData.getInfluence(viewContext: viewContext, interval: timeInterval, activities: activities)
-            DispatchQueue.main.async {
-                (improved, worsened) = chart2
-                
-                withAnimation {
-                    loading = false
-                }
-            }
-        }
-        return workItem
-    }
+//            if timeInterval == K.timeIntervals[3] {
+//                (improved, worsened) = persistenceController.getInfluence(with: K.yearInfluence)
+//            } else {
+//                (improved, worsened) = persistenceController.getInfluence(with: K.monthInfluence)
+//            }
+//        }
+//        return workItem
+//    }
     
     var body: some View {
         GeometryReader { g in
@@ -77,20 +83,40 @@ struct StatsView: View {
                     .foregroundColor(.brandColor2)
                     .padding(.vertical, 5)
                     .onChange(of: timeInterval) { newValue in
+                        let chart1 = StatisticsData.getStats(entries: entries, interval: timeInterval)
                         DispatchQueue.main.async {
-                            getDataTask.cancel()
+                            (xAxis, values) = chart1
                         }
-                        DispatchQueue.global(qos: .userInitiated).async(execute: getDataTask)
+                        
+                        let chart3 =  StatisticsData.getCount(interval: timeInterval, viewContext: viewContext)
+                        DispatchQueue.main.async {
+                            counts = chart3
+                        }
+                        
+            //            let chart2 = StatisticsData.getInfluence(viewContext: viewContext, interval: timeInterval, activities: activities)
+            //            DispatchQueue.main.async {
+            //                (improved, worsened) = chart2
+            //
+            //                withAnimation {
+            //                    loading = false
+            //                }
+            //            }
+                        
+                        if timeInterval == K.timeIntervals[3] {
+                            (improved, worsened) = persistenceController.getInfluence(with: K.yearInfluence)
+                        } else {
+                            (improved, worsened) = persistenceController.getInfluence(with: K.monthInfluence)
+                        }
                     }
                     
-                    if loading {
-                        VStack {
-                            ProgressView()
-                                .frame(maxWidth: .infinity)
-                            Text("Loading")
-                                .font(.senti(size: 15))
-                        }
-                    }
+//                    if loading {
+//                        VStack {
+//                            ProgressView()
+//                                .frame(maxWidth: .infinity)
+//                            Text("Loading")
+//                                .font(.senti(size: 15))
+//                        }
+//                    }
                     
                     if totalCount < 1 {
                         VStack {
@@ -163,7 +189,12 @@ struct StatsView: View {
                 DispatchQueue.global(qos: .userInitiated).async {
                     (xAxis, values) = StatisticsData.getStats(entries: entries, interval: timeInterval)
                     counts = StatisticsData.getCount(interval: timeInterval, viewContext: viewContext)
-                    (improved, worsened) = StatisticsData.getInfluence(viewContext: viewContext, interval: timeInterval, activities: activities)
+                    
+                    if timeInterval == K.timeIntervals[3] {
+                        (improved, worsened) = persistenceController.getInfluence(with: K.yearInfluence)
+                    } else {
+                        (improved, worsened) = persistenceController.getInfluence(with: K.monthInfluence)
+                    }
                 }
             }
         }
