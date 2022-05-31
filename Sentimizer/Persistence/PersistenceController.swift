@@ -198,7 +198,6 @@ class PersistenceController: ObservableObject {
         }
     }
     
-    
     //MARK: - Entity: Activity (= Activity Category)
     func saveNewActivityCategory(name: String, icon: String, _ viewContext: NSManagedObjectContext) {
         let activity = Activity(context: viewContext)
@@ -325,7 +324,7 @@ class PersistenceController: ObservableObject {
         }
     }
     
-    // UserDefaults
+    //MARK: - User Defaults
     
     func saveInfluence(with key: String, for data: (([String], [Double]), ([String], [Double]))) {
         let defaults = UserDefaults.standard
