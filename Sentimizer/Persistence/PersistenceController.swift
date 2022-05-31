@@ -55,6 +55,26 @@ class PersistenceController: ObservableObject {
         return (days, content)
     }
     
+    func getEntriesOfDay(viewContext: NSManagedObjectContext, day: Date) -> [ActivityData] {
+        let fetchRequest: NSFetchRequest<Entry>
+        fetchRequest = Entry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(value: true)
+        
+        let entries = try! viewContext.fetch(fetchRequest)
+        
+        var results:[ActivityData] = []
+        
+        for entry in entries {
+            if Calendar.current.isDate(entry.date!, inSameDayAs: day) {
+                results.append(ActivityData(id: entry.objectID.uriRepresentation().absoluteString, activity: entry.activity!, icon: getActivityIcon(activityName: entry.activity!, viewContext), date: entry.date!, description: entry.description))
+            }
+        }
+        
+        try! viewContext.save()
+        
+        return results
+    }
+    
     func deleteAllData(viewContext: NSManagedObjectContext) {
         let fetchRequest: NSFetchRequest<Entry>
         fetchRequest = Entry.fetchRequest()

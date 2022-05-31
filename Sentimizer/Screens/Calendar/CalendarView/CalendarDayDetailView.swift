@@ -11,6 +11,8 @@ struct CalendarDayDetailView: View {
     let data: [ActivityData]
     let date: Date
     
+    @Environment(\.managedObjectContext) var viewContext
+    
     @StateObject private var persistenceController = PersistenceController()
     
     @State private var content: [ActivityData] = []
@@ -133,7 +135,7 @@ struct CalendarDayDetailView: View {
                         .padding(.horizontal, 15)
                     }
                     .onAppear {
-                        content = data
+                        content = persistenceController.getEntriesOfDay(viewContext: viewContext, day: date)
                     }
             }
             DismissButton()
