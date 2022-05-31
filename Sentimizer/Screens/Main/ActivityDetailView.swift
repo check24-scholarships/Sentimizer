@@ -145,17 +145,13 @@ struct ActivityDetailView: View {
                         DispatchQueue.global(qos: .userInitiated).async {
                             print("This is run on a background queue")
                             let monthInfluence = StatisticsData.getInfluence(viewContext: viewContext, interval: K.timeIntervals[2], activities: activities)
-                            
-                            
-                            persistenceController.saveInfluence(with: K.monthInfluence, for: monthInfluence)
-                            
-                            let yearInfluence = StatisticsData.getInfluence(viewContext: viewContext, interval: K.timeIntervals[3], activities: activities)
-                            
-                            persistenceController.saveInfluence(with: K.yearInfluence, for: yearInfluence)
 
-                            DispatchQueue.main.async {
-                                print("This is run on the main queue, after the previous code in outer block")
-                            }
+
+                            persistenceController.saveInfluence(with: K.monthInfluence, for: monthInfluence)
+
+                            let yearInfluence = StatisticsData.getInfluence(viewContext: viewContext, interval: K.timeIntervals[3], activities: activities)
+
+                            persistenceController.saveInfluence(with: K.yearInfluence, for: yearInfluence)
                         }
                         
                         dismiss()
