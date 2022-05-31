@@ -9,13 +9,16 @@ import SwiftUI
 
 struct MonthSwitcher: View {
     @Binding var selectedMonth: Date
+    var allowFuture = true
+    
+    var disabled: Bool {
+        !allowFuture && (Calendar.current.component(.month, from: selectedMonth) == Calendar.current.component(.month, from: Date()))
+    }
     
     var body: some View {
         HStack {
             Button {
-                var dateComponent = DateComponents()
-                dateComponent.month = -1
-                selectedMonth = Calendar.current.date(byAdding: dateComponent, to: selectedMonth)!
+                selectedMonth = Date.appendMonths(to: selectedMonth, count: -1)
             } label: {
                 Image(systemName: "arrow.left.circle")
                     .standardIcon(width: 30)
@@ -28,14 +31,14 @@ struct MonthSwitcher: View {
                 .padding()
             Spacer()
             Button {
-                var dateComponent = DateComponents()
-                dateComponent.month = 1
-                selectedMonth = Calendar.current.date(byAdding: dateComponent, to: selectedMonth)!
+                selectedMonth = Date.appendMonths(to: selectedMonth, count: 1)
             } label: {
                 Image(systemName: "arrow.right.circle")
                     .standardIcon(width: 30)
                     .padding(.trailing)
             }
+            .disabled(disabled)
+            .opacity(disabled ? 0.3 : 1)
         }
     }
 }

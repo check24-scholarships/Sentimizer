@@ -19,7 +19,7 @@
 		EB15CF7E2842AA4000564728 /* DismissButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB15CF7D2842AA4000564728 /* DismissButton.swift */; };
 		EB15CF802842AB8700564728 /* SwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB15CF7F2842AB8700564728 /* SwiftUIView.swift */; };
 		EB33D13C2833E84900F4634C /* EditActivityCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB33D13B2833E84900F4634C /* EditActivityCategoryView.swift */; };
-		EB410CCF283A45CD00D629B2 /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB410CCE283A45CD00D629B2 /* DateFormatter+Extension.swift */; };
+		EB410CCF283A45CD00D629B2 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB410CCE283A45CD00D629B2 /* Date+Extension.swift */; };
 		EB410CD2283A46EB00D629B2 /* SentiScoreHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB410CD1283A46EB00D629B2 /* SentiScoreHelper.swift */; };
 		EB410CD7283A4C6300D629B2 /* StatisticsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB410CD6283A4C6300D629B2 /* StatisticsData.swift */; };
 		EB410CD9283A4DDD00D629B2 /* MachineLearning.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB410CD8283A4DDD00D629B2 /* MachineLearning.swift */; };
@@ -74,7 +74,7 @@
 		EB15CF7F2842AB8700564728 /* SwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIView.swift; sourceTree = "<group>"; };
 		EB33D13B2833E84900F4634C /* EditActivityCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditActivityCategoryView.swift; sourceTree = "<group>"; };
 		EB39D9D02843C55000E74250 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		EB410CCE283A45CD00D629B2 /* DateFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extension.swift"; sourceTree = "<group>"; };
+		EB410CCE283A45CD00D629B2 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		EB410CD1283A46EB00D629B2 /* SentiScoreHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentiScoreHelper.swift; sourceTree = "<group>"; };
 		EB410CD6283A4C6300D629B2 /* StatisticsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsData.swift; sourceTree = "<group>"; };
 		EB410CD8283A4DDD00D629B2 /* MachineLearning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachineLearning.swift; sourceTree = "<group>"; };
@@ -332,7 +332,7 @@
 				EB634F2C281427DF00979923 /* View+Extension.swift */,
 				EB467FAE28210DB000F9AA4D /* Color+Extension.swift */,
 				EB6888292813459D00C0FDE7 /* Font+Extension.swift */,
-				EB410CCE283A45CD00D629B2 /* DateFormatter+Extension.swift */,
+				EB410CCE283A45CD00D629B2 /* Date+Extension.swift */,
 				EB410CF2283E6A1900D629B2 /* Image+Extension.swift */,
 			);
 			path = Extensions;
@@ -428,7 +428,7 @@
 				8838ABB9283529EC00D3599B /* RandomNumberGenerator.swift in Sources */,
 				EBB26CEB2836CD4700E48506 /* ActivityBar.swift in Sources */,
 				EB410CDD283A51A700D629B2 /* MoodTrendChart.swift in Sources */,
-				EB410CCF283A45CD00D629B2 /* DateFormatter+Extension.swift in Sources */,
+				EB410CCF283A45CD00D629B2 /* Date+Extension.swift in Sources */,
 				EB634F2F28142AAC00979923 /* AppTabNavigation.swift in Sources */,
 				EBDB9F722833DB9100586EB7 /* SettingsView.swift in Sources */,
 				EB410CD2283A46EB00D629B2 /* SentiScoreHelper.swift in Sources */,

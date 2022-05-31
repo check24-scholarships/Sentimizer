@@ -21,11 +21,13 @@ struct MainActivityView: View {
     @State private var entryDays: [String] = []
     @State private var entryContent: [[[String]]] = [[]]
     
+    @State private var showLastMonth = false
+    
     @FetchRequest var entries: FetchedResults<Entry>
     
     var body: some View {
         ScrollView {
-            MonthSwitcher(selectedMonth: $selectedMonth)
+            MonthSwitcher(selectedMonth: $selectedMonth, allowFuture: false)
                 .padding(.bottom)
             
             Group {
@@ -40,7 +42,7 @@ struct MainActivityView: View {
                 .padding(.horizontal, 5)
                 .padding(.bottom)
                 
-                if entryDays.count < 1 {
+                if entries.count < 1 {
                     VStack {
                         HStack {
                             Image(systemName: "figure.walk")
@@ -58,6 +60,24 @@ struct MainActivityView: View {
                     WhatNext(activity: "Walking")
                         .padding(.bottom, 15)
                         .padding(.horizontal, 5)
+                    
+                    if persistenceController.getEntryData(entries: entries, month: selectedMonth).0.count < 1  {
+                        Text(" \(Image(systemName: "list.bullet.below.rectangle")) There are no entries in the chosen month.")
+                            .font(.senti(size: 15))
+                            .bold()
+                            .padding()
+                        
+                        let lastMonth = Date.appendMonths(to: selectedMonth, count: -1)
+                        if persistenceController.getEntryData(entries: entries, month: lastMonth).0.count > 0 {
+                            Text(Calendar.current.monthSymbols[Calendar.current.component(.month, from: selectedMonth)-2] + " \(Calendar.current.component(.year, from: selectedMonth))")
+                                .font(.senti(size: 20))
+                                .minimumScaleFactor(0.8)
+                                .padding()
+                                .onAppear {
+                                    showLastMonth = true
+                                }
+                        }
+                    }
                     
                     ForEach(0..<entryDays.count, id: \.self) { day in
                         VStack(alignment: .leading) {
@@ -92,7 +112,15 @@ struct MainActivityView: View {
             (entryDays, entryContent) = persistenceController.getEntryData(entries: entries)
         }
         .onChange(of: selectedMonth) { newValue in
+            showLastMonth = false
             (entryDays, entryContent) = persistenceController.getEntryData(entries: entries, month: newValue)
+        }
+        .onChange(of: showLastMonth) { newValue in
+            if newValue {
+                var dateComponent = DateComponents()
+                dateComponent.month = -1
+                (entryDays, entryContent) = persistenceController.getEntryData(entries: entries, month: Calendar.current.date(byAdding: dateComponent, to: selectedMonth)!)
+            }
         }
     }
     
