@@ -89,7 +89,7 @@ struct CalendarDayDetailView: View {
                                     ZStack {
     //                                    NavigationLink { ActivityDetailView(activity: activity.activity, icon: activity.icon, description: activity.description, day: "Today", time: "10:05", duration: "10", sentiment: "happy", id: "") } label: {
                                             ZStack {
-                                                ActivityBar(activity: activity.activity, description: "", time: (DateFormatter.formatDate(date: Date(), format: "HH:mm"), "10"), showsTime: !editing, sentiment: "happy", id: "1", icon: "figure.walk")
+                                                ActivityBar(activity: activity.activity, description: "", time: (DateFormatter.formatDate(date: activity.date, format: "HH:mm"), "10"), showsTime: !editing, sentiment: "happy", id: "1", icon: "figure.walk")
                                                     .background(RoundedRectangle(cornerRadius: 25).foregroundColor(.gray).opacity(0.2))
                                                     .shadow(radius: 10)
                                                 RoundedRectangle(cornerRadius: 25).foregroundColor(.gray).opacity(editing ? 0.4 : 0)
