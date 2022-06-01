@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		61C81FDB2847D8BC0023655E /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61C81FDA2847D8BC0023655E /* CloudKit.framework */; };
 		8838ABB2282F7DA100D3599B /* ActivityDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838ABB1282F7DA100D3599B /* ActivityDetailView.swift */; };
 		8838ABB72833672000D3599B /* NeuralNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838ABB62833672000D3599B /* NeuralNetwork.swift */; };
 		8838ABB9283529EC00D3599B /* RandomNumberGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838ABB8283529EC00D3599B /* RandomNumberGenerator.swift */; };
@@ -61,6 +62,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		61C81FD82847D8B10023655E /* Sentimizer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Sentimizer.entitlements; sourceTree = "<group>"; };
+		61C81FDA2847D8BC0023655E /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		8838ABB1282F7DA100D3599B /* ActivityDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityDetailView.swift; sourceTree = "<group>"; };
 		8838ABB62833672000D3599B /* NeuralNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeuralNetwork.swift; sourceTree = "<group>"; };
 		8838ABB8283529EC00D3599B /* RandomNumberGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomNumberGenerator.swift; sourceTree = "<group>"; };
@@ -121,12 +124,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				61C81FDB2847D8BC0023655E /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		61C81FD92847D8BC0023655E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				61C81FDA2847D8BC0023655E /* CloudKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		EB15CF7B2842A9DB00564728 /* Text */ = {
 			isa = PBXGroup;
 			children = (
@@ -255,6 +267,7 @@
 			children = (
 				EB642BFB27FF5DA4001DB273 /* Sentimizer */,
 				EB642BFA27FF5DA4001DB273 /* Products */,
+				61C81FD92847D8BC0023655E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -269,6 +282,7 @@
 		EB642BFB27FF5DA4001DB273 /* Sentimizer */ = {
 			isa = PBXGroup;
 			children = (
+				61C81FD82847D8B10023655E /* Sentimizer.entitlements */,
 				EB39D9D02843C55000E74250 /* Info.plist */,
 				EB642BFC27FF5DA4001DB273 /* SentimizerApp.swift */,
 				EB634F2E28142AAC00979923 /* AppTabNavigation.swift */,
@@ -582,11 +596,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Sentimizer/Sentimizer.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Sentimizer/Preview Content\"";
-				DEVELOPMENT_TEAM = A38QNMLM4C;
+				DEVELOPMENT_TEAM = 9RF9KY88B2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Sentimizer/Info.plist;
@@ -602,7 +617,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = saginsberg.de;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sentimizer.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -616,11 +631,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Sentimizer/Sentimizer.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Sentimizer/Preview Content\"";
-				DEVELOPMENT_TEAM = A38QNMLM4C;
+				DEVELOPMENT_TEAM = 9RF9KY88B2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Sentimizer/Info.plist;
@@ -636,7 +652,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = saginsberg.de;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sentimizer.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
