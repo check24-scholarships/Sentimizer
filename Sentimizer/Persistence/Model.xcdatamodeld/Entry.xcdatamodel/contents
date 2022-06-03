@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21F79" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
     <entity name="Activity" representedClassName="Activity" syncable="YES" codeGenerationType="class">
-        <attribute name="icon" attributeType="String" defaultValueString="ellipsis.circle.fill"/>
+        <attribute name="icon" attributeType="String" defaultValueString="camera.metering.unknown"/>
         <attribute name="name" attributeType="String" defaultValueString="Unknown"/>
     </entity>
     <entity name="Entry" representedClassName="Entry" syncable="YES" codeGenerationType="class">
-        <attribute name="activity" optional="YES" attributeType="String"/>
-        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="feeling" optional="YES" attributeType="String"/>
-        <attribute name="text" optional="YES" attributeType="String"/>
+        <attribute name="activity" optional="YES" attributeType="String" defaultValueString="Unknown"/>
+        <attribute name="date" optional="YES" attributeType="Date" defaultDateTimeInterval="675966780" usesScalarValueType="NO"/>
+        <attribute name="feeling" optional="YES" attributeType="String" defaultValueString="happy"/>
+        <attribute name="text" optional="YES" attributeType="String" defaultValueString=""/>
     </entity>
     <elements>
         <element name="Activity" positionX="-36" positionY="36" width="128" height="59"/>

@@ -118,7 +118,7 @@ struct StatsView: View {
 //                        }
 //                    }
                     
-                    if totalCount < 1 {
+                    if totalCount < 0 {
                         VStack {
                             HStack {
                                 Image(systemName: "chart.line.uptrend.xyaxis")

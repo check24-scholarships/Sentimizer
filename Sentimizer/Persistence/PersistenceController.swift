@@ -338,9 +338,12 @@ class PersistenceController: ObservableObject {
     
     func getInfluence(with key: String) -> (([String], [Double]), ([String], [Double])) {
         print("VALUE", key)
+        print("HERE PLS WORK")
         let defaults = UserDefaults.standard
         
         var res: (([String], [Double]), ([String], [Double])) = (([], []), ([], []))
+        
+        print("HHH", defaults.object(forKey: key + "i_name") as? [String])
         
         if let iname = defaults.object(forKey: key + "i_name") as? [String] {
             res.0.0 = iname
@@ -355,6 +358,8 @@ class PersistenceController: ObservableObject {
         if let wval = defaults.object(forKey: key + "w_val") as? [Double] {
             res.1.1 = wval
         }
+        
+        print("RESSSS", res)
         
         return res
     }
