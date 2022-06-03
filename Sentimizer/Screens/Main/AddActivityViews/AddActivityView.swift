@@ -72,12 +72,8 @@ struct AddActivityView: View {
                                 persistenceController.saveActivity(activity: activity, icon: icon, description: description, feeling: feeling, date: Date(), viewContext)
                                 
                                 DispatchQueue.global(qos: .userInitiated).async {
-                                    print("This is run on a background queue")
-                                    print("SAVING")
 
                                     let monthInfluence = StatisticsData.getInfluence(viewContext: viewContext, interval: K.timeIntervals[2], activities: activities)
-
-                                    print("MI", monthInfluence)
 
                                     persistenceController.saveInfluence(with: K.monthInfluence, for: monthInfluence)
 
@@ -85,8 +81,6 @@ struct AddActivityView: View {
 
                                     persistenceController.saveInfluence(with: K.yearInfluence, for: yearInfluence)
                                 }
-                                
-                                print("DONE SAVING TO P")
                                 
                                 dismiss()
                             } label: {
