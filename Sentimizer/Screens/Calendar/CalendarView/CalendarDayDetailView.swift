@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct CalendarDayDetailView: View {
-    let data: [ActivityData]
     let date: Date
     
     @Environment(\.managedObjectContext) var viewContext
@@ -148,6 +147,6 @@ struct CalendarDayDetailView: View {
 
 struct CalendarDayDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        CalendarDayDetailView(data: [ActivityData(id: "", activity: "Walk", icon: "figure.walk", date: Date(), description: ""), ActivityData(id: "", activity: "Walk", icon: "figure.walk", date: Date(), description: ""), ActivityData(id: "", activity: "Walk", icon: "figure.walk", date: Date(), description: ""), ActivityData(id: "", activity: "Walk", icon: "figure.walk", date: Date(), description: ""), ActivityData(id: "", activity: "Walk", icon: "figure.walk", date: Date(), description: "")], date: Date())
+        CalendarDayDetailView(date: Date())
     }
 }

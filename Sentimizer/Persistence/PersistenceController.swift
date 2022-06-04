@@ -62,7 +62,7 @@ class PersistenceController: ObservableObject {
         
         let entries = try! viewContext.fetch(fetchRequest)
         
-        var results:[ActivityData] = []
+        var results: [ActivityData] = []
         
         for entry in entries {
             if Calendar.current.isDate(entry.date!, inSameDayAs: day) {
@@ -73,6 +73,24 @@ class PersistenceController: ObservableObject {
         try! viewContext.save()
         
         return results
+    }
+    
+    func getActivityIconsForDay(viewContext: NSManagedObjectContext, date: Date?) -> [String] {
+        let fetchRequest: NSFetchRequest<Entry>
+        fetchRequest = Entry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(value: true)
+        let entries = try! viewContext.fetch(fetchRequest)
+        
+        var icons: [String] = []
+        
+        for entry in entries {
+            if icons.count < 2 {
+                if let date = date, Calendar.current.isDate(entry.date!, inSameDayAs: date) {
+                    icons.append(getActivityIcon(activityName: entry.activity!, viewContext))
+                }
+            }
+        }
+        return icons
     }
     
     func deleteAllData(viewContext: NSManagedObjectContext) {

@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct CalendarView: View {
+    @Environment(\.managedObjectContext) var viewContext
     @StateObject private var persistenceController = PersistenceController()
-    
-    let data: [ActivityData]
     
     let sevenColumnGrid = Array(repeating: GridItem(.flexible(), spacing: 0), count: 7)
     
@@ -39,13 +38,11 @@ struct CalendarView: View {
                             Spacer()
                             
                             VStack {
-                                ForEach(getActivityIconsForDay(date: getDaysInMonth()[index].1), id: \.self) { icon in
-                                    if !icon.isEmpty {
-                                        Image(systemName: icon)
-                                            .standardIcon(shouldBeMaxWidthHeight: true, maxWidthHeight: 18)
-                                            .gradientForeground()
-                                            .padding(.bottom, 5)
-                                    }
+                                ForEach(persistenceController.getActivityIconsForDay(viewContext: viewContext, date: getDaysInMonth()[index].1), id: \.self) { icon in
+                                    Image(systemName: icon)
+                                        .standardIcon(shouldBeMaxWidthHeight: true, maxWidthHeight: 18)
+                                        .gradientForeground()
+                                        .padding(.bottom, 5)
                                 }
                             }
                             .offset(x: 5)
@@ -70,7 +67,7 @@ struct CalendarView: View {
         .padding(.top, 5)
         .padding(.bottom)
         .sheet(isPresented: $daySheetPresented) {
-            CalendarDayDetailView(data: getActivitiesForDay(date: tappedDate), date: tappedDate)
+            CalendarDayDetailView(date: tappedDate)
         }
         .onAppear() {
 //            print(MachineLearning.feedforward(ip: [0.2, 0.2, 0.2, 0.4]))
@@ -99,6 +96,6 @@ struct WeekDays: View {
 
 struct CalendarView_Previews: PreviewProvider {
     static var previews: some View {
-        CalendarView(data: [ActivityData(id: "", activity: "Walk", icon: "figure.walk", date: Date(), description: ""), ActivityData(id: "", activity: "Walk", icon: "figure.walk", date: Date(), description: "")])
+        CalendarView()
     }
 }

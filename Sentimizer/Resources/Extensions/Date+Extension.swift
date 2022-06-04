@@ -13,6 +13,12 @@ extension Date {
         dateComponent.month = count
         return Calendar.current.date(byAdding: dateComponent, to: date)!
     }
+    
+    static func appendDays(to date: Date, count: Int) -> Date {
+        var dateComponent = DateComponents()
+        dateComponent.day = count
+        return Calendar.current.date(byAdding: dateComponent, to: date)!
+    }
 }
 
 extension DateFormatter {
