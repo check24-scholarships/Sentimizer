@@ -46,6 +46,7 @@ struct ActivityBar: View {
                         .multilineTextAlignment(.leading)
                         .padding(.bottom, 10)
                         .padding(.leading, 2)
+                        .foregroundColor(.textColor)
                 }
                 Spacer()
                 Image(sentiment)
@@ -53,13 +54,13 @@ struct ActivityBar: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 40)
                     .padding(15)
-                    .changeColor(to: .white)
-                    .background(Rectangle().gradientForeground(.leading, .trailing).frame(height: 100))
+                    .changeColor(to: .brandColor2)
+//                    .background(Rectangle().gradientForeground(.leading, .trailing).frame(height: 100))
             }
             .font(.senti(size: 25))
-            .foregroundColor(.white)
+            .foregroundColor(.brandColor2)
             .background(
-                Rectangle()
+                RoundedRectangle(cornerRadius: 25).stroke(lineWidth: 4)
                     .gradientForeground())
             .clipShape(RoundedRectangle(cornerRadius: 25))
         }

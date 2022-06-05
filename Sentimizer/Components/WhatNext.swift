@@ -21,7 +21,8 @@ struct WhatNext: View {
             Text("Sentimizer recommends this activity:")
                 .font(.senti(size: 15))
                 .opacity(0.7)
-            SentiButton(icon: "figure.walk", title: activity, chevron: false)
+            SentiButton(icon: "figure.walk", title: activity, style: .outlined, chevron: false, shadow: false)
+                .gradientForeground()
                 .scaleEffect(0.8)
         }
         .padding()

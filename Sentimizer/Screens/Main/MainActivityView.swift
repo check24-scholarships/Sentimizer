@@ -100,7 +100,7 @@ struct MainActivityView: View {
                                 }
                             }
                         }
-                        .background(RoundedRectangle(cornerRadius: 25).foregroundColor(.dayViewBgColor).shadow(color: .gray.opacity(0.7), radius: 10))
+                        .background(RoundedRectangle(cornerRadius: 25).foregroundColor(.dayViewBgColor).shadow(color: .gray.opacity(0.3), radius: 5))
                         .padding(.vertical, 5)
                         .padding(.bottom)
                     }
@@ -142,6 +142,5 @@ struct MainActivityView: View {
 struct MainActivityView_Previews: PreviewProvider {
     static var previews: some View {
         MainActivityView()
-//            .environmentObject(Model())
     }
 }

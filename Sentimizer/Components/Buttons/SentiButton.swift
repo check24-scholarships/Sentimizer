@@ -20,6 +20,7 @@ struct SentiButton: View {
     var textColor: Color = .white
     var chevron: Bool = true
     var leading: Bool = false
+    var shadow: Bool = true
     
     var body: some View {
         HStack(spacing: 20) {
@@ -48,10 +49,10 @@ struct SentiButton: View {
         .foregroundColor(textColor)
         .background(RoundedRectangle(cornerRadius: 25)
             .foregroundColor(style == .filled ? .brandColor2 : .clear)
-            .shadow(radius: 10))
+            .shadow(color: .gray.opacity(shadow ? 0.7 : 0), radius: 10))
         .overlay(RoundedRectangle(cornerRadius: 25)
             .stroke(style == .outlined ? Color.brandColor2 : .clear, lineWidth: 3)
-            .shadow(radius: 10))
+            .shadow(color: .gray.opacity(shadow ? 0.7 : 0), radius: 10))
     }
 }
 
