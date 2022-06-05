@@ -37,6 +37,7 @@
 		EB410CF5283EBDEB00D629B2 /* ActivityData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB410CF4283EBDEB00D629B2 /* ActivityData.swift */; };
 		EB410CF7283FB50700D629B2 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB410CF6283FB50700D629B2 /* Settings.swift */; };
 		EB467FAF28210DB000F9AA4D /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB467FAE28210DB000F9AA4D /* Color+Extension.swift */; };
+		EB46BBBF284D28530088CD1C /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB46BBBE284D28530088CD1C /* WelcomeView.swift */; };
 		EB5EF3C9284B6ED800372FB0 /* SentimizerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5EF3C8284B6ED800372FB0 /* SentimizerUITests.swift */; };
 		EB5EF3CB284B6ED800372FB0 /* SentimizerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5EF3CA284B6ED800372FB0 /* SentimizerUITestsLaunchTests.swift */; };
 		EB5EF3D8284B702F00372FB0 /* SentimizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5EF3D7284B702F00372FB0 /* SentimizerTests.swift */; };
@@ -114,6 +115,7 @@
 		EB410CF4283EBDEB00D629B2 /* ActivityData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityData.swift; sourceTree = "<group>"; };
 		EB410CF6283FB50700D629B2 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		EB467FAE28210DB000F9AA4D /* Color+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
+		EB46BBBE284D28530088CD1C /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		EB5EF3C6284B6ED800372FB0 /* SentimizerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SentimizerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB5EF3C8284B6ED800372FB0 /* SentimizerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentimizerUITests.swift; sourceTree = "<group>"; };
 		EB5EF3CA284B6ED800372FB0 /* SentimizerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentimizerUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -281,6 +283,7 @@
 		EB410CE4283A538700D629B2 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				EB46BBC0284D285C0088CD1C /* Welcome */,
 				EB410CE3283A537000D629B2 /* Main */,
 				EB410CD5283A4C5500D629B2 /* Statistics */,
 				EBA5A3E4283572AE00F0B26A /* Calendar */,
@@ -299,6 +302,14 @@
 				EB410CEE283A9F1700D629B2 /* NotEnoughData.swift */,
 			);
 			path = StatisticsView;
+			sourceTree = "<group>";
+		};
+		EB46BBC0284D285C0088CD1C /* Welcome */ = {
+			isa = PBXGroup;
+			children = (
+				EB46BBBE284D28530088CD1C /* WelcomeView.swift */,
+			);
+			path = Welcome;
 			sourceTree = "<group>";
 		};
 		EB5EF3C7284B6ED800372FB0 /* SentimizerUITests */ = {
@@ -564,6 +575,7 @@
 				EB410CE1283A51E500D629B2 /* MoodCount.swift in Sources */,
 				EB410CEB283A5D4A00D629B2 /* SentiTextField.swift in Sources */,
 				EB33D13C2833E84900F4634C /* EditActivityCategoryView.swift in Sources */,
+				EB46BBBF284D28530088CD1C /* WelcomeView.swift in Sources */,
 				EB91193128301BA000C82E63 /* SentiTextEditor.swift in Sources */,
 				EBDB9F702833CBC000586EB7 /* CalendarView.swift in Sources */,
 				EBCDD1182827F545006AD5E2 /* WhatNext.swift in Sources */,

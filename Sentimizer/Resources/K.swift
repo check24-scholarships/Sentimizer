@@ -45,4 +45,6 @@ struct K {
     
     static let monthInfluence = "monthInfluence"
     static let yearInfluence = "yearInfluence"
+    
+    static let userNickname = "nickname"
 }
