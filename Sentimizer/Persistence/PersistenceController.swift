@@ -66,7 +66,7 @@ class PersistenceController: ObservableObject {
         
         for entry in entries {
             if Calendar.current.isDate(entry.date!, inSameDayAs: day) {
-                results.append(ActivityData(id: entry.objectID.uriRepresentation().absoluteString, activity: entry.activity!, icon: getActivityIcon(activityName: entry.activity!, viewContext), date: entry.date!, description: entry.description))
+                results.append(ActivityData(id: entry.objectID.uriRepresentation().absoluteString, activity: entry.activity!, icon: getActivityIcon(activityName: entry.activity!, viewContext), date: entry.date!, description: entry.text!, sentiment: entry.feeling!))
             }
         }
         

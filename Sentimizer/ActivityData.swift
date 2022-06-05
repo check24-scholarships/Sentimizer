@@ -13,4 +13,5 @@ struct ActivityData: Hashable {
     let icon: String
     let date: Date
     let description: String
+    let sentiment: String
 }
