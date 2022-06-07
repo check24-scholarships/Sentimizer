@@ -10,6 +10,7 @@ import SwiftUI
 struct CalendarDayDetailView: View {
     let date: Date
     
+    @Environment(\.dismiss) private var dismiss
     @Environment(\.managedObjectContext) var viewContext
     
     @StateObject private var persistenceController = PersistenceController()
@@ -32,9 +33,9 @@ struct CalendarDayDetailView: View {
     }
     
     var body: some View {
-//        NavigationView {
-        ZStack(alignment: .topLeading) {
-            ScrollView {
+        NavigationView {
+            ZStack(alignment: .topLeading) {
+                ScrollView {
                     VStack(spacing: 0) {
                         HStack(alignment: .top) {
                             ViewTitle(day, padding: false)
@@ -86,14 +87,14 @@ struct CalendarDayDetailView: View {
                                     let index = content.firstIndex(of: activity)!
                                     
                                     ZStack {
-    //                                    NavigationLink { ActivityDetailView(activity: activity.activity, icon: activity.icon, description: activity.description, day: "Today", time: "10:05", duration: "10", sentiment: "happy", id: "") } label: {
+                                        NavigationLink { ActivityDetailView(activity: activity.activity, icon: activity.icon, description: activity.description, day: DateFormatter.formatDate(date: activity.date, format: "EEE, d MMM"), time: DateFormatter.formatDate(date: activity.date, format: "HH:mm"), duration: "10", sentiment: "happy", id: activity.id) } label: {
                                             ZStack {
                                                 ActivityBar(activity: activity.activity, description: activity.description, time: (DateFormatter.formatDate(date: activity.date, format: "HH:mm"), "10"), showsTime: !editing, sentiment: activity.sentiment, id: activity.id, icon: activity.icon)
                                                     .background(RoundedRectangle(cornerRadius: 25).foregroundColor(.gray).opacity(0.2))
                                                     .shadow(radius: 10)
                                                 RoundedRectangle(cornerRadius: 25).foregroundColor(.gray).opacity(editing ? 0.4 : 0)
                                             }
-    //                                    }
+                                        }
                                         
                                         if editing {
                                             HStack {
@@ -136,12 +137,19 @@ struct CalendarDayDetailView: View {
                     .onAppear {
                         content = persistenceController.getEntriesOfDay(viewContext: viewContext, day: date)
                     }
+                }
+                
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .font(.title)
+                        .foregroundColor(.gray)
+                }
+                .padding([.leading, .top])
             }
-            DismissButton()
+            .navigationBarHidden(true)
         }
-//        }
-//        .navigationBarTitleDisplayMode(.inline)
-//        .navigationBarHidden(true)
     }
 }
 
