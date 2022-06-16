@@ -35,7 +35,7 @@ class PersistenceController: ObservableObject {
         
         for entry in entries {
             if Calendar.current.isDate(entry.date!, equalTo: month, toGranularity: .month) {
-                var day = DateFormatter.formatDate(date:entry.date!, format: "EEE, d MMM")
+                var day = DateFormatter.formatDate(date: entry.date!, format: "EEE, d MMM")
                 
                 if (Calendar.current.isDateInToday(entry.date!)) {
                     day = "Today"

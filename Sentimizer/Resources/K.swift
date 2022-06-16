@@ -47,4 +47,5 @@ struct K {
     static let yearInfluence = "yearInfluence"
     
     static let userNickname = "nickname"
+    static let welcomeScreenShown = "welcomeScreenShown"
 }

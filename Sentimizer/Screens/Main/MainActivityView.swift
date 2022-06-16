@@ -14,7 +14,8 @@ struct MainActivityView: View {
     
     @StateObject private var persistenceController = PersistenceController()
     
-    @State private var addActivitySheetOpened = false
+    @State private var welcomeScreenPresented = false
+    @State private var addActivitySheetPresented = false
     
     @State private var selectedMonth = Date()
     
@@ -36,7 +37,7 @@ struct MainActivityView: View {
                         .lineLimit(1)
                         .minimumScaleFactor(0.5)
                         .onTapGesture {
-                            addActivitySheetOpened = true
+                            addActivitySheetPresented = true
                         }
                 }
                 .padding(.horizontal, 5)
@@ -108,14 +109,15 @@ struct MainActivityView: View {
             }
             .padding(.horizontal, 10)
         }
-        .sheet(isPresented: $addActivitySheetOpened) {
+        .sheet(isPresented: $addActivitySheetPresented) {
             AddActivityView()
                 .environment(\.managedObjectContext, self.viewContext)
         }
         .onAppear() {
             (entryDays, entryContent) = persistenceController.getEntryData(entries: entries)
+            welcomeScreenPresented = !UserDefaults.standard.bool(forKey: K.welcomeScreenShown)
         }
-        .onChange(of: addActivitySheetOpened) { _ in
+        .onChange(of: addActivitySheetPresented) { _ in
             (entryDays, entryContent) = persistenceController.getEntryData(entries: entries)
         }
         .onChange(of: selectedMonth) { newValue in
@@ -128,6 +130,9 @@ struct MainActivityView: View {
                 dateComponent.month = -1
                 (entryDays, entryContent) = persistenceController.getEntryData(entries: entries, month: Calendar.current.date(byAdding: dateComponent, to: selectedMonth)!)
             }
+        }
+        .fullScreenCover(isPresented: $welcomeScreenPresented) {
+            WelcomeView()
         }
     }
     

@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct WelcomeView: View {
-    @Binding var done: Bool
+    @Environment(\.dismiss) private var dismiss
+    @State private var done = false
     
     var body: some View {
         NavigationView {
@@ -22,6 +23,7 @@ struct WelcomeView: View {
                                     ForEach(0..<K.defaultActivities.1.count-6, id: \.self) { j in
                                         Image(systemName: i == 0 ? K.defaultActivities.1.reversed()[j] : K.defaultActivities.1[j])
                                             .standardIcon(shouldBeMaxWidthHeight: true, maxWidthHeight: 30)
+                                            .foregroundColor(.black.opacity(0.9))
                                             .opacity(0.1)
                                             .padding()
                                     }
@@ -63,8 +65,13 @@ struct WelcomeView: View {
                     }
                 }
             }
+            .navigationBarHidden(true)
         }
-        .navigationBarHidden(true)
+        .onChange(of: done) { newValue in
+            if done {
+                dismiss()
+            }
+        }
     }
 }
 
@@ -109,8 +116,8 @@ struct WelcomeView2: View {
                     UserDefaults.standard.set(newValue, forKey: K.userNickname)
                 }
             }
+            .navigationBarHidden(true)
         }
-        .navigationBarHidden(true)
     }
 }
 
@@ -132,11 +139,14 @@ struct WelcomeView3: View {
                 TabView(selection: $selection) {
                     ForEach(0..<welcomeImages.count, id: \.self) { i in
                         VStack {
+                            Spacer()
+                            
                             Image(welcomeImages[i])
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .clipShape(RoundedRectangle(cornerRadius: 25))
                                 .padding()
+                                .shadow( radius: 10, x: -5, y: -5)
                             
                             Text(welcomeTexts[i])
                                 .font(.senti(size: 20))
@@ -147,6 +157,7 @@ struct WelcomeView3: View {
                             
                             if selection == welcomeImages.count-1 {
                                 Button {
+                                    UserDefaults.standard.set(true, forKey: K.welcomeScreenShown)
                                     done = true
                                 } label: {
                                     SentiButton(icon: nil, title: "Let's go!", chevron: true, leading: true)
@@ -168,6 +179,7 @@ struct WelcomeView3: View {
                                         Image(systemName: "arrow.left.circle")
                                             .standardIcon(width: 40)
                                             .padding(.leading)
+                                            .gradientForeground()
                                     }
                                     .disabled(selection < 1)
                                     
@@ -183,6 +195,7 @@ struct WelcomeView3: View {
                                         Image(systemName: "arrow.right.circle")
                                             .standardIcon(width: 40)
                                             .padding(.trailing)
+                                            .gradientForeground()
                                     }
                                     .disabled(selection > welcomeImages.count-1)
                                 }
@@ -197,13 +210,13 @@ struct WelcomeView3: View {
                 
                 Spacer()
             }
+            .navigationBarHidden(true)
         }
-        .navigationBarHidden(true)
     }
 }
 
 struct WelcomeScreen_Previews: PreviewProvider {
     static var previews: some View {
-        WelcomeView(done: .constant(false))
+        WelcomeView()
     }
 }
