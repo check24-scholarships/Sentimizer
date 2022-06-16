@@ -18,7 +18,7 @@ struct K {
         case happy = 1.0
     }
     static let sentimentsArray = ["crying", "sad", "neutral", "content", "happy"]
-    static let sentimentColors = [Color.red, Color.orange, Color.blue, Color.green.adjust(brightness: 0.1), Color.green.adjust(brightness: -0.1)]
+    static let sentimentColors = [Color.red, Color.orange, Color.yellow, Color.green.adjust(brightness: 0.1), Color.green.adjust(brightness: -0.1)]
     
     static let timeIntervals = ["Day", "Week", "Month", "Year"]
     

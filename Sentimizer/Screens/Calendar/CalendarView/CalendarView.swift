@@ -28,18 +28,25 @@ struct CalendarView: View {
             
             ScrollView {
                 LazyVGrid(columns: sevenColumnGrid) {
-                    ForEach(0..<getDaysInMonth().count, id: \.self) { index in
+                    let days = getDaysInMonth()
+                    ForEach(0..<days.count, id: \.self) { index in
                         VStack {
-                            HStack {
-                                Text(getDaysInMonth()[index].0)
-                                    .lineLimit(1)
-                            }
+                            Text(getDaysInMonth()[index].0)
+                                .lineLimit(1)
+                                .foregroundColor(.primary)
+                                .overlay(
+                                    Circle()
+                                        .foregroundColor(getColorForDay(date: days[index].1).opacity(0.1))
+                                        .frame(width: 30, height: 30)
+                                    )
+                                .padding(.top)
                             
                             Spacer()
                             
                             VStack {
-                                ForEach(persistenceController.getActivityIconsForDay(viewContext: viewContext, date: getDaysInMonth()[index].1), id: \.self) { icon in
-                                    Image(systemName: icon)
+                                let icons = persistenceController.getActivityIconsForDay(viewContext: viewContext, date: days[index].1)
+                                ForEach(0..<icons.count, id: \.self) { index in
+                                    Image(systemName: icons[index])
                                         .standardIcon(shouldBeMaxWidthHeight: true, maxWidthHeight: 18)
                                         .gradientForeground()
                                         .padding(.bottom, 5)

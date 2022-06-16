@@ -5,7 +5,7 @@
 //  Created by Samuel Ginsberg on 22.05.22.
 //
 
-import Foundation
+import SwiftUI
 
 extension CalendarView {
     func getDaysInMonth() -> [(String, Date?)] {
@@ -34,5 +34,9 @@ extension CalendarView {
         }
         
         return result
+    }
+    
+    func getColorForDay(date: Date?) -> Color {
+        K.sentimentColors[Int.random(in: 0...4)]
     }
 }
