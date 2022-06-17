@@ -79,15 +79,17 @@ struct SentimizerApp: App {
             
             let context = LAContext()
             var error: NSError?
+            let reason = "Please authenticate to show Sentimizer."
             
-            if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
-                let reason = "Please authenticate to show Sentimizer."
-                
-                context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authenticationError in
+            if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
+                context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { success, authenticationError in
                     if success {
                         unlockScreenPresented = false
                     }
                 }
+            } else {
+                authenticationPresented = false
+                unlockScreenPresented = false
             }
         }
     }
