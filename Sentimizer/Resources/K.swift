@@ -48,4 +48,6 @@ struct K {
     
     static let userNickname = "nickname"
     static let welcomeScreenShown = "welcomeScreenShown"
+    
+    static let appHasToBeUnlocked = "appHasToBeUnlocked"
 }

@@ -19,7 +19,7 @@ extension Image {
     
     /// Returns the standard Sentimizer icon design for settings screens.
     public func standardSentiSettingsIcon(foregroundColor: Color, backgroundColor: Color) -> some View {
-        self.standardIcon(width: 20)
+        self.standardIcon(shouldBeMaxWidthHeight: true, maxWidthHeight: 20)
             .padding(10)
             .foregroundColor(foregroundColor)
             .background(RoundedRectangle(cornerRadius: 10).foregroundColor(backgroundColor))

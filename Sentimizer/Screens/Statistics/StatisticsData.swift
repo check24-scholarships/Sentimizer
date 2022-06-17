@@ -9,11 +9,11 @@ import SwiftUI
 import CoreData
 
 struct StatisticsData {
-    static func getMeans(stepSize:Double, rEntries:[[Entry]], i:Int, xValues: [Double], yValues:[Double]) -> ([Double], [Double]) {
-        var xValues:[Double] = xValues
+    static func getMeans(stepSize: Double, rEntries: [[Entry]], i:Int, xValues: [Double], yValues: [Double]) -> ([Double], [Double]) {
+        var xValues: [Double] = xValues
         var yValues: [Double] = yValues
         
-        var mean:Double = 0
+        var mean: Double = 0
         
         for entry in rEntries[i] {
             mean += SentiScoreHelper.getSentiScore(for: entry.feeling!)
@@ -30,7 +30,7 @@ struct StatisticsData {
     static func getStats(entries: FetchedResults<Entry>, interval: String, stamps: Int = 5) -> ([String], ([Double], [Double])){
         // dataController.deleteAllData(viewContext: viewContext)
         // dataController.addSampleData(viewContext: viewContext)
-        var xValues:[Double] = []
+        var xValues: [Double] = []
         var yValues: [Double] = []
         
         var xAxis:[String] = []

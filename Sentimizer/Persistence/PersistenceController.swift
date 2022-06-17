@@ -23,7 +23,7 @@ class PersistenceController: ObservableObject {
         return container
     }
     
-    var context: NSManagedObjectContext {
+    static var context: NSManagedObjectContext {
         return PersistenceController.container.viewContext
     }
     

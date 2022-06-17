@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SettingsView: View {
     @State private var colorScheme: K.AppColorScheme = Settings.getColorScheme()
+    @State private var appHasToBeUnlocked = UserDefaults.standard.bool(forKey: K.appHasToBeUnlocked)
     
     var body: some View {
         List {
@@ -71,6 +72,24 @@ struct SettingsView: View {
                         Text("Auto")
                         Spacer()
                         if(colorScheme == .auto) {
+                            Image(systemName: "checkmark")
+                                .foregroundColor(.blue)
+                        }
+                    }
+                }
+            }
+            
+            Section(header: Text("Use Face ID / Touch ID to restrict access").foregroundColor(.gray)) {
+                Button {
+                    appHasToBeUnlocked.toggle()
+                    UserDefaults.standard.set(appHasToBeUnlocked, forKey: K.appHasToBeUnlocked)
+                } label: {
+                    HStack {
+                        Image(systemName: "lock.fill")
+                            .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor1)
+                        Text("Lock Sentimizer")
+                        Spacer()
+                        if(appHasToBeUnlocked) {
                             Image(systemName: "checkmark")
                                 .foregroundColor(.blue)
                         }
