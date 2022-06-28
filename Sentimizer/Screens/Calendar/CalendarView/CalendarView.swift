@@ -38,7 +38,7 @@ struct CalendarView: View {
                                     Circle()
                                         .foregroundColor(getColorForDay(date: days[index].1).opacity(0.1))
                                         .frame(width: 30, height: 30)
-                                    )
+                                )
                                 .padding(.top)
                             
                             Spacer()
@@ -54,37 +54,41 @@ struct CalendarView: View {
                             }
                             .offset(x: 5)
                             
+                            Spacer()
+                            
+                            Divider()
+                            
                         }
                         .frame(height: 100)
                         .frame(maxWidth: .infinity)
-                        .background((((index+1)%7 == 0 || index%7 == 0) ?
-                                     Color.brandColor2Light.opacity(0.3)
-                                     : .clear).ignoresSafeArea().padding(.top, -8))
-                        .onTapGesture {
-                            if let date = getDaysInMonth()[index].1 {
-                                tappedDate = date
-                                daySheetPresented = true
-                            }
-                        }
+                        .background((Color.brandColor2Light.opacity(((index+2)%7 == 0 || (index+1)%7 == 0) ? 0.2 : 0.05))
+                            .ignoresSafeArea()
+                            .padding(.top, -8)
+                            .onTapGesture(perform: {
+                                if let date = getDaysInMonth()[index].1 {
+                                    tappedDate = date
+                                    daySheetPresented = true
+                                }
+                            }))
                     }
                 }
                 .padding([.top, .trailing], 3)
             }
+            .padding(.bottom)
         }
         .padding(.top, 5)
-        .padding(.bottom)
         .sheet(isPresented: $daySheetPresented) {
-            CalendarDayDetailView(date: tappedDate)
+            CalendarDayDetailView(date: $tappedDate)
         }
-        .onAppear() {
-//            print(MachineLearning.feedforward(ip: [0.2, 0.2, 0.2, 0.4]))
+        .onAppear {
+            //            print(MachineLearning.feedforward(ip: [0.2, 0.2, 0.2, 0.4]))
         }
     }
 }
 
 //MARK: - WeekDays View
 struct WeekDays: View {
-    let weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+    let weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
     
     var body: some View {
         HStack(spacing: 0) {

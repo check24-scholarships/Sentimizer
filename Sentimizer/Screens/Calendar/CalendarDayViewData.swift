@@ -8,10 +8,39 @@
 import SwiftUI
 
 extension CalendarDayDetailView {
+    
+    func getDaysInWeek() -> [Date] {
+        
+        let calendar = Calendar.current
+        
+        var dayNumber = calendar.component(.weekday, from: date)-2
+        if dayNumber < 0 { dayNumber = 6 }
+        
+        var result: [Date] = []
+        
+        for i in 0..<dayNumber {
+            let newDate = calendar.date(byAdding: .day, value: -(dayNumber-i), to: date)!
+            if calendar.isDate(newDate, equalTo: date, toGranularity: .month) {
+                result.append(newDate)
+            }
+        }
+        result.append(date)
+        for i in dayNumber+1..<7 {
+            let newDate = calendar.date(byAdding: .day, value: i-dayNumber, to: date)!
+            if calendar.isDate(newDate, equalTo: date, toGranularity: .month) {
+                result.append(newDate)
+            }
+        }
+        
+        return result
+    }
+    
     func getHours(content: [ActivityData]) -> [Int] {
+        let calendar = Calendar.current
+        
         if content.count > 0 {
-            let firstHour = Calendar.current.component(.hour, from: content[0].date)
-            let lastHour = Calendar.current.component(.hour, from: content[content.count-1].date)
+            let firstHour = calendar.component(.hour, from: content[0].date)
+            let lastHour = calendar.component(.hour, from: content[content.count-1].date)
             
             var hours: [Int] = []
             for i in firstHour...lastHour {

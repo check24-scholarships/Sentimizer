@@ -9,8 +9,9 @@ import SwiftUI
 
 extension CalendarView {
     func getDaysInMonth() -> [(String, Date?)] {
-        let dateComponents = DateComponents(year: Calendar.current.component(.year, from: selectedMonth), month: Calendar.current.component(.month, from: selectedMonth))
         let calendar = Calendar.current
+        
+        let dateComponents = DateComponents(year: calendar.component(.year, from: selectedMonth), month: calendar.component(.month, from: selectedMonth))
         
         let date = calendar.date(from: dateComponents)!
         
@@ -19,7 +20,8 @@ extension CalendarView {
         var dayDates: [Date] = []
         var count = 0
         for _ in range {
-            dayDates.append(Calendar.current.date(byAdding: .day, value: count, to: Calendar.current.date(from: dateComponents)!)!)
+            let newDate = calendar.date(byAdding: .hour, value: 10, to: date)!
+            dayDates.append(calendar.date(byAdding: .day, value: count, to: newDate)!)
             count += 1
         }
         
@@ -28,7 +30,8 @@ extension CalendarView {
             result.append((String(i), dayDates[i-1]))
         }
         
-        let dayNumber = Calendar.current.component(.weekday, from: date)-1
+        var dayNumber = calendar.component(.weekday, from: date)-2
+        if dayNumber < 0 { dayNumber = 6 }
         for _ in 0..<dayNumber {
             result.insert(("", nil), at: 0)
         }
