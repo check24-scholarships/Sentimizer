@@ -89,7 +89,7 @@ struct WelcomeView2: View {
                 VStack {
                     Text("Nice to meet you! What do your friends call you?")
                         .font(.senti(size: 23))
-                        .padding(.top)
+                        .frame(height: 60)
                     
                     SentiTextField(placeholder: "Your nickname...", text: $nickname, textFieldEditing: $textFieldEditing, done: $textFieldDone)
                         .padding()
@@ -101,7 +101,8 @@ struct WelcomeView2: View {
                         WelcomeView3(done: $done)
                     } label: {
                         SentiButton(icon: nil, title: "Continue", chevron: true, leading: true)
-                            .padding(20)
+                            .padding(.horizontal, 20)
+                            .padding(.bottom)
                     }
                 }
                 .onTapGesture {
@@ -125,7 +126,7 @@ struct WelcomeView3: View {
     @Binding var done: Bool
     
     let welcomeImages = ["welcome1", "welcome2", "welcome3", "welcome4", "welcome5"]
-    let welcomeTexts = ["After doing something, add the activity and your current mood", "Sentimizer will keep track of your activities", "As soon as you've saved enough activities, Sentimizer will recommend you to do something that boosts your mood and productivity", "Use the calendar to get an overview of your activities and to plan for the future", "Sentimizer will recommend you to change the order of your planned activities to improve your wellbeing"]
+    let welcomeTexts = [Text("\(Image(systemName: "figure.walk")) After doing something, save the activity in Sentimizer"), Text("\(Image(systemName: "flowchart.fill")) Sentimizer will keep track of your activities"), Text("\(Image(systemName: "chart.line.uptrend.xyaxis")) \(Image(systemName: "face.smiling")) After some time, Sentimizer will recommend you to do something that boosts your mood"), Text("\(Image(systemName: "calendar.badge.clock")) Use the calendar to get an overview of your activities and to plan for the future"), Text("\(Image(systemName: "calendar.day.timeline.left")) Sentimizer will recommend you to change the order of your planned activities to improve your wellbeing")]
     
     
     @State private var selection = 0
@@ -148,7 +149,7 @@ struct WelcomeView3: View {
                                 .padding()
                                 .shadow( radius: 10, x: -5, y: -5)
                             
-                            Text(welcomeTexts[i])
+                            welcomeTexts[i]
                                 .font(.senti(size: 20))
                                 .padding()
                                 .multilineTextAlignment(.center)
