@@ -80,7 +80,6 @@ struct WelcomeView2: View {
     
     @State private var nickname = ""
     @State private var textFieldEditing = false
-    @State private var textFieldDone = false
     
     var body: some View {
         NavigationView {
@@ -91,7 +90,7 @@ struct WelcomeView2: View {
                         .font(.senti(size: 23))
                         .frame(height: 60)
                     
-                    SentiTextField(placeholder: "Your nickname...", text: $nickname, textFieldEditing: $textFieldEditing, done: $textFieldDone)
+                    SentiTextField(placeholder: "Your nickname...", text: $nickname, textFieldEditing: $textFieldEditing, done: .constant(false))
                         .padding()
                         .padding(.top, 50)
                     
@@ -104,6 +103,7 @@ struct WelcomeView2: View {
                             .padding(.horizontal, 20)
                             .padding(.bottom)
                     }
+                    .disabled(nickname.map{$0 != " "}.isEmpty)
                 }
                 .onTapGesture {
                     textFieldEditing = false
@@ -113,8 +113,8 @@ struct WelcomeView2: View {
                         textFieldEditing = false
                     }
                 )
-                .onChange(of: textFieldDone) { newValue in
-                    UserDefaults.standard.set(newValue, forKey: K.userNickname)
+                .onChange(of: textFieldEditing) { newValue in
+                    UserDefaults.standard.set(nickname, forKey: K.userNickname)
                 }
             }
             .navigationBarHidden(true)

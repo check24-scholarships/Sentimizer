@@ -50,4 +50,11 @@ struct K {
     static let welcomeScreenShown = "welcomeScreenShown"
     
     static let appHasToBeUnlocked = "appHasToBeUnlocked"
+    
+    //MARK: - Other
+    enum timeOfDay: String {
+        case morning = "Morning"
+        case afternoon = "Afternoon"
+        case evening = "Evening"
+    }
 }

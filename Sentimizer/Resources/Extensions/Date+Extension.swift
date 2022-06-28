@@ -19,6 +19,16 @@ extension Date {
         dateComponent.day = count
         return Calendar.current.date(byAdding: dateComponent, to: date)!
     }
+    
+    static func getTimeOfDay() -> K.timeOfDay {
+        let hour = Calendar.current.component(.hour, from: Date())
+        if hour > 3 && hour < 12 {
+            return .morning
+        } else if hour >= 12 && hour < 17 {
+            return .afternoon
+        }
+        return .evening
+    }
 }
 
 extension DateFormatter {

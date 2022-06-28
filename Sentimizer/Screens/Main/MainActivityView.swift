@@ -11,6 +11,7 @@ import CoreData
 struct MainActivityView: View {
 //    @EnvironmentObject private var model: Model
     @Environment(\.managedObjectContext) var viewContext
+    private let defaults = UserDefaults.standard
     
     @StateObject private var persistenceController = PersistenceController()
     
@@ -30,6 +31,17 @@ struct MainActivityView: View {
         ScrollView {
             MonthSwitcher(selectedMonth: $selectedMonth, allowFuture: false)
                 .padding(.bottom)
+            
+            HStack {
+                Text("Good \(Date.getTimeOfDay().rawValue), \(defaults.string(forKey: K.userNickname) ?? "")!")
+                    .onAppear {
+                        print(defaults.string(forKey: K.userNickname) ?? "")
+                    }
+                    .font(.senti(size: 28))
+                    .padding(.horizontal)
+                    .padding(.bottom)
+                Spacer()
+            }
             
             Group {
                 VStack(alignment: .leading) {
