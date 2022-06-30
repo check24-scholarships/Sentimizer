@@ -110,7 +110,7 @@ class PersistenceController: ObservableObject {
     func saveActivity(activity: String, icon: String, description: String, feeling: String, date: Date, _ viewContext: NSManagedObjectContext) {
         let entry = Entry(context: viewContext)
         entry.text = description
-        entry.date = Date() // Date(timeIntervalSince1970: Date().timeIntervalSince1970 - 60 * 60 * 24 * 5.1)
+        entry.date = date // Date(timeIntervalSince1970: Date().timeIntervalSince1970 - 60 * 60 * 24 * 5.1)
         entry.feeling = feeling
         entry.activity = activity
         

@@ -23,6 +23,7 @@ struct AddActivityView: View {
     @State private var feeling = ""
     @State private var activity = ""
     @State private var icon = ""
+    @State private var date = Date()
     
     var body: some View {
         GeometryReader { g in
@@ -34,6 +35,13 @@ struct AddActivityView: View {
                                 ViewTitle("Add Activity")
                                     .frame(maxWidth: .infinity)
                                     .padding(.top, 25)
+                                
+                                DatePicker(
+                                    "Time",
+                                    selection: $date,
+                                    displayedComponents: [.date, .hourAndMinute]
+                                )
+                                .frame(maxWidth: 220)
                                 
                                 NavigationLink {
                                     ActivityChooserView(activity: $activity, icon: $icon)
@@ -69,16 +77,16 @@ struct AddActivityView: View {
                             
                             
                             Button {
-                                persistenceController.saveActivity(activity: activity, icon: icon, description: description, feeling: feeling, date: Date(), viewContext)
+                                persistenceController.saveActivity(activity: activity, icon: icon, description: description, feeling: feeling, date: date, viewContext)
                                 
                                 DispatchQueue.global(qos: .userInitiated).async {
-
+                                    
                                     let monthInfluence = StatisticsData.getInfluence(viewContext: viewContext, interval: K.timeIntervals[2], activities: activities)
-
+                                    
                                     persistenceController.saveInfluence(with: K.monthInfluence, for: monthInfluence)
-
+                                    
                                     let yearInfluence = StatisticsData.getInfluence(viewContext: viewContext, interval: K.timeIntervals[3], activities: activities)
-
+                                    
                                     persistenceController.saveInfluence(with: K.yearInfluence, for: yearInfluence)
                                 }
                                 
