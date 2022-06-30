@@ -27,7 +27,7 @@ struct WhatNext: View {
                 .scaleEffect(0.8)
         }
         .padding()
-        .ifCondition(backgroundGray) { view in
+        .if(backgroundGray) { view in
             view.standardBackground()
         } else: { view in
             view.background(RoundedRectangle(cornerRadius: 25).foregroundColor(.dayViewBgColor).opacity(0.8))
