@@ -39,8 +39,6 @@ struct MoodInfluence: View {
             }
         }
         .padding()
-        .background {
-            RoundedRectangle(cornerRadius: 25).foregroundColor(.brandColor1).opacity(0.1)
-        }
+        .standardBackground()
     }
 }

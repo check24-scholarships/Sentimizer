@@ -135,6 +135,12 @@ struct StatsView: View {
                         .padding(.top, 50)
                     } else {
                         
+                        Text("Sentimizer's Recommendation")
+                            .font(.senti(size: 20))
+                            .padding([.leading, .top])
+                        
+                        WhatNext(activity: "Walking", backgroundGray: true)
+                        
                         Text("Mood")
                             .font(.senti(size: 20))
                             .padding([.leading, .top])
@@ -142,7 +148,7 @@ struct StatsView: View {
                         MoodTrendChart(xAxis: xAxis, values: values)
                             .frame(height: 200)
                             .padding()
-                            .background(RoundedRectangle(cornerRadius: 25).foregroundColor(.brandColor1).opacity(0.1))
+                            .standardBackground()
                         
                         Text("Improved Your Mood")
                             .font(.senti(size: 20))

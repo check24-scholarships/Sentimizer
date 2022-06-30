@@ -9,6 +9,7 @@ import SwiftUI
 
 struct WhatNext: View {
     let activity: String
+    var backgroundGray = false
     
     var body: some View {
         VStack {
@@ -26,7 +27,11 @@ struct WhatNext: View {
                 .scaleEffect(0.8)
         }
         .padding()
-        .background(RoundedRectangle(cornerRadius: 25).foregroundColor(.dayViewBgColor).opacity(0.8))
+        .ifCondition(backgroundGray) { view in
+            view.standardBackground()
+        } else: { view in
+            view.background(RoundedRectangle(cornerRadius: 25).foregroundColor(.dayViewBgColor).opacity(0.8))
+        }
     }
 }
 
