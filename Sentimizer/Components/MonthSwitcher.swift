@@ -11,8 +11,12 @@ struct MonthSwitcher: View {
     @Binding var selectedMonth: Date
     var allowFuture = true
     
+    let calendar = Calendar.current
+    
     var disabled: Bool {
-        !allowFuture && (Calendar.current.component(.month, from: selectedMonth) == Calendar.current.component(.month, from: Date()))
+        !allowFuture
+        && calendar.compare(selectedMonth, to: Date(), toGranularity: .month) == .orderedSame
+        && calendar.compare(selectedMonth, to: Date(), toGranularity: .year) == .orderedSame
     }
     
     var body: some View {
@@ -25,7 +29,7 @@ struct MonthSwitcher: View {
                     .padding(.leading)
             }
             Spacer()
-            Text(Calendar.current.monthSymbols[Calendar.current.component(.month, from: selectedMonth)-1] + " \(Calendar.current.component(.year, from: selectedMonth))")
+            Text(calendar.monthSymbols[calendar.component(.month, from: selectedMonth)-1] + " \(calendar.component(.year, from: selectedMonth))")
                 .font(.senti(size: 25))
                 .minimumScaleFactor(0.8)
                 .padding()
