@@ -33,8 +33,10 @@ struct MainActivityView: View {
                 .padding(.bottom)
             
             HStack {
-                Text("Good \(Date.getTimeOfDay().rawValue), \(userNickname)")
-                    .font(.senti(size: 28))
+                let tOD = Date.getTimeOfDay()
+                Text("\(Image(systemName: K.symbolForTimeOfDay(tOD))) Good \(tOD.rawValue), \(userNickname)")
+                    .font(.senti(size: 25))
+                    .gradientForeground()
                     .padding(.horizontal)
                     .padding(.bottom)
                 Spacer()

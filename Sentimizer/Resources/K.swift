@@ -57,4 +57,15 @@ struct K {
         case afternoon = "Afternoon"
         case evening = "Evening"
     }
+    
+    static func symbolForTimeOfDay(_ timeOfDay: K.timeOfDay) -> String {
+        switch timeOfDay {
+        case .morning:
+            return "sunrise.fill"
+        case .afternoon:
+            return "sun.max"
+        case .evening:
+            return "moon.stars.fill"
+        }
+    }
 }
