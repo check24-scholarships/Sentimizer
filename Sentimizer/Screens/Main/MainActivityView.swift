@@ -11,7 +11,7 @@ import CoreData
 struct MainActivityView: View {
 //    @EnvironmentObject private var model: Model
     @Environment(\.managedObjectContext) var viewContext
-    private let defaults = UserDefaults.standard
+    @AppStorage(K.userNickname) var userNickname: String = ""
     
     @StateObject private var persistenceController = PersistenceController()
     
@@ -33,10 +33,7 @@ struct MainActivityView: View {
                 .padding(.bottom)
             
             HStack {
-                Text("Good \(Date.getTimeOfDay().rawValue), \(defaults.string(forKey: K.userNickname) ?? "")!")
-                    .onAppear {
-                        print(defaults.string(forKey: K.userNickname) ?? "")
-                    }
+                Text("Good \(Date.getTimeOfDay().rawValue), \(userNickname)")
                     .font(.senti(size: 28))
                     .padding(.horizontal)
                     .padding(.bottom)

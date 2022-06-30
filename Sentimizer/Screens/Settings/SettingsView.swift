@@ -8,11 +8,49 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @AppStorage(K.userNickname) private var userNickname = ""
+    @State private var nicknameText = UserDefaults.standard.string(forKey: K.userNickname) ?? ""
+    @State private var nicknameTextFieldEditing = false
+    @FocusState private var nicknameTextFieldFocused: Bool
+    
     @State private var colorScheme: K.AppColorScheme = Settings.getColorScheme()
-    @State private var appHasToBeUnlocked = UserDefaults.standard.bool(forKey: K.appHasToBeUnlocked)
+    @AppStorage(K.appHasToBeUnlocked) private var appHasToBeUnlocked = false
     
     var body: some View {
         List {
+            Section {
+                HStack {
+                    Image(systemName: "person.fill")
+                        .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2Light)
+                    ZStack {
+                        SentiTextField(placeholder: "Your nickname", text: $nicknameText, textFieldEditing: $nicknameTextFieldEditing, done: .constant(false), textFieldFocus: _nicknameTextFieldFocused)
+                            .padding(.vertical, -10)
+                            .onChange(of: nicknameTextFieldEditing) { _ in
+                                userNickname = nicknameText
+                            }
+                        HStack {
+                            Spacer()
+                            
+                            if !nicknameTextFieldFocused {
+                                Button {
+                                    withAnimation {
+                                        nicknameTextFieldFocused = true
+                                    }
+                                } label: {
+                                    Image(systemName: "pencil")
+                                        .standardIcon()
+                                        .frame(height: 20)
+                                        .padding(13)
+                                        .standardBackground()
+                                        .padding(.trailing)
+                                }
+                            }
+                        }
+                    }
+                    
+                }
+            }
+            
             Section {
                 NavigationLink {
                     ZStack {

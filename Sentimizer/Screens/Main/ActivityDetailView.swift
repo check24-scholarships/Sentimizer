@@ -143,9 +143,7 @@ struct ActivityDetailView: View {
                         persistenceController.deleteActivity(id: id, viewContext)
                         
                         DispatchQueue.global(qos: .userInitiated).async {
-                            print("This is run on a background queue")
                             let monthInfluence = StatisticsData.getInfluence(viewContext: viewContext, interval: K.timeIntervals[2], activities: activities)
-
 
                             persistenceController.saveInfluence(with: K.monthInfluence, for: monthInfluence)
 
