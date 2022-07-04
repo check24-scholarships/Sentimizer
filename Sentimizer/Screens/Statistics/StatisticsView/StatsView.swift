@@ -215,7 +215,7 @@ struct StatsView: View {
         UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(.brandColor2)
         UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
         UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .normal)
-        UISegmentedControl.appearance().backgroundColor = UIColor(.brandColor1)
+        UISegmentedControl.appearance().backgroundColor = UIColor(.gray)
     }
 }
 
