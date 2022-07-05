@@ -146,7 +146,7 @@ struct SettingsView: View {
                     HStack {
                         Image(systemName: "text.bubble")
                             .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2)
-                        Text("App Language")
+                        Text("Language")
                         Spacer()
                     }
                 }

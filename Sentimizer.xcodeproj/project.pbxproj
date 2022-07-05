@@ -97,7 +97,7 @@
 		EB15CF79283FD9C200564728 /* MonthSwitcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthSwitcher.swift; sourceTree = "<group>"; };
 		EB15CF7D2842AA4000564728 /* DismissButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissButton.swift; sourceTree = "<group>"; };
 		EB33D13B2833E84900F4634C /* EditActivityCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditActivityCategoryView.swift; sourceTree = "<group>"; };
-		EB39D9D02843C55000E74250 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		EB39D9D02843C55000E74250 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EB410CCE283A45CD00D629B2 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		EB410CD1283A46EB00D629B2 /* SentiScoreHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentiScoreHelper.swift; sourceTree = "<group>"; };
 		EB410CD6283A4C6300D629B2 /* StatisticsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsData.swift; sourceTree = "<group>"; };
@@ -264,9 +264,13 @@
 		EB410CE2283A535900D629B2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				EB634F2A28141FDE00979923 /* K.swift */,
+				61C81FD82847D8B10023655E /* Sentimizer.entitlements */,
+				EB39D9D02843C55000E74250 /* Info.plist */,
+				EBD795F828744F7B00C2ADF7 /* InfoPlist.strings */,
+				EB642C0027FF5DAB001DB273 /* Assets.xcassets */,
 				EBD795F628744C9D00C2ADF7 /* Localizable.strings */,
 				EBE02ACB2842B18300B18555 /* LaunchScreen.storyboard */,
+				EB634F2A28141FDE00979923 /* K.swift */,
 				EBCDD11C282AD73D006AD5E2 /* Extensions */,
 				EB410CD0283A46DC00D629B2 /* Helpers */,
 			);
@@ -356,18 +360,12 @@
 		EB642BFB27FF5DA4001DB273 /* Sentimizer */ = {
 			isa = PBXGroup;
 			children = (
-				61C81FD82847D8B10023655E /* Sentimizer.entitlements */,
-				EB39D9D02843C55000E74250 /* Info.plist */,
-				EBD795F828744F7B00C2ADF7 /* InfoPlist.strings */,
-				EB642BFC27FF5DA4001DB273 /* SentimizerApp.swift */,
-				EB634F2E28142AAC00979923 /* AppTabNavigation.swift */,
-				EB410CF4283EBDEB00D629B2 /* ActivityData.swift */,
+				EBD795FB2874516200C2ADF7 /* App */,
 				EB410CE2283A535900D629B2 /* Resources */,
 				EB410CCC283A453700D629B2 /* Persistence */,
 				EB410CCD283A455700D629B2 /* ML */,
 				EB410CE4283A538700D629B2 /* Screens */,
 				EB68882B281345AA00C0FDE7 /* Components */,
-				EB642C0027FF5DAB001DB273 /* Assets.xcassets */,
 				EB642C0227FF5DAB001DB273 /* Preview Content */,
 			);
 			path = Sentimizer;
@@ -425,6 +423,16 @@
 				EB410CF2283E6A1900D629B2 /* Image+Extension.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		EBD795FB2874516200C2ADF7 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				EB642BFC27FF5DA4001DB273 /* SentimizerApp.swift */,
+				EB634F2E28142AAC00979923 /* AppTabNavigation.swift */,
+				EB410CF4283EBDEB00D629B2 /* ActivityData.swift */,
+			);
+			path = App;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
