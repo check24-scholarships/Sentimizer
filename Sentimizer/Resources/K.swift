@@ -52,10 +52,21 @@ struct K {
     static let appHasToBeUnlocked = "appHasToBeUnlocked"
     
     //MARK: - Other
-    enum timeOfDay: String {
-        case morning = "Morning"
-        case afternoon = "Afternoon"
-        case evening = "Evening"
+    enum timeOfDay {
+        case morning
+        case afternoon
+        case evening
+    }
+    
+    static func stringForTimeOfDay(_ timeOfDay: K.timeOfDay) -> String {
+        switch timeOfDay {
+        case .morning:
+            return String(localized: "Morning")
+        case .afternoon:
+            return String(localized: "Afternoon")
+        case .evening:
+            return String(localized: "Evening")
+        }
     }
     
     static func symbolForTimeOfDay(_ timeOfDay: K.timeOfDay) -> String {

@@ -55,7 +55,7 @@ struct ActivityDetailView: View {
                                 .padding(.top, -30)
                                 .navigationBarTitleDisplayMode(.inline)
                         } label: {
-                            SentiButton(icon: userIcon, title: userActivity, chevron: false)
+                            SentiButton(icon: userIcon, title: LocalizedStringKey(userActivity), chevron: false)
                                 .scaleEffect(0.9)
                                 .padding(.top)
                         }

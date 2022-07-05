@@ -134,6 +134,23 @@ struct SettingsView: View {
                     }
                 }
             }
+            
+            Section {
+                Button {
+                    if let url = URL(string: UIApplication.openSettingsURLString) {
+                        if UIApplication.shared.canOpenURL(url) {
+                            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                        }
+                    }
+                } label: {
+                    HStack {
+                        Image(systemName: "text.bubble")
+                            .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2)
+                        Text("App Language")
+                        Spacer()
+                    }
+                }
+            }
         }
         .listStyle(.insetGrouped)
         .font(.senti(size: 20))

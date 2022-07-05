@@ -38,7 +38,7 @@ struct ActivityBar: View {
                         .padding(2)
                     
                     let isEmpty = description.isEmpty
-                    let description = description.isEmpty ? "Describe your activity..." : description
+                    let description: LocalizedStringKey = description.isEmpty ? "Describe your activity..." : LocalizedStringKey(description)
                     Text(description)
                         .font(.senti(size: 18))
                         .opacity(isEmpty ? 0.5 : 1.0)

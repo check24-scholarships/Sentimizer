@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SentiTextField: View {
-    let placeholder: String
+    let placeholder: LocalizedStringKey
     @Binding var text: String
     @Binding var textFieldEditing: Bool
     @Binding var done: Bool

@@ -43,7 +43,7 @@ struct CalendarDayDetailView: View {
                                 let content = getContent(for: currentDay)
                                 
                                 HStack(alignment: .top) {
-                                    ViewTitle(getDayTitle(for: currentDay), padding: false)
+                                    ViewTitle(LocalizedStringKey(getDayTitle(for: currentDay)), padding: false)
                                         .padding(.top, 10)
                                         .frame(maxWidth: .infinity)
                                         .padding(.leading)

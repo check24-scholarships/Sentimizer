@@ -10,7 +10,7 @@ import SwiftUI
 struct SentiButton: View {
     
     let icon: String?
-    let title: String
+    let title: LocalizedStringKey
     enum ButtonStyles {
         case filled
         case outlined
@@ -38,6 +38,7 @@ struct SentiButton: View {
                 .bold()
                 .minimumScaleFactor(0.8)
                 .multilineTextAlignment(.leading)
+                .padding(-1)
             Spacer()
             if chevron {
                 Image(systemName: "chevron.forward")

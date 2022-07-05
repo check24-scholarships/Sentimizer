@@ -1,0 +1,129 @@
+/*
+  Localizable.strings
+  Sentimizer
+
+  Created by Samuel Ginsberg on 04.07.22.
+  
+*/
+
+"Activities" = "Aktivitäten";
+
+"Statistics" = "Statistik";
+
+"Calendar" = "Kalendar";
+
+"Settings" = "Einstellungen";
+
+"Optimize Your Life" = "Verbessere dein Leben";
+
+"Sentimizer helps you to track your moods, reflect on your day and improve your life. Let's go!" = "Sentimizer hilft dir, deine Stimmungen aufzuzeichnen, deinen Tag zu reflektieren und dein Leben zu verbessern. Los geht's!";
+
+"Start My Journey" = "Beginne meine Reise";
+
+"Nice to meet you! What do your friends call you?" = "Schön, dich zu sehen! Wie ist dein Spitzname?";
+
+"%@ %@ After some time, Sentimizer will recommend you to do something that boosts your mood" = "%@ %@ Nach einiger Zeit wird Sentimizer Aktivitäten vorschlagen, die deine Stimmung heben";
+
+"%@ After doing something, save the activity in Sentimizer" = "%@ Nachdem du etwas getan hast, speicher die Aktivität in Sentimizer";
+
+"%@ Sentimizer will keep track of your activities" = "%@ Sentimizer wird deine Aktivitäten organisieren und verwalten";
+
+"%@ Sentimizer will recommend you to change the order of your planned activities to improve your wellbeing" = "%@ Sentimizer wird dir eine andere Reihenfolge der geplanten Aktivitäten vorschlagen, um dein Wohlbefinden zu verbessern";
+
+"%@ Use the calendar to get an overview of your activities and to plan for the future" = "%@ Benutze den Kalender, um eine Übersicht über deine Aktivitäten zu erhalten und für die Zukunft zu planen";
+
+"Let's go!" = "Los geht's!";
+
+"Mood" = "Stimmung";
+
+"%@ Good %@, %@" = "%@ Guten %@, %@";
+
+"%@ There are no entries in the chosen month." = "%@ Im ausgewählten Monat sind keine Einträge vorhanden.";
+
+"Create Your First Activity Above" = "Erstelle oben deinen ersten Eintrag";
+
+"Sentimizer recommends this activity:" = "Sentimizer empfiehlt diese Aktivität:";
+
+"Sentimizer's Recommendation" = "Sentimizers Empfehlung";
+
+"There are no custom categories yet." = "Es gibt bisher keine selbst erstellten Kategorien";
+
+"Add Activity" = "Neue Aktivität";
+
+"Choose Activity Category" = "Kategorie wählen";
+
+"How are you?" = "Wie geht's dir?";
+
+"What's happening?" = "Was ist los?";
+
+"Describe your activity and how you feel now..." = "Beschreibe deine Aktivität und wie es dir jetzt geht...";
+
+"New category" = "Neue Kategorie";
+
+"New activity category" = "Neue Kategorie";
+
+"Activity category name" = "Name der Kategorie";
+
+"There are no entries for this day. Add entries or choose another." = "Es gibt keine Einträge für diesen Tag. Füg welche hinzu oder wähle einen anderen.";
+
+"There is not enough data to show statistics. Check back later or choose a larger time interval." = "Es gibt nicht genug Daten, um Statistiken anzuzeigen. Komm später zurück oder wähle ein größeres Zeitintervall.";
+
+"There is not enough data to show these statistics. Check back later. %@" = "Es gibt nicht genug Daten, um diese Statistik anzuzeigen. Komm später zurück. %@";
+
+"This name already exists. Please choose another one." = "Dieser Name existiert bereits. Bitte wähle einen anderen.";
+
+"Choose your icon" = "Wähle dein Symbol";
+
+"What should I do next?" = "Was soll ich jetzt tun?";
+
+"Time" = "Zeit";
+
+"Continue" = "Weiter";
+
+"Next" = "Weiter";
+
+"Save" = "Speichern";
+
+"Time Interval" = "Zeitintervall";
+
+"Unlock Sentimizer" = "Sentimizer entsperren";
+
+"Use Face ID / Touch ID to restrict access" = "Benutze Face ID / Touch ID zur Zugangsbeschränkung";
+
+
+"ACTIVITY" = "AKTIVITÄT";
+"DESCRIPTION" = "BESCHREIBUNG";
+"MOOD" = "STIMMUNG";
+
+"Morning" = "Morgen";
+"Afternoon" = "Nachmittag";
+"Evening" = "Abend";
+
+"Are you sure?" = "Bist du sicher?";
+"You cannot undo this action." = "Diese Aktion kann nicht widerrufen werden";
+"Done" = "Fertig";
+"Error" = "Fehler";
+
+"Add Activity" = "Neue Aktivität";
+
+"Describe your activity..." = "Beschreibe deine Aktivität...";
+
+"Choose your category" = "Wähle deine Kategorie";
+
+"Your nickname" = "Dein Spitzname";
+
+"How are you" = "Wie geht es dir?";
+
+"Improved Your Mood" = "Stimmung verbessert";
+"Worsened Your Mood" = "Stimmung verschlechtert";
+"Mood Ratio" = "Stimmungs-Verhältnis";
+
+"Edit Activity" = "Aktivität bearbeiten";
+"Edit Activity Categories" = "Kategorien bearbeiten";
+"Edit order" = "Reihenfolge bearb.";
+
+"Color Scheme" = "Farbschema";
+"Dark" = "Dunkel";
+"Light" = "Hell";
+
+"Lock Sentimizer" = "App sperren";

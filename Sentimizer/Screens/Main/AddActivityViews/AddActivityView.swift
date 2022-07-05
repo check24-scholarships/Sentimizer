@@ -51,7 +51,7 @@ struct AddActivityView: View {
                                     if activity.isEmpty {
                                         SentiButton(icon: nil, title: "Choose Activity Category", style: .outlined, fontSize: 20, textColor: .gray)
                                     } else {
-                                        SentiButton(icon: icon, title: activity, chevron: false)
+                                        SentiButton(icon: icon, title: LocalizedStringKey(activity), chevron: false)
                                     }
                                 }
                                 .padding(.top, 40)

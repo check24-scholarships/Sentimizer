@@ -9,7 +9,7 @@ import SwiftUI
 
 /// Displays the standard Sentimizer view title.
 struct ViewTitle: View {
-    let title: String
+    let title: LocalizedStringKey
     var padding: Bool
     
     var fontSize: CGFloat
@@ -21,7 +21,7 @@ struct ViewTitle: View {
             .padding(.top, padding ? 25 : 0)
     }
     
-    init(_ title: String, padding: Bool = true, fontSize: CGFloat = 35) {
+    init(_ title: LocalizedStringKey, padding: Bool = true, fontSize: CGFloat = 35) {
         self.title = title
         self.padding = padding
         self.fontSize = fontSize

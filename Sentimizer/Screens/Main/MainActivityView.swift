@@ -34,8 +34,10 @@ struct MainActivityView: View {
             
             HStack {
                 let tOD = Date.getTimeOfDay()
-                Text("\(Image(systemName: K.symbolForTimeOfDay(tOD))) Good \(tOD.rawValue), \(userNickname)")
+                Text("\(Image(systemName: K.symbolForTimeOfDay(tOD))) Good \(K.stringForTimeOfDay(tOD)), \(userNickname)")
                     .font(.senti(size: 25))
+                    .minimumScaleFactor(0.7)
+                    .lineLimit(1)
                     .gradientForeground()
                     .padding(.horizontal)
                     .padding(.bottom)
@@ -74,7 +76,7 @@ struct MainActivityView: View {
                         .padding(.horizontal, 5)
                     
                     if persistenceController.getEntryData(entries: entries, month: selectedMonth).0.count < 1  {
-                        Text(" \(Image(systemName: "list.bullet.below.rectangle")) There are no entries in the chosen month.")
+                        Text("\(Image(systemName: "list.bullet.below.rectangle")) There are no entries in the chosen month.")
                             .font(.senti(size: 15))
                             .bold()
                             .padding()

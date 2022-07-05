@@ -45,7 +45,7 @@ struct ActivityChooserView: View {
                             icon = K.defaultActivities.1[i]
                             dismiss()
                         } label: {
-                            SentiButton(icon: K.defaultActivities.1[i], title: K.defaultActivities.0[i])
+                            SentiButton(icon: K.defaultActivities.1[i], title: LocalizedStringKey(K.defaultActivities.0[i]))
                         }
                     }
                 }
@@ -55,7 +55,7 @@ struct ActivityChooserView: View {
                         NavigationLink {
                             EditActivityCategoryView(activityName: activities[i].name!, icon: activities[i].icon!)
                         } label: {
-                            SentiButton(icon: activities[i].icon!, title: activities[i].name!)
+                            SentiButton(icon: activities[i].icon!, title: LocalizedStringKey(activities[i].name!))
                         }
                     } else {
                         Button {
@@ -63,7 +63,7 @@ struct ActivityChooserView: View {
                             icon = activities[i].icon!
                             dismiss()
                         } label: {
-                            SentiButton(icon: activities[i].icon!, title: activities[i].name!)
+                            SentiButton(icon: activities[i].icon!, title: LocalizedStringKey(activities[i].name!))
                         }
                     }
                 }
@@ -74,7 +74,7 @@ struct ActivityChooserView: View {
                         NewActivityCategoryView()
                     }
                 } label: {
-                    SentiButton(icon: "plus.circle", title: "Add new category", style: .outlined, fontSize: 20, textColor: .gray)
+                    SentiButton(icon: "plus.circle", title: "New category", style: .outlined, fontSize: 20, textColor: .gray)
                         .padding()
                         .padding(.top)
                 }

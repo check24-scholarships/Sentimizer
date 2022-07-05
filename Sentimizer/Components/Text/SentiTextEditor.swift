@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SentiTextEditor: View {
     
-    var description: String = "Describe your activity and how you feel now..."
+    var description: LocalizedStringKey = "Describe your activity and how you feel now..."
     @Binding var text: String
     
     var body: some View {
