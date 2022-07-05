@@ -264,12 +264,9 @@
 		EB410CE2283A535900D629B2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				61C81FD82847D8B10023655E /* Sentimizer.entitlements */,
-				EB39D9D02843C55000E74250 /* Info.plist */,
-				EBD795F828744F7B00C2ADF7 /* InfoPlist.strings */,
-				EB642C0027FF5DAB001DB273 /* Assets.xcassets */,
 				EBD795F628744C9D00C2ADF7 /* Localizable.strings */,
 				EBE02ACB2842B18300B18555 /* LaunchScreen.storyboard */,
+				EB642C0027FF5DAB001DB273 /* Assets.xcassets */,
 				EB634F2A28141FDE00979923 /* K.swift */,
 				EBCDD11C282AD73D006AD5E2 /* Extensions */,
 				EB410CD0283A46DC00D629B2 /* Helpers */,
@@ -360,6 +357,9 @@
 		EB642BFB27FF5DA4001DB273 /* Sentimizer */ = {
 			isa = PBXGroup;
 			children = (
+				61C81FD82847D8B10023655E /* Sentimizer.entitlements */,
+				EB39D9D02843C55000E74250 /* Info.plist */,
+				EBD795F828744F7B00C2ADF7 /* InfoPlist.strings */,
 				EBD795FB2874516200C2ADF7 /* App */,
 				EB410CE2283A535900D629B2 /* Resources */,
 				EB410CCC283A453700D629B2 /* Persistence */,
