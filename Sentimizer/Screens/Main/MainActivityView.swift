@@ -126,23 +126,24 @@ struct MainActivityView: View {
             AddActivityView()
                 .environment(\.managedObjectContext, self.viewContext)
         }
-        .onAppear() {
-            (entryDays, entryContent) = persistenceController.getEntryData(entries: entries)
-            welcomeScreenPresented = !UserDefaults.standard.bool(forKey: K.welcomeScreenShown)
+        .onAppear {
+            fillEntryData()
         }
-        .onChange(of: addActivitySheetPresented) { _ in
-            (entryDays, entryContent) = persistenceController.getEntryData(entries: entries)
+        .onChange(of: addActivitySheetPresented) { newValue in
+            if !newValue {
+                if persistenceController.getEntryData(entries: entries, month: selectedMonth).0.count > 0 {
+                    showLastMonth = false
+                }
+                
+                fillEntryData()
+            }
         }
         .onChange(of: selectedMonth) { newValue in
             showLastMonth = false
-            (entryDays, entryContent) = persistenceController.getEntryData(entries: entries, month: newValue)
+            fillEntryData()
         }
         .onChange(of: showLastMonth) { newValue in
-            if newValue {
-                var dateComponent = DateComponents()
-                dateComponent.month = -1
-                (entryDays, entryContent) = persistenceController.getEntryData(entries: entries, month: Calendar.current.date(byAdding: dateComponent, to: selectedMonth)!)
-            }
+            fillEntryData()
         }
         .fullScreenCover(isPresented: $welcomeScreenPresented) {
             WelcomeView()
@@ -154,6 +155,18 @@ struct MainActivityView: View {
         f.fetchLimit = 100
         f.sortDescriptors = [NSSortDescriptor(key: #keyPath(Entry.date), ascending: false)]
         _entries = FetchRequest(fetchRequest: f)
+    }
+    
+    func fillEntryData() {
+        var dateComponent = DateComponents()
+        if showLastMonth {
+            dateComponent.month = -1
+        } else {
+            dateComponent.month = 0
+        }
+        
+        (entryDays, entryContent) = persistenceController.getEntryData(entries: entries, month: Calendar.current.date(byAdding: dateComponent, to: selectedMonth)!)
+        welcomeScreenPresented = !UserDefaults.standard.bool(forKey: K.welcomeScreenShown)
     }
 }
 
