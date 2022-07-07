@@ -51,6 +51,8 @@ struct K {
     
     static let appHasToBeUnlocked = "appHasToBeUnlocked"
     
+    static let userId = "userId"
+    
     //MARK: - Other
     enum timeOfDay {
         case morning
