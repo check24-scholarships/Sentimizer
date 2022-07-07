@@ -41,7 +41,7 @@ struct AddActivityView: View {
                                     selection: $date,
                                     displayedComponents: [.date, .hourAndMinute]
                                 )
-                                .frame(maxWidth: 250)
+                                .frame(maxWidth: 270)
                                 
                                 NavigationLink {
                                     ActivityChooserView(activity: $activity, icon: $icon)

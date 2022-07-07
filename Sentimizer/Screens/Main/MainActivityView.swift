@@ -95,7 +95,7 @@ struct MainActivityView: View {
                     
                     ForEach(0..<entryDays.count, id: \.self) { day in
                         VStack(alignment: .leading) {
-                            Text(entryDays[day])
+                            Text(LocalizedStringKey(entryDays[day]))
                                 .font(.senti(size: 25))
                                 .padding()
                             
