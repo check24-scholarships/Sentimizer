@@ -128,6 +128,7 @@ struct MainActivityView: View {
         }
         .onAppear {
             fillEntryData()
+            welcomeScreenPresented = !UserDefaults.standard.bool(forKey: K.welcomeScreenShown)
         }
         .onChange(of: addActivitySheetPresented) { newValue in
             if !newValue {
@@ -166,7 +167,6 @@ struct MainActivityView: View {
         }
         
         (entryDays, entryContent) = persistenceController.getEntryData(entries: entries, month: Calendar.current.date(byAdding: dateComponent, to: selectedMonth)!)
-        welcomeScreenPresented = !UserDefaults.standard.bool(forKey: K.welcomeScreenShown)
     }
 }
 
