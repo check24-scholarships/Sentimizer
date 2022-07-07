@@ -37,6 +37,7 @@
 		EB410CF7283FB50700D629B2 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB410CF6283FB50700D629B2 /* Settings.swift */; };
 		EB467FAF28210DB000F9AA4D /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB467FAE28210DB000F9AA4D /* Color+Extension.swift */; };
 		EB46BBBF284D28530088CD1C /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB46BBBE284D28530088CD1C /* WelcomeView.swift */; };
+		EB4C530E287741E500540BAB /* PrivacyPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4C530D287741E500540BAB /* PrivacyPolicy.swift */; };
 		EB5EF3C9284B6ED800372FB0 /* SentimizerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5EF3C8284B6ED800372FB0 /* SentimizerUITests.swift */; };
 		EB5EF3CB284B6ED800372FB0 /* SentimizerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5EF3CA284B6ED800372FB0 /* SentimizerUITestsLaunchTests.swift */; };
 		EB5EF3D8284B702F00372FB0 /* SentimizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5EF3D7284B702F00372FB0 /* SentimizerTests.swift */; };
@@ -116,6 +117,7 @@
 		EB410CF6283FB50700D629B2 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		EB467FAE28210DB000F9AA4D /* Color+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		EB46BBBE284D28530088CD1C /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
+		EB4C530D287741E500540BAB /* PrivacyPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicy.swift; sourceTree = "<group>"; };
 		EB5EF3C6284B6ED800372FB0 /* SentimizerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SentimizerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB5EF3C8284B6ED800372FB0 /* SentimizerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentimizerUITests.swift; sourceTree = "<group>"; };
 		EB5EF3CA284B6ED800372FB0 /* SentimizerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentimizerUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -208,6 +210,7 @@
 			children = (
 				EB410CF6283FB50700D629B2 /* Settings.swift */,
 				EBDB9F712833DB9100586EB7 /* SettingsView.swift */,
+				EB4C530D287741E500540BAB /* PrivacyPolicy.swift */,
 				EB33D13B2833E84900F4634C /* EditActivityCategoryView.swift */,
 			);
 			path = Settings;
@@ -595,6 +598,7 @@
 				EBDB9F702833CBC000586EB7 /* CalendarView.swift in Sources */,
 				EBCDD1182827F545006AD5E2 /* WhatNext.swift in Sources */,
 				EB410CDF283A51CD00D629B2 /* MoodInfluence.swift in Sources */,
+				EB4C530E287741E500540BAB /* PrivacyPolicy.swift in Sources */,
 				EB15CF7A283FD9C200564728 /* MonthSwitcher.swift in Sources */,
 				EB6A3AAF2815BBC80078F8A8 /* AddActivityView.swift in Sources */,
 				8838ABEC28391EE700D3599B /* TestModel.mlpackage in Sources */,
