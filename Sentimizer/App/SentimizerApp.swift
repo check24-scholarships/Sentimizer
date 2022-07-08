@@ -55,6 +55,12 @@ struct SentimizerApp: App {
                     }
                     
                     authenticate()
+                    
+                    if let userId = UserDefaults.standard.string(forKey: K.userId) {
+                        print(userId)
+                    } else {
+                        UserDefaults.standard.set(String.randomString(length: 10), forKey: K.userId)
+                    }
                 }
                 .onChange(of: scenePhase) { newValue in
                     if UserDefaults.standard.bool(forKey: K.appHasToBeUnlocked) {
