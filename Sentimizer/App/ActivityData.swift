@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ActivityData: Hashable {
+struct ActivityData: Hashable, Codable {
     let id: String
     let activity: String
     let icon: String

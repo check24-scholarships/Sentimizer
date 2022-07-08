@@ -55,6 +55,22 @@ class PersistenceController: ObservableObject {
         return (days, content)
     }
     
+    func getAllEntries(_ viewContext: NSManagedObjectContext) -> [ActivityData] {
+        let fetchRequest: NSFetchRequest<Entry>
+        fetchRequest = Entry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(value: true)
+        
+        let entries = try! viewContext.fetch(fetchRequest)
+        
+        var results: [ActivityData] = []
+        
+        for entry in entries {
+            results.append(ActivityData(id: entry.objectID.uriRepresentation().absoluteString, activity: entry.activity!, icon: getActivityIcon(activityName: entry.activity!, viewContext), date: entry.date!, description: entry.text!, sentiment: entry.feeling!))
+        }
+        
+        return results
+    }
+    
     func getEntriesOfDay(viewContext: NSManagedObjectContext, day: Date) -> [ActivityData] {
         let fetchRequest: NSFetchRequest<Entry>
         fetchRequest = Entry.fetchRequest()
@@ -267,7 +283,7 @@ class PersistenceController: ObservableObject {
     
     func updateActivityCategoryName(with activityName: String, oldName: String, _ viewContext: NSManagedObjectContext) {
         print("an", activityName, "on", oldName)
-    
+        
         let fetchRequest: NSFetchRequest<Activity>
         fetchRequest = Activity.fetchRequest()
         fetchRequest.predicate = NSPredicate(value: true)
@@ -366,7 +382,7 @@ class PersistenceController: ObservableObject {
         if let ival = defaults.object(forKey: key + "i_val") as? [Double] {
             res.0.1 = ival
         }
-            
+        
         if let wname = defaults.object(forKey: key + "w_name") as? [String] {
             res.1.0 = wname
         }
