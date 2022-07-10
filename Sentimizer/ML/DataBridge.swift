@@ -24,34 +24,8 @@ struct DataBridge{
     //let registerURL = "https://sentimizer.codeclub.check24.fun/api/register"
     let postURL = "https://sentimizer.codeclub.check24.fun/api/evaluatedata"
     var userToken = ""
-    @FetchRequest var entries: FetchedResults<Entry>
+    var entries = PersistenceController().getAllEntries(PersistenceController.context)
     
-    @Environment(\.managedObjectContext) var context
-    
-    init(){
-        let f:NSFetchRequest<Entry> = Entry.fetchRequest()
-        _entries = FetchRequest(fetchRequest: f)
-        var request = NSFetchRequest<NSFetchRequestResult>(entityName: "Entry")
-
-                request = NSFetchRequest(entityName: "Entry")
-
-                request.returnsObjectsAsFaults = false
-
-                var results = context.executeFetchRequest(request, error: nil)
-
-                if results!.count > 0 {
-
-                    for result: AnyObject in results! as [Entry] {
-
-                        println(result)
-                        println(result.speed)
-
-                    }
-                }
-                else {
-                    println("No data")
-                }
-    }
     //@FetchRequest(entity: Entry.entity(), sortDescriptors: []) var entries: FetchedResults<Entry>
    
     mutating func getAndPost(userId:String) async throws{
@@ -71,14 +45,11 @@ struct DataBridge{
     // Get data out of Model, diary_entry
     func postObjects(urlString: String, userId: String) async throws{
         var convertedEntries: [String] = []
-        print("uwu")
         
         for entry in entries {
             //
-            print("asdfasdf")
-            print(entry)
             let converted = EntryData(
-                activity: entry.activity ?? "None", date: entry.date!, feeling: entry.feeling ?? "neutral", text: entry.text ?? "None"
+                activity: entry.activity , date: entry.date, feeling: entry.sentiment ?? "neutral", text: entry.description ?? "None"
             )
             
             let encodedData = try! JSONEncoder().encode(converted)
@@ -86,7 +57,7 @@ struct DataBridge{
             convertedEntries.append(jsonString!)
         }
         //format to dict
-        let sendData:[String:Array<String>] = [userId:convertedEntries]
+        let sendData:[Array<String>] = [convertedEntries]
         //send to Server make Post Request
         guard let url = URL(string: urlString) else {fatalError("Missing URL")}
         var urlRequest = URLRequest(url: url)
