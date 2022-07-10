@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CalendarView: View {
     @Environment(\.managedObjectContext) var viewContext
-    @StateObject private var persistenceController = PersistenceController()
+    @ObservedObject private var persistenceController = PersistenceController()
     
     let sevenColumnGrid = Array(repeating: GridItem(.flexible(), spacing: 0), count: 7)
     
@@ -44,12 +44,13 @@ struct CalendarView: View {
                             Spacer()
                             
                             VStack {
-                                let icons = persistenceController.getActivityIconsForDay(viewContext: viewContext, date: days[index].1)
-                                ForEach(0..<icons.count, id: \.self) { index in
-                                    Image(systemName: icons[index])
-                                        .standardIcon(shouldBeMaxWidthHeight: true, maxWidthHeight: 18)
-                                        .gradientForeground()
-                                        .padding(.bottom, 5)
+                                if persistenceController.iconsForDay.count > index {
+                                    ForEach(0..<persistenceController.iconsForDay[index].count, id: \.self) { i in
+                                        Image(systemName: persistenceController.iconsForDay[index][i])
+                                            .standardIcon(shouldBeMaxWidthHeight: true, maxWidthHeight: 18)
+                                            .gradientForeground()
+                                            .padding(.bottom, 5)
+                                    }
                                 }
                             }
                             .offset(x: 5)
@@ -82,7 +83,19 @@ struct CalendarView: View {
         }
         .onAppear {
             //            print(MachineLearning.feedforward(ip: [0.2, 0.2, 0.2, 0.4]))
+            getIcons()
         }
+        .onChange(of: selectedMonth) { newValue in
+            getIcons()
+        }
+    }
+    
+    func getIcons() {
+        var days: [Date?] = []
+        for day in getDaysInMonth() {
+            days.append(day.1)
+        }
+        persistenceController.getActivityIconsForDays(viewContext: viewContext, dates: days)
     }
 }
 

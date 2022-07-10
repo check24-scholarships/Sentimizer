@@ -27,6 +27,8 @@ class PersistenceController: ObservableObject {
         return PersistenceController().container.viewContext
     }
     
+    @Published var iconsForDay: [[String]] = []
+    
     //MARK: - Entity: Entry
     
     func getEntryData(entries: FetchedResults<Entry>, month: Date = Date(), _ viewContext: NSManagedObjectContext) -> ([String], [[[String]]]) {
@@ -91,22 +93,27 @@ class PersistenceController: ObservableObject {
         return results
     }
     
-    func getActivityIconsForDay(viewContext: NSManagedObjectContext, date: Date?) -> [String] {
+    func getActivityIconsForDays(viewContext: NSManagedObjectContext, dates: [Date?]) {
         let fetchRequest: NSFetchRequest<Entry>
         fetchRequest = Entry.fetchRequest()
         fetchRequest.predicate = NSPredicate(value: true)
         let entries = try! viewContext.fetch(fetchRequest)
         
-        var icons: [String] = []
+        var icons: [[String]] = [[]]
         
-        for entry in entries {
-            if icons.count < 2 {
-                if let date = date, Calendar.current.isDate(entry.date!, inSameDayAs: date) {
-                    icons.append(getActivityIcon(activityName: entry.activity!, viewContext))
+        for i in 0..<dates.count {
+            
+            for entry in entries {
+                if icons[i].count < 2 {
+                    if let _ = dates[i], Calendar.current.isDate(entry.date!, inSameDayAs: dates[i] ?? Date.distantPast) {
+                        icons[i].append(getActivityIcon(activityName: entry.activity ?? "Unspecified", viewContext))
+                    }
                 }
             }
+            icons.append([])
         }
-        return icons
+        
+        iconsForDay = icons
     }
     
     func deleteAllData(viewContext: NSManagedObjectContext) {

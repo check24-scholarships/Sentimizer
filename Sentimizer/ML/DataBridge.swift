@@ -37,7 +37,7 @@ struct DataBridge{
             let urlRequest = URLRequest(url: url)
             let (data, response) = try await URLSession.shared.data(for: urlRequest)
         
-        guard(response as? HTTPURLResponse)?.statusCode == 200 else { print((response as? HTTPURLResponse)?.statusCode); fatalError("Error while fetching data")}
+        guard(response as? HTTPURLResponse)?.statusCode == 200 else { print((response as? HTTPURLResponse)?.statusCode ?? "Cannot print status code"); fatalError("Error while fetching data")}
             let decodedData = try JSONDecoder().decode(User.self,from: data)
         self.userToken = decodedData.token
     }
@@ -49,7 +49,7 @@ struct DataBridge{
         for entry in entries {
             //
             let converted = EntryData(
-                activity: entry.activity , date: entry.date, feeling: entry.sentiment ?? "neutral", text: entry.description ?? "None"
+                activity: entry.activity , date: entry.date, feeling: entry.sentiment , text: entry.description 
             )
             
             let encodedData = try! JSONEncoder().encode(converted)
@@ -66,7 +66,7 @@ struct DataBridge{
         let encodedDict = try JSONEncoder().encode(paramters)
         urlRequest.httpBody = encodedDict
         let (_, response) = try await URLSession.shared.data(for: urlRequest)
-        guard(response as? HTTPURLResponse)?.statusCode == 200 else { print((response as? HTTPURLResponse)?.statusCode); fatalError("Error while fetching data")}
+        guard(response as? HTTPURLResponse)?.statusCode == 200 else { print((response as? HTTPURLResponse)?.statusCode ?? "Cannot print status code"); fatalError("Error while fetching data")}
         //let decodedData = try JSONDecoder().decode(User.self,from: data)
         
     }
