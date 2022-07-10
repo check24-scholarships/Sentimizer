@@ -127,6 +127,12 @@ struct MainActivityView: View {
                 .environment(\.managedObjectContext, self.viewContext)
         }
         .onAppear {
+            let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+            print(urls[urls.count - 1] as URL)
+            Task {
+                var db = DataBridge()
+                try! await db.getAndPost(userId: "asdfasdfasd")
+            }
             fillEntryData()
             welcomeScreenPresented = !UserDefaults.standard.bool(forKey: K.welcomeScreenShown)
         }

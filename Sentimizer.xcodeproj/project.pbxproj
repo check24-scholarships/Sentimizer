@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		61C81FDB2847D8BC0023655E /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61C81FDA2847D8BC0023655E /* CloudKit.framework */; };
+		69CD9628287749B1007C38A5 /* DataBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CD9627287749B1007C38A5 /* DataBridge.swift */; };
 		8838ABB2282F7DA100D3599B /* ActivityDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838ABB1282F7DA100D3599B /* ActivityDetailView.swift */; };
 		8838ABB72833672000D3599B /* NeuralNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838ABB62833672000D3599B /* NeuralNetwork.swift */; };
 		8838ABB9283529EC00D3599B /* RandomNumberGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838ABB8283529EC00D3599B /* RandomNumberGenerator.swift */; };
@@ -88,6 +89,7 @@
 /* Begin PBXFileReference section */
 		61C81FD82847D8B10023655E /* Sentimizer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Sentimizer.entitlements; sourceTree = "<group>"; };
 		61C81FDA2847D8BC0023655E /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		69CD9627287749B1007C38A5 /* DataBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBridge.swift; sourceTree = "<group>"; };
 		8838ABB1282F7DA100D3599B /* ActivityDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityDetailView.swift; sourceTree = "<group>"; };
 		8838ABB62833672000D3599B /* NeuralNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeuralNetwork.swift; sourceTree = "<group>"; };
 		8838ABB8283529EC00D3599B /* RandomNumberGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomNumberGenerator.swift; sourceTree = "<group>"; };
@@ -233,6 +235,7 @@
 				8838ABEB28391EE700D3599B /* TestModel.mlpackage */,
 				8838ABB62833672000D3599B /* NeuralNetwork.swift */,
 				EB410CD8283A4DDD00D629B2 /* MachineLearning.swift */,
+				69CD9627287749B1007C38A5 /* DataBridge.swift */,
 			);
 			path = ML;
 			sourceTree = "<group>";
@@ -607,6 +610,7 @@
 				EB6A3AAF2815BBC80078F8A8 /* AddActivityView.swift in Sources */,
 				8838ABEC28391EE700D3599B /* TestModel.mlpackage in Sources */,
 				88E6E5AE281C4ACD00EB0D15 /* Model.xcdatamodeld in Sources */,
+				69CD9628287749B1007C38A5 /* DataBridge.swift in Sources */,
 				EB410CF3283E6A1900D629B2 /* Image+Extension.swift in Sources */,
 				8838ABB72833672000D3599B /* NeuralNetwork.swift in Sources */,
 				EBCDD11A282AD30C006AD5E2 /* NewActivityCategoryView.swift in Sources */,
@@ -881,7 +885,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Sentimizer/Preview Content\"";
-				DEVELOPMENT_TEAM = A38QNMLM4C;
+				DEVELOPMENT_TEAM = V8FZN83F47;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Sentimizer/Info.plist;
@@ -917,7 +921,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Sentimizer/Preview Content\"";
-				DEVELOPMENT_TEAM = A38QNMLM4C;
+				DEVELOPMENT_TEAM = V8FZN83F47;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Sentimizer/Info.plist;
