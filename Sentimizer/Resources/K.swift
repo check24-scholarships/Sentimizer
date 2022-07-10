@@ -81,4 +81,7 @@ struct K {
             return "moon.stars.fill"
         }
     }
+    
+    static let unspecified = "Unspecified"
+    static let unspecifiedSymbol = "camera.metering.unknown"
 }

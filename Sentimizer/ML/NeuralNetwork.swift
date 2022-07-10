@@ -60,7 +60,7 @@ class NeuralNetwork {
         
         // print("results", results)
         
-        return results.last!
+        return results.last ?? []
     }
     
     func backpropagation() {
@@ -74,7 +74,7 @@ class NeuralNetwork {
             
             var outer_d:[Double] = []
             
-            for i in 0 ..< arch.last! {
+            for i in 0 ..< (arch.last ?? 0) {
                 outer_d.append(mse_prime(y_hat[i], y[i]))
                 cost += mse(y_hat[i], y[i])
                 
@@ -118,14 +118,14 @@ class NeuralNetwork {
     }
     
     func getDerivatives() -> [Double]{
-        var derivatives: [Double] = Array(repeating: 0, count: arch.first!)
+        var derivatives: [Double] = Array(repeating: 0, count: arch.first ?? 0)
         
         for date in data {
             let x = date[0]
             
             let _ = feedforward(input: x)
             
-            var outer_d:[Double] = Array(repeating: 1, count: arch.last!)
+            var outer_d: [Double] = Array(repeating: 1, count: arch.last ?? 0)
             
             for layer in 0 ..< arch.count - 1 {
                 let onion = arch.count - 2 - layer
@@ -155,12 +155,12 @@ class NeuralNetwork {
                 outer_d = prev_d
             }
             
-            for i in 0 ..< arch.first! {
+            for i in 0 ..< (arch.first ?? 0) {
                 derivatives[i] += outer_d[i] / pow((x[i] + 1), 2)
             }
         }
         
-        for i in 0 ..< arch.first! {
+        for i in 0 ..< (arch.first ?? 0) {
             derivatives[i] = derivatives[i] / Double(data.count)
         }
         

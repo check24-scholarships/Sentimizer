@@ -128,11 +128,13 @@ struct MainActivityView: View {
                 .environment(\.managedObjectContext, self.viewContext)
         }
         .onAppear {
-            let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-            print(urls[urls.count - 1] as URL)
             Task {
-                var db = DataBridge()
-                try! await db.getAndPost(userId: "asdfasdfasd")
+                do {
+                    var db = DataBridge()
+                    try await db.getAndPost(userId: "asdfasdfasd")
+                } catch {
+                    print(error)
+                }
             }
             fillEntryData()
             welcomeScreenPresented = !UserDefaults.standard.bool(forKey: K.welcomeScreenShown)
@@ -172,7 +174,7 @@ struct MainActivityView: View {
             dateComponent.month = 0
         }
         
-        (entryDays, entryContent) = persistenceController.getEntryData(entries: entries, month: Calendar.current.date(byAdding: dateComponent, to: selectedMonth)!, viewContext)
+        (entryDays, entryContent) = persistenceController.getEntryData(entries: entries, month: Calendar.current.date(byAdding: dateComponent, to: selectedMonth) ?? Date.distantPast, viewContext)
     }
 }
 

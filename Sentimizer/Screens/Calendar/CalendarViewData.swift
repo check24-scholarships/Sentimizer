@@ -13,15 +13,15 @@ extension CalendarView {
         
         let dateComponents = DateComponents(year: calendar.component(.year, from: selectedMonth), month: calendar.component(.month, from: selectedMonth))
         
-        let date = calendar.date(from: dateComponents)!
+        let date = calendar.date(from: dateComponents) ?? Date()
         
         let range = calendar.range(of: .day, in: .month, for: date)!
         
         var dayDates: [Date] = []
         var count = 0
         for _ in range {
-            let newDate = calendar.date(byAdding: .hour, value: 10, to: date)!
-            dayDates.append(calendar.date(byAdding: .day, value: count, to: newDate)!)
+            let newDate = calendar.date(byAdding: .hour, value: 10, to: date) ?? Date()
+            dayDates.append(calendar.date(byAdding: .day, value: count, to: newDate) ?? Date())
             count += 1
         }
         

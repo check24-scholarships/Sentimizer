@@ -16,7 +16,7 @@ struct StatisticsData {
         var mean: Double = 0
         
         for entry in rEntries[i] {
-            mean += SentiScoreHelper.getSentiScore(for: entry.feeling!)
+            mean += SentiScoreHelper.getSentiScore(for: entry.feeling ?? "happy")
         }
         
         if rEntries[i].count != 0 {
@@ -42,30 +42,30 @@ struct StatisticsData {
             var lastTime = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: Date())?.timeIntervalSince1970
             
             for entry in entries {
-                if Calendar.current.isDateInToday(entry.date!) {
+                if Calendar.current.isDateInToday(entry.date ?? Date.distantPast) {
                     rEntries.insert(entry, at:0)
                 }
             }
             
             if rEntries.count >= 1 {
-                firstTime = rEntries[0].date!.timeIntervalSince1970
+                firstTime = rEntries[0].date?.timeIntervalSince1970
             }
             
             if rEntries.count >= 2 {
-                lastTime = rEntries.last!.date!.timeIntervalSince1970
+                lastTime = rEntries.last?.date?.timeIntervalSince1970
             }
             
-            let stepSize = (lastTime! - firstTime!) / Double(stamps - 1)
+            let stepSize = (lastTime ?? 0 - (firstTime ?? 0)) / Double(stamps - 1)
             
             for i in 0..<stamps {
-                xAxis.append(DateFormatter.formatDate(date: Date(timeIntervalSince1970: firstTime! + stepSize * Double(i)), format: "HH:mm"))
+                xAxis.append(DateFormatter.formatDate(date: Date(timeIntervalSince1970: firstTime ?? 0 + stepSize * Double(i)), format: "HH:mm"))
             }
             
             var lastValue:Double = -1
             
             for entry in rEntries {
-                yValues.append(SentiScoreHelper.getSentiScore(for: entry.feeling!))
-                var xValue = (entry.date!.timeIntervalSince1970 - firstTime!) / (lastTime! - firstTime!)
+                yValues.append(SentiScoreHelper.getSentiScore(for: entry.feeling ?? "happy"))
+                var xValue = ((entry.date?.timeIntervalSince1970 ?? 0) - (firstTime ?? 0)) / (lastTime ?? 1 - (firstTime ?? 0))
                 if xValue - lastValue < 0.1 {
                     xValue = lastValue + 0.1
                 }
@@ -83,45 +83,45 @@ struct StatisticsData {
         } else if interval == K.timeIntervals[1] {
             var rEntries:[[Entry]] = [[], [], [], [], [], [], []]
             
-            let firstTime = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: Date())!.timeIntervalSince1970 - (60 * 60 * 24 * 6)
-            let lastTime = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: Date())!.timeIntervalSince1970
+            let firstTime = (Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: Date())?.timeIntervalSince1970 ?? 0) - (60 * 60 * 24 * 6)
+            let lastTime = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: Date())?.timeIntervalSince1970
             
             for entry in entries {
-                let entryDate = entry.date!.timeIntervalSince1970
+                let entryDate = entry.date?.timeIntervalSince1970
                 
-                let dIndex = (Calendar.current.dateComponents([.weekday], from: entry.date!).weekday! - 1) + 6 - (Calendar.current.dateComponents([.weekday], from: Date()).weekday! - 1)
+                let dIndex = (Calendar.current.dateComponents([.weekday], from: entry.date ?? Date()).weekday ?? 1 - 1) + 6 - (Calendar.current.dateComponents([.weekday], from: Date()).weekday ?? 1 - 1)
                 
-                if firstTime < entryDate && entryDate < lastTime {
+                if firstTime < entryDate ?? 0 && entryDate ?? 0 < (lastTime ?? 0) {
                     rEntries[dIndex < 7 ? dIndex : dIndex - 7].insert(entry, at:0)
                 }
             }
             
             for i in 0..<7 {
-                xAxis.insert(DateFormatter.formatDate(date: Date(timeIntervalSince1970: lastTime - Double(60 * 60 * 24 * i)), format: "EE"), at:0)
+                xAxis.insert(DateFormatter.formatDate(date: Date(timeIntervalSince1970: (lastTime ?? 0) - Double(60 * 60 * 24 * i)), format: "EE"), at:0)
                 
                 (xValues, yValues) = getMeans(stepSize: 1 / 6, rEntries: rEntries, i: i, xValues: xValues, yValues: yValues)
             }
         } else if interval == K.timeIntervals[2] {
             var rEntries:[[Entry]] = []
             
-            let day = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Calendar.current.startOfDay(for: Date())))!
-            let firstTime = day.timeIntervalSince1970
-            let lastTime = Calendar.current.date(byAdding: DateComponents(month: 1, day: -1), to: day)!.timeIntervalSince1970
+            let day = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Calendar.current.startOfDay(for: Date())))
+            let firstTime = day?.timeIntervalSince1970
+            let lastTime = Calendar.current.date(byAdding: DateComponents(month: 1, day: -1), to: (day ?? Date()))?.timeIntervalSince1970
             
             
-            let stepSize = (lastTime - firstTime) / Double(stamps - 1)
+            let stepSize = (lastTime ?? 0 - (firstTime ?? 0)) / Double(stamps - 1)
             
             for i in 0..<stamps {
                 rEntries.append([])
                 rEntries.append([])
-                xAxis.append(DateFormatter.formatDate(date: Date(timeIntervalSince1970: firstTime + stepSize * Double(i)), format: "d MMM"))
+                xAxis.append(DateFormatter.formatDate(date: Date(timeIntervalSince1970: (firstTime ?? 0) + stepSize * Double(i)), format: "d MMM"))
             }
             
             for entry in entries {
-                let entryDate = entry.date!.timeIntervalSince1970
+                let entryDate = entry.date?.timeIntervalSince1970
                 
-                if firstTime < entryDate && entryDate < lastTime {
-                    rEntries[Int((entryDate - firstTime) / (stepSize / 2))].append(entry)
+                if firstTime ?? 0 < (entryDate ?? 0) && (entryDate ?? 0) < (lastTime ?? 0) {
+                    rEntries[Int(((entryDate ?? 0) - (firstTime ?? 0)) / (stepSize / 2))].append(entry)
                 }
             }
             
@@ -132,23 +132,23 @@ struct StatisticsData {
             var rEntries:[[Entry]] = [[], [], [], [], [], [], [], [], [], [], [], []]
             
             let year = Calendar.current.component(.year, from: Date())
-            let firstTime = Calendar.current.date(from: DateComponents(year: year, month: 1, day: 1))!.timeIntervalSince1970
-            let lastTime = Calendar.current.date(byAdding: .day, value: -1, to: Calendar.current.date(from: DateComponents(year: year + 1, month: 1, day: 1))!)!.timeIntervalSince1970
+            let firstTime = Calendar.current.date(from: DateComponents(year: year, month: 1, day: 1))?.timeIntervalSince1970
+            let lastTime = Calendar.current.date(byAdding: .day, value: -1, to: Calendar.current.date(from: DateComponents(year: year + 1, month: 1, day: 1))!)?.timeIntervalSince1970
             
             
-            print(Date(timeIntervalSince1970: firstTime), Date(timeIntervalSince1970: lastTime))
-            print(firstTime + 60 * 60 * 24 * 31 * 12, lastTime)
+            print(Date(timeIntervalSince1970: firstTime ?? 0), Date(timeIntervalSince1970: lastTime ?? 0))
+            print(firstTime ?? 0 + 60 * 60 * 24 * 31 * 12, lastTime ?? 0)
             
             for entry in entries {
-                let entryDate = entry.date!.timeIntervalSince1970
+                let entryDate = entry.date?.timeIntervalSince1970
                 
-                if firstTime < entryDate && entryDate < lastTime {
-                    rEntries[Calendar.current.component(.month, from: entry.date!) - 1].insert(entry, at:0)
+                if (firstTime ?? 0) < (entryDate ?? 0) && (entryDate ?? 0) < (lastTime ?? 0) {
+                    rEntries[Calendar.current.component(.month, from: entry.date ?? Date()) - 1].insert(entry, at:0)
                 }
             }
             
             for i in 0..<12 {
-                xAxis.insert(String(Array(DateFormatter.formatDate(date: Date(timeIntervalSince1970: lastTime - Double(60 * 60 * 24 * 31 * i)), format: "MMM"))[0]), at:0)
+                xAxis.insert(String(Array(DateFormatter.formatDate(date: Date(timeIntervalSince1970: (lastTime ?? 0) - Double(60 * 60 * 24 * 31 * i)), format: "MMM"))[0]), at:0)
                 
                 (xValues, yValues) = getMeans(stepSize: 1 / 11, rEntries: rEntries, i: i, xValues: xValues, yValues: yValues)
             }
@@ -160,24 +160,24 @@ struct StatisticsData {
     static func getCount(interval: String, viewContext: NSManagedObjectContext) -> [Int] {
         let request = Entry.fetchRequest()
         var count:[Int] = [0, 0, 0, 0, 0]
-        var lastTime: Double = 0
+        var lastTime: Double? = 0
         
         if interval == K.timeIntervals[0] {
-            lastTime = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: Date())!.timeIntervalSince1970
+            lastTime = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: Date())?.timeIntervalSince1970
         } else if interval == K.timeIntervals[1] {
-            lastTime = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: Date())!.timeIntervalSince1970 - (60 * 60 * 24 * 6)
+            lastTime = (Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: Date())?.timeIntervalSince1970 ?? 0) - (60 * 60 * 24 * 6)
         } else if interval == K.timeIntervals[2] {
-            lastTime = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Calendar.current.startOfDay(for: Date())))!.timeIntervalSince1970
+            lastTime = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Calendar.current.startOfDay(for: Date())))?.timeIntervalSince1970
         } else if interval == K.timeIntervals[3] {
-            lastTime = Calendar.current.date(from: DateComponents(year: Calendar.current.component(.year, from: Date()), month: 1, day: 1))!.timeIntervalSince1970
+            lastTime = Calendar.current.date(from: DateComponents(year: Calendar.current.component(.year, from: Date()), month: 1, day: 1))?.timeIntervalSince1970
         }
         
         do {
             let entries = try viewContext.fetch(request)
             
             for entry in entries {
-                if entry.date!.timeIntervalSince1970 > lastTime {
-                    count[SentiScoreHelper.getSentiIndex(for: entry.feeling!)] += 1
+                if entry.date?.timeIntervalSince1970 ?? 0 > (lastTime ?? 0) {
+                    count[SentiScoreHelper.getSentiIndex(for: entry.feeling ?? "happy")] += 1
                 }
             }
         } catch {
@@ -192,27 +192,27 @@ struct StatisticsData {
         var allActivities:[String] = K.defaultActivities.0.map { $0.copy() as! String }
         
         for activity in activities {
-            allActivities.append(activity.name!)
+            allActivities.append(activity.name ?? K.unspecified)
         }
         
         let neuralNetwork = NeuralNetwork(arch: [allActivities.count, 20, 1], data: [])
         
         let request = Entry.fetchRequest()
-        var lastTime:Double = 0
+        var lastTime: Double? = 0
         
         if interval == K.timeIntervals[0] {
             // lastTime = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: Date())!.timeIntervalSince1970
             
             
-            lastTime = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Calendar.current.startOfDay(for: Date())))!.timeIntervalSince1970
+            lastTime = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Calendar.current.startOfDay(for: Date())))?.timeIntervalSince1970
         } else if interval == K.timeIntervals[1] {
             // lastTime = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: Date())!.timeIntervalSince1970 - (60 * 60 * 24 * 6)
             
-            lastTime = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Calendar.current.startOfDay(for: Date())))!.timeIntervalSince1970
+            lastTime = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Calendar.current.startOfDay(for: Date())))?.timeIntervalSince1970
         } else if interval == K.timeIntervals[2] {
-            lastTime = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Calendar.current.startOfDay(for: Date())))!.timeIntervalSince1970
+            lastTime = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Calendar.current.startOfDay(for: Date())))?.timeIntervalSince1970
         } else if interval == K.timeIntervals[3] {
-            lastTime = Calendar.current.date(from: DateComponents(year: Calendar.current.component(.year, from: Date()), month: 1, day: 1))!.timeIntervalSince1970
+            lastTime = Calendar.current.date(from: DateComponents(year: Calendar.current.component(.year, from: Date()), month: 1, day: 1))?.timeIntervalSince1970
         }
         
         do {
@@ -224,11 +224,11 @@ struct StatisticsData {
             var y: [[Double]] = []
             
             for entry in entries {
-                if entry.date!.timeIntervalSince1970 < lastTime {
+                if entry.date?.timeIntervalSince1970 ?? 0 < lastTime ?? 0 {
                     continue
                 }
                 
-                if x.count == 0 || !Calendar.current.isDate(lastDate, inSameDayAs: entry.date!) {
+                if x.count == 0 || !Calendar.current.isDate(lastDate, inSameDayAs: entry.date ?? Date.distantPast) {
                     x.append([])
                     y.append([0])
                     
@@ -240,11 +240,11 @@ struct StatisticsData {
                     
                     x[x.count - 1].append(contentsOf: empty)
                     
-                    lastDate = entry.date!
+                    lastDate = entry.date ?? Date()
                 }
                 
-                x[x.count - 1][allActivities.firstIndex(of: entry.activity!)!] += 1
-                y[y.count - 1][0] += SentiScoreHelper.getSentiScore(for: entry.feeling!)
+                x[x.count - 1][allActivities.firstIndex(of: entry.activity ?? K.unspecified) ?? 0] += 1
+                y[y.count - 1][0] += SentiScoreHelper.getSentiScore(for: entry.feeling ?? "happy")
             }
             
             // data: [[[1, 0], [0, 0]]]

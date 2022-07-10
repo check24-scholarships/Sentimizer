@@ -91,7 +91,7 @@ struct CalendarDayDetailView: View {
                                         }
                                         
                                         ForEach(getDataForSection(content: content, timeSection), id: \.self) { activity in
-                                            let index = content.firstIndex(of: activity)!
+                                            let index = content.firstIndex(of: activity) ?? 0
                                             
                                             ZStack {
                                                 NavigationLink { ActivityDetailView(activity: activity.activity, icon: activity.icon, description: activity.description, day: DateFormatter.formatDate(date: activity.date, format: "EEE, d MMM"), time: DateFormatter.formatDate(date: activity.date, format: "HH:mm"), duration: "10", sentiment: "happy", id: activity.id) } label: {

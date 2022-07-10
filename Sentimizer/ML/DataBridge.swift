@@ -28,22 +28,22 @@ struct DataBridge{
     
     //@FetchRequest(entity: Entry.entity(), sortDescriptors: []) var entries: FetchedResults<Entry>
    
-    mutating func getAndPost(userId:String) async throws{
+    mutating func getAndPost(userId:String) async throws {
         try await postObjects(urlString: self.postURL, userId: userId)
     }
     //register user and get user_token
-    mutating func registerUser(urlString: String) async  throws {
-        guard let url = URL(string: urlString) else {fatalError("Missing URL")}
+    mutating func registerUser(urlString: String) async throws {
+        guard let url = URL(string: urlString) else { print("Missing URL in DataBridge, registerUser"); return }
             let urlRequest = URLRequest(url: url)
             let (data, response) = try await URLSession.shared.data(for: urlRequest)
         
-        guard(response as? HTTPURLResponse)?.statusCode == 200 else { print((response as? HTTPURLResponse)?.statusCode ?? "Cannot print status code"); fatalError("Error while fetching data")}
+        guard(response as? HTTPURLResponse)?.statusCode == 200 else { print((response as? HTTPURLResponse)?.statusCode ?? "Cannot print status code"); return }
             let decodedData = try JSONDecoder().decode(User.self,from: data)
         self.userToken = decodedData.token
     }
     
     // Get data out of Model, diary_entry
-    func postObjects(urlString: String, userId: String) async throws{
+    func postObjects(urlString: String, userId: String) async throws {
         var convertedEntries: [String] = []
         
         for entry in entries {
@@ -52,21 +52,21 @@ struct DataBridge{
                 activity: entry.activity , date: entry.date, feeling: entry.sentiment , text: entry.description 
             )
             
-            let encodedData = try! JSONEncoder().encode(converted)
-            let jsonString = String(data: encodedData, encoding: .utf8)
-            convertedEntries.append(jsonString!)
+            let encodedData = try JSONEncoder().encode(converted)
+            guard let jsonString = String(data: encodedData, encoding: .utf8) else { return }
+            convertedEntries.append(jsonString)
         }
         //format to dict
         let sendData:[Array<String>] = [convertedEntries]
         //send to Server make Post Request
-        guard let url = URL(string: urlString) else {fatalError("Missing URL")}
+        guard let url = URL(string: urlString) else { print("Missing URL in DataBridge, postObjects"); return }
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
         let paramters = sendData
         let encodedDict = try JSONEncoder().encode(paramters)
         urlRequest.httpBody = encodedDict
         let (_, response) = try await URLSession.shared.data(for: urlRequest)
-        guard(response as? HTTPURLResponse)?.statusCode == 200 else { print((response as? HTTPURLResponse)?.statusCode ?? "Cannot print status code"); fatalError("Error while fetching data")}
+        guard(response as? HTTPURLResponse)?.statusCode == 200 else { print((response as? HTTPURLResponse)?.statusCode ?? "Cannot print status code"); return }
         //let decodedData = try JSONDecoder().decode(User.self,from: data)
         
     }

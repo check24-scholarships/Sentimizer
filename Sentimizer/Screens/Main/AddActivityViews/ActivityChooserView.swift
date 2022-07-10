@@ -54,17 +54,17 @@ struct ActivityChooserView: View {
                 ForEach(0 ..< activities.count, id: \.self) { i in
                     if redirectToEdit {
                         NavigationLink {
-                            EditActivityCategoryView(activityName: activities[i].name!, icon: activities[i].icon!)
+                            EditActivityCategoryView(activityName: activities[i].name ?? K.unspecified, icon: activities[i].icon ?? K.unspecifiedSymbol)
                         } label: {
-                            SentiButton(icon: activities[i].icon!, title: LocalizedStringKey(activities[i].name!))
+                            SentiButton(icon: activities[i].icon ?? K.unspecifiedSymbol, title: LocalizedStringKey(activities[i].name ?? K.unspecified))
                         }
                     } else {
                         Button {
-                            activity = activities[i].name!
-                            icon = activities[i].icon!
+                            activity = activities[i].name ?? K.unspecified
+                            icon = activities[i].icon ?? K.unspecifiedSymbol
                             dismiss()
                         } label: {
-                            SentiButton(icon: activities[i].icon!, title: LocalizedStringKey(activities[i].name!))
+                            SentiButton(icon: activities[i].icon ?? K.unspecifiedSymbol, title: LocalizedStringKey(activities[i].name ?? K.unspecified))
                         }
                     }
                 }
