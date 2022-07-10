@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>NSFaceIDUsageDescription</key>
-	<string>Authenticate to show Sentimizer</string>
+	<string>Sentimizer needs access to Face ID to securely authenticate you when opening the app.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
