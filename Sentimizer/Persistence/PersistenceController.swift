@@ -9,7 +9,7 @@ import SwiftUI
 import CoreData
 
 class PersistenceController: ObservableObject {
-    private static var container: NSPersistentCloudKitContainer {
+    var container: NSPersistentCloudKitContainer {
         let container = NSPersistentCloudKitContainer(name: "Model")
         container.loadPersistentStores(completionHandler: {description, error in
             if let error = error {
@@ -24,12 +24,12 @@ class PersistenceController: ObservableObject {
     }
     
     static var context: NSManagedObjectContext {
-        return PersistenceController.container.viewContext
+        return PersistenceController().container.viewContext
     }
     
     //MARK: - Entity: Entry
     
-    func getEntryData(entries: FetchedResults<Entry>, month: Date = Date()) -> ([String], [[[String]]]) {
+    func getEntryData(entries: FetchedResults<Entry>, month: Date = Date(), _ viewContext: NSManagedObjectContext) -> ([String], [[[String]]]) {
         var days: [String] = []
         var content: [[[String]]] = []
         
@@ -48,7 +48,7 @@ class PersistenceController: ObservableObject {
                     content.append([])
                 }
                 
-                content[content.count - 1].append([entry.activity ?? "senting", DateFormatter.formatDate(date: entry.date!, format: "HH:mm"), "10", entry.text ?? "", entry.feeling ?? "happy", entry.objectID.uriRepresentation().absoluteString])
+                content[content.count - 1].append([entry.activity ?? "Unspecified", DateFormatter.formatDate(date: entry.date!, format: "HH:mm"), "10", entry.text ?? "", entry.feeling ?? "happy", entry.objectID.uriRepresentation().absoluteString, getActivityIcon(activityName: entry.activity ?? "Unspecified", viewContext)])
             }
         }
         

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct ActivityChooserView: View {
     @Environment(\.dismiss) private var dismiss
@@ -14,7 +15,7 @@ struct ActivityChooserView: View {
     @Binding var icon: String
     var redirectToEdit: Bool = false
     
-    @FetchRequest(entity: Activity.entity(), sortDescriptors: []) var activities: FetchedResults<Activity>
+    @FetchRequest private var activities: FetchedResults<Activity>
     
     var body: some View {
         ScrollView {
@@ -81,6 +82,16 @@ struct ActivityChooserView: View {
             }
             .padding()
         }
+    }
+    
+    init(activity: Binding<String>, icon: Binding<String>, redirectToEdit: Bool = false) {
+        let f: NSFetchRequest<Activity> = Activity.fetchRequest()
+        f.sortDescriptors = []
+        _activities = FetchRequest(fetchRequest: f)
+        
+        self._activity = activity
+        self._icon = icon
+        self.redirectToEdit = redirectToEdit
     }
 }
 

@@ -17,7 +17,7 @@ struct AddActivityView: View {
     @ObservedObject var keyboardHeightHelper = KeyboardHelper()
     @State private var textFieldYPlusHeight: CGFloat = 0
     
-    @FetchRequest(entity: Activity.entity(), sortDescriptors: []) var activities: FetchedResults<Activity>
+    @FetchRequest private var activities: FetchedResults<Activity>
     
     @State private var description = ""
     @State private var feeling = ""
@@ -144,6 +144,12 @@ struct AddActivityView: View {
                 // addSampleData(moc: viewContext)
             }
         }
+    }
+    
+    init() {
+        let f: NSFetchRequest<Activity> = Activity.fetchRequest()
+        f.sortDescriptors = []
+        _activities = FetchRequest(fetchRequest: f)
     }
 }
 
