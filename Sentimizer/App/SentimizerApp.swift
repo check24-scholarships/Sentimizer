@@ -11,19 +11,20 @@ import CoreData
 
 @main
 struct SentimizerApp: App {
-    
     @Environment(\.scenePhase) var scenePhase
     @State private var unlockScreenPresented = false
     @State private var authenticationPresented = false
     
     private let context = PersistenceController().container.viewContext
     
+    @ObservedObject private var model = Model()
+    
     var body: some Scene {
         WindowGroup {
             AppTabNavigation()
                 .font(.senti(size: 12))
                 .foregroundColor(.textColor)
-            //                .environmentObject(Model())
+                .environmentObject(model)
                 .environment(\.managedObjectContext, context)
                 .fullScreenCover(isPresented: $unlockScreenPresented) {
                     ZStack {

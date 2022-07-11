@@ -11,7 +11,7 @@ struct ActivityBar: View {
     
     let activity: String
     let description: String
-    let time: (String, String)
+    let time: String
     var showsTime: Bool = true
     let sentiment: String
     let id: String
@@ -19,7 +19,7 @@ struct ActivityBar: View {
     
     var body: some View {
         HStack {
-            Text(time.0)
+            Text(time)
                 .font(.senti(size: 20))
                 .padding([.leading, .top, .bottom])
                 .padding(.trailing, 3)
@@ -69,6 +69,6 @@ struct ActivityBar: View {
 
 struct ActivityBar_Previews: PreviewProvider {
     static var previews: some View {
-        ActivityBar(activity: "Walk", description: "", time: ("08:03", "10"), sentiment: "happy", id: "1", icon: "figure.walk")
+        ActivityBar(activity: "Walk", description: "", time: "08:03", sentiment: "happy", id: "1", icon: "figure.walk")
     }
 }

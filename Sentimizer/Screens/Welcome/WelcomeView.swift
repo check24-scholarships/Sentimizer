@@ -33,11 +33,11 @@ struct WelcomeView: View {
                         
                         Text("Sentimizer")
                             .font(.senti(size: 50))
-                            .gradientForeground()
+                            .gradientForeground(colors: [.brandColor1, .brandColor4], .leading, .trailing)
                             .shadow(radius: 10)
                             .padding(30)
                     }
-                    .background(Rectangle().frame(width: 1000).foregroundColor(.brandColor1).ignoresSafeArea())
+                    .background(Rectangle().frame(width: 1000).foregroundColor(.brandColor2).ignoresSafeArea())
                     
                     HStack {
                         VStack(alignment: .leading) {
