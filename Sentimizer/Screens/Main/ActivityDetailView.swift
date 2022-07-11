@@ -9,27 +9,30 @@ import SwiftUI
 import CoreData
 
 struct ActivityDetailView: View {
-    @State var activity: String
-    @State var icon: String
-    @State var description: String
-    @State var day: String
-    @State var time: String
-    @State var duration: String
-    @State var sentiment: String
-    @State var id: String
+    let activity: String
+    let icon: String
+    let description: String
+    let day: String
+    let time: String
+    let duration: String
+    let sentiment: String
+    let id: String
     
     @State private var userDescription = ""
     @State private var userMood = ""
     @State private var userActivity = ""
-    @State private var userIcon = ""
+    @State private var userIcon = K.unspecifiedSymbol
     
-    @State private var width: CGFloat = 150
+    @State private var alreadySet = false
     
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.managedObjectContext) var viewContext
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject private var model: Model
     
     @StateObject private var persistenceController = PersistenceController()
+    
+    @State private var width: CGFloat = 150
     
     @State private var isEditingDescription = false
     
@@ -68,8 +71,8 @@ struct ActivityDetailView: View {
                         MoodPicker(width: width, opaque: true, feeling: $userMood)
                             .onChange(of: userMood) { newValue in
                                 persistenceController.updateMood(with: newValue, id: id, viewContext)
-                                sentiment = newValue
                                 userMood = newValue
+                                updateInfluence()
                             }
                             .frame(maxWidth: .infinity)
                             .padding(.bottom)
@@ -104,7 +107,6 @@ struct ActivityDetailView: View {
                                 Button {
                                     dismissKeyboard()
                                     persistenceController.updateActivityDescription(with: userDescription, id: id, viewContext)
-                                    description = userDescription
                                     withAnimation(.easeOut) {
                                         isEditingDescription = false
                                     }
@@ -142,15 +144,7 @@ struct ActivityDetailView: View {
                     SentiDeleteButton(label: "Delete this activity") {
                         persistenceController.deleteActivity(id: id, viewContext)
                         
-                        DispatchQueue.global(qos: .userInitiated).async {
-                            let monthInfluence = StatisticsData.getInfluence(viewContext: viewContext, interval: K.timeIntervals[2], activities: activities)
-
-                            persistenceController.saveInfluence(with: K.monthInfluence, for: monthInfluence)
-
-                            let yearInfluence = StatisticsData.getInfluence(viewContext: viewContext, interval: K.timeIntervals[3], activities: activities)
-
-                            persistenceController.saveInfluence(with: K.yearInfluence, for: yearInfluence)
-                        }
+                        updateInfluence()
                         
                         dismiss()
                     }
@@ -164,7 +158,6 @@ struct ActivityDetailView: View {
                         Button("Done") {
                             dismissKeyboard()
                             persistenceController.updateActivityDescription(with: userDescription, id: id, viewContext)
-                            description = userDescription
                             withAnimation(.easeOut) {
                                 isEditingDescription = false
                             }
@@ -176,17 +169,33 @@ struct ActivityDetailView: View {
             }
         }
         .onAppear {
-            
-            userActivity = activity
-            userIcon = icon
-            userMood = sentiment
-            userDescription = description
-            
+            if !alreadySet {
+                userActivity = activity
+                userIcon = icon
+                userMood = sentiment
+                userDescription = description
+                alreadySet = true
+            }
         }
         .onChange(of: userActivity) { newValue in
             persistenceController.updateActivity(with: userActivity, id: id, viewContext)
-            activity = userActivity
-            icon = userIcon
+            updateInfluence()
+        }
+    }
+    
+    func updateInfluence() {
+        DispatchQueue.global(qos: .userInitiated).async {
+            let monthInfluence = StatisticsData.getInfluence(viewContext: viewContext, interval: K.timeIntervals[2], activities: activities)
+            let yearInfluence = StatisticsData.getInfluence(viewContext: viewContext, interval: K.timeIntervals[3], activities: activities)
+            DispatchQueue.main.async {
+                model.influenceImprovedMonth = monthInfluence.0
+                model.influenceWorsenedMonth = monthInfluence.1
+                persistenceController.saveInfluence(with: K.monthInfluence, data: monthInfluence)
+                
+                model.influenceImprovedYear = yearInfluence.0
+                model.influenceWorsenedYear = yearInfluence.1
+                persistenceController.saveInfluence(with: K.yearInfluence, data: yearInfluence)
+            }
         }
     }
 }

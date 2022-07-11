@@ -10,6 +10,7 @@ import CoreData
 
 struct StatsView: View {
     @Environment(\.managedObjectContext) var viewContext
+    @EnvironmentObject private var model: Model
     
     @StateObject private var persistenceController = PersistenceController()
     
@@ -17,9 +18,9 @@ struct StatsView: View {
     
     @State private var width: CGFloat = 0
     
-    @State private var xAxis:[String] = []
-    @State private var values:([Double], [Double]) = ([], [])
-    @State private var counts:[Int] = []
+    @State private var xAxis: [String] = []
+    @State private var values: ([Double], [Double]) = ([], [])
+    @State private var counts: [Int] = []
     
     private var totalCount: Int {
         var count = 0
@@ -32,8 +33,8 @@ struct StatsView: View {
     @FetchRequest var entries: FetchedResults<Entry>
     @FetchRequest(entity: Activity.entity(), sortDescriptors: []) var activities: FetchedResults<Activity>
     
-    @State private var improved = (["Walking", "Training", "Lunch"], [0.75, 0.6, 0.15])
-    @State private var worsened = (["Project Work", "Gaming"], [-0.4, -0.1])
+    @State private var improved: ([String], [Double]) = ([], [])
+    @State private var worsened: ([String], [Double]) = ([], [])
     @State private var influenceTimeInterval: String.LocalizationValue = "Last Month"
     
     var body: some View {
@@ -49,7 +50,7 @@ struct StatsView: View {
                     .foregroundColor(.brandColor2)
                     .padding(.vertical, 5)
                     .onChange(of: timeInterval) { _ in
-                        fillData()
+                        fillChartsData()
                     }
                     
                     if totalCount < 1 {
@@ -128,7 +129,7 @@ struct StatsView: View {
                 .padding(.horizontal, 15)
             }
             .onAppear {
-                fillData()
+                fillChartsData()
             }
         }
     }
@@ -144,27 +145,26 @@ struct StatsView: View {
         UISegmentedControl.appearance().backgroundColor = UIColor(.gray)
     }
     
-    func fillData() {
-        
+    func fillChartsData() {
         let chart1 = StatisticsData.getStats(entries: entries, interval: timeInterval)
         DispatchQueue.main.async {
             (xAxis, values) = chart1
         }
         
-        let chart3 =  StatisticsData.getCount(interval: timeInterval, viewContext: viewContext)
+        let chart3 = StatisticsData.getCount(interval: timeInterval, viewContext: viewContext)
         DispatchQueue.main.async {
             counts = chart3
         }
         
         if timeInterval == K.timeIntervals[3] {
-            DispatchQueue.main.async {
-                (improved, worsened) = persistenceController.getInfluence(with: K.yearInfluence)
-            }
+            improved = model.influenceImprovedYear
+            worsened = model.influenceWorsenedYear
+            
             influenceTimeInterval = "Last Year"
         } else {
-            DispatchQueue.main.async {
-                (improved, worsened) = persistenceController.getInfluence(with: K.monthInfluence)
-            }
+            improved = model.influenceImprovedMonth
+            worsened = model.influenceWorsenedMonth
+            
             influenceTimeInterval = "Last Month"
         }
     }

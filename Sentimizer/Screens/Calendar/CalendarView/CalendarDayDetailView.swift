@@ -22,16 +22,6 @@ struct CalendarDayDetailView: View {
         return getDaysInWeek()[selectedDayIndex]
     }
     
-    
-    var hours: [String] {
-        var hours: [String] = []
-        for hour in 0...23 {
-            hours.append("\(hour):00")
-        }
-        
-        return hours
-    }
-    
     var body: some View {
         NavigationView {
             ZStack(alignment: .topLeading) {
@@ -96,7 +86,7 @@ struct CalendarDayDetailView: View {
                                             ZStack {
                                                 NavigationLink { ActivityDetailView(activity: activity.activity, icon: activity.icon, description: activity.description, day: DateFormatter.formatDate(date: activity.date, format: "EEE, d MMM"), time: DateFormatter.formatDate(date: activity.date, format: "HH:mm"), duration: "10", sentiment: "happy", id: activity.id) } label: {
                                                     ZStack {
-                                                        ActivityBar(activity: activity.activity, description: activity.description, time: (DateFormatter.formatDate(date: activity.date, format: "HH:mm"), "10"), showsTime: !editing, sentiment: activity.sentiment, id: activity.id, icon: activity.icon)
+                                                        ActivityBar(activity: activity.activity, description: activity.description, time: DateFormatter.formatDate(date: activity.date, format: "HH:mm"), showsTime: !editing, sentiment: activity.sentiment, id: activity.id, icon: activity.icon)
                                                             .background(RoundedRectangle(cornerRadius: 25).foregroundColor(.gray).opacity(0.2))
                                                             .shadow(radius: 10)
                                                         RoundedRectangle(cornerRadius: 25).foregroundColor(.gray).opacity(editing ? 0.4 : 0)

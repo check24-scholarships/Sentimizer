@@ -9,6 +9,7 @@ import SwiftUI
 import CoreData
 
 class PersistenceController: ObservableObject {
+    
     var container: NSPersistentCloudKitContainer {
         let container = NSPersistentCloudKitContainer(name: "Model")
         container.loadPersistentStores(completionHandler: {description, error in
@@ -31,9 +32,9 @@ class PersistenceController: ObservableObject {
     
     //MARK: - Entity: Entry
     
-    func getEntryData(entries: FetchedResults<Entry>, month: Date = Date(), _ viewContext: NSManagedObjectContext) -> ([String], [[[String]]]) {
+    func getEntryData(entries: FetchedResults<Entry>, month: Date = Date(), _ viewContext: NSManagedObjectContext) -> ([String], [[ActivityData]]) {
         var days: [String] = []
-        var content: [[[String]]] = []
+        var content: [[ActivityData]] = []
         
         for entry in entries {
             if let date = entry.date, Calendar.current.isDate(date, equalTo: month, toGranularity: .month) {
@@ -50,7 +51,7 @@ class PersistenceController: ObservableObject {
                     content.append([])
                 }
                 
-                content[content.count - 1].append([entry.activity ?? "Unspecified", DateFormatter.formatDate(date: date, format: "HH:mm"), "10", entry.text ?? "", entry.feeling ?? "happy", entry.objectID.uriRepresentation().absoluteString, getActivityIcon(activityName: entry.activity ?? "Unspecified", viewContext)])
+                content[content.count - 1].append(ActivityData(id: entry.objectID.uriRepresentation().absoluteString, activity: entry.activity ?? K.unspecified, icon: getActivityIcon(activityName: entry.activity ?? K.unspecified, viewContext), date: entry.date ?? Date(), description: entry.text ?? "", sentiment: entry.feeling ?? "happy"))
             }
         }
         
@@ -391,17 +392,23 @@ class PersistenceController: ObservableObject {
     
     //MARK: - User Defaults
     
-    func saveInfluence(with key: String, for data: (([String], [Double]), ([String], [Double]))) {
+    func saveInfluence(with key: String, data: (([String], [Double]), ([String], [Double]))) {
         let defaults = UserDefaults.standard
         
-        defaults.set(data.0.0, forKey: key + "i_name")
-        defaults.set(data.0.1, forKey: key + "i_val")
+        var improved: ([String], [Double]) = ([], [])
+        var worsened: ([String], [Double]) = ([], [])
         
-        defaults.set(data.1.0, forKey: key + "w_name")
-        defaults.set(data.1.1, forKey: key + "w_val")
+        improved = data.0
+        worsened = data.1
+        
+        defaults.set(improved.0, forKey: key + "i_name")
+        defaults.set(improved.1, forKey: key + "i_val")
+        
+        defaults.set(worsened.0, forKey: key + "w_name")
+        defaults.set(worsened.1, forKey: key + "w_val")
     }
     
-    func getInfluence(with key: String) -> (([String], [Double]), ([String], [Double])) {
+    static func getInfluence(with key: String) -> (([String], [Double]), ([String], [Double])) {
         let defaults = UserDefaults.standard
         
         var res: (([String], [Double]), ([String], [Double])) = (([], []), ([], []))
