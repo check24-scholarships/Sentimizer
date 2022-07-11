@@ -37,7 +37,7 @@ struct DataBridge{
             let urlRequest = URLRequest(url: url)
             let (data, response) = try await URLSession.shared.data(for: urlRequest)
         
-        guard(response as? HTTPURLResponse)?.statusCode == 200 else { print((response as? HTTPURLResponse)?.statusCode ?? "Cannot print status code"); return }
+        guard(response as? HTTPURLResponse)?.statusCode == 200 else { print((response as? HTTPURLResponse)?.statusCode ?? "Cannot print status code"); print("In \(#function), line \(#line)"); return }
             let decodedData = try JSONDecoder().decode(User.self,from: data)
         self.userToken = decodedData.token
     }
@@ -66,7 +66,7 @@ struct DataBridge{
         let encodedDict = try JSONEncoder().encode(paramters)
         urlRequest.httpBody = encodedDict
         let (_, response) = try await URLSession.shared.data(for: urlRequest)
-        guard(response as? HTTPURLResponse)?.statusCode == 200 else { print((response as? HTTPURLResponse)?.statusCode ?? "Cannot print status code"); return }
+        guard(response as? HTTPURLResponse)?.statusCode == 200 else { print((response as? HTTPURLResponse)?.statusCode ?? "Cannot print status code"); print("In \(#function), line \(#line)"); return }
         //let decodedData = try JSONDecoder().decode(User.self,from: data)
         
     }
