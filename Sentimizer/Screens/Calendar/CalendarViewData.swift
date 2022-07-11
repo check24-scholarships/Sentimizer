@@ -39,7 +39,36 @@ extension CalendarView {
         return result
     }
     
-    func getColorForDay(date: Date?) -> Color {
-        K.sentimentColors[Int.random(in: 0...4)]
+    func getColorForDay(entries: FetchedResults<Entry>, date: Date?) -> Color {
+        var average = 0.0
+        var count = 0.0
+        
+        if entries.count == 0 {
+            return .clear
+        }
+        
+        for entry in entries {
+            if Calendar.current.isDate(entry.date ?? Date.distantPast, equalTo: date ?? Date.distantFuture, toGranularity: .day) {
+                average += SentiScoreHelper.getSentiScore(for: entry.feeling ?? "happy")
+                count += 1
+            }
+        }
+        
+        average /= count
+        
+        switch average {
+        case 0...0.2:
+            return K.sentimentColors[0]
+        case 0.2...0.4:
+            return K.sentimentColors[1]
+        case 0.4...0.6:
+            return K.sentimentColors[2]
+        case 0.6...0.8:
+            return K.sentimentColors[3]
+        case 0.8...1.0:
+            return K.sentimentColors[4]
+        default:
+            return .clear
+        }
     }
 }

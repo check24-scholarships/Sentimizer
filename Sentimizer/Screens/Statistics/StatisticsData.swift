@@ -9,7 +9,7 @@ import SwiftUI
 import CoreData
 
 struct StatisticsData {
-    static func getMeans(stepSize: Double, rEntries: [[Entry]], i:Int, xValues: [Double], yValues: [Double]) -> ([Double], [Double]) {
+    static func getMeans(stepSize: Double, rEntries: [[Entry]], i: Int, xValues: [Double], yValues: [Double]) -> ([Double], [Double]) {
         var xValues: [Double] = xValues
         var yValues: [Double] = yValues
         
@@ -92,7 +92,7 @@ struct StatisticsData {
                 let dIndex = (Calendar.current.dateComponents([.weekday], from: entry.date ?? Date()).weekday ?? 1 - 1) + 6 - (Calendar.current.dateComponents([.weekday], from: Date()).weekday ?? 1 - 1)
                 
                 if firstTime < entryDate ?? 0 && entryDate ?? 0 < (lastTime ?? 0) {
-                    rEntries[dIndex < 7 ? dIndex : dIndex - 7].insert(entry, at:0)
+                    rEntries[dIndex < 7 ? dIndex : dIndex - 7].insert(entry, at: 0)
                 }
             }
             
