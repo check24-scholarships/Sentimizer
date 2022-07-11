@@ -31,6 +31,7 @@ struct DataBridge{
     mutating func getAndPost(userId:String) async throws{
         try await postObjects(urlString: self.postURL, userId: userId)
     }
+    
     //register user and get user_token
     mutating func registerUser(urlString: String) async  throws {
         guard let url = URL(string: urlString) else {fatalError("Missing URL")}
@@ -49,7 +50,7 @@ struct DataBridge{
         for entry in entries {
             //
             let converted = EntryData(
-                activity: entry.activity , date: entry.date, feeling: entry.sentiment ?? "neutral", text: entry.description ?? "None"
+                activity: entry.activity , date: entry.date, feeling: entry.sentiment , text: entry.description
             )
             
             let encodedData = try! JSONEncoder().encode(converted)
@@ -57,14 +58,14 @@ struct DataBridge{
             convertedEntries.append(jsonString!)
         }
         //format to dict
-        let sendData:[Array<String>] = [convertedEntries]
-        //send to Server make Post Request
+        let sendData:[String:Array<String>] = [userId:convertedEntries]
+        //send data to server make Post Request
         guard let url = URL(string: urlString) else {fatalError("Missing URL")}
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
         let paramters = sendData
-        let encodedDict = try JSONEncoder().encode(paramters)
-        urlRequest.httpBody = encodedDict
+        let encodedData = try JSONEncoder().encode(paramters)
+        urlRequest.httpBody = encodedData
         let (_, response) = try await URLSession.shared.data(for: urlRequest)
         guard(response as? HTTPURLResponse)?.statusCode == 200 else { print((response as? HTTPURLResponse)?.statusCode); fatalError("Error while fetching data")}
         //let decodedData = try JSONDecoder().decode(User.self,from: data)
