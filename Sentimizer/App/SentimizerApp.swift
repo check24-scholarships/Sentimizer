@@ -49,7 +49,13 @@ struct SentimizerApp: App {
                     .navigationBarHidden(true)
                 }
                 .onAppear {
-                    MachineLearning.getModel()
+                    let rnn = K.rnn
+                    
+                    rnn.trainNets()
+                    
+                    print("HERERR", rnn.validNets())
+                    
+                    // MachineLearning.getModel()
                     
                     if let scheme = UserDefaults.standard.string(forKey: K.colorSchemeURL) {
                         Settings.setColorScheme(scheme == K.AppColorScheme.light.rawValue ? .light : (scheme == K.AppColorScheme.dark.rawValue ? .dark : .auto))

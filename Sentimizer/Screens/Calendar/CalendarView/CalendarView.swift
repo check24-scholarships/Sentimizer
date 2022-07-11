@@ -86,8 +86,12 @@ struct CalendarView: View {
             CalendarDayDetailView(date: $tappedDate)
         }
         .onAppear {
-            //            print(MachineLearning.feedforward(ip: [0.2, 0.2, 0.2, 0.4]))
+            // print("WTH", MachineLearning.feedforward(ip: [0.1, 0.2]))
             getIcons()
+            
+            let rnn = K.rnn
+            
+            rnn.fetch_nets()
         }
         .onChange(of: selectedMonth) { newValue in
             getIcons()

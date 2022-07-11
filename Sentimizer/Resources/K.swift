@@ -36,6 +36,8 @@ struct K {
     
     //MARK: - UserDefaults
     static let modelURL = "modelURL"
+    static let torchURL = "torchURL"
+    
     enum AppColorScheme: String {
         case light = "light"
         case dark = "dark"
@@ -84,4 +86,10 @@ struct K {
     
     static let unspecified = "Unspecified"
     static let unspecifiedSymbol = "camera.metering.unknown"
+    
+    // ML
+    
+    static let serverURL = "http://127.0.0.1:8000/"
+    
+    static let rnn = RNN()
 }
