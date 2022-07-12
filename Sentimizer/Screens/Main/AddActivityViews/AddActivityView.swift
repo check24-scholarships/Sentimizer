@@ -26,6 +26,8 @@ struct AddActivityView: View {
     @State private var icon = ""
     @State private var date = Date()
     
+    let haptic = UINotificationFeedbackGenerator()
+    
     var body: some View {
         GeometryReader { g in
             NavigationView {
@@ -83,6 +85,8 @@ struct AddActivityView: View {
                                 updateInfluence()
                                 
                                 dismiss()
+                                
+                                haptic.notificationOccurred(.success)
                             } label: {
                                 SentiButton(icon: nil, title: "Save", chevron: false)
                                     .lineLimit(1)

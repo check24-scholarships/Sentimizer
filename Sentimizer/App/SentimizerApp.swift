@@ -54,18 +54,18 @@ struct SentimizerApp: App {
                 }
                 .onAppear {
                     let rnn = K.rnn
-                    
+
                     // rnn.trainNets()
-                    
+
                     rnn.fetchMNets()
                     rnn.sendTNets()
-                    
+
                     print("HERERR", rnn.validNets())
-                    
+
                     // MachineLearning.getModel()
-                    
+
                     // MachineLearning.getTorch()
-                    
+
                     print("HELP ME", MachineLearning.feedforward(ip: [0.1, 0.2, 0.3, 0.4]))
                     
                     if let scheme = UserDefaults.standard.string(forKey: K.colorSchemeURL) {
@@ -78,6 +78,7 @@ struct SentimizerApp: App {
                         print(userId)
                     } else {
                         UserDefaults.standard.set(String.randomString(length: 10), forKey: K.userId)
+                        UserDefaults.standard.set(true, forKey: K.colorTheme)
                     }
                 }
                 .onChange(of: scenePhase) { newValue in
