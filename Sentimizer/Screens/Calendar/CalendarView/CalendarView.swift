@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct CalendarView: View {
     @Environment(\.managedObjectContext) var viewContext
@@ -18,6 +19,8 @@ struct CalendarView: View {
     
     @State private var tappedDate = Date()
     @State private var daySheetPresented = false
+    
+    @FetchRequest private var entries: FetchedResults<Entry>
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -36,7 +39,7 @@ struct CalendarView: View {
                                 .foregroundColor(.primary)
                                 .overlay(
                                     Circle()
-                                        .foregroundColor(getColorForDay(date: days[index].1).opacity(0.1))
+                                        .foregroundColor(getColorForDay(entries: entries, date: days[index].1).opacity(0.1))
                                         .frame(width: 30, height: 30)
                                 )
                                 .padding(.top)
@@ -50,6 +53,7 @@ struct CalendarView: View {
                                             .standardIcon(shouldBeMaxWidthHeight: true, maxWidthHeight: 18)
                                             .gradientForeground()
                                             .padding(.bottom, 5)
+                                            .offset(x: -3, y: 2)
                                     }
                                 }
                             }
@@ -88,6 +92,12 @@ struct CalendarView: View {
         .onChange(of: selectedMonth) { newValue in
             getIcons()
         }
+    }
+    
+    init() {
+        let f: NSFetchRequest<Entry> = Entry.fetchRequest()
+        f.sortDescriptors = [NSSortDescriptor(key: #keyPath(Entry.date), ascending: false)]
+        _entries = FetchRequest(fetchRequest: f)
     }
     
     func getIcons() {

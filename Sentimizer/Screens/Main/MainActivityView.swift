@@ -9,7 +9,6 @@ import SwiftUI
 import CoreData
 
 struct MainActivityView: View {
-//    @EnvironmentObject private var model: Model
     @Environment(\.managedObjectContext) var viewContext
     @AppStorage(K.userNickname) var userNickname: String = ""
     
@@ -21,7 +20,7 @@ struct MainActivityView: View {
     @State private var selectedMonth = Date()
     
     @State private var entryDays: [String] = []
-    @State private var entryContent: [[[String]]] = [[]]
+    @State private var entryContent: [[ActivityData]] = []
     
     @State private var showLastMonth = false
     
@@ -100,17 +99,11 @@ struct MainActivityView: View {
                                 .padding()
                             
                             ForEach(0 ..< entryContent[day].count, id: \.self) { i in
-                                let c = entryContent[day][i]
-                                let c0: String = c[0];
-                                let c1: String = c[1];
-                                let c2: String = c[2];
-                                let c3: String = c[3];
-                                let c4: String = c[4];
-                                let c5: String = c[5];
-                                let icon = c[6]
+                                let activity = entryContent[day][i]
+                                let time = DateFormatter.formatDate(date: activity.date, format: "HH:mm")
 
-                                NavigationLink { ActivityDetailView(activity: c0, icon: icon, description: c3, day: entryDays[day], time: c1, duration: c2, sentiment: c4, id: c5) } label: {
-                                    ActivityBar(activity: c0, description: c3, time: (c1, c2), sentiment: c4, id: c5, icon: icon)
+                                NavigationLink { ActivityDetailView(activity: activity.activity, icon: activity.icon, description: activity.description, day: entryDays[day], time: time, duration: "10", sentiment: activity.sentiment, id: activity.id) } label: {
+                                    ActivityBar(activity: activity.activity, description: activity.description, time: time, sentiment: activity.sentiment, id: activity.id, icon: activity.icon)
                                         .padding([.bottom, .trailing], 10)
                                 }
                             }
