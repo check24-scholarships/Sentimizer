@@ -17,6 +17,9 @@ struct ActivityBar: View {
     let id: String
     let icon: String
     
+    @State private var brandColor2 = Color.brandColor2
+    @State private var brandColor2Light = Color.brandColor2Light
+    
     var body: some View {
         HStack {
             Text(time)
@@ -58,11 +61,15 @@ struct ActivityBar: View {
 //                    .background(Rectangle().gradientForeground(.leading, .trailing).frame(height: 100))
             }
             .font(.senti(size: 25))
-            .foregroundColor(.brandColor2)
+            .foregroundColor(brandColor2)
             .background(
                 RoundedRectangle(cornerRadius: 25).stroke(lineWidth: 4)
-                    .gradientForeground())
+                    .gradientForeground(colors: [.brandColor2, brandColor2Light]))
             .clipShape(RoundedRectangle(cornerRadius: 25))
+        }
+        .onAppear {
+            brandColor2 = Color.brandColor2
+            brandColor2Light = Color.brandColor2Light
         }
     }
 }

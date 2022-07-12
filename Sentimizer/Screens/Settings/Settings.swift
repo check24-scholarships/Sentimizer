@@ -25,4 +25,12 @@ struct Settings {
         }
         return .auto
     }
+    
+    static func saveColorTheme(_ theme: Bool) {
+        UserDefaults.standard.set(theme, forKey: K.colorTheme)
+    }
+    
+    static func getColorTheme() -> Bool {
+        return UserDefaults.standard.bool(forKey: K.colorTheme)
+    }
 }

@@ -37,17 +37,18 @@ struct StatsView: View {
     @State private var worsened: ([String], [Double]) = ([], [])
     @State private var influenceTimeInterval: String.LocalizationValue = "Last Month"
     
+    @AppStorage(K.colorTheme) private var colorTheme = false
+    
     var body: some View {
         GeometryReader { g in
             ScrollView {
                 VStack(alignment: .leading) {
                     Picker("Time Interval", selection: $timeInterval) {
                         ForEach(K.timeIntervals, id: \.self) { interval in
-                            Text(interval)
+                            Text(LocalizedStringKey(interval))
                         }
                     }
                     .pickerStyle(SegmentedPickerStyle())
-                    .foregroundColor(.brandColor2)
                     .padding(.vertical, 5)
                     .onChange(of: timeInterval) { _ in
                         fillChartsData()
@@ -130,6 +131,9 @@ struct StatsView: View {
             }
             .onAppear {
                 fillChartsData()
+            }
+            .onChange(of: colorTheme) { _ in
+                UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(.brandColor2)
             }
         }
     }

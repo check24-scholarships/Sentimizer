@@ -22,6 +22,8 @@ struct SentiButton: View {
     var leading: Bool = false
     var shadow: Bool = true
     
+    @State private var brandColor2 = Color.brandColor2
+    
     var body: some View {
         HStack(spacing: 20) {
             if !chevron && !leading {
@@ -49,11 +51,14 @@ struct SentiButton: View {
         .padding(.trailing)
         .foregroundColor(textColor)
         .background(RoundedRectangle(cornerRadius: 25)
-            .foregroundColor(style == .filled ? .brandColor2 : .clear)
+            .foregroundColor(style == .filled ? brandColor2 : .clear)
             .shadow(color: .gray.opacity(shadow ? 0.7 : 0), radius: 10))
         .overlay(RoundedRectangle(cornerRadius: 25)
-            .stroke(style == .outlined ? Color.brandColor2 : .clear, lineWidth: 3)
+            .stroke(style == .outlined ? brandColor2 : .clear, lineWidth: 3)
             .shadow(color: .gray.opacity(shadow ? 0.7 : 0), radius: 10))
+        .onAppear {
+            brandColor2 = Color.brandColor2
+        }
     }
 }
 

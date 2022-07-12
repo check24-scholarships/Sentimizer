@@ -11,6 +11,9 @@ struct MoodTrendChart: View {
     let xAxis: [String]
     let values: ([Double], [Double])
     
+    @State private var brandColor2 = Color.brandColor2
+    @State private var brandColor3 = Color.brandColor3
+    
     var body: some View {
         GeometryReader { g in
             let height = g.size.height
@@ -46,7 +49,7 @@ struct MoodTrendChart: View {
                         path.move(to: CGPoint(x: 40, y: height/5 - 8))
                         path.addLine(to: CGPoint(x: width, y: height/5 - 8))
                     }
-                    .stroke(LinearGradient(colors: [.brandColor2.opacity(0.5), .brandColor3.opacity(0.5).adjust(brightness: -0.05)], startPoint: .leading, endPoint: .trailing), style: StrokeStyle(lineWidth: 2, lineJoin: .round))
+                    .stroke(LinearGradient(colors: [brandColor2.opacity(0.5), brandColor3.opacity(0.5).adjust(brightness: -0.05)], startPoint: .leading, endPoint: .trailing), style: StrokeStyle(lineWidth: 2, lineJoin: .round))
                 }
                 
                 // Senti images
@@ -67,11 +70,18 @@ struct MoodTrendChart: View {
                 }
                 .rotationEffect(.degrees(180))
             }
+            .onAppear {
+                brandColor2 = Color.brandColor2
+                brandColor3 = Color.brandColor3
+            }
         }
     }
     
     struct Graph: View {
         let values: ([Double], [Double])
+        
+        @State private var brandColor2 = Color.brandColor2
+        @State private var brandColor3 = Color.brandColor3
         
         var body: some View {
             GeometryReader { g in
@@ -92,9 +102,13 @@ struct MoodTrendChart: View {
                         }
                     }
                 }
-                .stroke(LinearGradient(colors: [.brandColor2, .brandColor3.adjust(brightness: -0.05)], startPoint: .leading, endPoint: .trailing), style: StrokeStyle(lineWidth: 4, lineJoin: .round))
+                .stroke(LinearGradient(colors: [brandColor2, brandColor3.adjust(brightness: -0.05)], startPoint: .leading, endPoint: .trailing), style: StrokeStyle(lineWidth: 4, lineJoin: .round))
             }
             .padding(.vertical)
+            .onAppear {
+                brandColor2 = Color.brandColor2
+                brandColor3 = Color.brandColor3
+            }
         }
     }
 }

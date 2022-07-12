@@ -8,14 +8,15 @@
 import SwiftUI
 
 extension Color {
-    static let bgColor = Color("bgColor")
-    static let brandColor1 = Color("brandColor1")
-    static let brandColor2 = Color("brandColor2")
-    static let brandColor2Light = Color("brandColor2Light")
-    static let brandColor3 = Color("brandColor3")
-    static let brandColor4 = Color("brandColor4")
-    static let textColor = Color("textColor")
-    static let dayViewBgColor = Color("dayViewBg")
+    
+    static var bgColor: Color { Color(UserDefaults.standard.bool(forKey: K.colorTheme) ? "bgColor" : "bgColor2") }
+    static var brandColor1: Color { Color(UserDefaults.standard.bool(forKey: K.colorTheme) ? "brandColor1" : "brandColor12") }
+    static var brandColor2: Color { Color(UserDefaults.standard.bool(forKey: K.colorTheme) ? "brandColor2" : "brandColor22") }
+    static var brandColor2Light: Color { Color(UserDefaults.standard.bool(forKey: K.colorTheme) ? "brandColor2Light" : "brandColor2Light2") }
+    static var brandColor3: Color { Color(UserDefaults.standard.bool(forKey: K.colorTheme) ? "brandColor3" : "brandColor32") }
+    static var brandColor4: Color { Color(UserDefaults.standard.bool(forKey: K.colorTheme) ? "brandColor4" : "brandColor42") }
+    static var textColor: Color { Color(UserDefaults.standard.bool(forKey: K.colorTheme) ? "textColor" : "textColor2") }
+    static var dayViewBgColor: Color { Color(UserDefaults.standard.bool(forKey: K.colorTheme) ? "dayViewBg" : "dayViewBg2") }
     
     func adjust(hue: CGFloat = 0, saturation: CGFloat = 0, brightness: CGFloat = 0, opacity: CGFloat = 1) -> Color {
         let color = UIColor(self)

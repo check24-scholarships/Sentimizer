@@ -44,6 +44,7 @@ struct K {
         case auto = "auto"
     }
     static let colorSchemeURL = "colorScheme"
+    static let colorTheme = "colorTheme"
     
     static let monthInfluence = "monthInfluence"
     static let yearInfluence = "yearInfluence"

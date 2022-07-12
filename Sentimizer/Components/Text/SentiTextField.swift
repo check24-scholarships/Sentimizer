@@ -15,6 +15,9 @@ struct SentiTextField: View {
     
     @FocusState var textFieldFocus: Bool
     
+    @State private var brandColor1 = Color.brandColor1
+    @State private var brandColor2 = Color.brandColor2
+    
     var body: some View {
         TextField(placeholder, text: $text) { editing in
             textFieldEditing = editing
@@ -23,7 +26,7 @@ struct SentiTextField: View {
         .background(Color.dayViewBgColor)
         .cornerRadius(25)
         .background(
-            RoundedRectangle(cornerRadius: 25).stroke(lineWidth: 3).foregroundColor(.brandColor1))
+            RoundedRectangle(cornerRadius: 25).stroke(lineWidth: 3).foregroundColor(brandColor1))
         .focused($textFieldFocus)
         .padding(.vertical)
         .padding(.horizontal, 2)
@@ -41,9 +44,13 @@ struct SentiTextField: View {
                         dismissKeyboard()
                     }
                     .font(.senti(size: 19))
-                    .foregroundColor(.brandColor2)
+                    .foregroundColor(brandColor2)
                 }
             }
+        }
+        .onAppear {
+            brandColor1 = Color.brandColor1
+            brandColor2 = Color.brandColor2
         }
     }
 }

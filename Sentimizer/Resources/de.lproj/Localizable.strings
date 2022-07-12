@@ -126,6 +126,10 @@
 "Dark" = "Dunkel";
 "Light" = "Hell";
 
+"Color Theme" = "Farbthema";
+"Purple" = "Lila";
+"Green" = "Grün";
+
 "Lock Sentimizer" = "App sperren";
 
 "Language" = "Sprache";
@@ -135,3 +139,20 @@
 
 "Last Month" = "Letzter Monat";
 "Last Year" = "Letztes Jahr";
+
+"Privacy Policy" = "Datenschutzerklärung";
+
+"Mon" = "Mo";
+"Tue" = "Di";
+"Wed" = "Mi";
+"Thu" = "Do";
+"Fri" = "Fr";
+"Sat" = "Sa";
+"Sun" = "So";
+
+"Day" = "Heute";
+"Week" = "Woche";
+"Month" = "Monat";
+"Year" = "Jahr";
+
+"Delete this activity" = "Diese Aktivität löschen";
