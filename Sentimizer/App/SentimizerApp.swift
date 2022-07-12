@@ -53,20 +53,27 @@ struct SentimizerApp: App {
                     .navigationBarHidden(true)
                 }
                 .onAppear {
-                    let rnn = K.rnn
+                    // let defaults = UserDefaults.standard
                     
-                    rnn.trainNets()
+                    // Task {
+                    //    var db = DataBridge()
+                    //    try? await db.getAndPost(userId: defaults.string(forKey: K.userId)!)
+                    //}
+                    
+                    // let rnn = K.rnn
+                    
+                    // rnn.trainNets()
                     
                     // rnn.fetchMNets()
                     // rnn.sendTNets()
                     
-                    print("HERERR", rnn.validNets())
+                    // print("HERERR", rnn.validNets())
 
                     // MachineLearning.getModel()
 
                     // MachineLearning.getTorch()
 
-                    print("HELP ME", MachineLearning.feedforward(ip: [0.1, 0.2, 0.3, 0.4]))
+                    // print("HELP ME", MachineLearning.feedforward(ip: [0.1, 0.2, 0.3, 0.4]))
                     
                     if let scheme = UserDefaults.standard.string(forKey: K.colorSchemeURL) {
                         Settings.setColorScheme(scheme == K.AppColorScheme.light.rawValue ? .light : (scheme == K.AppColorScheme.dark.rawValue ? .dark : .auto))

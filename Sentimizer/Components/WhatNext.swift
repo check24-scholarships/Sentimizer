@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct WhatNext: View {
-    let activity: String
+    @Environment(\.managedObjectContext) var viewContext
+    
+    @State var activity: String
     var backgroundGray = false
     
     @State private var brandColor2 = Color.brandColor2
@@ -25,7 +27,7 @@ struct WhatNext: View {
             Text("Sentimizer recommends this activity:")
                 .font(.senti(size: 15))
                 .opacity(0.7)
-            SentiButton(icon: "figure.walk", title: LocalizedStringKey(activity), style: .outlined, chevron: false, shadow: false)
+            SentiButton(icon: PersistenceController().getActivityIcon(activityName: activity, viewContext), title: LocalizedStringKey(activity), style: .outlined, chevron: false, shadow: false)
                 .gradientForeground(colors: [brandColor2, brandColor2Light])
                 .scaleEffect(0.8)
         }
@@ -38,6 +40,7 @@ struct WhatNext: View {
         .onAppear {
             brandColor2 = Color.brandColor2
             brandColor2Light = Color.brandColor2Light
+            activity = Model().influenceImprovedYear.0.first ?? "Walking"
         }
     }
 }
