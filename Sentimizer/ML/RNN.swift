@@ -20,9 +20,8 @@ class RNN {
     
     public func fetch_nets() {
         do {
-            print("CURL", defaults.object(forKey: K.modelURL + "in_net") as? String ?? "/")
-            self.inNet = try! in_net(contentsOf: URL(string: defaults.object(forKey: K.modelURL + "in_net") as? String ?? "/")!)
-            print("innerL", inNet)
+            self.inNet = try in_net(contentsOf: URL(string: defaults.object(forKey: K.modelURL + "in_net") as? String ?? "/")!)
+            
             self.outNet = try in_net(contentsOf: URL(string: defaults.object(forKey: K.modelURL + "out_net") as? String ?? "/")!)
         } catch let error {
             print("Tell me", error)
@@ -40,54 +39,28 @@ class RNN {
     }
     
     public func saveModels() {
-        // saveMModel(modelName: "out_net")
+        saveMModel(modelName: "out_net")
         saveMModel(modelName: "in_net")
     }
         
     public func saveMModel(modelName: String) {
+        let defaults = UserDefaults.standard
         let resourceDocPath = (FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)).last! as URL
-        let actualPath = resourceDocPath.appendingPathComponent(modelName + ".mlmodelc")
+        let modelName = modelName + ".mlmodelc"
+        let actualPath = resourceDocPath.appendingPathComponent(modelName)
         
-        guard let url = URL(string: K.serverURL + "send_m_" + modelName + "/") else { return }
+        guard let url = URL(string: "http://127.0.0.1:8000/send_m_" + modelName + "/") else { return }
         let request = URLRequest(url: url)
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             guard let data = data else { return }
             do {
                 try data.write(to: actualPath)
-                
-                let model = try MLModel.compileModel(at: actualPath)
-                
-                print("saved one: ", model)
-                
-                let permanentURL = try FileManager.default.url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent(model.lastPathComponent)
-                _ = try FileManager.default.replaceItemAt(permanentURL, withItemAt: model)
-                
-                self.defaults.set(permanentURL.absoluteString, forKey: K.modelURL + modelName)
-                
-                let mlMultiArrayInput = try? MLMultiArray(shape:[5], dataType:MLMultiArrayDataType.double)
-                
-                mlMultiArrayInput![0] = 0.1 as NSNumber
-                mlMultiArrayInput![1] = 0.2 as NSNumber
-                mlMultiArrayInput![2] = 0.4 as NSNumber
-                mlMultiArrayInput![3] = 0.2 as NSNumber
-                mlMultiArrayInput![4] = 0.2 as NSNumber
-                
-                print("MLI", mlMultiArrayInput as Any)
-                
-                let Emodel = try in_net(contentsOf: permanentURL)
-                
-                print("CURL emol", Emodel)
-                
-                let output = try! Emodel.prediction(input: in_netInput(x: mlMultiArrayInput!)).var_6
-                
-                print("saved one output pls", output[0])
-                
-                print("CURL PERM", permanentURL.absoluteString, modelName)
             } catch let error {
                 print(error)
             }
         }
+        
         task.resume()
     }
     

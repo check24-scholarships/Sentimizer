@@ -87,11 +87,18 @@ struct CalendarView: View {
         }
         .onAppear {
             // print("WTH", MachineLearning.feedforward(ip: [0.1, 0.2]))
+            //print("HELP ME", MachineLearning.feedforward(ip: [0.1, 0.2, 0.3, 0.4]))
+            // MachineLearning.getModel()
+            
+            // MachineLearning.getTorch()
+            
+            // MachineLearning.sendTorch()
+            
             getIcons()
             
             let rnn = K.rnn
             
-            rnn.fetch_nets()
+            // rnn.forward(ip: [0.1, 0.2])
         }
         .onChange(of: selectedMonth) { newValue in
             getIcons()

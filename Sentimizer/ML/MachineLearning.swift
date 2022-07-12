@@ -10,12 +10,11 @@ import CoreML
 struct MachineLearning {
     static func getModel() {
         let defaults = UserDefaults.standard
-        
         let resourceDocPath = (FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)).last! as URL
         let modelName = "TestModel.mlmodelc"
         let actualPath = resourceDocPath.appendingPathComponent(modelName)
         
-        guard let url = URL(string: "http://127.0.0.1:8000/send_m_in_net/") else { return }
+        guard let url = URL(string: "http://127.0.0.1:8000/test/") else { return }
         let request = URLRequest(url: url)
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
@@ -23,22 +22,14 @@ struct MachineLearning {
             do {
                 try data.write(to: actualPath)
                 
-                print(actualPath)
+                print("dataPath", actualPath, data)
                 
-                let model = try MLModel.compileModel(at: actualPath)
-                
-                print("pLs", model)
-                
-                let permanentURL = try FileManager.default.url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent(model.lastPathComponent)
-                _ = try FileManager.default.replaceItemAt(permanentURL, withItemAt: model)
-                
-                defaults.set(permanentURL.absoluteString, forKey: K.modelURL)
-                
-                print("absolute", permanentURL, permanentURL.absoluteString)
+                defaults.set(actualPath, forKey: K.modelURL)
             } catch let error {
                 print(error)
             }
         }
+        
         task.resume()
     }
     
@@ -48,7 +39,7 @@ struct MachineLearning {
         let modelName = "TestModel.pt"
         let actualPath = resourceDocPath.appendingPathComponent(modelName)
         
-        guard let url = URL(string: "http://127.0.0.1:8000/torch") else { return }
+        guard let url = URL(string: "http://127.0.0.1:8000/send_t_in_net/") else { return }
         let request = URLRequest(url: url)
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
@@ -67,7 +58,7 @@ struct MachineLearning {
     }
     
     static func sendTorch() {
-        guard let url = URL(string: "http://127.0.0.1:8000/r_torch/") else { return }
+        guard let url = URL(string: "http://127.0.0.1:8000/save_in_net/") else { return }
         
         let boundary = UUID().uuidString
         var request = URLRequest(url: url)
@@ -78,7 +69,7 @@ struct MachineLearning {
         let resourceDocPath = (FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)).last! as URL
         let modelName = "TestModel.pt"
         let fileURL = resourceDocPath.appendingPathComponent(modelName)
-                 
+        
         let fileName = fileURL.lastPathComponent
         let paramName = "file"
         let fileData = try? Data(contentsOf: fileURL)
@@ -87,8 +78,8 @@ struct MachineLearning {
         data.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
         data.append("Content-Disposition: form-data; name=\"\(paramName)\"; filename=\"\(fileName)\"\r\n".data(using: .utf8)!)
         data.append("Content-Type: \(".pt")\r\n\r\n".data(using: .utf8)!)
-                data.append(fileData!)
-                data.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
+        data.append(fileData!)
+        data.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
         
         request.setValue(String(data.count), forHTTPHeaderField: "Content-Length")
         request.httpBody = data
@@ -98,7 +89,7 @@ struct MachineLearning {
         let task = session.dataTask(with: request, completionHandler: { data, response, error in
             print("request done")
         })
-            
+        
         task.resume()
     }
     
@@ -134,13 +125,13 @@ struct MachineLearning {
                 
                 let t = MLMultiArray()
                 
-//                for i in 0 ..< ip.count {
-//                    for j in 0 ..< ip[i].count {
-//                        for k in 0 ..< ip[i][j].count {
-//                            mlMultiArrayInput![i] = ip[i][j]
-//                        }
-//                    }
-//                }
+                //                for i in 0 ..< ip.count {
+                //                    for j in 0 ..< ip[i].count {
+                //                        for k in 0 ..< ip[i][j].count {
+                //                            mlMultiArrayInput![i] = ip[i][j]
+                //                        }
+                //                    }
+                //                }
                 
                 print("MLMA", mlMultiArrayInput)
                 
@@ -159,8 +150,36 @@ struct MachineLearning {
     static func feedforward(ip: [Double]) -> [Double] {
         let defaults = UserDefaults.standard
         do {
-            let permanentURL = defaults.object(forKey: K.modelURL)
-            let model = try TestModel(contentsOf: URL(string: permanentURL as! String)!)
+            let resourceDocPath = (FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)).last! as URL
+            let modelName = "TestModel.mlmodelc"
+            let fileURL = resourceDocPath.appendingPathComponent(modelName)
+            
+            let fileName = fileURL.lastPathComponent
+            let paramName = "file"
+            let fileData = try? Data(contentsOf: fileURL)
+            
+            print("SEMI_")
+            
+            let actualP = fileURL // URL(string: defaults.object(forKey: K.modelURL) as! String)!
+            
+            print("before_")
+            
+            let data = try Data.init(contentsOf: actualP)
+            
+            print("Data_", data)
+            
+            print("AP_", actualP, "end")
+            
+            let modelC = try MLModel.compileModel(at: actualP)
+            
+            print("pLs_", modelC)
+            
+            let permanentURL = try FileManager.default.url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent(modelC.lastPathComponent)
+            _ = try FileManager.default.replaceItemAt(permanentURL, withItemAt: modelC)
+            
+            let model = try TestModel(contentsOf: permanentURL)
+            
+            print("Actual Model_", model)
             
             let mlMultiArrayInput = try? MLMultiArray(shape:[1, NSNumber(value: ip.count)], dataType:MLMultiArrayDataType.double)
             
@@ -182,7 +201,7 @@ struct MachineLearning {
             
             return result
         } catch let error {
-            print("This too", error)
+            print(error)
         }
         
         return []
