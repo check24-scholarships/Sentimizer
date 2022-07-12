@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct ActivityChooserView: View {
     @Environment(\.dismiss) private var dismiss
@@ -14,7 +15,7 @@ struct ActivityChooserView: View {
     @Binding var icon: String
     var redirectToEdit: Bool = false
     
-    @FetchRequest(entity: Activity.entity(), sortDescriptors: []) var activities: FetchedResults<Activity>
+    @FetchRequest private var activities: FetchedResults<Activity>
     
     var body: some View {
         ScrollView {
@@ -53,17 +54,17 @@ struct ActivityChooserView: View {
                 ForEach(0 ..< activities.count, id: \.self) { i in
                     if redirectToEdit {
                         NavigationLink {
-                            EditActivityCategoryView(activityName: activities[i].name!, icon: activities[i].icon!)
+                            EditActivityCategoryView(activityName: activities[i].name ?? K.unspecified, icon: activities[i].icon ?? K.unspecifiedSymbol)
                         } label: {
-                            SentiButton(icon: activities[i].icon!, title: LocalizedStringKey(activities[i].name!))
+                            SentiButton(icon: activities[i].icon ?? K.unspecifiedSymbol, title: LocalizedStringKey(activities[i].name ?? K.unspecified))
                         }
                     } else {
                         Button {
-                            activity = activities[i].name!
-                            icon = activities[i].icon!
+                            activity = activities[i].name ?? K.unspecified
+                            icon = activities[i].icon ?? K.unspecifiedSymbol
                             dismiss()
                         } label: {
-                            SentiButton(icon: activities[i].icon!, title: LocalizedStringKey(activities[i].name!))
+                            SentiButton(icon: activities[i].icon ?? K.unspecifiedSymbol, title: LocalizedStringKey(activities[i].name ?? K.unspecified))
                         }
                     }
                 }
@@ -81,6 +82,16 @@ struct ActivityChooserView: View {
             }
             .padding()
         }
+    }
+    
+    init(activity: Binding<String>, icon: Binding<String>, redirectToEdit: Bool = false) {
+        let f: NSFetchRequest<Activity> = Activity.fetchRequest()
+        f.sortDescriptors = []
+        _activities = FetchRequest(fetchRequest: f)
+        
+        self._activity = activity
+        self._icon = icon
+        self.redirectToEdit = redirectToEdit
     }
 }
 

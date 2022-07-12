@@ -9,7 +9,7 @@ import SwiftUI
 import CoreData
 
 class PersistenceController: ObservableObject {
-    private static var container: NSPersistentCloudKitContainer {
+    var container: NSPersistentCloudKitContainer {
         let container = NSPersistentCloudKitContainer(name: "Model")
         container.loadPersistentStores(completionHandler: {description, error in
             if let error = error {
@@ -24,22 +24,24 @@ class PersistenceController: ObservableObject {
     }
     
     static var context: NSManagedObjectContext {
-        return PersistenceController.container.viewContext
+        return PersistenceController().container.viewContext
     }
+    
+    @Published var iconsForDay: [[String]] = []
     
     //MARK: - Entity: Entry
     
-    func getEntryData(entries: FetchedResults<Entry>, month: Date = Date()) -> ([String], [[[String]]]) {
+    func getEntryData(entries: FetchedResults<Entry>, month: Date = Date(), _ viewContext: NSManagedObjectContext) -> ([String], [[[String]]]) {
         var days: [String] = []
         var content: [[[String]]] = []
         
         for entry in entries {
-            if Calendar.current.isDate(entry.date!, equalTo: month, toGranularity: .month) {
-                var day = DateFormatter.formatDate(date: entry.date!, format: "EEE, d MMM")
+            if let date = entry.date, Calendar.current.isDate(date, equalTo: month, toGranularity: .month) {
+                var day = DateFormatter.formatDate(date: date, format: "EEE, d MMM")
                 
-                if (Calendar.current.isDateInToday(entry.date!)) {
+                if (Calendar.current.isDateInToday(date)) {
                     day = "Today"
-                } else if (Calendar.current.isDateInYesterday(entry.date!)) {
+                } else if (Calendar.current.isDateInYesterday(date)) {
                     day = "Yesterday"
                 }
                 
@@ -48,7 +50,7 @@ class PersistenceController: ObservableObject {
                     content.append([])
                 }
                 
-                content[content.count - 1].append([entry.activity ?? "senting", DateFormatter.formatDate(date: entry.date!, format: "HH:mm"), "10", entry.text ?? "", entry.feeling ?? "happy", entry.objectID.uriRepresentation().absoluteString])
+                content[content.count - 1].append([entry.activity ?? "Unspecified", DateFormatter.formatDate(date: date, format: "HH:mm"), "10", entry.text ?? "", entry.feeling ?? "happy", entry.objectID.uriRepresentation().absoluteString, getActivityIcon(activityName: entry.activity ?? "Unspecified", viewContext)])
             }
         }
         
@@ -60,12 +62,17 @@ class PersistenceController: ObservableObject {
         fetchRequest = Entry.fetchRequest()
         fetchRequest.predicate = NSPredicate(value: true)
         
-        let entries = try! viewContext.fetch(fetchRequest)
+        var entries: [Entry] = []
+        do {
+            entries = try viewContext.fetch(fetchRequest)
+        } catch {
+            print(error)
+        }
         
         var results: [ActivityData] = []
         
         for entry in entries {
-            results.append(ActivityData(id: entry.objectID.uriRepresentation().absoluteString, activity: entry.activity!, icon: getActivityIcon(activityName: entry.activity!, viewContext), date: entry.date!, description: entry.text!, sentiment: entry.feeling!))
+            results.append(ActivityData(id: entry.objectID.uriRepresentation().absoluteString, activity: entry.activity ?? K.unspecified, icon: getActivityIcon(activityName: entry.activity ?? K.unspecified, viewContext), date: entry.date ?? Date(), description: entry.text ?? "", sentiment: entry.feeling ?? "happy"))
         }
         
         return results
@@ -76,37 +83,51 @@ class PersistenceController: ObservableObject {
         fetchRequest = Entry.fetchRequest()
         fetchRequest.predicate = NSPredicate(value: true)
         
-        let entries = try! viewContext.fetch(fetchRequest)
-        
-        var results: [ActivityData] = []
-        
-        for entry in entries {
-            if Calendar.current.isDate(entry.date!, inSameDayAs: day) {
-                results.append(ActivityData(id: entry.objectID.uriRepresentation().absoluteString, activity: entry.activity!, icon: getActivityIcon(activityName: entry.activity!, viewContext), date: entry.date!, description: entry.text!, sentiment: entry.feeling!))
+        do {
+            let entries = try viewContext.fetch(fetchRequest)
+            
+            var results: [ActivityData] = []
+            
+            for entry in entries {
+                if Calendar.current.isDate(entry.date!, inSameDayAs: day) {
+                    results.append(ActivityData(id: entry.objectID.uriRepresentation().absoluteString, activity: entry.activity ?? K.unspecified, icon: getActivityIcon(activityName: entry.activity ?? K.unspecified, viewContext), date: entry.date ?? Date(), description: entry.text ?? "", sentiment: entry.feeling ?? "happy"))
+                }
             }
+            return results
+        } catch {
+            print(error)
         }
         
-        try! viewContext.save()
-        
-        return results
+        return []
     }
     
-    func getActivityIconsForDay(viewContext: NSManagedObjectContext, date: Date?) -> [String] {
+    func getActivityIconsForDays(viewContext: NSManagedObjectContext, dates: [Date?]) {
         let fetchRequest: NSFetchRequest<Entry>
         fetchRequest = Entry.fetchRequest()
         fetchRequest.predicate = NSPredicate(value: true)
-        let entries = try! viewContext.fetch(fetchRequest)
         
-        var icons: [String] = []
+        var entries: [Entry] = []
+        do {
+            entries = try viewContext.fetch(fetchRequest)
+        } catch {
+            print(error)
+        }
         
-        for entry in entries {
-            if icons.count < 2 {
-                if let date = date, Calendar.current.isDate(entry.date!, inSameDayAs: date) {
-                    icons.append(getActivityIcon(activityName: entry.activity!, viewContext))
+        var icons: [[String]] = [[]]
+        
+        for i in 0..<dates.count {
+            
+            for entry in entries {
+                if icons[i].count < 2 {
+                    if let _ = dates[i], Calendar.current.isDate(entry.date ?? Date.distantPast, inSameDayAs: dates[i] ?? Date.distantPast) {
+                        icons[i].append(getActivityIcon(activityName: entry.activity ?? "Unspecified", viewContext))
+                    }
                 }
             }
+            icons.append([])
         }
-        return icons
+        
+        iconsForDay = icons
     }
     
     func deleteAllData(viewContext: NSManagedObjectContext) {
@@ -114,13 +135,15 @@ class PersistenceController: ObservableObject {
         fetchRequest = Entry.fetchRequest()
         fetchRequest.predicate = NSPredicate(value: true)
         
-        let entries = try! viewContext.fetch(fetchRequest)
-        
-        for entry in entries {
-            viewContext.delete(entry)
+        do {
+            let entries = try viewContext.fetch(fetchRequest)
+            for entry in entries {
+                viewContext.delete(entry)
+            }
+            try viewContext.save()
+        } catch {
+            print(error)
         }
-        
-        try! viewContext.save()
     }
     
     func saveActivity(activity: String, icon: String, description: String, feeling: String, date: Date, _ viewContext: NSManagedObjectContext) {
@@ -143,17 +166,14 @@ class PersistenceController: ObservableObject {
     }
     
     func deleteActivity(id: String, _ viewContext: NSManagedObjectContext) {
-        let objectID = viewContext.persistentStoreCoordinator!.managedObjectID(forURIRepresentation: URL(string: id)!)!
-        
-        let object = try! viewContext.existingObject(with: objectID)
-        
-        viewContext.delete(object)
+        guard let objectID = viewContext.persistentStoreCoordinator?.managedObjectID(forURIRepresentation: URL(string: id)!) else { print("Could not generate object ID in \(#function)"); return }
         
         do {
+            let object = try viewContext.existingObject(with: objectID)
+            viewContext.delete(object)
             try viewContext.save()
         } catch {
-            print("In \(#function), line \(#line), delete activity failed:")
-            print(error.localizedDescription)
+            print(error)
         }
         
         // hier das Object mit der id id auf dem Server löschen
@@ -169,8 +189,8 @@ class PersistenceController: ObservableObject {
             let activities = try viewContext.fetch(request)
             
             for activity in activities {
-                if activity.name! == activityName {
-                    return activity.icon!
+                if activity.name ?? K.unspecified == activityName {
+                    return activity.icon ?? K.unspecifiedSymbol
                 }
             }
         } catch {
@@ -188,48 +208,38 @@ class PersistenceController: ObservableObject {
     }
     
     func updateMood(with mood: String, id: String, _ viewContext: NSManagedObjectContext) {
-        let objectID = viewContext.persistentStoreCoordinator!.managedObjectID(forURIRepresentation: URL(string: id)!)!
-        
-        let object = try! viewContext.existingObject(with: objectID)
-        
-        (object as! Entry).feeling = mood
-        
+        guard let objectID = viewContext.persistentStoreCoordinator?.managedObjectID(forURIRepresentation: URL(string: id)!) else { print("Could not generate object ID in \(#function)"); return }
         
         do {
+            let object = try viewContext.existingObject(with: objectID)
+            (object as? Entry)?.feeling = mood
             try viewContext.save()
         } catch {
-            print("In \(#function), line \(#line), update mood failed:")
-            print(error.localizedDescription)
+            print(error)
         }
     }
     
     func updateActivity(with activity: String, id: String, _ viewContext: NSManagedObjectContext) {
-        let objectID = viewContext.persistentStoreCoordinator!.managedObjectID(forURIRepresentation: URL(string: id)!)!
-        
-        let object = try! viewContext.existingObject(with: objectID)
-        
-        (object as! Entry).activity = activity
+        guard let objectID = viewContext.persistentStoreCoordinator?.managedObjectID(forURIRepresentation: URL(string: id)!) else { print("Could not generate object ID in \(#function)"); return }
         
         do {
+            let object = try viewContext.existingObject(with: objectID)
+            (object as? Entry)?.activity = activity
             try viewContext.save()
         } catch {
-            print("In \(#function), line \(#line), update activity failed:")
-            print(error.localizedDescription)
+            print(error)
         }
     }
     
     func updateActivityDescription(with description: String, id: String, _ viewContext: NSManagedObjectContext) {
-        let objectID = viewContext.persistentStoreCoordinator!.managedObjectID(forURIRepresentation: URL(string: id)!)!
-        
-        let object = try! viewContext.existingObject(with: objectID)
-        
-        (object as! Entry).text = description
+        guard let objectID = viewContext.persistentStoreCoordinator?.managedObjectID(forURIRepresentation: URL(string: id)!) else { print("Could not generate object ID in \(#function)"); return }
         
         do {
+            let object = try viewContext.existingObject(with: objectID)
+            (object as? Entry)?.text = description
             try viewContext.save()
         } catch {
-            print("In \(#function), line \(#line), save activity failed:")
-            print(error.localizedDescription)
+            print(error)
         }
     }
     
@@ -252,17 +262,21 @@ class PersistenceController: ObservableObject {
         fetchRequest = Activity.fetchRequest()
         fetchRequest.predicate = NSPredicate(value: true)
         
-        let activities = try! viewContext.fetch(fetchRequest)
-        
-        for activity in activities {
-            if activity.name == categoryName {
-                viewContext.delete(activity)
+        do {
+            let activities = try viewContext.fetch(fetchRequest)
+            
+            for activity in activities {
+                if activity.name == categoryName {
+                    viewContext.delete(activity)
+                }
             }
+            
+            changeEntryCategories(viewContext: viewContext, oldName: categoryName)
+            
+            try viewContext.save()
+        } catch {
+            print(error)
         }
-        
-        changeEntryCategories(viewContext: viewContext, oldName: categoryName)
-        
-        try! viewContext.save()
     }
     
     func activityCategoryNameAlreadyExists(for categoryName: String, _ viewContext: NSManagedObjectContext) -> Bool {
@@ -270,12 +284,16 @@ class PersistenceController: ObservableObject {
         fetchRequest = Activity.fetchRequest()
         fetchRequest.predicate = NSPredicate(value: true)
         
-        let activities = try! viewContext.fetch(fetchRequest)
-        
-        for activity in activities {
-            if categoryName.trimmingCharacters(in: .whitespacesAndNewlines).compare(activity.name!.trimmingCharacters(in: .whitespacesAndNewlines), options: .caseInsensitive) == .orderedSame {
-                return true
+        do {
+            let activities = try viewContext.fetch(fetchRequest)
+            
+            for activity in activities {
+                if categoryName.trimmingCharacters(in: .whitespacesAndNewlines).compare((activity.name ?? K.unspecified).trimmingCharacters(in: .whitespacesAndNewlines), options: .caseInsensitive) == .orderedSame {
+                    return true
+                }
             }
+        } catch {
+            print(error)
         }
         
         return false
@@ -288,17 +306,21 @@ class PersistenceController: ObservableObject {
         fetchRequest = Activity.fetchRequest()
         fetchRequest.predicate = NSPredicate(value: true)
         
-        let activities = try! viewContext.fetch(fetchRequest)
-        
-        for activity in activities {
-            if activity.name == oldName {
-                activity.name = activityName
+        do {
+            let activities = try viewContext.fetch(fetchRequest)
+            
+            for activity in activities {
+                if activity.name == oldName {
+                    activity.name = activityName
+                }
             }
+            
+            changeEntryCategories(viewContext: viewContext, oldName: oldName, newName: activityName)
+            
+            try viewContext.save()
+        } catch {
+            print(error)
         }
-        
-        changeEntryCategories(viewContext: viewContext, oldName: oldName, newName: activityName)
-        
-        try! viewContext.save()
     }
     
     func updateActivityCategoryIcon(with icon: String, activityName: String, _ viewContext: NSManagedObjectContext) {
@@ -306,15 +328,19 @@ class PersistenceController: ObservableObject {
         fetchRequest = Activity.fetchRequest()
         fetchRequest.predicate = NSPredicate(value: true)
         
-        let activities = try! viewContext.fetch(fetchRequest)
-        
-        for activity in activities {
-            if activity.name == activityName {
-                activity.icon = icon
+        do {
+            let activities = try viewContext.fetch(fetchRequest)
+            
+            for activity in activities {
+                if activity.name == activityName {
+                    activity.icon = icon
+                }
             }
+            
+            try viewContext.save()
+        } catch {
+            print(error)
         }
-        
-        try! viewContext.save()
     }
     
     //MARK: - Other
@@ -350,12 +376,16 @@ class PersistenceController: ObservableObject {
         fetchRequest = Entry.fetchRequest()
         fetchRequest.predicate = NSPredicate(value: true)
         
-        let entries = try! viewContext.fetch(fetchRequest)
-        
-        for entry in entries {
-            if entry.activity == oldName {
-                entry.activity = newName
+        do {
+            let entries = try viewContext.fetch(fetchRequest)
+            
+            for entry in entries {
+                if entry.activity == oldName {
+                    entry.activity = newName
+                }
             }
+        } catch {
+            print(error)
         }
     }
     

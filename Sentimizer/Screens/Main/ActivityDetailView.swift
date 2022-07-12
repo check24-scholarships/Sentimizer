@@ -33,7 +33,7 @@ struct ActivityDetailView: View {
     
     @State private var isEditingDescription = false
     
-    @FetchRequest(entity: Activity.entity(), sortDescriptors: []) var activities: FetchedResults<Activity>
+    @FetchRequest(entity: Activity.entity(), sortDescriptors: []) private var activities: FetchedResults<Activity>
     
     var body: some View {
         ScrollViewReader { scrollView in
@@ -176,6 +176,7 @@ struct ActivityDetailView: View {
             }
         }
         .onAppear {
+            
             userActivity = activity
             userIcon = icon
             userMood = sentiment

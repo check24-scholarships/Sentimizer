@@ -7,6 +7,7 @@
 
 import SwiftUI
 import LocalAuthentication
+import CoreData
 
 @main
 struct SentimizerApp: App {
@@ -15,7 +16,7 @@ struct SentimizerApp: App {
     @State private var unlockScreenPresented = false
     @State private var authenticationPresented = false
     
-    private let context = PersistenceController.context
+    private let context = PersistenceController().container.viewContext
     
     var body: some Scene {
         WindowGroup {

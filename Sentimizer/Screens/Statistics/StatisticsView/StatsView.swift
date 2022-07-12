@@ -34,41 +34,7 @@ struct StatsView: View {
     
     @State private var improved = (["Walking", "Training", "Lunch"], [0.75, 0.6, 0.15])
     @State private var worsened = (["Project Work", "Gaming"], [-0.4, -0.1])
-    
-//    @State private var loading: Bool = false
-//    var getDataTask: DispatchWorkItem {
-//        let workItem = DispatchWorkItem {
-//            withAnimation {
-//                loading = true
-//            }
-//
-//            let chart1 = StatisticsData.getStats(entries: entries, interval: timeInterval)
-//            DispatchQueue.main.async {
-//                (xAxis, values) = chart1
-//            }
-//
-//            let chart3 =  StatisticsData.getCount(interval: timeInterval, viewContext: viewContext)
-//            DispatchQueue.main.async {
-//                counts = chart3
-//            }
-            
-//            let chart2 = StatisticsData.getInfluence(viewContext: viewContext, interval: timeInterval, activities: activities)
-//            DispatchQueue.main.async {
-//                (improved, worsened) = chart2
-//
-//                withAnimation {
-//                    loading = false
-//                }
-//            }
-            
-//            if timeInterval == K.timeIntervals[3] {
-//                (improved, worsened) = persistenceController.getInfluence(with: K.yearInfluence)
-//            } else {
-//                (improved, worsened) = persistenceController.getInfluence(with: K.monthInfluence)
-//            }
-//        }
-//        return workItem
-//    }
+    @State private var influenceTimeInterval: String.LocalizationValue = "Last Month"
     
     var body: some View {
         GeometryReader { g in
@@ -82,41 +48,9 @@ struct StatsView: View {
                     .pickerStyle(SegmentedPickerStyle())
                     .foregroundColor(.brandColor2)
                     .padding(.vertical, 5)
-                    .onChange(of: timeInterval) { newValue in
-                        let chart1 = StatisticsData.getStats(entries: entries, interval: timeInterval)
-                        DispatchQueue.main.async {
-                            (xAxis, values) = chart1
-                        }
-                        
-                        let chart3 =  StatisticsData.getCount(interval: timeInterval, viewContext: viewContext)
-                        DispatchQueue.main.async {
-                            counts = chart3
-                        }
-                        
-            //            let chart2 = StatisticsData.getInfluence(viewContext: viewContext, interval: timeInterval, activities: activities)
-            //            DispatchQueue.main.async {
-            //                (improved, worsened) = chart2
-            //
-            //                withAnimation {
-            //                    loading = false
-            //                }
-            //            }
-                        
-                        if timeInterval == K.timeIntervals[3] {
-                            (improved, worsened) = persistenceController.getInfluence(with: K.yearInfluence)
-                        } else {
-                            (improved, worsened) = persistenceController.getInfluence(with: K.monthInfluence)
-                        }
+                    .onChange(of: timeInterval) { _ in
+                        fillData()
                     }
-                    
-//                    if loading {
-//                        VStack {
-//                            ProgressView()
-//                                .frame(maxWidth: .infinity)
-//                            Text("Loading")
-//                                .font(.senti(size: 15))
-//                        }
-//                    }
                     
                     if totalCount < 1 {
                         VStack {
@@ -150,8 +84,9 @@ struct StatsView: View {
                             .padding()
                             .standardBackground()
                         
-                        Text("Improved Your Mood")
+                        Text("\(String(localized: "Improved Your Mood")) - \(String(localized: influenceTimeInterval))")
                             .font(.senti(size: 20))
+                            .minimumScaleFactor(0.7)
                             .padding([.leading, .top])
                         
                         if improved.0.count == 0 {
@@ -168,8 +103,9 @@ struct StatsView: View {
                                 }
                         }
                         
-                        Text("Worsened Your Mood")
+                        Text("\(String(localized: "Worsened Your Mood")) - \(String(localized: influenceTimeInterval))")
                             .font(.senti(size: 20))
+                            .minimumScaleFactor(0.7)
                             .padding([.leading, .top])
                         
                         if worsened.0.count == 0 {
@@ -192,23 +128,13 @@ struct StatsView: View {
                 .padding(.horizontal, 15)
             }
             .onAppear {
-                DispatchQueue.global(qos: .userInitiated).async {
-                    (xAxis, values) = StatisticsData.getStats(entries: entries, interval: timeInterval)
-                    counts = StatisticsData.getCount(interval: timeInterval, viewContext: viewContext)
-                    
-                    if timeInterval == K.timeIntervals[3] {
-                        (improved, worsened) = persistenceController.getInfluence(with: K.yearInfluence)
-                    } else {
-                        (improved, worsened) = persistenceController.getInfluence(with: K.monthInfluence)
-                    }
-                }
+                fillData()
             }
         }
     }
     
     init() {
         let f:NSFetchRequest<Entry> = Entry.fetchRequest()
-        // f.fetchLimit = 200
         f.sortDescriptors = [NSSortDescriptor(key: #keyPath(Entry.date), ascending: false)]
         _entries = FetchRequest(fetchRequest: f)
         
@@ -216,6 +142,31 @@ struct StatsView: View {
         UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
         UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .normal)
         UISegmentedControl.appearance().backgroundColor = UIColor(.gray)
+    }
+    
+    func fillData() {
+        
+        let chart1 = StatisticsData.getStats(entries: entries, interval: timeInterval)
+        DispatchQueue.main.async {
+            (xAxis, values) = chart1
+        }
+        
+        let chart3 =  StatisticsData.getCount(interval: timeInterval, viewContext: viewContext)
+        DispatchQueue.main.async {
+            counts = chart3
+        }
+        
+        if timeInterval == K.timeIntervals[3] {
+            DispatchQueue.main.async {
+                (improved, worsened) = persistenceController.getInfluence(with: K.yearInfluence)
+            }
+            influenceTimeInterval = "Last Year"
+        } else {
+            DispatchQueue.main.async {
+                (improved, worsened) = persistenceController.getInfluence(with: K.monthInfluence)
+            }
+            influenceTimeInterval = "Last Month"
+        }
     }
 }
 

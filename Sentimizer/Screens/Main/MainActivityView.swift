@@ -25,7 +25,7 @@ struct MainActivityView: View {
     
     @State private var showLastMonth = false
     
-    @FetchRequest var entries: FetchedResults<Entry>
+    @FetchRequest private var entries: FetchedResults<Entry>
     
     var body: some View {
         ScrollView {
@@ -75,14 +75,14 @@ struct MainActivityView: View {
                         .padding(.bottom, 15)
                         .padding(.horizontal, 5)
                     
-                    if persistenceController.getEntryData(entries: entries, month: selectedMonth).0.count < 1  {
+                    if persistenceController.getEntryData(entries: entries, month: selectedMonth, viewContext).0.count < 1  {
                         Text("\(Image(systemName: "list.bullet.below.rectangle")) There are no entries in the chosen month.")
                             .font(.senti(size: 15))
                             .bold()
                             .padding()
                         
                         let lastMonth = Date.appendMonths(to: selectedMonth, count: -1)
-                        if persistenceController.getEntryData(entries: entries, month: lastMonth).0.count > 0 {
+                        if persistenceController.getEntryData(entries: entries, month: lastMonth, viewContext).0.count > 0 {
                             Text(Calendar.current.monthSymbols[Calendar.current.component(.month, from: selectedMonth)-2] + " \(Calendar.current.component(.year, from: selectedMonth))")
                                 .font(.senti(size: 20))
                                 .minimumScaleFactor(0.8)
@@ -107,9 +107,10 @@ struct MainActivityView: View {
                                 let c3: String = c[3];
                                 let c4: String = c[4];
                                 let c5: String = c[5];
+                                let icon = c[6]
 
-                                NavigationLink { ActivityDetailView(activity: c0, icon: persistenceController.getActivityIcon(activityName: c0, viewContext), description: c3, day: entryDays[day], time: c1, duration: c2, sentiment: c4, id: c5) } label: {
-                                    ActivityBar(activity: c0, description: c3, time: (c1, c2), sentiment: c4, id: c5, icon: persistenceController.getActivityIcon(activityName: c0, viewContext))
+                                NavigationLink { ActivityDetailView(activity: c0, icon: icon, description: c3, day: entryDays[day], time: c1, duration: c2, sentiment: c4, id: c5) } label: {
+                                    ActivityBar(activity: c0, description: c3, time: (c1, c2), sentiment: c4, id: c5, icon: icon)
                                         .padding([.bottom, .trailing], 10)
                                 }
                             }
@@ -127,18 +128,20 @@ struct MainActivityView: View {
                 .environment(\.managedObjectContext, self.viewContext)
         }
         .onAppear {
-            let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-            print(urls[urls.count - 1] as URL)
             Task {
-                var db = DataBridge()
-                try! await db.getAndPost(userId: "asdfasdfasd")
+                do {
+                    var db = DataBridge()
+                    try await db.getAndPost(userId: K.userId)
+                } catch {
+                    print(error)
+                }
             }
             fillEntryData()
             welcomeScreenPresented = !UserDefaults.standard.bool(forKey: K.welcomeScreenShown)
         }
         .onChange(of: addActivitySheetPresented) { newValue in
             if !newValue {
-                if persistenceController.getEntryData(entries: entries, month: selectedMonth).0.count > 0 {
+                if persistenceController.getEntryData(entries: entries, month: selectedMonth, viewContext).0.count > 0 {
                     showLastMonth = false
                 }
                 
@@ -159,7 +162,6 @@ struct MainActivityView: View {
     
     init() {
         let f:NSFetchRequest<Entry> = Entry.fetchRequest()
-        f.fetchLimit = 100
         f.sortDescriptors = [NSSortDescriptor(key: #keyPath(Entry.date), ascending: false)]
         _entries = FetchRequest(fetchRequest: f)
     }
@@ -172,7 +174,7 @@ struct MainActivityView: View {
             dateComponent.month = 0
         }
         
-        (entryDays, entryContent) = persistenceController.getEntryData(entries: entries, month: Calendar.current.date(byAdding: dateComponent, to: selectedMonth)!)
+        (entryDays, entryContent) = persistenceController.getEntryData(entries: entries, month: Calendar.current.date(byAdding: dateComponent, to: selectedMonth) ?? Date.distantPast, viewContext)
     }
 }
 

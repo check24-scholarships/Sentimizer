@@ -19,14 +19,14 @@ extension CalendarDayDetailView {
         var result: [Date] = []
         
         for i in 0..<dayNumber {
-            let newDate = calendar.date(byAdding: .day, value: -(dayNumber-i), to: date)!
+            let newDate = calendar.date(byAdding: .day, value: -(dayNumber-i), to: date) ?? Date()
             if calendar.isDate(newDate, equalTo: date, toGranularity: .month) {
                 result.append(newDate)
             }
         }
         result.append(date)
         for i in dayNumber+1..<7 {
-            let newDate = calendar.date(byAdding: .day, value: i-dayNumber, to: date)!
+            let newDate = calendar.date(byAdding: .day, value: i-dayNumber, to: date) ?? Date()
             if calendar.isDate(newDate, equalTo: date, toGranularity: .month) {
                 result.append(newDate)
             }
