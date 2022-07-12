@@ -53,9 +53,11 @@ struct SentimizerApp: App {
                     .navigationBarHidden(true)
                 }
                 .onAppear {
-                    // let rnn = K.rnn
+                    let rnn = K.rnn
                     
                     // rnn.trainNets()
+                    
+                    rnn.fetch_nets()
                     
                     // print("HERERR", rnn.validNets())
                     

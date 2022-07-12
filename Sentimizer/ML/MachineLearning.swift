@@ -154,23 +154,9 @@ struct MachineLearning {
             let modelName = "TestModel.mlmodelc"
             let fileURL = resourceDocPath.appendingPathComponent(modelName)
             
-            let fileName = fileURL.lastPathComponent
-            let paramName = "file"
-            let fileData = try? Data(contentsOf: fileURL)
+            print("AP_", fileURL, "end")
             
-            print("SEMI_")
-            
-            let actualP = fileURL // URL(string: defaults.object(forKey: K.modelURL) as! String)!
-            
-            print("before_")
-            
-            let data = try Data.init(contentsOf: actualP)
-            
-            print("Data_", data)
-            
-            print("AP_", actualP, "end")
-            
-            let modelC = try MLModel.compileModel(at: actualP)
+            let modelC = try MLModel.compileModel(at: fileURL)
             
             print("pLs_", modelC)
             

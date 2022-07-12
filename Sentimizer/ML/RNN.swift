@@ -19,13 +19,29 @@ class RNN {
     }
     
     public func fetch_nets() {
+        self.inNet = fetch_net(name: "in_net")
+        self.outNet = fetch_net(name: "out_net")
+        
+        print("LOL_", self.inNet ?? "inFail", self.outNet ?? "outNet")
+    }
+    
+    public func fetch_net(name: String) -> in_net? {
+        let resourceDocPath = (FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)).last! as URL
+        let modelName = name + ".mlmodelc"
+        let fileURL = resourceDocPath.appendingPathComponent(modelName)
+        
         do {
-            self.inNet = try in_net(contentsOf: URL(string: defaults.object(forKey: K.modelURL + "in_net") as? String ?? "/")!)
+            let modelC = try MLModel.compileModel(at: fileURL)
             
-            self.outNet = try in_net(contentsOf: URL(string: defaults.object(forKey: K.modelURL + "out_net") as? String ?? "/")!)
+            let permanentURL = try FileManager.default.url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent(modelC.lastPathComponent)
+            _ = try FileManager.default.replaceItemAt(permanentURL, withItemAt: modelC)
+            
+            return try in_net(contentsOf: permanentURL)
         } catch let error {
-            print("Tell me", error)
+            print(error)
         }
+        
+        return nil
     }
     
     public func trainNets() {
@@ -39,17 +55,16 @@ class RNN {
     }
     
     public func saveModels() {
-        saveMModel(modelName: "out_net")
-        saveMModel(modelName: "in_net")
+        saveMModel(name: "out_net")
+        saveMModel(name: "in_net")
     }
         
-    public func saveMModel(modelName: String) {
-        let defaults = UserDefaults.standard
+    public func saveMModel(name: String) {
         let resourceDocPath = (FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)).last! as URL
-        let modelName = modelName + ".mlmodelc"
+        let modelName = name + ".mlmodelc"
         let actualPath = resourceDocPath.appendingPathComponent(modelName)
         
-        guard let url = URL(string: "http://127.0.0.1:8000/send_m_" + modelName + "/") else { return }
+        guard let url = URL(string: "http://127.0.0.1:8000/send_m_" + name + "/") else { return }
         let request = URLRequest(url: url)
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
