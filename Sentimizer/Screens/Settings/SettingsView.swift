@@ -212,6 +212,10 @@ struct SettingsView: View {
                         }
                     }
                 }
+                
+                Text("This version of Sentimizer is still in beta. Some features may not be available yet.")
+                    .font(.senti(size: 12))
+                    .foregroundColor(.gray)
             }
             .listStyle(.insetGrouped)
             .font(.senti(size: 20))
