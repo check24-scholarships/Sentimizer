@@ -43,28 +43,28 @@ struct CalendarDayDetailView: View {
                                     
                                     Spacer()
                                     
-                                    if content.count > 0 {
-                                        Button {
-                                            withAnimation {
-                                                editing.toggle()
-                                            }
-                                        } label: {
-                                            VStack {
-                                                if !editing {
-                                                    Image(systemName: "list.number")
-                                                        .standardIcon(width: 25)
-                                                        .frame(height: 25)
-                                                        .padding(13)
-                                                        .standardBackground()
-                                                }
-                                                Text(editing ? "Done" : "Edit order")
-                                                    .bold()
-                                                    .padding(editing ? 20 : 0)
-                                                    .font(.senti(size: editing ? 20 : 12))
-                                            }
-                                            .padding(.trailing)
-                                        }
-                                    }
+//                                    if content.count > 0 {
+//                                        Button {
+//                                            withAnimation {
+//                                                editing.toggle()
+//                                            }
+//                                        } label: {
+//                                            VStack {
+//                                                if !editing {
+//                                                    Image(systemName: "list.number")
+//                                                        .standardIcon(width: 25)
+//                                                        .frame(height: 25)
+//                                                        .padding(13)
+//                                                        .standardBackground()
+//                                                }
+//                                                Text(editing ? "Done" : "Edit order")
+//                                                    .bold()
+//                                                    .padding(editing ? 20 : 0)
+//                                                    .font(.senti(size: editing ? 20 : 12))
+//                                            }
+//                                            .padding(.trailing)
+//                                        }
+//                                    }
                                 }
                                 .padding(.top, 25)
                                 
