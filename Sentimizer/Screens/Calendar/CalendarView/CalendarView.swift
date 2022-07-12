@@ -97,6 +97,25 @@ struct CalendarView: View {
             
             // MachineLearning.sendTorch()
             
+            
+            let rnn = K.rnn
+            
+            rnn.fetchMNets()
+            
+            rnn.feedforward(ip: [0.1, 0.2])
+            rnn.feedforward(ip: [0.3, 0.6])
+            rnn.feedforward(ip: [0.4, 0.8])
+            
+            print("YH")
+            
+            rnn.feedforward(ip: [0.1, 0.2])
+            
+            print("YH")
+            
+            rnn.zeroHs()
+            
+            rnn.feedforward(ip: [0.1, 0.2])
+            
             getIcons()
             brandColor2 = Color.brandColor2
             brandColor2Light = Color.brandColor2Light

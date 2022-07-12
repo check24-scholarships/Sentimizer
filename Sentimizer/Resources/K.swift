@@ -92,5 +92,5 @@ struct K {
     
     static let serverURL = "http://127.0.0.1:8000/"
     
-    static let rnn = RNN(inN: 2, hsN: 3)
+    static let rnn = RNN(inN: 2, hsN: 10)
 }
