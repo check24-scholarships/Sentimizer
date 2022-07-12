@@ -9,13 +9,23 @@ import Foundation
 import CoreML
 
 class RNN {
+    var inN:Int
+    var hsN:Int
+    
     var inNet: in_net?
     var outNet: in_net?
     
+    var hiddenState: [Double]
+    
     let defaults = UserDefaults.standard
     
-    init() {
-        // fetchMNets()
+    init(inN: Int, hsN: Int) {
+        self.inN = inN
+        self.hsN = hsN
+        
+        self.hiddenState = [Double](repeating: 0, count: hsN)
+        
+        fetchMNets()
     }
     
     public func fetchMNets() {
@@ -145,5 +155,33 @@ class RNN {
     
     public func validNets() -> Bool {
         return !(self.inNet == nil && self.outNet == nil)
+    }
+    
+    public func zeroHs() {
+        self.hiddenState = [Double](repeating: 0, count: hsN)
+    }
+    
+    public func feedforward(ip: [Double]) {
+        let x = try? MLMultiArray(shape:[NSNumber(value: inN + hsN)], dataType:MLMultiArrayDataType.double)
+        
+        for i in 0 ..< inN {
+            x![i] = ip[i] as NSNumber
+        }
+        
+        for i in 0 ..< self.hsN {
+            x![inN + i] = hiddenState[i] as NSNumber
+        }
+        
+        print("MLI", x as Any)
+        
+        let hiddenStateMA = try! inNet!.prediction(input: in_netInput(x: x!)).var_6
+        
+        print("Final_", hiddenStateMA)
+        
+        for i in 0 ..< hiddenStateMA.count {
+            hiddenState[i] = Double(truncating: hiddenStateMA[i])
+        }
+        
+        print("YES_", hiddenState)
     }
 }
