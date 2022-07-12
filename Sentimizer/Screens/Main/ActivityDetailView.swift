@@ -12,7 +12,7 @@ struct ActivityDetailView: View {
     let activity: String
     let icon: String
     let description: String
-    let day: String
+    let day: LocalizedStringKey
     let time: String
     let duration: String
     let sentiment: String
@@ -94,7 +94,7 @@ struct ActivityDetailView: View {
                                                 }
                                             }
                                     } else {
-                                        Text(userDescription.isEmpty ? "Describe your activity..." : userDescription)
+                                        Text(userDescription.isEmpty ? LocalizedStringKey("Describe your activity...") : LocalizedStringKey(userDescription))
                                             .font(.senti(size: 18))
                                             .padding(.bottom)
                                             .opacity(userDescription.isEmpty ? 0.5 : 1)

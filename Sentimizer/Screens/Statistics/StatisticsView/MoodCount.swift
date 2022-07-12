@@ -33,6 +33,8 @@ struct MoodCount: View {
     
     @State private var circleWidth: CGFloat = 0
     
+    @State private var brandColor1 = Color.brandColor1
+    
     var body: some View {
         ZStack {
             ForEach(0..<data.count, id: \.self) { index in
@@ -66,7 +68,7 @@ struct MoodCount: View {
         .padding(20)
         .background {
             RoundedRectangle(cornerRadius: 25)
-                .foregroundColor(.brandColor1)
+                .foregroundColor(brandColor1)
                 .opacity(0.1)
                 .onAppear {
                     circleWidth += 1
@@ -76,6 +78,9 @@ struct MoodCount: View {
                 .offset(y: -(circleWidth + 20)/4)
         }
         .offset(y: 30)
+        .onAppear {
+            brandColor1 = Color.brandColor1
+        }
     }
 }
 

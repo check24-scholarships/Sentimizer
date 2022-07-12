@@ -180,7 +180,7 @@ struct WelcomeView3: View {
                                         Image(systemName: "arrow.left.circle")
                                             .standardIcon(width: 40)
                                             .padding(.leading)
-                                            .gradientForeground()
+                                            .gradientForeground(colors: [.brandColor2, .brandColor2Light])
                                     }
                                     .disabled(selection < 1)
                                     
@@ -196,7 +196,7 @@ struct WelcomeView3: View {
                                         Image(systemName: "arrow.right.circle")
                                             .standardIcon(width: 40)
                                             .padding(.trailing)
-                                            .gradientForeground()
+                                            .gradientForeground(colors: [.brandColor2, .brandColor2Light])
                                     }
                                     .disabled(selection > welcomeImages.count-1)
                                 }

@@ -17,6 +17,9 @@ struct IconChooser: View {
     [.init(.adaptive(minimum: 40, maximum: 55))]
     @State private var imageBounds: CGSize = CGSize(width: 35, height: 35)
     
+    @State private var brandColor2 = Color.brandColor2
+    @State private var brandColor2Light = Color.brandColor2Light
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
@@ -48,7 +51,7 @@ struct IconChooser: View {
                                     .background(
                                         RoundedRectangle(cornerRadius: 10)
                                             .opacity(iconName == icon ? 0.5 : 0)
-                                            .gradientForeground()
+                                            .gradientForeground(colors: [brandColor2, brandColor2Light])
                                     )
                                     .onTapGesture {
                                         iconName = icon
@@ -74,22 +77,35 @@ struct IconChooser: View {
                 .padding(.bottom, 50)
             }
             .padding(.horizontal, 15)
+            .onAppear {
+                brandColor2 = Color.brandColor2
+                brandColor2Light = Color.brandColor2Light
+            }
         }
     }
     
     struct IconBackground: View {
         let full: Bool
         
+        @State private var brandColor2 = Color.brandColor2
+        @State private var brandColor2Light = Color.brandColor2Light
+        
         var body: some View {
-            if full {
-                RoundedRectangle(cornerRadius: 10)
-                    .opacity(0.5)
-                    .gradientForeground()
-            } else {
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(lineWidth: 1)
-                    .opacity(0.5)
-                    .gradientForeground()
+            Group {
+                if full {
+                    RoundedRectangle(cornerRadius: 10)
+                        .opacity(0.5)
+                        .gradientForeground(colors: [brandColor2, brandColor2Light])
+                } else {
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(lineWidth: 1)
+                        .opacity(0.5)
+                        .gradientForeground(colors: [.brandColor2, .brandColor2Light])
+                }
+            }
+            .onAppear {
+                brandColor2 = Color.brandColor2
+                brandColor2Light = Color.brandColor2Light
             }
         }
     }

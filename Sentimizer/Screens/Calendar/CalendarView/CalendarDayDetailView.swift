@@ -22,6 +22,9 @@ struct CalendarDayDetailView: View {
         return getDaysInWeek()[selectedDayIndex]
     }
     
+    @State private var brandColor2 = Color.brandColor2
+    @State private var brandColor2Light = Color.brandColor2Light
+    
     var body: some View {
         NavigationView {
             ZStack(alignment: .topLeading) {
@@ -77,16 +80,17 @@ struct CalendarDayDetailView: View {
                                         if getDataForSection(content: content, timeSection).count > 0 {
                                             getTitleForSection(timeSection)
                                                 .font(.senti(size: 20))
-                                                .gradientForeground()
+                                                .gradientForeground(colors: [brandColor2, brandColor2Light])
                                         }
                                         
                                         ForEach(getDataForSection(content: content, timeSection), id: \.self) { activity in
                                             let index = content.firstIndex(of: activity) ?? 0
+                                            let time = DateFormatter.formatDate(date: activity.date, format: "HH:mm")
                                             
                                             ZStack {
-                                                NavigationLink { ActivityDetailView(activity: activity.activity, icon: activity.icon, description: activity.description, day: DateFormatter.formatDate(date: activity.date, format: "EEE, d MMM"), time: DateFormatter.formatDate(date: activity.date, format: "HH:mm"), duration: "10", sentiment: "happy", id: activity.id) } label: {
+                                                NavigationLink { ActivityDetailView(activity: activity.activity, icon: activity.icon, description: activity.description, day: LocalizedStringKey(DateFormatter.formatDate(date: activity.date, format: "EEE, d MMM")), time: time, duration: "10", sentiment: "happy", id: activity.id) } label: {
                                                     ZStack {
-                                                        ActivityBar(activity: activity.activity, description: activity.description, time: DateFormatter.formatDate(date: activity.date, format: "HH:mm"), showsTime: !editing, sentiment: activity.sentiment, id: activity.id, icon: activity.icon)
+                                                        ActivityBar(activity: activity.activity, description: activity.description, time: time, showsTime: !editing, sentiment: activity.sentiment, id: activity.id, icon: activity.icon)
                                                             .background(RoundedRectangle(cornerRadius: 25).foregroundColor(.gray).opacity(0.2))
                                                             .shadow(radius: 10)
                                                         RoundedRectangle(cornerRadius: 25).foregroundColor(.gray).opacity(editing ? 0.4 : 0)
@@ -105,7 +109,7 @@ struct CalendarDayDetailView: View {
                                                                 } label: {
                                                                     Image(systemName: "arrow.up.circle")
                                                                         .standardIcon(width: 35)
-                                                                        .gradientForeground()
+                                                                        .gradientForeground(colors: [brandColor2, brandColor2Light])
                                                                 }
                                                             }
                                                             if index < content.count-1 {
@@ -117,7 +121,7 @@ struct CalendarDayDetailView: View {
                                                                 } label: {
                                                                     Image(systemName: "arrow.down.circle")
                                                                         .standardIcon(width: 35)
-                                                                        .gradientForeground()
+                                                                        .gradientForeground(colors: [brandColor2, brandColor2Light])
                                                                 }
                                                             }
                                                         }
@@ -154,6 +158,10 @@ struct CalendarDayDetailView: View {
                 .padding([.leading, .top])
             }
             .navigationBarHidden(true)
+            .onAppear {
+                brandColor2 = Color.brandColor2
+                brandColor2Light = Color.brandColor2Light
+            }
         }
     }
     

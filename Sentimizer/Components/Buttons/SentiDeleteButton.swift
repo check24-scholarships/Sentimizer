@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SentiDeleteButton: View {
-    let label: String
+    let label: LocalizedStringKey
     let delete: () -> Void
     
     @State private var isPresentingConfirm = false

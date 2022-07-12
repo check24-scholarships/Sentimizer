@@ -14,6 +14,9 @@ struct SettingsView: View {
     @FocusState private var nicknameTextFieldFocused: Bool
     
     @State private var colorScheme: K.AppColorScheme = Settings.getColorScheme()
+    
+    @State private var colorTheme = Settings.getColorTheme()
+    
     @AppStorage(K.appHasToBeUnlocked) private var appHasToBeUnlocked = false
     
     @State private var privacyPresented = false
@@ -114,6 +117,39 @@ struct SettingsView: View {
                             Text("Auto")
                             Spacer()
                             if(colorScheme == .auto) {
+                                Image(systemName: "checkmark")
+                                    .foregroundColor(.blue)
+                            }
+                        }
+                    }
+                }
+                
+                Section(header: Text("Color Theme").foregroundColor(.gray)) {
+                    Button {
+                        Settings.saveColorTheme(true)
+                        colorTheme = true
+                    } label: {
+                        HStack {
+                            Image(systemName: "rays")
+                                .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .purple)
+                            Text("Purple")
+                            Spacer()
+                            if(colorTheme) {
+                                Image(systemName: "checkmark")
+                                    .foregroundColor(.blue)
+                            }
+                        }
+                    }
+                    Button {
+                        Settings.saveColorTheme(false)
+                        colorTheme = false
+                    } label: {
+                        HStack {
+                            Image(systemName: "rays")
+                                .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .green.adjust(brightness: -0.2))
+                            Text("Green")
+                            Spacer()
+                            if(!colorTheme) {
                                 Image(systemName: "checkmark")
                                     .foregroundColor(.blue)
                             }

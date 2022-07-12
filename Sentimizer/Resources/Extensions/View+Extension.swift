@@ -10,7 +10,7 @@ import SwiftUI
 extension View {
     ///  Sets the foreground of any view to a linear gradient. Default values are the custom Sentimizer gradient.
     ///  - parameter colors: Collection of colors to create a linear gradient.
-    public func gradientForeground(colors: [Color] = [Color("brandColor2"), Color("brandColor2Light")], _ startPoint: UnitPoint = .top, _ endPoint: UnitPoint = .bottom) -> some View {
+    public func gradientForeground(colors: [Color], _ startPoint: UnitPoint = .top, _ endPoint: UnitPoint = .bottom) -> some View {
         self.overlay(
             LinearGradient(
                 colors: colors,
@@ -22,8 +22,9 @@ extension View {
     
     /// Sets the background of any view to a rounded rectangle with low opacity.
     public func standardBackground() -> some View {
-        self.background {
-            RoundedRectangle(cornerRadius: 25).foregroundColor(.brandColor1).opacity(0.1)
+        let color = Color.brandColor1
+        return self.background {
+            RoundedRectangle(cornerRadius: 25).foregroundColor(color).opacity(0.1)
         }
     }
     

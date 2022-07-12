@@ -26,6 +26,9 @@ struct MainActivityView: View {
     
     @FetchRequest private var entries: FetchedResults<Entry>
     
+    @State private var brandColor2 = Color.brandColor2
+    @State private var brandColor2Light = Color.brandColor2Light
+    
     var body: some View {
         ScrollView {
             MonthSwitcher(selectedMonth: $selectedMonth, allowFuture: false)
@@ -37,7 +40,7 @@ struct MainActivityView: View {
                     .font(.senti(size: 25))
                     .minimumScaleFactor(0.7)
                     .lineLimit(1)
-                    .gradientForeground()
+                    .gradientForeground(colors: [brandColor2, brandColor2Light])
                     .padding(.horizontal)
                     .padding(.bottom)
                 Spacer()
@@ -102,7 +105,7 @@ struct MainActivityView: View {
                                 let activity = entryContent[day][i]
                                 let time = DateFormatter.formatDate(date: activity.date, format: "HH:mm")
 
-                                NavigationLink { ActivityDetailView(activity: activity.activity, icon: activity.icon, description: activity.description, day: entryDays[day], time: time, duration: "10", sentiment: activity.sentiment, id: activity.id) } label: {
+                                NavigationLink { ActivityDetailView(activity: activity.activity, icon: activity.icon, description: activity.description, day: LocalizedStringKey(entryDays[day]), time: time, duration: "10", sentiment: activity.sentiment, id: activity.id) } label: {
                                     ActivityBar(activity: activity.activity, description: activity.description, time: time, sentiment: activity.sentiment, id: activity.id, icon: activity.icon)
                                         .padding([.bottom, .trailing], 10)
                                 }
@@ -131,6 +134,9 @@ struct MainActivityView: View {
             }
             fillEntryData()
             welcomeScreenPresented = !UserDefaults.standard.bool(forKey: K.welcomeScreenShown)
+            
+            brandColor2 = Color.brandColor2
+            brandColor2Light = Color.brandColor2Light
         }
         .onChange(of: addActivitySheetPresented) { newValue in
             if !newValue {

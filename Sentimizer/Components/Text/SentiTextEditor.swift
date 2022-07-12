@@ -12,6 +12,8 @@ struct SentiTextEditor: View {
     var description: LocalizedStringKey = "Describe your activity and how you feel now..."
     @Binding var text: String
     
+    @State private var brandColor2 = Color.brandColor2
+    
     var body: some View {
         ZStack(alignment: .topLeading) {
             if text.isEmpty {
@@ -35,13 +37,16 @@ struct SentiTextEditor: View {
                                 dismissKeyboard()
                             }
                             .font(.senti(size: 19))
-                            .foregroundColor(.brandColor2)
+                            .foregroundColor(brandColor2)
                         }
                     }
                 }
         }
         .padding()
         .background(RoundedRectangle(cornerRadius: 25).foregroundColor(.gray.opacity(0.3)))
+        .onAppear {
+            brandColor2 = Color.brandColor2
+        }
     }
 }
 

@@ -22,6 +22,9 @@ struct CalendarView: View {
     
     @FetchRequest private var entries: FetchedResults<Entry>
     
+    @State private var brandColor2 = Color.brandColor2
+    @State private var brandColor2Light = Color.brandColor2Light
+    
     var body: some View {
         VStack(alignment: .leading) {
             MonthSwitcher(selectedMonth: $selectedMonth)
@@ -51,7 +54,7 @@ struct CalendarView: View {
                                     ForEach(0..<persistenceController.iconsForDay[index].count, id: \.self) { i in
                                         Image(systemName: persistenceController.iconsForDay[index][i])
                                             .standardIcon(shouldBeMaxWidthHeight: true, maxWidthHeight: 18)
-                                            .gradientForeground()
+                                            .gradientForeground(colors: [brandColor2, brandColor2Light])
                                             .padding(.bottom, 5)
                                             .offset(x: -3, y: 2)
                                     }
@@ -88,6 +91,8 @@ struct CalendarView: View {
         .onAppear {
             //            print(MachineLearning.feedforward(ip: [0.2, 0.2, 0.2, 0.4]))
             getIcons()
+            brandColor2 = Color.brandColor2
+            brandColor2Light = Color.brandColor2Light
         }
         .onChange(of: selectedMonth) { newValue in
             getIcons()
@@ -111,7 +116,9 @@ struct CalendarView: View {
 
 //MARK: - WeekDays View
 struct WeekDays: View {
-    let weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+    let weekDays: [LocalizedStringKey] = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+    
+    @State private var brandColor2 = Color.brandColor2
     
     var body: some View {
         HStack(spacing: 0) {
@@ -119,11 +126,14 @@ struct WeekDays: View {
                 Spacer()
                 Text(weekDays[index])
                     .bold()
-                    .foregroundColor(.brandColor2)
+                    .foregroundColor(brandColor2)
                     .font(.senti(size: 15))
                     .minimumScaleFactor(0.7)
                 Spacer()
             }
+        }
+        .onAppear {
+            brandColor2 = Color.brandColor2
         }
     }
 }
