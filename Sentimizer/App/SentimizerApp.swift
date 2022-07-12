@@ -57,9 +57,10 @@ struct SentimizerApp: App {
                     
                     // rnn.trainNets()
                     
-                    rnn.fetch_nets()
+                    rnn.fetchMNets()
+                    rnn.sendTNets()
                     
-                    // print("HERERR", rnn.validNets())
+                    print("HERERR", rnn.validNets())
                     
                     // MachineLearning.getModel()
                     
