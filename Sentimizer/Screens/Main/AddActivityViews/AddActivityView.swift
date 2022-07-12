@@ -26,6 +26,8 @@ struct AddActivityView: View {
     @State private var icon = ""
     @State private var date = Date()
     
+    let haptic = UINotificationFeedbackGenerator()
+    
     var body: some View {
         GeometryReader { g in
             NavigationView {
@@ -38,11 +40,12 @@ struct AddActivityView: View {
                                     .padding(.top, 25)
                                 
                                 DatePicker(
-                                    "Time",
+                                    "",
                                     selection: $date,
+                                    in: ...Date(),
                                     displayedComponents: [.date, .hourAndMinute]
                                 )
-                                .frame(maxWidth: 270)
+                                .labelsHidden()
                                 
                                 NavigationLink {
                                     ActivityChooserView(activity: $activity, icon: $icon)
@@ -83,6 +86,8 @@ struct AddActivityView: View {
                                 updateInfluence()
                                 
                                 dismiss()
+                                
+                                haptic.notificationOccurred(.success)
                             } label: {
                                 SentiButton(icon: nil, title: "Save", chevron: false)
                                     .lineLimit(1)

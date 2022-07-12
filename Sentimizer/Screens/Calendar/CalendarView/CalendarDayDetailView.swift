@@ -88,14 +88,14 @@ struct CalendarDayDetailView: View {
                                             let time = DateFormatter.formatDate(date: activity.date, format: "HH:mm")
                                             
                                             ZStack {
-                                                NavigationLink { ActivityDetailView(activity: activity.activity, icon: activity.icon, description: activity.description, day: LocalizedStringKey(DateFormatter.formatDate(date: activity.date, format: "EEE, d MMM")), time: time, duration: "10", sentiment: "happy", id: activity.id) } label: {
+//                                                NavigationLink { ActivityDetailView(activity: activity.activity, icon: activity.icon, description: activity.description, day: LocalizedStringKey(DateFormatter.formatDate(date: activity.date, format: "EEE, d MMM")), time: time, duration: "10", sentiment: "happy", id: activity.id) } label: {
                                                     ZStack {
                                                         ActivityBar(activity: activity.activity, description: activity.description, time: time, showsTime: !editing, sentiment: activity.sentiment, id: activity.id, icon: activity.icon)
                                                             .background(RoundedRectangle(cornerRadius: 25).foregroundColor(.gray).opacity(0.2))
                                                             .shadow(radius: 10)
                                                         RoundedRectangle(cornerRadius: 25).foregroundColor(.gray).opacity(editing ? 0.4 : 0)
                                                     }
-                                                }
+//                                                }
                                                 
                                                 if editing {
                                                     HStack {

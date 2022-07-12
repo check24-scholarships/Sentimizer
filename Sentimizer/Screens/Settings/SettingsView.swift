@@ -21,6 +21,8 @@ struct SettingsView: View {
     
     @State private var privacyPresented = false
     
+    let haptic = UIImpactFeedbackGenerator(style: .light)
+    
     var body: some View {
         ZStack {
             Color.bgColor.ignoresSafeArea()
@@ -80,6 +82,7 @@ struct SettingsView: View {
                     Button {
                         Settings.saveColorScheme(.light)
                         colorScheme = Settings.getColorScheme()
+                        haptic.impactOccurred()
                     } label: {
                         HStack {
                             Image(systemName: "sun.max.fill")
@@ -95,6 +98,7 @@ struct SettingsView: View {
                     Button {
                         Settings.saveColorScheme(.dark)
                         colorScheme = Settings.getColorScheme()
+                        haptic.impactOccurred()
                     } label: {
                         HStack {
                             Image(systemName: "moon.stars")
@@ -110,6 +114,7 @@ struct SettingsView: View {
                     Button {
                         Settings.saveColorScheme(.auto)
                         colorScheme = Settings.getColorScheme()
+                        haptic.impactOccurred()
                     } label: {
                         HStack {
                             Image(systemName: "gearshape.fill")
@@ -128,6 +133,7 @@ struct SettingsView: View {
                     Button {
                         Settings.saveColorTheme(true)
                         colorTheme = true
+                        haptic.impactOccurred()
                     } label: {
                         HStack {
                             Image(systemName: "rays")
@@ -143,6 +149,7 @@ struct SettingsView: View {
                     Button {
                         Settings.saveColorTheme(false)
                         colorTheme = false
+                        haptic.impactOccurred()
                     } label: {
                         HStack {
                             Image(systemName: "rays")
@@ -161,6 +168,7 @@ struct SettingsView: View {
                     Button {
                         appHasToBeUnlocked.toggle()
                         UserDefaults.standard.set(appHasToBeUnlocked, forKey: K.appHasToBeUnlocked)
+                        haptic.impactOccurred()
                     } label: {
                         HStack {
                             Image(systemName: "lock.fill")

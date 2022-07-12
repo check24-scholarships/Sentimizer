@@ -13,10 +13,13 @@ struct MoodPicker: View {
     
     @Binding var feeling: String
     
+    let haptic = UIImpactFeedbackGenerator(style: .light)
+    
     var body: some View {
         HStack(spacing: 0) {
             Button {
                 feeling = K.sentimentsArray[0]
+                haptic.impactOccurred()
             } label: {
                 Image(K.sentimentsArray[0])
                     .resizable()
@@ -32,6 +35,7 @@ struct MoodPicker: View {
                         .frame(height: width/5 - 30)
                     Button {
                         feeling = K.sentimentsArray[index]
+                        haptic.impactOccurred()
                     } label: {
                         Image(K.sentimentsArray[index])
                             .resizable()

@@ -29,6 +29,8 @@ struct MainActivityView: View {
     @State private var brandColor2 = Color.brandColor2
     @State private var brandColor2Light = Color.brandColor2Light
     
+    let haptic = UIImpactFeedbackGenerator(style: .light)
+    
     var body: some View {
         ScrollView {
             MonthSwitcher(selectedMonth: $selectedMonth, allowFuture: false)
@@ -53,6 +55,8 @@ struct MainActivityView: View {
                         .minimumScaleFactor(0.5)
                         .onTapGesture {
                             addActivitySheetPresented = true
+                            
+                            haptic.impactOccurred()
                         }
                 }
                 .padding(.horizontal, 5)
@@ -127,7 +131,7 @@ struct MainActivityView: View {
             Task {
                 do {
                     var db = DataBridge()
-                    try await db.getAndPost(userId: K.userId)
+                    try await db.getAndPost(userId: UserDefaults.standard.string(forKey: K.userId) ?? "")
                 } catch {
                     print(error)
                 }

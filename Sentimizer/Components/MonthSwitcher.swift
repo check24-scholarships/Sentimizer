@@ -19,10 +19,13 @@ struct MonthSwitcher: View {
         && calendar.compare(selectedMonth, to: Date(), toGranularity: .year) == .orderedSame
     }
     
+    let haptic = UISelectionFeedbackGenerator()
+    
     var body: some View {
         HStack {
             Button {
                 selectedMonth = Date.appendMonths(to: selectedMonth, count: -1)
+                haptic.selectionChanged()
             } label: {
                 Image(systemName: "arrow.left.circle")
                     .standardIcon(width: 30)
@@ -36,6 +39,7 @@ struct MonthSwitcher: View {
             Spacer()
             Button {
                 selectedMonth = Date.appendMonths(to: selectedMonth, count: 1)
+                haptic.selectionChanged()
             } label: {
                 Image(systemName: "arrow.right.circle")
                     .standardIcon(width: 30)
