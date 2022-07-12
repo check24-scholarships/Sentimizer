@@ -28,7 +28,7 @@ struct DataBridge{
     
     //@FetchRequest(entity: Entry.entity(), sortDescriptors: []) var entries: FetchedResults<Entry>
    
-    mutating func getAndPost(userId:String) async throws {
+    mutating func getAndPost(userId: String) async throws {
         try await postObjects(urlString: self.postURL, userId: userId)
     }
     
@@ -58,7 +58,7 @@ struct DataBridge{
             convertedEntries.append(jsonString)
         }
         //format to dict
-        let sendData:[String:Array<String>] = [userId:convertedEntries]
+        let sendData: [String : Array<String>] = [userId : convertedEntries]
         //send data to server make Post Request
         guard let url = URL(string: urlString) else { print("Missing URL in DataBridge, postObjects"); return }
         var urlRequest = URLRequest(url: url)
@@ -67,12 +67,9 @@ struct DataBridge{
         let encodedData = try JSONEncoder().encode(paramters)
         urlRequest.httpBody = encodedData
         let (_, response) = try await URLSession.shared.data(for: urlRequest)
-        guard(response as? HTTPURLResponse)?.statusCode == 200 else { print((response as? HTTPURLResponse)?.statusCode ?? "Cannot print status code"); print("In \(#function), line \(#line)"); return }
+        guard(response as? HTTPURLResponse)?.statusCode == 200 else { print((response as? HTTPURLResponse)?.statusCode ?? "Cannot print status code"); print("In \(#function), line \(#line)"); print(response as? HTTPURLResponse as Any); return }
         //let decodedData = try JSONDecoder().decode(User.self,from: data)
-        
     }
-    
-    
 }
 
 struct EntryData: Codable{

@@ -40,11 +40,12 @@ struct AddActivityView: View {
                                     .padding(.top, 25)
                                 
                                 DatePicker(
-                                    "Time",
+                                    "",
                                     selection: $date,
+                                    in: ...Date(),
                                     displayedComponents: [.date, .hourAndMinute]
                                 )
-                                .frame(maxWidth: 270)
+                                .labelsHidden()
                                 
                                 NavigationLink {
                                     ActivityChooserView(activity: $activity, icon: $icon)
