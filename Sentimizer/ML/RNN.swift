@@ -183,5 +183,15 @@ class RNN {
         }
         
         print("YES_", hiddenState)
+        
+        let yHatMA = try! outNet!.prediction(input: in_netInput(x: hiddenStateMA)).var_6
+        
+        var yHat: [Double] = [Double](repeating: 0, count: inN)
+        
+        for i in 0 ..< inN {
+            yHat[i] = Double(truncating: yHatMA[i])
+        }
+        
+        print("YHAT_", yHat)
     }
 }

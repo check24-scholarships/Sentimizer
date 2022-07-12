@@ -61,6 +61,18 @@ struct SentimizerApp: App {
                     // rnn.sendTNets()
                     
                     rnn.feedforward(ip: [0.1, 0.2])
+                    rnn.feedforward(ip: [0.3, 0.6])
+                    rnn.feedforward(ip: [0.4, 0.8])
+                    
+                    print("YH")
+                    
+                    rnn.feedforward(ip: [0.1, 0.2])
+                    
+                    print("YH")
+                    
+                    rnn.zeroHs()
+                    
+                    rnn.feedforward(ip: [0.1, 0.2])
                     
                     print("HERERR", rnn.validNets())
                     
