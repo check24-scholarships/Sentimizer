@@ -15,6 +15,8 @@ struct SentiTextField: View {
     
     @FocusState var textFieldFocus: Bool
     
+    @AppStorage(K.colorTheme) private var colorTheme = false
+    
     @State private var brandColor1 = Color.brandColor1
     @State private var brandColor2 = Color.brandColor2
     
@@ -49,6 +51,10 @@ struct SentiTextField: View {
             }
         }
         .onAppear {
+            brandColor1 = Color.brandColor1
+            brandColor2 = Color.brandColor2
+        }
+        .onChange(of: colorTheme) { _ in
             brandColor1 = Color.brandColor1
             brandColor2 = Color.brandColor2
         }

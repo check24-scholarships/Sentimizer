@@ -14,7 +14,7 @@
 
 "Settings" = "Einstellungen";
 
-"Optimize Your Life" = "Verbessere dein Leben";
+"Optimize Your Life" = "Optimiere dein Leben";
 
 "Sentimizer helps you to track your moods, reflect on your day and improve your life. Let's go!" = "Sentimizer hilft dir, deine Stimmungen aufzuzeichnen, deinen Tag zu reflektieren und dein Leben zu verbessern. Los geht's!";
 
@@ -28,9 +28,9 @@
 
 "%@ Sentimizer will keep track of your activities" = "%@ Sentimizer wird deine Aktivitäten organisieren und verwalten";
 
-"%@ Sentimizer will recommend you to change the order of your planned activities to improve your wellbeing" = "%@ Sentimizer wird dir eine andere Reihenfolge der geplanten Aktivitäten vorschlagen, um dein Wohlbefinden zu verbessern";
+"%@ Sentimizer uses Machine Learning to discover your habits and recommends you to change them to improve your wellbeing" = "%@ Sentimizer verwendet Maschinelles Lernen, um deine Gewohnheiten zu erfassen und schlägt dir vor sie zu ändern, um deine Stimmung zu verbessern";
 
-"%@ Use the calendar to get an overview of your activities and to plan for the future" = "%@ Benutze den Kalender, um eine Übersicht über deine Aktivitäten zu erhalten und für die Zukunft zu planen";
+"%@ Use the calendar to get an overview of your habits and to plan for the future" = "%@ Benutze den Kalender, um eine Übersicht über deine Gewohnheiten zu erhalten und für die Zukunft zu planen";
 
 "Let's go!" = "Los geht's!";
 
@@ -111,6 +111,7 @@
 "Choose your category" = "Wähle deine Kategorie";
 
 "Your nickname" = "Dein Spitzname";
+"Your nickname..." = "Dein Spitzname...";
 
 "How are you" = "Wie geht es dir?";
 

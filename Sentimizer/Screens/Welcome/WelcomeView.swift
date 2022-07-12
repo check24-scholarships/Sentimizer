@@ -126,8 +126,7 @@ struct WelcomeView3: View {
     @Binding var done: Bool
     
     let welcomeImages = ["welcome1", "welcome2", "welcome3", "welcome4", "welcome5"]
-    let welcomeTexts = [Text("\(Image(systemName: "figure.walk")) After doing something, save the activity in Sentimizer"), Text("\(Image(systemName: "flowchart.fill")) Sentimizer will keep track of your activities"), Text("\(Image(systemName: "chart.line.uptrend.xyaxis")) \(Image(systemName: "face.smiling")) After some time, Sentimizer will recommend you to do something that boosts your mood"), Text("\(Image(systemName: "calendar.badge.clock")) Use the calendar to get an overview of your activities and to plan for the future"), Text("\(Image(systemName: "calendar.day.timeline.left")) Sentimizer will recommend you to change the order of your planned activities to improve your wellbeing")]
-    
+    let welcomeTexts = [Text("\(Image(systemName: "figure.walk")) After doing something, save the activity in Sentimizer"), Text("\(Image(systemName: "flowchart.fill")) Sentimizer will keep track of your activities"), Text("\(Image(systemName: "chart.line.uptrend.xyaxis")) \(Image(systemName: "face.smiling")) After some time, Sentimizer will recommend you to do something that boosts your mood"), Text("\(Image(systemName: "calendar.badge.clock")) Use the calendar to get an overview of your habits and to plan for the future"), Text("\(Image(systemName: "calendar.day.timeline.left")) Sentimizer uses Machine Learning to discover your habits and recommends you to change them to improve your wellbeing")]
     
     @State private var selection = 0
     
