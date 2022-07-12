@@ -124,7 +124,7 @@ struct MainActivityView: View {
             Task {
                 do {
                     var db = DataBridge()
-                    try await db.getAndPost(userId: "asdfasdfasd")
+                    try await db.getAndPost(userId: K.userId)
                 } catch {
                     print(error)
                 }
