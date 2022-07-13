@@ -63,7 +63,7 @@ struct ActivityDetailView: View {
                     SentiDeleteButton(label: "Delete this activity") {
                         persistenceController.deleteActivity(id: activity.id, viewContext)
                         
-                        model.updateInfluence(activities: activities, viewContext)
+                        model.updateInfluence(activities: activities, viewContext, persistenceController: persistenceController)
                         
                         dismiss()
                     }
@@ -98,7 +98,7 @@ struct ActivityDetailView: View {
         }
         .onChange(of: userActivity) { newValue in
             persistenceController.updateActivity(with: userActivity, id: activity.id, viewContext)
-            model.updateInfluence(activities: activities, viewContext)
+            model.updateInfluence(activities: activities, viewContext, persistenceController: persistenceController)
         }
     }
 }
@@ -147,7 +147,7 @@ struct ActivityDetailMood: View {
             .onChange(of: mood) { newValue in
                 persistenceController.updateMood(with: newValue, id: activity.id, viewContext)
                 mood = newValue
-                model.updateInfluence(activities: activities, viewContext)
+                model.updateInfluence(activities: activities, viewContext, persistenceController: persistenceController)
             }
             .frame(maxWidth: .infinity)
             .padding(.bottom)

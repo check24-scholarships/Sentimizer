@@ -83,7 +83,7 @@ struct AddActivityView: View {
                             Button {
                                 persistenceController.saveActivity(activity: activity, icon: icon, description: description, feeling: feeling, date: date, viewContext)
                                 
-                                model.updateInfluence(activities: activities, viewContext)
+                                model.updateInfluence(activities: activities, viewContext, persistenceController: persistenceController)
                                 
                                 dismiss()
                                 
