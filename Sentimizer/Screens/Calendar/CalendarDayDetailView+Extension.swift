@@ -52,7 +52,7 @@ extension CalendarDayDetailView {
         return []
     }
     
-    func getTitleForSection(_ timeSection: String) -> Text {
+    static func getTitleForSection(_ timeSection: String) -> Text {
         switch timeSection {
         case K.timeSections[0]:
             return Text("\(Image(systemName: "sunrise.fill")) 00:00 - 10:00")
@@ -67,7 +67,7 @@ extension CalendarDayDetailView {
         }
     }
     
-    func getDataForSection(content: [ActivityData], _ timeSection: String) -> [ActivityData] {
+    static func getDataForSection(content: [ActivityData], _ timeSection: String) -> [ActivityData] {
         var newData: [ActivityData] = []
         for d in content {
             let hour = Calendar.current.component(.hour, from: d.date)

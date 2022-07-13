@@ -31,7 +31,7 @@
 		EB410CDF283A51CD00D629B2 /* MoodInfluence.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB410CDE283A51CD00D629B2 /* MoodInfluence.swift */; };
 		EB410CE1283A51E500D629B2 /* MoodCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB410CE0283A51E500D629B2 /* MoodCount.swift */; };
 		EB410CE7283A5A1C00D629B2 /* CalendarViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB410CE6283A5A1C00D629B2 /* CalendarViewData.swift */; };
-		EB410CE9283A5AD100D629B2 /* CalendarDayViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB410CE8283A5AD100D629B2 /* CalendarDayViewData.swift */; };
+		EB410CE9283A5AD100D629B2 /* CalendarDayDetailView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB410CE8283A5AD100D629B2 /* CalendarDayDetailView+Extension.swift */; };
 		EB410CEB283A5D4A00D629B2 /* SentiTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB410CEA283A5D4A00D629B2 /* SentiTextField.swift */; };
 		EB410CED283A965E00D629B2 /* SentiDeleteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB410CEC283A965E00D629B2 /* SentiDeleteButton.swift */; };
 		EB410CEF283A9F1700D629B2 /* NotEnoughData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB410CEE283A9F1700D629B2 /* NotEnoughData.swift */; };
@@ -116,7 +116,7 @@
 		EB410CDE283A51CD00D629B2 /* MoodInfluence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodInfluence.swift; sourceTree = "<group>"; };
 		EB410CE0283A51E500D629B2 /* MoodCount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodCount.swift; sourceTree = "<group>"; };
 		EB410CE6283A5A1C00D629B2 /* CalendarViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewData.swift; sourceTree = "<group>"; };
-		EB410CE8283A5AD100D629B2 /* CalendarDayViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDayViewData.swift; sourceTree = "<group>"; };
+		EB410CE8283A5AD100D629B2 /* CalendarDayDetailView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CalendarDayDetailView+Extension.swift"; sourceTree = "<group>"; };
 		EB410CEA283A5D4A00D629B2 /* SentiTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentiTextField.swift; sourceTree = "<group>"; };
 		EB410CEC283A965E00D629B2 /* SentiDeleteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentiDeleteButton.swift; sourceTree = "<group>"; };
 		EB410CEE283A9F1700D629B2 /* NotEnoughData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotEnoughData.swift; sourceTree = "<group>"; };
@@ -412,7 +412,7 @@
 			isa = PBXGroup;
 			children = (
 				EB410CE6283A5A1C00D629B2 /* CalendarViewData.swift */,
-				EB410CE8283A5AD100D629B2 /* CalendarDayViewData.swift */,
+				EB410CE8283A5AD100D629B2 /* CalendarDayDetailView+Extension.swift */,
 				EB410CD3283A4A5800D629B2 /* CalendarView */,
 			);
 			path = Calendar;
@@ -646,7 +646,7 @@
 				EB634F2D281427DF00979923 /* View+Extension.swift in Sources */,
 				88801317287C66F10064CD72 /* RNN.swift in Sources */,
 				EBCDD11E282AD75E006AD5E2 /* KeyboardHelper.swift in Sources */,
-				EB410CE9283A5AD100D629B2 /* CalendarDayViewData.swift in Sources */,
+				EB410CE9283A5AD100D629B2 /* CalendarDayDetailView+Extension.swift in Sources */,
 				EB6A3AB12815C2970078F8A8 /* SentiButton.swift in Sources */,
 				EB15CF7E2842AA4000564728 /* DismissButton.swift in Sources */,
 				8838ABB2282F7DA100D3599B /* ActivityDetailView.swift in Sources */,
