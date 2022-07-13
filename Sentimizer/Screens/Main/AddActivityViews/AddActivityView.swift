@@ -83,7 +83,7 @@ struct AddActivityView: View {
                             Button {
                                 persistenceController.saveActivity(activity: activity, icon: icon, description: description, feeling: feeling, date: date, viewContext)
                                 
-                                updateInfluence()
+                                model.updateInfluence(activities: activities, viewContext)
                                 
                                 dismiss()
                                 
@@ -147,22 +147,6 @@ struct AddActivityView: View {
         let f: NSFetchRequest<Activity> = Activity.fetchRequest()
         f.sortDescriptors = []
         _activities = FetchRequest(fetchRequest: f)
-    }
-    
-    func updateInfluence() {
-        DispatchQueue.global(qos: .userInitiated).async {
-            let monthInfluence = StatisticsData.getInfluence(viewContext: viewContext, interval: K.timeIntervals[2], activities: activities)
-            let yearInfluence = StatisticsData.getInfluence(viewContext: viewContext, interval: K.timeIntervals[3], activities: activities)
-            DispatchQueue.main.async {
-                model.influenceImprovedMonth = monthInfluence.0
-                model.influenceWorsenedMonth = monthInfluence.1
-                persistenceController.saveInfluence(with: K.monthInfluence, data: monthInfluence)
-                
-                model.influenceImprovedYear = yearInfluence.0
-                model.influenceWorsenedYear = yearInfluence.1
-                persistenceController.saveInfluence(with: K.yearInfluence, data: yearInfluence)
-            }
-        }
     }
 }
 

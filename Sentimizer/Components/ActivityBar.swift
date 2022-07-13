@@ -8,14 +8,10 @@
 import SwiftUI
 
 struct ActivityBar: View {
-    
-    let activity: String
-    let description: String
+    let activity: ActivityData
     let time: String
+    
     var showsTime: Bool = true
-    let sentiment: String
-    let id: String
-    let icon: String
     
     @State private var brandColor2 = Color.brandColor2
     @State private var brandColor2Light = Color.brandColor2Light
@@ -29,19 +25,19 @@ struct ActivityBar: View {
                 .opacity(showsTime ? 1 : 0)
             
             HStack {
-                Image(systemName: icon)
+                Image(systemName: activity.icon)
                     .standardIcon(shouldBeMaxWidthHeight: true, maxWidthHeight: 30)
                     .padding(.leading)
                 
                 VStack(alignment: .leading, spacing: 0) {
-                    Text(activity)
+                    Text(activity.activity)
                         .lineLimit(1)
                         .minimumScaleFactor(0.6)
                         .padding(.top, 5)
                         .padding(2)
                     
-                    let isEmpty = description.isEmpty
-                    let description: LocalizedStringKey = description.isEmpty ? "Describe your activity..." : LocalizedStringKey(description)
+                    let isEmpty = activity.description.isEmpty
+                    let description: LocalizedStringKey = activity.description.isEmpty ? "Describe your activity..." : LocalizedStringKey(activity.description)
                     Text(description)
                         .font(.senti(size: 18))
                         .opacity(isEmpty ? 0.5 : 1.0)
@@ -52,7 +48,7 @@ struct ActivityBar: View {
                         .foregroundColor(.textColor)
                 }
                 Spacer()
-                Image(sentiment)
+                Image(activity.sentiment)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 40)
@@ -76,6 +72,6 @@ struct ActivityBar: View {
 
 struct ActivityBar_Previews: PreviewProvider {
     static var previews: some View {
-        ActivityBar(activity: "Walk", description: "", time: "08:03", sentiment: "happy", id: "1", icon: "figure.walk")
+        ActivityBar(activity: ActivityData(id: "", activity: "Walking", icon: "figure.walk", date: Date(), description: "", sentiment: "happy"), time: "08:03")
     }
 }
