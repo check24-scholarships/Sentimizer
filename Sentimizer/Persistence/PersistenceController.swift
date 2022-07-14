@@ -352,7 +352,7 @@ class PersistenceController: ObservableObject {
         for i in 0..<12 {
             for j in 0..<3 {
                 let entry = Entry(context: viewContext)
-                entry.text = "very important activity"
+                entry.text = ""
                 entry.date = Date(timeIntervalSince1970: Date().timeIntervalSince1970 - 60 * 60 * 24 * 3 * (Double(i) + Double(j) * 0.3))
                 if i < feelings.count {
                     entry.feeling = feelings[i]

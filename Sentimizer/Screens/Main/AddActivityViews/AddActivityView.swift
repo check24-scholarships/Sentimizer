@@ -18,7 +18,7 @@ struct AddActivityView: View {
     @ObservedObject var keyboardHeightHelper = KeyboardHelper()
     @State private var textFieldYPlusHeight: CGFloat = 0
     
-    @FetchRequest private var activities: FetchedResults<Activity>
+    @FetchRequest(entity: Activity.entity(), sortDescriptors: []) private var activities: FetchedResults<Activity>
     
     @State private var description = ""
     @State private var feeling = ""
