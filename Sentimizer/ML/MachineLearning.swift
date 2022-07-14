@@ -94,7 +94,7 @@ struct MachineLearning {
     }
     
     static func feedRNN() {
-        let defaults = UserDefaults.standard
+//        let defaults = UserDefaults.standard
         
         let resourceDocPath = (FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)).last! as URL
         let modelName = "rnn.mlmodelc"
@@ -119,11 +119,11 @@ struct MachineLearning {
                 
                 let model = try TestModel(contentsOf: permanentURL)
                 
-                let ip = [[[0.1, 0.2]], [[0.2, 0.4]], [[0.4, 0.6]]]
+//                let ip = [[[0.1, 0.2]], [[0.2, 0.4]], [[0.4, 0.6]]]
                 
                 let mlMultiArrayInput = try? MLMultiArray(shape:[3, 1, 2], dataType:MLMultiArrayDataType.double)
                 
-                let t = MLMultiArray()
+//                let t = MLMultiArray()
                 
                 //                for i in 0 ..< ip.count {
                 //                    for j in 0 ..< ip[i].count {
@@ -133,7 +133,7 @@ struct MachineLearning {
                 //                    }
                 //                }
                 
-                print("MLMA", mlMultiArrayInput)
+//                print("MLMA", mlMultiArrayInput)
                 
                 // print("WWTTFF", try! model.prediction(input: TestModelInput(ip: mlMultiArrayInput)))
                 
@@ -148,7 +148,7 @@ struct MachineLearning {
     }
     
     static func feedforward(ip: [Double]) -> [Double] {
-        let defaults = UserDefaults.standard
+//        let defaults = UserDefaults.standard
         do {
             let resourceDocPath = (FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)).last! as URL
             let modelName = "TestModel.mlmodelc"
