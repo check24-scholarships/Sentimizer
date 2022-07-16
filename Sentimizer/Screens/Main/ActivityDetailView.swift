@@ -31,7 +31,7 @@ struct ActivityDetailView: View {
     
     @State private var isEditingDescription = false
     
-    @FetchRequest(entity: Activity.entity(), sortDescriptors: []) private var activities: FetchedResults<Activity>
+    @FetchRequest(sortDescriptors: []) private var activities: FetchedResults<Activity>
     
     var body: some View {
         ScrollViewReader { scrollView in
