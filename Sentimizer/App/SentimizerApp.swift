@@ -53,12 +53,8 @@ struct SentimizerApp: App {
                     .navigationBarHidden(true)
                 }
                 .onAppear {
+                    print("time_", Date().timeIntervalSince1970)
                     // let defaults = UserDefaults.standard
-                    
-                    // Task {
-                    //    var db = DataBridge()
-                    //    try? await db.getAndPost(userId: defaults.string(forKey: K.userId)!)
-                    //}
                     
                     // let rnn = K.rnn
                     

@@ -79,6 +79,27 @@ class PersistenceController: ObservableObject {
         return results
     }
     
+    func getAllActivities(_ viewContext: NSManagedObjectContext) -> [String] {
+        let fetchRequest: NSFetchRequest<Activity>
+        fetchRequest = Activity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(value: true)
+        
+        var entries: [Activity] = []
+        do {
+            entries = try viewContext.fetch(fetchRequest)
+        } catch {
+            print(error)
+        }
+        
+        var results: [String] = []
+        
+        for entry in entries {
+            results.append(entry.name!)
+        }
+        
+        return results
+    }
+    
     func getEntriesOfDay(viewContext: NSManagedObjectContext, day: Date) -> [ActivityData] {
         let fetchRequest: NSFetchRequest<Entry>
         fetchRequest = Entry.fetchRequest()

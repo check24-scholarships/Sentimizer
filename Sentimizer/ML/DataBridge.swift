@@ -14,16 +14,22 @@ struct User: Decodable{
 
 struct EntryData: Codable{
     let activity: String
-    let date: Date
+    let date: String
     let feeling: String
     let text: String
 }
 
+struct ActivityArray: Codable {
+    let activities: [String]
+}
+
 struct DataBridge{
     //let registerURL = "https://sentimizer.codeclub.check24.fun/api/register"
-    let postURL = "https://sentimizer.codeclub.check24.fun/api/evaluatedata"
+    // let postURL = "https://sentimizer.codeclub.check24.fun/api/evaluatedata"
+    let postURL = "http://127.0.0.1:8000/api/evaluatedata"
     var userToken = ""
     var entries = PersistenceController().getAllEntries(PersistenceController.context)
+    var activities = PersistenceController().getAllActivities(PersistenceController.context)
     
     //@FetchRequest(entity: Entry.entity(), sortDescriptors: []) var entries: FetchedResults<Entry>
     
@@ -48,10 +54,19 @@ struct DataBridge{
     func postObjects(urlString: String, userId: String) async throws {
         var convertedEntries: [String] = []
         
+        // send activities
+        
+        let jsonActivities = ActivityArray(activities: K.defaultActivities.0 + activities)
+        let encodedActivities = try JSONEncoder().encode(jsonActivities)
+        guard let jsonString = String(data: encodedActivities, encoding: .utf8) else {return}
+        convertedEntries.append(jsonString)
+        
         for entry in entries {
+            let df = DateFormatter()
+            df.dateFormat = "yyyy-MM-dd-hh:mm:ss"
             
             let converted = EntryData(
-                activity: entry.activity , date: entry.date, feeling: entry.sentiment , text: entry.description
+                activity: entry.activity , date: df.string(from: entry.date), feeling: entry.sentiment , text: entry.description
             )
             
             let encodedData = try JSONEncoder().encode(converted)

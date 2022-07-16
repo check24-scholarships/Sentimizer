@@ -29,8 +29,8 @@ class RNN {
     }
     
     public func fetchMNets() {
-        self.inNet = fetchMNet(name: "in_net")
-        self.outNet = fetchMNet(name: "out_net")
+        //self.inNet = fetchMNet(name: "in_net")
+        //self.outNet = fetchMNet(name: "out_net")
         
         print("LOL_", self.inNet ?? "inFail", self.outNet ?? "outNet")
     }
