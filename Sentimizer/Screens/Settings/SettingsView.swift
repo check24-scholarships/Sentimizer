@@ -200,21 +200,39 @@ struct SettingsView: View {
                     }
                 }
                 
-                Section {
-                    Link(destination: URL(string: "https://samuelgin.github.io/Sentimizer-Website/")!) {
-                        Text("Our Website")
+                Section(header: Text("Other").foregroundColor(.gray)) {
+                    HStack {
+                        Image(systemName: "globe")
+                            .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2, width: 17)
+                        Link(destination: URL(string: "https://samuelgin.github.io/Sentimizer-Website/")!) {
+                            Text("Our Website")
+                                .font(.senti(size: 15))
+                        }
+                        Spacer()
                     }
                     
-                    Link(destination: URL(string: "https://samuelgin.github.io/Sentimizer-Website/privacy.html")!) {
-                        Text("Privacy Policy")
+                    HStack {
+                        Image(systemName: "hand.raised.fill")
+                            .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2, width: 17)
+                        Link(destination: URL(string: "https://samuelgin.github.io/Sentimizer-Website/privacy.html")!) {
+                            Text("Privacy Policy")
+                                .font(.senti(size: 15))
+                        }
+                        Spacer()
                     }
                     
-                    Text("Feedback / Support: \(K.mail)")
-                        .contextMenu(ContextMenu(menuItems: {
-                            Button("Copy Mail", action: {
-                                UIPasteboard.general.string = K.mail
-                            })
-                        }))
+                    HStack {
+                        Image(systemName: "envelope.fill")
+                            .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2, width: 17)
+                        Text("Feedback / Support: \(K.mail)")
+                            .font(.senti(size: 15))
+                            .contextMenu(ContextMenu(menuItems: {
+                                Button("Copy Mail", action: {
+                                    UIPasteboard.general.string = K.mail
+                                })
+                            }))
+                        Spacer()
+                    }
                     
                     Text("1.0.0: This version of Sentimizer is still in beta. Some features may not be available yet.")
                         .font(.senti(size: 12))

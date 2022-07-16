@@ -141,7 +141,9 @@
 "Last Month" = "Letzter Monat";
 "Last Year" = "Letztes Jahr";
 
+"Other" = "Sonstiges";
 "Privacy Policy" = "Datenschutzerklärung";
+"Our Website" = "Website";
 
 "Mon" = "Mo";
 "Tue" = "Di";
@@ -160,4 +162,4 @@
 "Delete activity category" = "Kategorie löschen";
 "Edit activity" = "Kategorie bearbeiten";
 
-"Our Website" = "Website";
+
