@@ -200,29 +200,25 @@ struct SettingsView: View {
                     }
                 }
                 
-//                Section {
-//                    Button {
-//                        privacyPresented = true
-//                    } label: {
-//                        HStack {
-//                            Image(systemName: "hand.raised.fill")
-//                                .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .blue)
-//                            Text("Privacy Policy")
-//                            Spacer()
-//                        }
-//                    }
-//                }
-                
-                Text("This version of Sentimizer is still in beta. Some features may not be available yet.")
-                    .font(.senti(size: 12))
-                    .foregroundColor(.gray)
-                
-                Link(destination: URL(string: "https://samuelgin.github.io/Sentimizer-Website/")!) {
-                    Text("Support")
-                }
-                
-                Link(destination: URL(string: "https://samuelgin.github.io/Sentimizer-Website/privacy.html")!) {
-                    Text("Privacy Policy")
+                Section {
+                    Link(destination: URL(string: "https://samuelgin.github.io/Sentimizer-Website/")!) {
+                        Text("Our Website")
+                    }
+                    
+                    Link(destination: URL(string: "https://samuelgin.github.io/Sentimizer-Website/privacy.html")!) {
+                        Text("Privacy Policy")
+                    }
+                    
+                    Text("Feedback / Support: \(K.mail)")
+                        .contextMenu(ContextMenu(menuItems: {
+                            Button("Copy Mail", action: {
+                                UIPasteboard.general.string = K.mail
+                            })
+                        }))
+                    
+                    Text("1.0.0: This version of Sentimizer is still in beta. Some features may not be available yet.")
+                        .font(.senti(size: 12))
+                        .foregroundColor(.gray)
                 }
             }
             .listStyle(.insetGrouped)
