@@ -55,19 +55,7 @@ struct StatsView: View {
                     }
                     
                     if totalCount < 1 {
-                        VStack {
-                            HStack {
-                                Image(systemName: "chart.line.uptrend.xyaxis")
-                                Image(systemName: "chart.pie")
-                            }
-                            .font(.title)
-                            Text("There is not enough data to show statistics. Check back later or choose a larger time interval.")
-                                .font(.senti(size: 15))
-                                .bold()
-                                .multilineTextAlignment(.center)
-                                .padding()
-                        }
-                        .frame(maxWidth: .infinity)
+                        NotEnoughStatsData()
                         .padding(.top, 50)
                     } else {
                         
@@ -92,7 +80,7 @@ struct StatsView: View {
                             .padding([.leading, .top])
                         
                         if improved.0.count == 0 {
-                                NotEnoughData()
+                                NotEnoughStatsData(withHand: true)
                         } else {
                             MoodInfluence(data: improved, width: $width)
                                 .overlay {
@@ -111,7 +99,7 @@ struct StatsView: View {
                             .padding([.leading, .top])
                         
                         if worsened.0.count == 0 {
-                            NotEnoughData()
+                            NotEnoughStatsData(withHand: true)
                         } else {
                             MoodInfluence(data: worsened, width: $width)
                         }

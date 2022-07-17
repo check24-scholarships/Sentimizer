@@ -37,19 +37,12 @@ struct CalendarView: View {
                     let days = getDaysInMonth()
                     ForEach(0..<days.count, id: \.self) { index in
                         VStack {
-                            Text(getDaysInMonth()[index].0)
-                                .lineLimit(1)
-                                .foregroundColor(.primary)
-                                .overlay(
-                                    Circle()
-                                        .foregroundColor(getColorForDay(entries: entries, date: days[index].1).opacity(0.1))
-                                        .frame(width: 30, height: 30)
-                                )
-                                .padding(.top)
+                            DayNumber(day: days[index].0, circleColor: getColorForDay(entries: entries, date: days[index].1))
                             
                             Spacer()
                             
                             VStack {
+                                // Day Icons
                                 if persistenceController.iconsForDay.count > index {
                                     ForEach(0..<persistenceController.iconsForDay[index].count, id: \.self) { i in
                                         Image(systemName: persistenceController.iconsForDay[index][i])
@@ -65,7 +58,6 @@ struct CalendarView: View {
                             Spacer()
                             
                             Divider()
-                            
                         }
                         .frame(height: 100)
                         .frame(maxWidth: .infinity)
@@ -161,6 +153,23 @@ struct WeekDays: View {
         .onAppear {
             brandColor2 = Color.brandColor2
         }
+    }
+}
+
+struct DayNumber: View {
+    let day: String
+    let circleColor: Color
+    
+    var body: some View {
+        Text(day)
+            .lineLimit(1)
+            .foregroundColor(.primary)
+            .overlay(
+                Circle()
+                    .foregroundColor(circleColor.opacity(0.1))
+                    .frame(width: 30, height: 30)
+            )
+            .padding(.top)
     }
 }
 

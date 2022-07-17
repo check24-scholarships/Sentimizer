@@ -7,7 +7,9 @@
 
 import SwiftUI
 
-struct NotEnoughData: View {
+struct NotEnoughStatsData: View {
+    var withHand = false
+    
     var body: some View {
         VStack {
             HStack {
@@ -15,7 +17,7 @@ struct NotEnoughData: View {
                 Image(systemName: "chart.pie")
             }
             .font(.title)
-            Text("There is not enough data to show these statistics. Check back later. \(Image(systemName: "hand.wave"))")
+            Text(withHand ? "There is not enough data to show these statistics. Check back later. \(Image(systemName: "hand.wave"))" : "There is not enough data to show statistics. Check back later or choose a larger time interval.")
                 .font(.senti(size: 15))
                 .bold()
                 .multilineTextAlignment(.center)
@@ -23,12 +25,14 @@ struct NotEnoughData: View {
         }
         .frame(maxWidth: .infinity)
         .padding()
-        .standardBackground()
+        .if(withHand) { view in
+            view.standardBackground()
+        }
     }
 }
 
 struct NotEnoughData_Previews: PreviewProvider {
     static var previews: some View {
-        NotEnoughData()
+        NotEnoughStatsData()
     }
 }

@@ -248,6 +248,7 @@ struct SettingsView: View {
             .padding(.top, 5)
             .onAppear {
                 UITableView.appearance().backgroundColor = .clear // tableview background
+                colorTheme = Settings.getColorTheme()
             }
             .foregroundColor(.textColor)
             .sheet(isPresented: $privacyPresented) {
