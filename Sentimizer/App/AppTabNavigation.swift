@@ -17,84 +17,19 @@ struct AppTabNavigation: View {
     }
     
     @State private var selection: Tab = .activities
-    @Environment(\.managedObjectContext) var moc
 
     var body: some View {
         TabView(selection: $selection) {
-            NavigationView {
-                ZStack {
-                    Color.bgColor.ignoresSafeArea()
-                    MainActivityView()
-                        .foregroundColor(.textColor)
-                        .navigationTitle("Activities")
-                }
-            }
-            .tabItem {
-                let activitiesText = Text("Activities", comment: "Activity main tab title")
-                Label {
-                    activitiesText
-                } icon: {
-                    Image(systemName: "list.bullet.below.rectangle")
-                }
-                .accessibility(label: activitiesText)
-            }
+            MainTab()
             .tag(Tab.activities)
             
-            NavigationView {
-                ZStack {
-                    Color.bgColor.ignoresSafeArea()
-                    StatsView()
-                        .foregroundColor(.textColor)
-                        .navigationTitle("Statistics")
-                }
-            }
-            .tabItem {
-                let statsText = Text("Statistics", comment: "Statistics tab title")
-                Label {
-                    statsText
-                } icon: {
-                    Image(systemName: "chart.bar.fill")
-                }
-                .accessibility(label: statsText)
-            }
+            StatsTab()
             .tag(Tab.stats)
             
-            NavigationView {
-                ZStack {
-                    Color.bgColor.ignoresSafeArea()
-                    CalendarView()
-                        .foregroundColor(.textColor)
-                        .navigationTitle("Calendar")
-                }
-            }
-            .tabItem {
-                let calendarText = Text("Calendar", comment: "Calendar tab title")
-                Label {
-                    calendarText
-                } icon: {
-                    Image(systemName: "calendar")
-                }
-                .accessibility(label: calendarText)
-            }
+            CalendarTab()
             .tag(Tab.calendar)
             
-            NavigationView {
-                ZStack {
-                    Color.bgColor.ignoresSafeArea()
-                    SettingsView()
-                        .foregroundColor(.textColor)
-                        .navigationTitle("Settings")
-                }
-            }
-            .tabItem {
-                let settingsText = Text("Settings", comment: "Settings tab title")
-                Label {
-                    settingsText
-                } icon: {
-                    Image(systemName: "gearshape.fill")
-                }
-                .accessibility(label: settingsText)
-            }
+            SettingsTab()
             .tag(Tab.settings)
         }
     }
@@ -105,6 +40,94 @@ struct AppTabNavigation: View {
         UINavigationBar.appearance().barTintColor = UIColor(named: "bgColor")
         UITabBar.appearance().barTintColor = UIColor(named: "tabBarColor")
         UITabBar.appearance().unselectedItemTintColor = .gray.withAlphaComponent(0.7)
+    }
+}
+
+struct MainTab: View {
+    var body: some View {
+        NavigationView {
+            ZStack {
+                Color.bgColor.ignoresSafeArea()
+                MainActivityView()
+                    .foregroundColor(.textColor)
+                    .navigationTitle("Activities")
+            }
+        }
+        .tabItem {
+            let activitiesText = Text("Activities", comment: "Activity main tab title")
+            Label {
+                activitiesText
+            } icon: {
+                Image(systemName: "list.bullet.below.rectangle")
+            }
+            .accessibility(label: activitiesText)
+        }
+    }
+}
+
+struct StatsTab: View {
+    var body: some View {
+        NavigationView {
+            ZStack {
+                Color.bgColor.ignoresSafeArea()
+                StatsView()
+                    .foregroundColor(.textColor)
+                    .navigationTitle("Statistics")
+            }
+        }
+        .tabItem {
+            let statsText = Text("Statistics", comment: "Statistics tab title")
+            Label {
+                statsText
+            } icon: {
+                Image(systemName: "chart.bar.fill")
+            }
+            .accessibility(label: statsText)
+        }
+    }
+}
+
+struct CalendarTab: View {
+    var body: some View {
+        NavigationView {
+            ZStack {
+                Color.bgColor.ignoresSafeArea()
+                CalendarView()
+                    .foregroundColor(.textColor)
+                    .navigationTitle("Calendar")
+            }
+        }
+        .tabItem {
+            let calendarText = Text("Calendar", comment: "Calendar tab title")
+            Label {
+                calendarText
+            } icon: {
+                Image(systemName: "calendar")
+            }
+            .accessibility(label: calendarText)
+        }
+    }
+}
+
+struct SettingsTab: View {
+    var body: some View {
+        NavigationView {
+            ZStack {
+                Color.bgColor.ignoresSafeArea()
+                SettingsView()
+                    .foregroundColor(.textColor)
+                    .navigationTitle("Settings")
+            }
+        }
+        .tabItem {
+            let settingsText = Text("Settings", comment: "Settings tab title")
+            Label {
+                settingsText
+            } icon: {
+                Image(systemName: "gearshape.fill")
+            }
+            .accessibility(label: settingsText)
+        }
     }
 }
 

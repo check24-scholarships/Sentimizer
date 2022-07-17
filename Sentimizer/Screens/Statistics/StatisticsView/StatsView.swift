@@ -75,7 +75,7 @@ struct StatsView: View {
                             .font(.senti(size: 20))
                             .padding([.leading, .top])
                         
-                        WhatNext(activity: "Walking", backgroundGray: true)
+                        WhatNext(activity: "Walk", backgroundGray: true)
                         
                         Text("Mood")
                             .font(.senti(size: 20))

@@ -13,7 +13,7 @@ struct EditActivityCategoryView: View {
     @State var icon: String
     
     @State private var userActivityName = ""
-    @State private var userIcon = ""
+    @State private var userIcon = "figure.walk"
     @State private var textFieldEditing = false
     @State private var userEditingDone = false
     
@@ -92,6 +92,6 @@ struct EditActivityCategoryView: View {
 
 struct EditActivityView_Previews: PreviewProvider {
     static var previews: some View {
-        EditActivityCategoryView(activityName: "Walking", icon: "figure.walk")
+        EditActivityCategoryView(activityName: "Walk", icon: "figure.walk")
     }
 }

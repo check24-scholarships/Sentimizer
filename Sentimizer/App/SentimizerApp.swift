@@ -12,14 +12,15 @@ import CoreData
 @main
 struct SentimizerApp: App {
     @Environment(\.scenePhase) var scenePhase
-    @State private var unlockScreenPresented = false
-    @State private var authenticationPresented = false
+    
     
     private let context = PersistenceController().container.viewContext
     
     @ObservedObject private var model = Model()
     
     @AppStorage(K.colorTheme) private var colorTheme = false
+    
+    @State private var unlockScreenPresented = false
     
     var body: some Scene {
         WindowGroup {
@@ -31,27 +32,11 @@ struct SentimizerApp: App {
                 .environment(\.managedObjectContext, context)
                 .navigationViewStyle(.stack)
                 .fullScreenCover(isPresented: $unlockScreenPresented) {
-                    ZStack {
-                        Color.bgColor.ignoresSafeArea()
-                        
-                        VStack {
-                            Image(systemName: "lock.fill")
-                                .standardIcon(shouldBeMaxWidthHeight: true, maxWidthHeight: 50)
-                                .foregroundColor(.gray)
-                                .padding()
-                            Button {
-                                authenticationPresented = false
-                                authenticate()
-                            } label: {
-                                Text("Unlock Sentimizer")
-                                    .padding(10)
-                                    .font(.senti(size: 15))
-                                    .foregroundColor(.white)
-                                    .background(RoundedRectangle(cornerRadius: 15).foregroundColor(.brandColor2))
-                            }
-                        }
-                    }
-                    .navigationBarHidden(true)
+                    LockScreen()
+                        .environmentObject(model)
+                }
+                .onChange(of: model.unlockScreenPresented) { newValue in
+                    unlockScreenPresented = newValue
                 }
                 .onAppear {
                     // let defaults = UserDefaults.standard
@@ -80,7 +65,7 @@ struct SentimizerApp: App {
                         Settings.setColorScheme(scheme == K.AppColorScheme.light.rawValue ? .light : (scheme == K.AppColorScheme.dark.rawValue ? .dark : .auto))
                     }
                     
-                    authenticate()
+                    model.authenticate()
                     
                     if let userId = UserDefaults.standard.string(forKey: K.userId) {
                         print(userId)
@@ -92,38 +77,45 @@ struct SentimizerApp: App {
                 .onChange(of: scenePhase) { newValue in
                     if UserDefaults.standard.bool(forKey: K.appHasToBeUnlocked) {
                         if newValue == .inactive {
-                            unlockScreenPresented = true
+                            model.unlockScreenPresented = true
                         }
                         if newValue == .background {
-                            authenticationPresented = false
+                            model.authenticationPresented = false
                         }
                         if newValue == .active {
-                            authenticate()
+                            model.authenticate()
                         }
                     }
                 }
         }
     }
     
-    func authenticate() {
-        if !authenticationPresented && UserDefaults.standard.bool(forKey: K.appHasToBeUnlocked) {
-            authenticationPresented = true
-            unlockScreenPresented = true
+}
+
+struct LockScreen: View {
+    @EnvironmentObject private var model: Model
+    
+    var body: some View {
+        ZStack {
+            Color.bgColor.ignoresSafeArea()
             
-            let context = LAContext()
-            var error: NSError?
-            let reason = "Please authenticate to show Sentimizer."
-            
-            if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
-                context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { success, authenticationError in
-                    if success {
-                        unlockScreenPresented = false
-                    }
+            VStack {
+                Image(systemName: "lock.fill")
+                    .standardIcon(shouldBeMaxWidthHeight: true, maxWidthHeight: 50)
+                    .foregroundColor(.gray)
+                    .padding()
+                Button {
+                    model.authenticationPresented = false
+                    model.authenticate()
+                } label: {
+                    Text("Unlock Sentimizer")
+                        .padding(10)
+                        .font(.senti(size: 15))
+                        .foregroundColor(.white)
+                        .background(RoundedRectangle(cornerRadius: 15).foregroundColor(.brandColor2))
                 }
-            } else {
-                authenticationPresented = false
-                unlockScreenPresented = false
             }
         }
+        .navigationBarHidden(true)
     }
 }
