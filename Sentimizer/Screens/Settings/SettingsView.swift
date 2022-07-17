@@ -234,9 +234,13 @@ struct SettingsView: View {
                         Spacer()
                     }
                     
-                    Text("1.0.0: This version of Sentimizer is still in beta. Some features may not be available yet.")
-                        .font(.senti(size: 12))
-                        .foregroundColor(.gray)
+                    Text("""
+                        1.0.0: This version of Sentimizer is still in beta. Some features may not be available yet.
+                        Created by Samuel Ginsberg, Justin Hohenstein and Henry Pham. Smiley Icons made by Freepik from flaticon.com.
+                        """)
+                    .multilineTextAlignment(.leading)
+                    .font(.senti(size: 12))
+                    .foregroundColor(.gray)
                 }
             }
             .listStyle(.insetGrouped)
