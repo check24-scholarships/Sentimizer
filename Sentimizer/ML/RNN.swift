@@ -29,8 +29,8 @@ class RNN {
     }
     
     public func fetchMNets() {
-        //self.inNet = fetchMNet(name: "in_net")
-        //self.outNet = fetchMNet(name: "out_net")
+        self.inNet = fetchMNet(name: "in_net")
+        self.outNet = fetchMNet(name: "out_net")
         
         print("LOL_", self.inNet ?? "inFail", self.outNet ?? "outNet")
     }
@@ -72,6 +72,35 @@ class RNN {
         saveTModel(name: "in_net")
     }
     
+    func ichhabkeineverzweiflungsmethoden() async throws {
+        print("CALLED_")
+        var convertedEntries: [String] = []
+        
+        // send activities
+        
+        let jsonActivities = ActivityArray(activities: K.defaultActivities.0)
+        let encodedActivities = try JSONEncoder().encode(jsonActivities)
+        guard let jsonString = String(data: encodedActivities, encoding: .utf8) else {return}
+        convertedEntries.append(jsonString)
+        
+        //format to dict
+        let sendData: [String : Array<String>] = ["userId" : convertedEntries]
+        
+        //send data to server, make Post Request
+        guard let url = URL(string: "http://127.0.0.1:8000/send_m_in_net/") else { print("Missing URL in DataBridge, postObjects"); return }
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "POST"
+        
+        let paramters = sendData
+        let encodedData = try JSONEncoder().encode(paramters)
+        urlRequest.httpBody = encodedData
+        
+        let (_, response) = try await URLSession.shared.data(for: urlRequest)
+        
+        guard(response as? HTTPURLResponse)?.statusCode == 200 else { print((response as? HTTPURLResponse)?.statusCode ?? "Cannot print status code"); print("In \(#function), line \(#line)"); print(response as? HTTPURLResponse as Any); return }
+        //let decodedData = try JSONDecoder().decode(User.self,from: data)
+    }
+    
     public func saveMModel(name: String) {
         let resourceDocPath = (FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)).last! as URL
         let modelName = name + ".mlmodelc"
@@ -97,7 +126,7 @@ class RNN {
         let modelName = name + ".pt"
         let actualPath = resourceDocPath.appendingPathComponent(modelName)
         
-        guard let url = URL(string: "http://127.0.0.1:8000/send_t_" + name + "/") else { return }
+        guard let url = URL(string: "http://127.0.0.1:8000/api/send_t_" + name + "/") else { return }
         let request = URLRequest(url: url)
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
@@ -119,7 +148,7 @@ class RNN {
     }
     
     public func sendTNet(name: String) {
-        guard let url = URL(string: "http://127.0.0.1:8000/save_" + name + "/") else { return }
+        guard let url = URL(string: "http://127.0.0.1:8000/api/save_" + name + "/") else { return }
         
         let boundary = UUID().uuidString
         var request = URLRequest(url: url)

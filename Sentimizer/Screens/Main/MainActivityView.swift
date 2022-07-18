@@ -108,7 +108,7 @@ struct MainActivityView: View {
                             ForEach(0 ..< entryContent[day].count, id: \.self) { i in
                                 let activity = entryContent[day][i]
                                 let time = DateFormatter.formatDate(date: activity.date, format: "HH:mm")
-
+                                
                                 NavigationLink { ActivityDetailView(activity: activity, day: LocalizedStringKey(entryDays[day]), time: time) } label: {
                                     ActivityBar(activity: activity, time: time)
                                         .padding([.bottom, .trailing], 10)
@@ -128,14 +128,44 @@ struct MainActivityView: View {
                 .environment(\.managedObjectContext, self.viewContext)
         }
         .onAppear {
+            print("APPEARED_")
+            K.rnn.saveModels()
             Task {
                 do {
+                    print("DO_")
                     var db = DataBridge()
                     try await db.getAndPost(userId: UserDefaults.standard.string(forKey: K.userId) ?? "")
+                    try await db.registerUser(urlString: "http://127.0.0.1:8000/api/register")
+                    print("AFTER_")
+                    print("time_", Date().timeIntervalSince1970)
+                    // let defaults = UserDefaults.standard
+                    
+                    // K.rnn = RNN(inN: PersistenceController().getAllActivities(PersistenceController.context).count + K.defaultActivities.0.count, hsN: 100)
+                    
+                    // print("RNN_", K.rnn.inN)
+                    
+                    // try await K.rnn.ichhabkeineverzweiflungsmethoden()
+                    
+                    // K.rnn.saveModels()
+//                    K.rnn.fetchMNets()
+                    
+                    // rnn.trainNets()
+                    
+                    // rnn.fetchMNets()
+                    // rnn.sendTNets()
+                    
+                    // print("VALID_", K.rnn.validNets())
+                    
+                    // MachineLearning.getModel()
+                    
+                    // MachineLearning.getTorch()
+                    
+                    // print("HELP ME", MachineLearning.feedforward(ip: [0.1, 0.2, 0.3, 0.4]))
                 } catch {
                     print(error)
                 }
             }
+            
             fillEntryData()
             welcomeScreenPresented = !UserDefaults.standard.bool(forKey: K.welcomeScreenShown)
             
