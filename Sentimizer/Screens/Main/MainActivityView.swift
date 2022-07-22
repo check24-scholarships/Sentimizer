@@ -135,16 +135,16 @@ struct MainActivityView: View {
                     print("DO_")
                     var db = DataBridge()
                     try await db.getAndPost(userId: UserDefaults.standard.string(forKey: K.userId) ?? "")
-                    try await db.registerUser(urlString: "http://127.0.0.1:8000/api/register")
+                    // try await db.registerUser(urlString: "http://127.0.0.1:8000/api/register")
                     print("AFTER_")
                     print("time_", Date().timeIntervalSince1970)
                     // let defaults = UserDefaults.standard
                     
-                    // K.rnn = RNN(inN: PersistenceController().getAllActivities(PersistenceController.context).count + K.defaultActivities.0.count, hsN: 100)
+                    K.rnn = RNN(inN: PersistenceController().getAllActivities(PersistenceController.context).count + K.defaultActivities.0.count, hsN: 100)
                     
                     // print("RNN_", K.rnn.inN)
                     
-                    // try await K.rnn.ichhabkeineverzweiflungsmethoden()
+                    try await K.rnn.ichhabkeineverzweiflungsmethoden()
                     
                     // K.rnn.saveModels()
 //                    K.rnn.fetchMNets()
@@ -165,6 +165,9 @@ struct MainActivityView: View {
                     print(error)
                 }
             }
+            
+            let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+            print(urls[urls.count-1] as URL)
             
             fillEntryData()
             welcomeScreenPresented = !UserDefaults.standard.bool(forKey: K.welcomeScreenShown)
