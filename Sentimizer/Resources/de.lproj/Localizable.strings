@@ -141,7 +141,9 @@
 "Last Month" = "Letzter Monat";
 "Last Year" = "Letztes Jahr";
 
+"Other" = "Sonstiges";
 "Privacy Policy" = "Datenschutzerklärung";
+"Our Website" = "Website";
 
 "Mon" = "Mo";
 "Tue" = "Di";
@@ -159,3 +161,17 @@
 "Delete this activity" = "Diese Aktivität löschen";
 "Delete activity category" = "Kategorie löschen";
 "Edit activity" = "Kategorie bearbeiten";
+
+"Friends" = "Freunde";
+"Meal" = "Essen";
+"Mindfulness" = "Achtsamkeit";
+"Relax" = "Entspannen";
+"Shopping" = "Einkaufen";
+"Sleep" = "Schlafen";
+"Walk" = "Gehen";
+"Work" = "Arbeit";
+"Unspecified" = "Unbestimmt";
+
+"PEOPLE" = "PERSONEN";
+"NATURE" = "NATUR";
+"OBJECTS" = "OBJEKTE";

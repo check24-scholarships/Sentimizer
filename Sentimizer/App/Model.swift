@@ -8,8 +8,12 @@
 import Foundation
 import CoreData
 import SwiftUI
+import LocalAuthentication
 
 class Model: ObservableObject {
+    
+    @Published var unlockScreenPresented = false
+    @Published var authenticationPresented = false
     
     @Published var influenceImprovedMonth: ([String], [Double]) = ([], [])
     @Published var influenceImprovedYear: ([String], [Double]) = ([], [])
@@ -24,6 +28,30 @@ class Model: ObservableObject {
         influenceWorsenedMonth = influenceMonth.1
         influenceImprovedYear = influenceYear.0
         influenceWorsenedYear = influenceYear.1
+    }
+    
+    func authenticate() {
+        if !authenticationPresented && UserDefaults.standard.bool(forKey: K.appHasToBeUnlocked) {
+            authenticationPresented = true
+            unlockScreenPresented = true
+            
+            let context = LAContext()
+            var error: NSError?
+            let reason = "Please authenticate to show Sentimizer."
+            
+            if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
+                context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { success, authenticationError in
+                    if success {
+                        DispatchQueue.main.async {
+                            self.unlockScreenPresented = false
+                        }
+                    }
+                }
+            } else {
+                authenticationPresented = false
+                unlockScreenPresented = false
+            }
+        }
     }
     
     func updateInfluence(activities: FetchedResults<Activity>, _ viewContext: NSManagedObjectContext, persistenceController: PersistenceController) {

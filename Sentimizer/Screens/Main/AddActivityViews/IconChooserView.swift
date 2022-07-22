@@ -13,13 +13,6 @@ struct IconChooser: View {
     @Binding var done: Bool
     @Binding var iconName: String
     
-    var columns: [GridItem] =
-    [.init(.adaptive(minimum: 40, maximum: 55))]
-    @State private var imageBounds: CGSize = CGSize(width: 35, height: 35)
-    
-    @State private var brandColor2 = Color.brandColor2
-    @State private var brandColor2Light = Color.brandColor2Light
-    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
@@ -27,38 +20,7 @@ struct IconChooser: View {
                     .padding(.top, -10)
                 
                 ForEach(K.defaultIcons, id: \.0.self) { category in
-                    Text(category.0.uppercased())
-                        .font(.senti(size: 12))
-                        .padding(.top)
-                    
-                    LazyVGrid(columns: columns, spacing: 5) {
-                        ForEach(category.1, id: \.self) { icon in
-                            Group {
-                                Image(systemName: icon)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .padding(5)
-                                    .overlay(
-                                        GeometryReader { g in
-                                            Color.clear
-                                                .onAppear {
-                                                    imageBounds = g.size
-                                                }
-                                        }
-                                    )
-                                    .frame(width: imageBounds.width > imageBounds.height ? imageBounds.width : imageBounds.height,
-                                           height: imageBounds.width > imageBounds.height ? imageBounds.width : imageBounds.height)
-                                    .background(
-                                        RoundedRectangle(cornerRadius: 10)
-                                            .opacity(iconName == icon ? 0.5 : 0)
-                                            .gradientForeground(colors: [brandColor2, brandColor2Light])
-                                    )
-                                    .onTapGesture {
-                                        iconName = icon
-                                    }
-                            }
-                        }
-                    }
+                    CategoryOfIcons(categoryName: LocalizedStringKey(category.0.uppercased()), icons: category.1, chosenIcon: $iconName)
                 }
                 .padding(.horizontal, 2)
                 
@@ -77,30 +39,54 @@ struct IconChooser: View {
                 .padding(.bottom, 50)
             }
             .padding(.horizontal, 15)
-            .onAppear {
-                brandColor2 = Color.brandColor2
-                brandColor2Light = Color.brandColor2Light
-            }
         }
     }
+}
+
+struct CategoryOfIcons: View {
+    let categoryName: LocalizedStringKey
+    let icons: [String]
+    @Binding var chosenIcon: String
     
-    struct IconBackground: View {
-        let full: Bool
+    @State private var brandColor2 = Color.brandColor2
+    @State private var brandColor2Light = Color.brandColor2Light
+    
+    var columns: [GridItem] =
+    [.init(.adaptive(minimum: 40, maximum: 55))]
+    @State private var imageBounds: CGSize = CGSize(width: 35, height: 35)
+    
+    var body: some View {
+        Text(categoryName)
+            .font(.senti(size: 12))
+            .padding(.top)
         
-        @State private var brandColor2 = Color.brandColor2
-        @State private var brandColor2Light = Color.brandColor2Light
-        
-        var body: some View {
-            Group {
-                if full {
-                    RoundedRectangle(cornerRadius: 10)
-                        .opacity(0.5)
-                        .gradientForeground(colors: [brandColor2, brandColor2Light])
-                } else {
-                    RoundedRectangle(cornerRadius: 10)
-                        .stroke(lineWidth: 1)
-                        .opacity(0.5)
-                        .gradientForeground(colors: [.brandColor2, .brandColor2Light])
+        LazyVGrid(columns: columns, spacing: 5) {
+            ForEach(icons, id: \.self) { icon in
+                Group {
+                    Image(systemName: icon)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .padding(5)
+                        .overlay(
+                            GeometryReader { g in
+                                Color.clear
+                                    .onAppear {
+                                        imageBounds = g.size
+                                    }
+                            }
+                        )
+                        .frame(width: imageBounds.width > imageBounds.height ? imageBounds.width : imageBounds.height,
+                               height: imageBounds.width > imageBounds.height ? imageBounds.width : imageBounds.height)
+                        .background(
+                            RoundedRectangle(cornerRadius: 10)
+                                .opacity(chosenIcon == icon ? 0.5 : 0)
+                                .gradientForeground(colors: [brandColor2, brandColor2Light])
+                        )
+                        .onTapGesture {
+                            withAnimation {
+                                chosenIcon = icon
+                            }
+                        }
                 }
             }
             .onAppear {

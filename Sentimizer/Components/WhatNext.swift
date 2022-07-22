@@ -21,9 +21,6 @@ struct WhatNext: View {
             Text("What should I do next?")
                 .font(.senti(size: 23))
                 .gradientForeground(colors: [brandColor2, brandColor2Light])
-//            Text("(Demo Data)")
-//                .font(.senti(size: 15))
-//                .gradientForeground()
             Text("Sentimizer recommends this activity:")
                 .font(.senti(size: 15))
                 .opacity(0.7)
@@ -40,13 +37,13 @@ struct WhatNext: View {
         .onAppear {
             brandColor2 = Color.brandColor2
             brandColor2Light = Color.brandColor2Light
-            activity = Model().influenceImprovedYear.0.first ?? "Walking"
+            activity = Model().influenceImprovedYear.0.first ?? "Walk"
         }
     }
 }
 
 struct WhatNext_Previews: PreviewProvider {
     static var previews: some View {
-        WhatNext(activity: "Walking")
+        WhatNext(activity: "Walk")
     }
 }

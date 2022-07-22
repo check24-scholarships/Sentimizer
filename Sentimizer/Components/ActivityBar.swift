@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ActivityBar: View {
     let activity: ActivityData
+    let activityName: LocalizedStringKey
     let time: String
     
     var showsTime: Bool = true
@@ -30,7 +31,7 @@ struct ActivityBar: View {
                     .padding(.leading)
                 
                 VStack(alignment: .leading, spacing: 0) {
-                    Text(activity.activity)
+                    Text(activityName)
                         .lineLimit(1)
                         .minimumScaleFactor(0.6)
                         .padding(.top, 5)
@@ -72,6 +73,6 @@ struct ActivityBar: View {
 
 struct ActivityBar_Previews: PreviewProvider {
     static var previews: some View {
-        ActivityBar(activity: ActivityData(id: "", activity: "Walking", icon: "figure.walk", date: Date(), description: "", sentiment: "happy"), time: "08:03")
+        ActivityBar(activity: ActivityData(id: "", activity: "Walk", icon: "figure.walk", date: Date(), description: "", sentiment: "happy"), activityName: "Walk", time: "08:03")
     }
 }

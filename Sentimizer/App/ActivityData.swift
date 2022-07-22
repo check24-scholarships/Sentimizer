@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct ActivityData: Hashable, Codable {
     let id: String

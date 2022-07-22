@@ -200,29 +200,47 @@ struct SettingsView: View {
                     }
                 }
                 
-//                Section {
-//                    Button {
-//                        privacyPresented = true
-//                    } label: {
-//                        HStack {
-//                            Image(systemName: "hand.raised.fill")
-//                                .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .blue)
-//                            Text("Privacy Policy")
-//                            Spacer()
-//                        }
-//                    }
-//                }
-                
-                Text("This version of Sentimizer is still in beta. Some features may not be available yet.")
+                Section(header: Text("Other").foregroundColor(.gray)) {
+                    HStack {
+                        Image(systemName: "globe")
+                            .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2, width: 17)
+                        Link(destination: URL(string: "https://samuelgin.github.io/Sentimizer-Website/")!) {
+                            Text("Our Website")
+                                .font(.senti(size: 15))
+                        }
+                        Spacer()
+                    }
+                    
+                    HStack {
+                        Image(systemName: "hand.raised.fill")
+                            .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2, width: 17)
+                        Link(destination: URL(string: "https://samuelgin.github.io/Sentimizer-Website/privacy.html")!) {
+                            Text("Privacy Policy")
+                                .font(.senti(size: 15))
+                        }
+                        Spacer()
+                    }
+                    
+                    HStack {
+                        Image(systemName: "envelope.fill")
+                            .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2, width: 17)
+                        Text("Feedback / Support: \(K.mail)")
+                            .font(.senti(size: 15))
+                            .contextMenu(ContextMenu(menuItems: {
+                                Button("Copy Mail", action: {
+                                    UIPasteboard.general.string = K.mail
+                                })
+                            }))
+                        Spacer()
+                    }
+                    
+                    Text("""
+                        1.0.0: This version of Sentimizer is still in beta. Some features may not be available yet.
+                        Created by Samuel Ginsberg, Justin Hohenstein and Henry Pham. Smiley Icons made by Freepik from flaticon.com.
+                        """)
+                    .multilineTextAlignment(.leading)
                     .font(.senti(size: 12))
                     .foregroundColor(.gray)
-                
-                Link(destination: URL(string: "https://samuelgin.github.io/Sentimizer-Website/")!) {
-                    Text("Support")
-                }
-                
-                Link(destination: URL(string: "https://samuelgin.github.io/Sentimizer-Website/privacy.html")!) {
-                    Text("Privacy Policy")
                 }
             }
             .listStyle(.insetGrouped)
@@ -230,6 +248,7 @@ struct SettingsView: View {
             .padding(.top, 5)
             .onAppear {
                 UITableView.appearance().backgroundColor = .clear // tableview background
+                colorTheme = Settings.getColorTheme()
             }
             .foregroundColor(.textColor)
             .sheet(isPresented: $privacyPresented) {

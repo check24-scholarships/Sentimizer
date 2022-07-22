@@ -31,7 +31,7 @@ struct ActivityDetailView: View {
     
     @State private var isEditingDescription = false
     
-    @FetchRequest(entity: Activity.entity(), sortDescriptors: []) private var activities: FetchedResults<Activity>
+    @FetchRequest(sortDescriptors: []) private var activities: FetchedResults<Activity>
     
     var body: some View {
         ScrollViewReader { scrollView in
@@ -46,7 +46,7 @@ struct ActivityDetailView: View {
                         
                         ActivityDetailMood(width: width, mood: $userMood, activity: activity)
                         
-                        ActivityDetailDescription(description: $userDescription, isEditing: $isEditingDescription, activity: activity, scrollView: scrollView)
+                        ActivityDetailDescriptionEditor(description: $userDescription, isEditing: $isEditingDescription, activity: activity, scrollView: scrollView)
                     }
                     .overlay(
                         GeometryReader { g in
@@ -154,7 +154,7 @@ struct ActivityDetailMood: View {
     }
 }
 
-struct ActivityDetailDescription: View {
+struct ActivityDetailDescriptionEditor: View {
     
     @Binding var description: String
     @Binding var isEditing: Bool
@@ -221,6 +221,6 @@ struct ActivityDetailDescription: View {
 
 struct ActivityDetailView_Previews: PreviewProvider {
     static var previews : some View {
-        ActivityDetailView(activity: ActivityData(id: "", activity: "Walking", icon: "figure.walk", date: Date(), description: "", sentiment: "happy"), day: "Today", time: "08:15")
+        ActivityDetailView(activity: ActivityData(id: "", activity: "Walk", icon: "figure.walk", date: Date(), description: "", sentiment: "happy"), day: "Today", time: "08:15")
     }
 }

@@ -57,6 +57,9 @@ struct K {
     static let userId = "userId"
     
     //MARK: - Other
+    
+    static let mail = "samuel.ginsberg@t-online.de"
+    
     enum timeOfDay {
         case morning
         case afternoon

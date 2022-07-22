@@ -53,15 +53,8 @@ struct MoodCount: View {
                         }
                     )
             }
-            HStack {
-                ForEach(0..<K.sentimentsArray.count, id: \.self) { index in
-                    Image(K.sentimentsArray[index])
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: circleWidth/10)
-                        .changeColor(to: K.sentimentColors[index])
-                }
-            }
+            
+            SentimentsRow(circleWidth: circleWidth)
             .offset(y: -10)
         }
         .shadow(radius: 10)
@@ -84,3 +77,18 @@ struct MoodCount: View {
     }
 }
 
+struct SentimentsRow: View {
+    let circleWidth: CGFloat
+    
+    var body: some View {
+        HStack {
+            ForEach(0..<K.sentimentsArray.count, id: \.self) { index in
+                Image(K.sentimentsArray[index])
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: circleWidth/10)
+                    .changeColor(to: K.sentimentColors[index])
+            }
+        }
+    }
+}

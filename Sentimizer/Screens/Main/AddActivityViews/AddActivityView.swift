@@ -21,7 +21,7 @@ struct AddActivityView: View {
     @FetchRequest(entity: Activity.entity(), sortDescriptors: []) private var activities: FetchedResults<Activity>
     
     @State private var description = ""
-    @State private var feeling = ""
+    @State private var mood = ""
     @State private var activity = ""
     @State private var icon = ""
     @State private var date = Date()
@@ -47,31 +47,12 @@ struct AddActivityView: View {
                                 )
                                 .labelsHidden()
                                 
-                                NavigationLink {
-                                    ActivityChooserView(activity: $activity, icon: $icon)
-                                        .padding(.top, -30)
-                                        .navigationBarTitleDisplayMode(.inline)
-                                } label: {
-                                    if activity.isEmpty {
-                                        SentiButton(icon: nil, title: "Choose Activity Category", style: .outlined, fontSize: 20, textColor: .gray)
-                                    } else {
-                                        SentiButton(icon: icon, title: LocalizedStringKey(activity), chevron: false)
-                                    }
-                                }
-                                .padding(.top, 40)
+                                ChooseCategory(activity: $activity, icon: $icon)
                                 
                                 Group {
-                                    Text("How are you?")
-                                        .font(.senti(size: 25))
-                                        .padding(.top, 30)
+                                    PickMood(mood: $mood, viewWidth: g.size.width)
                                     
-                                    MoodPicker(width: g.size.width, feeling: $feeling)
-                                    
-                                    Text("What's happening?")
-                                        .font(.senti(size: 25))
-                                        .padding(.top, 30)
-                                    
-                                    SentiTextEditor(text: $description)
+                                    AddDescription(description: $description)
                                 }
                                 .opacity(activity.isEmpty ? 0.5 : 1)
                                 .disabled(activity.isEmpty)
@@ -80,8 +61,9 @@ struct AddActivityView: View {
                             .animation(.easeOut, value: keyboardHeightHelper.height)
                             
                             
+                            // Save Activity
                             Button {
-                                persistenceController.saveActivity(activity: activity, icon: icon, description: description, feeling: feeling, date: date, viewContext)
+                                persistenceController.saveActivity(activity: activity, icon: icon, description: description, feeling: mood, date: date, viewContext)
                                 
                                 model.updateInfluence(activities: activities, viewContext, persistenceController: persistenceController)
                                 
@@ -107,9 +89,9 @@ struct AddActivityView: View {
                                         }
                                 }
                             }
-                            .opacity(feeling.isEmpty || activity.isEmpty ? 0.5 : 1)
-                            .disabled(feeling.isEmpty || activity.isEmpty)
-                            .animation(.easeIn, value: feeling.isEmpty)
+                            .opacity(mood.isEmpty || activity.isEmpty ? 0.5 : 1)
+                            .disabled(mood.isEmpty || activity.isEmpty)
+                            .animation(.easeIn, value: mood.isEmpty)
                         }
                         .foregroundColor(.textColor)
                         .padding(.horizontal, 20)
@@ -135,11 +117,6 @@ struct AddActivityView: View {
                 }
             }
             .accentColor(.brandColor2)
-            .onAppear {
-                // for debugging
-                // deleteAllData(moc: viewContext)
-                // addSampleData(moc: viewContext)
-            }
         }
     }
     
@@ -147,6 +124,51 @@ struct AddActivityView: View {
         let f: NSFetchRequest<Activity> = Activity.fetchRequest()
         f.sortDescriptors = []
         _activities = FetchRequest(fetchRequest: f)
+    }
+}
+
+struct ChooseCategory: View {
+    @Binding var activity: String
+    @Binding var icon: String
+    
+    var body: some View {
+        NavigationLink {
+            ActivityChooserView(activity: $activity, icon: $icon)
+                .padding(.top, -30)
+                .navigationBarTitleDisplayMode(.inline)
+        } label: {
+            if activity.isEmpty {
+                SentiButton(icon: nil, title: "Choose Activity Category", style: .outlined, fontSize: 20, textColor: .gray)
+            } else {
+                SentiButton(icon: icon, title: LocalizedStringKey(activity), chevron: false)
+            }
+        }
+        .padding(.top, 40)
+    }
+}
+
+struct PickMood: View {
+    @Binding var mood: String
+    let viewWidth: CGFloat
+    
+    var body: some View {
+        Text("How are you?")
+            .font(.senti(size: 25))
+            .padding(.top, 30)
+        
+        MoodPicker(width: viewWidth, feeling: $mood)
+    }
+}
+
+struct AddDescription: View {
+    @Binding var description: String
+    
+    var body: some View {
+        Text("What's happening?")
+            .font(.senti(size: 25))
+            .padding(.top, 30)
+        
+        SentiTextEditor(text: $description)
     }
 }
 
