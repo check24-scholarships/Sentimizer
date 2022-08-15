@@ -265,6 +265,18 @@ class PersistenceController: ObservableObject {
         }
     }
     
+    func updateActivityDate(with date: Date, id: String, _ viewContext: NSManagedObjectContext) {
+        guard let objectID = viewContext.persistentStoreCoordinator?.managedObjectID(forURIRepresentation: URL(string: id)!) else { print("Could not generate object ID in \(#function)"); return }
+        
+        do {
+            let object = try viewContext.existingObject(with: objectID)
+            (object as? Entry)?.date = date
+            try viewContext.save()
+        } catch {
+            print(error)
+        }
+    }
+    
     //MARK: - Entity: Activity (= Activity Category)
     func saveNewActivityCategory(name: String, icon: String, _ viewContext: NSManagedObjectContext) {
         let activity = Activity(context: viewContext)

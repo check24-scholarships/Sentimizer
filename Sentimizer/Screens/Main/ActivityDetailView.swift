@@ -11,12 +11,12 @@ import CoreData
 struct ActivityDetailView: View {
     let activity: ActivityData
     let day: LocalizedStringKey
-    let time: String
     
     @State private var userDescription = ""
     @State private var userMood = ""
     @State private var userActivity = ""
     @State private var userIcon = K.unspecifiedSymbol
+    @State private var userDate = Date()
     
     @State private var alreadySet = false
     
@@ -37,11 +37,9 @@ struct ActivityDetailView: View {
         ScrollViewReader { scrollView in
             ScrollView {
                 VStack(alignment: .leading) {
-                    Text(time)
-                        .font(.senti(size: 23))
-                        .padding(.leading, 25)
-                    
                     VStack(alignment: .leading) {
+                        ChangeActivityDate(date: $userDate)
+                        
                         ActivityDetailActivity(activity: $userActivity, icon: $userIcon)
                         
                         ActivityDetailMood(width: width, mood: $userMood, activity: activity)
@@ -59,6 +57,7 @@ struct ActivityDetailView: View {
                     .padding()
                     .standardBackground()
                     .padding(.horizontal, 15)
+                    .padding(.top)
                     
                     SentiDeleteButton(label: "Delete this activity") {
                         persistenceController.deleteActivity(id: activity.id, viewContext)
@@ -69,7 +68,7 @@ struct ActivityDetailView: View {
                     }
                 }
             }
-            .navigationTitle(day)
+            .navigationTitle(userActivity)
             .toolbar {
                 ToolbarItemGroup(placement: .keyboard) {
                     HStack {
@@ -93,6 +92,7 @@ struct ActivityDetailView: View {
                 userIcon = activity.icon
                 userMood = activity.sentiment
                 userDescription = activity.description
+                userDate = activity.date
                 alreadySet = true
             }
         }
@@ -100,6 +100,30 @@ struct ActivityDetailView: View {
             persistenceController.updateActivity(with: userActivity, id: activity.id, viewContext)
             model.updateInfluence(activities: activities, viewContext, persistenceController: persistenceController)
         }
+        .onChange(of: userDate) { newValue in
+            persistenceController.updateActivityDate(with: newValue, id: activity.id, viewContext)
+        }
+    }
+}
+
+struct ChangeActivityDate: View {
+    @Binding var date: Date
+    
+    var body: some View {
+        HStack {
+            Text("DATE")
+                .font(.senti(size: 12))
+            Spacer()
+        }
+        
+        DatePicker(
+            "",
+            selection: $date,
+            in: ...Date(),
+            displayedComponents: [.date, .hourAndMinute]
+        )
+        .labelsHidden()
+        .padding(.bottom, 20)
     }
 }
 
@@ -221,6 +245,6 @@ struct ActivityDetailDescriptionEditor: View {
 
 struct ActivityDetailView_Previews: PreviewProvider {
     static var previews : some View {
-        ActivityDetailView(activity: ActivityData(id: "", activity: "Walk", icon: "figure.walk", date: Date(), description: "", sentiment: "happy"), day: "Today", time: "08:15")
+        ActivityDetailView(activity: ActivityData(id: "", activity: "Walk", icon: "figure.walk", date: Date(), description: "", sentiment: "happy"), day: "Today")
     }
 }

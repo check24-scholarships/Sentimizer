@@ -256,7 +256,7 @@ struct EntriesOfDay: View {
                 let activity = entries[i]
                 let time = DateFormatter.formatDate(date: activity.date, format: "HH:mm")
                 
-                NavigationLink { ActivityDetailView(activity: activity, day: LocalizedStringKey(day), time: time) } label: {
+                NavigationLink { ActivityDetailView(activity: activity, day: LocalizedStringKey(day)) } label: {
                     ActivityBar(activity: activity, activityName: LocalizedStringKey(activity.activity), time: time)
                         .padding([.bottom, .trailing], 10)
                 }

@@ -33,6 +33,7 @@ struct SettingsView: View {
                             .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2Light)
                         ZStack {
                             SentiTextField(placeholder: "Your nickname", text: $nicknameText, textFieldEditing: $nicknameTextFieldEditing, done: .constant(false), textFieldFocus: _nicknameTextFieldFocused)
+                                .disableAutocorrection(true)
                                 .padding(.vertical, -10)
                                 .onChange(of: nicknameTextFieldEditing) { _ in
                                     userNickname = nicknameText
