@@ -40,11 +40,11 @@ struct ActivityDetailView: View {
                     VStack(alignment: .leading) {
                         ChangeActivityDate(date: $userDate)
                         
-                        ActivityDetailActivity(activity: $userActivity, icon: $userIcon)
+                        ChangeActivityName(activity: $userActivity, icon: $userIcon)
                         
-                        ActivityDetailMood(width: width, mood: $userMood, activity: activity)
+                        ChangeActivityMood(width: width, mood: $userMood, activity: activity)
                         
-                        ActivityDetailDescriptionEditor(description: $userDescription, isEditing: $isEditingDescription, activity: activity, scrollView: scrollView)
+                        ChangeActivityDescription(description: $userDescription, isEditing: $isEditingDescription, activity: activity, scrollView: scrollView)
                     }
                     .overlay(
                         GeometryReader { g in
@@ -127,7 +127,7 @@ struct ChangeActivityDate: View {
     }
 }
 
-struct ActivityDetailActivity: View {
+struct ChangeActivityName: View {
     @Binding var activity: String
     @Binding var icon: String
     
@@ -151,7 +151,7 @@ struct ActivityDetailActivity: View {
     }
 }
 
-struct ActivityDetailMood: View {
+struct ChangeActivityMood: View {
     let width: CGFloat
     @Binding var mood: String
     let activity: ActivityData
@@ -178,7 +178,7 @@ struct ActivityDetailMood: View {
     }
 }
 
-struct ActivityDetailDescriptionEditor: View {
+struct ChangeActivityDescription: View {
     
     @Binding var description: String
     @Binding var isEditing: Bool
