@@ -79,7 +79,7 @@ struct SettingsView: View {
                     }
                 }
                 
-                Section(header: Text("Color Scheme").foregroundColor(.gray)) {
+                Section(header: Text("Color Scheme").font(.senti(size: 13)).foregroundColor(.gray)) {
                     Button {
                         Settings.saveColorScheme(.light)
                         colorScheme = Settings.getColorScheme()
@@ -130,7 +130,7 @@ struct SettingsView: View {
                     }
                 }
                 
-                Section(header: Text("Color Theme").foregroundColor(.gray)) {
+                Section(header: Text("Color Theme").font(.senti(size: 13)).foregroundColor(.gray)) {
                     Button {
                         Settings.saveColorTheme(true)
                         colorTheme = true
@@ -164,8 +164,7 @@ struct SettingsView: View {
                         }
                     }
                 }
-                
-                Section(header: Text("Use Face ID / Touch ID to restrict access").foregroundColor(.gray)) {
+                Section {
                     Button {
                         appHasToBeUnlocked.toggle()
                         UserDefaults.standard.set(appHasToBeUnlocked, forKey: K.appHasToBeUnlocked)
@@ -182,6 +181,8 @@ struct SettingsView: View {
                             }
                         }
                     }
+                } footer: {
+                    Text("Use Face ID / Touch ID to restrict access to Sentimizer.").font(.senti(size: 13)).foregroundColor(.gray)
                 }
                 
                 Section {
@@ -201,7 +202,7 @@ struct SettingsView: View {
                     }
                 }
                 
-                Section(header: Text("Other").foregroundColor(.gray)) {
+                Section(header: Text("Other").font(.senti(size: 13)).foregroundColor(.gray)) {
                     HStack {
                         Image(systemName: "globe")
                             .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2, width: 17)
@@ -236,7 +237,7 @@ struct SettingsView: View {
                     }
                     
                     Text("""
-                        1.0.0: This version of Sentimizer is still in beta. Some features may not be available yet.
+                        1.1.1: This version of Sentimizer is still in beta. Some features may not be available yet.
                         Created by Samuel Ginsberg, Justin Hohenstein and Henry Pham. Smiley Icons made by Freepik from flaticon.com.
                         """)
                     .multilineTextAlignment(.leading)
