@@ -103,6 +103,7 @@ struct WelcomeView2: View {
                             .padding(.horizontal, 20)
                             .padding(.bottom)
                     }
+                    .opacity(nickname.map{$0 != " "}.isEmpty ? 0.5 : 1)
                     .disabled(nickname.map{$0 != " "}.isEmpty)
                 }
                 .onTapGesture {
@@ -181,6 +182,7 @@ struct WelcomeView3: View {
                                             .padding(.leading)
                                             .gradientForeground(colors: [.brandColor2, .brandColor2Light])
                                     }
+                                    .opacity(selection < 1 ? 0.3 : 1)
                                     .disabled(selection < 1)
                                     
                                     Spacer()
@@ -197,6 +199,7 @@ struct WelcomeView3: View {
                                             .padding(.trailing)
                                             .gradientForeground(colors: [.brandColor2, .brandColor2Light])
                                     }
+                                    .opacity(selection > welcomeImages.count-1 ? 0.3 : 1)
                                     .disabled(selection > welcomeImages.count-1)
                                 }
                                 .padding()
