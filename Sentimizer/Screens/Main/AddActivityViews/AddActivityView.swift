@@ -22,6 +22,7 @@ struct AddActivityView: View {
     
     @State private var description = ""
     @State private var mood = ""
+    private var prefilledActivity = ""
     @State private var activity = ""
     @State private var icon = ""
     @State private var date = Date()
@@ -118,12 +119,22 @@ struct AddActivityView: View {
             }
             .accentColor(.brandColor2)
         }
+        .onAppear {
+            if !prefilledActivity.isEmpty {
+                activity = prefilledActivity
+                icon = persistenceController.getActivityIcon(activityName: activity, viewContext)
+            }
+        }
     }
     
-    init() {
+    init(activity: String = "") {
         let f: NSFetchRequest<Activity> = Activity.fetchRequest()
         f.sortDescriptors = []
         _activities = FetchRequest(fetchRequest: f)
+        
+        if !activity.isEmpty {
+            prefilledActivity = activity
+        }
     }
 }
 

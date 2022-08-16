@@ -44,7 +44,7 @@ struct MainActivityView: View {
                 if entries.count < 1 {
                     NoEntries()
                 } else {
-                    WhatNext(activity: "Walk")
+                    WhatNext(addSheetPresented: $addActivitySheetPresented)
                         .padding(.bottom, 15)
                         .padding(.horizontal, 5)
                     

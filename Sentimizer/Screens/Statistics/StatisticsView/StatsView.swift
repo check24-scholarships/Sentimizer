@@ -37,6 +37,8 @@ struct StatsView: View {
     @State private var worsened: ([String], [Double]) = ([], [])
     @State private var influenceTimeInterval: String.LocalizationValue = "Last Month"
     
+    @State private var addActivitySheetPresented = false
+    
     @AppStorage(K.colorTheme) private var colorTheme = false
     
     var body: some View {
@@ -63,7 +65,7 @@ struct StatsView: View {
                             .font(.senti(size: 20))
                             .padding([.leading, .top])
                         
-                        WhatNext(activity: "Walk", backgroundGray: true)
+                        WhatNext(backgroundGray: true, addSheetPresented: $addActivitySheetPresented)
                         
                         Text("Mood")
                             .font(.senti(size: 20))
@@ -122,6 +124,9 @@ struct StatsView: View {
             }
             .onChange(of: colorTheme) { _ in
                 UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(.brandColor2)
+            }
+            .onChange(of: addActivitySheetPresented) { _ in
+                fillChartsData()
             }
         }
     }

@@ -10,11 +10,13 @@ import SwiftUI
 struct WhatNext: View {
     @Environment(\.managedObjectContext) var viewContext
     
-    @State var activity: String
+    @State private var activity = ""
     var backgroundGray = false
     
     @State private var brandColor2 = Color.brandColor2
     @State private var brandColor2Light = Color.brandColor2Light
+    
+    @Binding var addSheetPresented: Bool
     
     var body: some View {
         VStack {
@@ -27,6 +29,9 @@ struct WhatNext: View {
             SentiButton(icon: PersistenceController().getActivityIcon(activityName: activity, viewContext), title: LocalizedStringKey(activity), style: .outlined, chevron: false, shadow: false)
                 .gradientForeground(colors: [brandColor2, brandColor2Light])
                 .scaleEffect(0.8)
+                .onTapGesture {
+                    addSheetPresented = true
+                }
         }
         .padding()
         .if(backgroundGray) { view in
@@ -39,11 +44,14 @@ struct WhatNext: View {
             brandColor2Light = Color.brandColor2Light
             activity = Model().influenceImprovedYear.0.first ?? "Walk"
         }
+        .sheet(isPresented: $addSheetPresented) {
+            AddActivityView(activity: activity)
+        }
     }
 }
 
 struct WhatNext_Previews: PreviewProvider {
     static var previews: some View {
-        WhatNext(activity: "Walk")
+        WhatNext(addSheetPresented: .constant(false))
     }
 }
