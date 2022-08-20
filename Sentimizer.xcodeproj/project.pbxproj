@@ -65,6 +65,7 @@
 		EBCDD1182827F545006AD5E2 /* WhatNext.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCDD1172827F545006AD5E2 /* WhatNext.swift */; };
 		EBCDD11A282AD30C006AD5E2 /* NewActivityCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCDD119282AD30C006AD5E2 /* NewActivityCategoryView.swift */; };
 		EBCDD11E282AD75E006AD5E2 /* KeyboardHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCDD11D282AD75E006AD5E2 /* KeyboardHelper.swift */; };
+		EBD62AB228B13EC000173789 /* Collapsible.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBD62AB128B13EC000173789 /* Collapsible.swift */; };
 		EBD795F428744C9D00C2ADF7 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EBD795F628744C9D00C2ADF7 /* Localizable.strings */; };
 		EBD795FA28744F7B00C2ADF7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EBD795F828744F7B00C2ADF7 /* InfoPlist.strings */; };
 		EBDB9F6E2833A22000586EB7 /* MoodPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDB9F6D2833A22000586EB7 /* MoodPicker.swift */; };
@@ -154,6 +155,7 @@
 		EBCDD1172827F545006AD5E2 /* WhatNext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatNext.swift; sourceTree = "<group>"; };
 		EBCDD119282AD30C006AD5E2 /* NewActivityCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewActivityCategoryView.swift; sourceTree = "<group>"; };
 		EBCDD11D282AD75E006AD5E2 /* KeyboardHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHelper.swift; sourceTree = "<group>"; };
+		EBD62AB128B13EC000173789 /* Collapsible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collapsible.swift; sourceTree = "<group>"; };
 		EBD795F528744C9D00C2ADF7 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EBD795F728744CC000C2ADF7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EBD795F928744F7B00C2ADF7 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -213,6 +215,7 @@
 				EBDB9F6D2833A22000586EB7 /* MoodPicker.swift */,
 				EB410CEC283A965E00D629B2 /* SentiDeleteButton.swift */,
 				EB15CF7D2842AA4000564728 /* DismissButton.swift */,
+				EBD62AB128B13EC000173789 /* Collapsible.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -613,6 +616,7 @@
 				EB33D13C2833E84900F4634C /* EditActivityCategoryView.swift in Sources */,
 				EB46BBBF284D28530088CD1C /* WelcomeView.swift in Sources */,
 				EB91193128301BA000C82E63 /* SentiTextEditor.swift in Sources */,
+				EBD62AB228B13EC000173789 /* Collapsible.swift in Sources */,
 				EBDB9F702833CBC000586EB7 /* CalendarView.swift in Sources */,
 				EBCDD1182827F545006AD5E2 /* WhatNext.swift in Sources */,
 				EB4C5310287755EC00540BAB /* String+Extension.swift in Sources */,

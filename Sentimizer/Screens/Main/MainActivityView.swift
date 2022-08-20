@@ -16,6 +16,8 @@ struct MainActivityView: View {
     
     @State private var welcomeScreenPresented = false
     @State private var addActivitySheetPresented = false
+    @State private var whatNextWantsToPresentAddActivitySheet = false
+    @State private var whatNextWantsToAddActivity = ""
     
     @State private var selectedMonth = Date()
     
@@ -44,7 +46,7 @@ struct MainActivityView: View {
                 if entries.count < 1 {
                     NoEntries()
                 } else {
-                    WhatNext(addSheetPresented: $addActivitySheetPresented)
+                    WhatNext(addSheetPresented: $whatNextWantsToPresentAddActivitySheet, activityToAdd: $whatNextWantsToAddActivity)
                         .padding(.bottom, 15)
                         .padding(.horizontal, 5)
                     
@@ -66,10 +68,6 @@ struct MainActivityView: View {
                 }
             }
             .padding(.horizontal, 10)
-        }
-        .sheet(isPresented: $addActivitySheetPresented) {
-            AddActivityView()
-                .environment(\.managedObjectContext, self.viewContext)
         }
         .onAppear {
             print("APPEARED_")
@@ -119,7 +117,24 @@ struct MainActivityView: View {
             brandColor2 = Color.brandColor2
             brandColor2Light = Color.brandColor2Light
         }
+        .sheet(isPresented: $addActivitySheetPresented) {
+            AddActivityView()
+                .environment(\.managedObjectContext, self.viewContext)
+        }
+        .sheet(isPresented: $whatNextWantsToPresentAddActivitySheet) {
+            AddActivityView(activity: whatNextWantsToAddActivity)
+                .environment(\.managedObjectContext, self.viewContext)
+        }
         .onChange(of: addActivitySheetPresented) { newValue in
+            if !newValue {
+                if persistenceController.getEntryData(entries: entries, month: selectedMonth, viewContext).0.count > 0 {
+                    showLastMonth = false
+                }
+                
+                fillEntryData()
+            }
+        }
+        .onChange(of: whatNextWantsToPresentAddActivitySheet) { newValue in
             if !newValue {
                 if persistenceController.getEntryData(entries: entries, month: selectedMonth, viewContext).0.count > 0 {
                     showLastMonth = false

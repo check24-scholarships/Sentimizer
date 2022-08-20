@@ -38,6 +38,7 @@ struct StatsView: View {
     @State private var influenceTimeInterval: String.LocalizationValue = "Last Month"
     
     @State private var addActivitySheetPresented = false
+    @State private var activityToAdd = ""
     
     @AppStorage(K.colorTheme) private var colorTheme = false
     
@@ -65,7 +66,7 @@ struct StatsView: View {
                             .font(.senti(size: 20))
                             .padding([.leading, .top])
                         
-                        WhatNext(backgroundGray: true, addSheetPresented: $addActivitySheetPresented)
+                        WhatNext(backgroundGray: true, addSheetPresented: $addActivitySheetPresented, activityToAdd: $activityToAdd)
                         
                         Text("Mood")
                             .font(.senti(size: 20))
@@ -127,6 +128,10 @@ struct StatsView: View {
             }
             .onChange(of: addActivitySheetPresented) { _ in
                 fillChartsData()
+            }
+            .sheet(isPresented: $addActivitySheetPresented) {
+                AddActivityView(activity: activityToAdd)
+                    .environment(\.managedObjectContext, self.viewContext)
             }
         }
     }

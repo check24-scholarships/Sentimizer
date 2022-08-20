@@ -17,6 +17,7 @@ struct WhatNext: View {
     @State private var brandColor2Light = Color.brandColor2Light
     
     @Binding var addSheetPresented: Bool
+    @Binding var activityToAdd: String
     
     var body: some View {
         VStack {
@@ -30,6 +31,7 @@ struct WhatNext: View {
                 .gradientForeground(colors: [brandColor2, brandColor2Light])
                 .scaleEffect(0.8)
                 .onTapGesture {
+                    activityToAdd = activity
                     addSheetPresented = true
                 }
         }
@@ -44,14 +46,11 @@ struct WhatNext: View {
             brandColor2Light = Color.brandColor2Light
             activity = Model().influenceImprovedYear.0.first ?? "Walk"
         }
-        .sheet(isPresented: $addSheetPresented) {
-            AddActivityView(activity: activity)
-        }
     }
 }
 
 struct WhatNext_Previews: PreviewProvider {
     static var previews: some View {
-        WhatNext(addSheetPresented: .constant(false))
+        WhatNext(addSheetPresented: .constant(false), activityToAdd: .constant(""))
     }
 }

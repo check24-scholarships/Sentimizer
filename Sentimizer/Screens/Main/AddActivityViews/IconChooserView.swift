@@ -24,6 +24,16 @@ struct IconChooser: View {
                 }
                 .padding(.horizontal, 2)
                 
+                
+                Collapsible {
+                    Text("All Icons")
+                        .font(.senti(size: 15))
+                } content: {
+                    IconGrid(icons: K.allIcons, chosenIcon: $iconName)
+                }
+                .padding(.vertical)
+                .padding(.horizontal, 2)
+                
                 Button {
                     dismiss()
                     done = true
@@ -44,7 +54,22 @@ struct IconChooser: View {
 }
 
 struct CategoryOfIcons: View {
+    
     let categoryName: LocalizedStringKey
+    let icons: [String]
+    @Binding var chosenIcon: String
+    
+    var body: some View {
+        Text(categoryName)
+            .font(.senti(size: 12))
+            .padding(.top)
+        
+        IconGrid(icons: icons, chosenIcon: $chosenIcon)
+    }
+}
+
+struct IconGrid: View {
+    
     let icons: [String]
     @Binding var chosenIcon: String
     
@@ -56,10 +81,6 @@ struct CategoryOfIcons: View {
     @State private var imageBounds: CGSize = CGSize(width: 35, height: 35)
     
     var body: some View {
-        Text(categoryName)
-            .font(.senti(size: 12))
-            .padding(.top)
-        
         LazyVGrid(columns: columns, spacing: 5) {
             ForEach(icons, id: \.self) { icon in
                 Group {
