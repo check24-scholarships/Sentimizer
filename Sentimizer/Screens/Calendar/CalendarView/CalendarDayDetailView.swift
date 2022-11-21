@@ -28,24 +28,33 @@ struct CalendarDayDetailView: View {
     var body: some View {
         NavigationView {
             ZStack(alignment: .topLeading) {
-                TabView(selection: $selectedDayIndex) {
-                    ForEach(0..<getDaysInWeek().count, id: \.self) { index in
-                        let currentDay = getDaysInWeek()[index]
-                        ScrollView {
-                            VStack(spacing: 0) {
-                                let content = getContent(for: currentDay)
-                                
-                                DayList(content: content, day: currentDay, editing: $editing)
+                VStack {
+                    Image(systemName: "poweron")
+                        .rotationEffect(Angle(degrees: 90))
+                        .font(.system(size: 30))
+                        .fontWeight(.bold)
+                        .foregroundColor(.gray)
+                        .padding(-5)
+                    
+                    TabView(selection: $selectedDayIndex) {
+                        ForEach(0..<getDaysInWeek().count, id: \.self) { index in
+                            let currentDay = getDaysInWeek()[index]
+                            ScrollView {
+                                VStack(spacing: 0) {
+                                    let content = getContent(for: currentDay)
+                                    
+                                    DayList(content: content, day: currentDay, editing: $editing)
+                                }
                             }
+                            .padding(.top)
+                            .tag(index)
                         }
-                        .padding(.top)
-                        .tag(index)
                     }
-                }
-                .tabViewStyle(PageTabViewStyle())
-                .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
-                .onAppear {
-                    selectedDayIndex = getDaysInWeek().firstIndex(of: date) ?? 0
+                    .tabViewStyle(PageTabViewStyle())
+                    .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
+                    .onAppear {
+                        selectedDayIndex = getDaysInWeek().firstIndex(of: date) ?? 0
+                    }
                 }
                 
                 Button {

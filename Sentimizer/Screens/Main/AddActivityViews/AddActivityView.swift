@@ -9,6 +9,7 @@ import SwiftUI
 import CoreData
 
 struct AddActivityView: View {
+    
     @Environment(\.dismiss) private var dismiss
     @Environment(\.managedObjectContext) var viewContext
     @EnvironmentObject private var model: Model
@@ -55,8 +56,6 @@ struct AddActivityView: View {
                                     
                                     AddDescription(description: $description)
                                 }
-                                .opacity(activity.isEmpty ? 0.5 : 1)
-                                .disabled(activity.isEmpty)
                             }
                             .offset(y: keyboardHeightHelper.height != 0 ? (g.size.height - textFieldYPlusHeight - (g.size.height - keyboardHeightHelper.height) + 10) : 0)
                             .animation(.easeOut, value: keyboardHeightHelper.height)

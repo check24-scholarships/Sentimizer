@@ -41,6 +41,7 @@ struct SentiTextEditor: View {
                         }
                     }
                 }
+                .scrollContentBackground(.hidden)
         }
         .padding()
         .background(RoundedRectangle(cornerRadius: 25).foregroundColor(.gray.opacity(0.3)))
