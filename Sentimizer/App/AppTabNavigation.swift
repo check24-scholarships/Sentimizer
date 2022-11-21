@@ -22,15 +22,19 @@ struct AppTabNavigation: View {
         TabView(selection: $selection) {
             MainTab()
             .tag(Tab.activities)
+            .toolbarBackground(.visible, for: .tabBar)
             
             StatsTab()
             .tag(Tab.stats)
+            .toolbarBackground(.visible, for: .tabBar)
             
             CalendarTab()
             .tag(Tab.calendar)
+            .toolbarBackground(.visible, for: .tabBar)
             
             SettingsTab()
             .tag(Tab.settings)
+            .toolbarBackground(.visible, for: .tabBar)
         }
     }
     

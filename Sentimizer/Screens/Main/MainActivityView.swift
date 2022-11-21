@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  MainActivityView.swift
 //  Sentimizer
 //
 //  Created by Samuel Ginsberg, 2022.
@@ -9,13 +9,14 @@ import SwiftUI
 import CoreData
 
 struct MainActivityView: View {
-    @Environment(\.managedObjectContext) var viewContext
     
+    @Environment(\.managedObjectContext) var viewContext
     
     @StateObject private var persistenceController = PersistenceController()
     
     @State private var welcomeScreenPresented = false
     @State private var addActivitySheetPresented = false
+    @State private var addActivityButtonWantsToAddActivity = ""
     @State private var whatNextWantsToPresentAddActivitySheet = false
     @State private var whatNextWantsToAddActivity = ""
     
@@ -41,7 +42,7 @@ struct MainActivityView: View {
             Greeting()
             
             Group {
-                AddActivityButton(addActivitySheetPresented: $addActivitySheetPresented)
+                AddActivityButton(addActivitySheetPresented: $addActivitySheetPresented, addActivity: $addActivityButtonWantsToAddActivity)
                 
                 if entries.count < 1 {
                     NoEntries()
@@ -70,7 +71,7 @@ struct MainActivityView: View {
             .padding(.horizontal, 10)
         }
         .onAppear {
-            print("APPEARED_")
+            /*print("APPEARED_")
             K.rnn.saveModels()
             Task {
                 do {
@@ -109,7 +110,7 @@ struct MainActivityView: View {
             }
             
             let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-            print(urls[urls.count-1] as URL)
+            print(urls[urls.count-1] as URL)*/
             
             fillEntryData()
             welcomeScreenPresented = !UserDefaults.standard.bool(forKey: K.welcomeScreenShown)
@@ -118,8 +119,13 @@ struct MainActivityView: View {
             brandColor2Light = Color.brandColor2Light
         }
         .sheet(isPresented: $addActivitySheetPresented) {
-            AddActivityView()
-                .environment(\.managedObjectContext, self.viewContext)
+            if addActivityButtonWantsToAddActivity.isEmpty {
+                AddActivityView()
+                    .environment(\.managedObjectContext, self.viewContext)
+            } else {
+                AddActivityView(activity: addActivityButtonWantsToAddActivity)
+                    .environment(\.managedObjectContext, self.viewContext)
+            }
         }
         .sheet(isPresented: $whatNextWantsToPresentAddActivitySheet) {
             AddActivityView(activity: whatNextWantsToAddActivity)
@@ -199,7 +205,11 @@ struct Greeting: View {
 }
 
 struct AddActivityButton: View {
+    
+    @FetchRequest(entity: Activity.entity(), sortDescriptors: []) private var activities: FetchedResults<Activity>
+    
     @Binding var addActivitySheetPresented: Bool
+    @Binding var addActivity: String
     
     let haptic = UIImpactFeedbackGenerator(style: .light)
     
@@ -216,6 +226,7 @@ struct AddActivityButton: View {
         }
         .padding(.horizontal, 5)
         .padding(.bottom)
+        
     }
 }
 
@@ -261,6 +272,10 @@ struct EntriesOfDay: View {
     let day: String
     let entries: [ActivityData]
     
+    @Environment(\.managedObjectContext) var viewContext
+    
+    @StateObject private var persistenceController = PersistenceController()
+    
     var body: some View {
         VStack(alignment: .leading) {
             Text(LocalizedStringKey(day))
@@ -274,6 +289,11 @@ struct EntriesOfDay: View {
                 NavigationLink { ActivityDetailView(activity: activity, day: LocalizedStringKey(day)) } label: {
                     ActivityBar(activity: activity, activityName: LocalizedStringKey(activity.activity), time: time)
                         .padding([.bottom, .trailing], 10)
+                        .contextMenu {
+                            Button("Delete") {
+                                persistenceController.deleteActivity(id: activity.id, viewContext)
+                            }
+                        }
                 }
             }
         }

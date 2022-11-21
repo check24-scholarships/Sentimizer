@@ -26,18 +26,22 @@ struct SettingsView: View {
     var body: some View {
         ZStack {
             Color.bgColor.ignoresSafeArea()
+            
             List {
                 Section {
                     HStack {
                         Image(systemName: "person.fill")
                             .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2Light)
+                        
                         ZStack {
                             SentiTextField(placeholder: "Your nickname", text: $nicknameText, textFieldEditing: $nicknameTextFieldEditing, done: .constant(false), textFieldFocus: _nicknameTextFieldFocused)
                                 .disableAutocorrection(true)
                                 .padding(.vertical, -10)
+                                .padding(.leading)
                                 .onChange(of: nicknameTextFieldEditing) { _ in
                                     userNickname = nicknameText
                                 }
+                            
                             HStack {
                                 Spacer()
                                 
@@ -57,7 +61,6 @@ struct SettingsView: View {
                                 }
                             }
                         }
-                        
                     }
                 }
                 
@@ -182,7 +185,9 @@ struct SettingsView: View {
                         }
                     }
                 } footer: {
-                    Text("Use Face ID / Touch ID to restrict access to Sentimizer.").font(.senti(size: 13)).foregroundColor(.gray)
+                    Text("Use Face ID / Touch ID to restrict access to Sentimizer.")
+                        .font(.senti(size: 13))
+                        .foregroundColor(.gray)
                 }
                 
                 Section {
@@ -246,10 +251,10 @@ struct SettingsView: View {
                 }
             }
             .listStyle(.insetGrouped)
+            .scrollContentBackground(.hidden)
             .font(.senti(size: 20))
             .padding(.top, 5)
             .onAppear {
-                UITableView.appearance().backgroundColor = .clear // tableview background
                 colorTheme = Settings.getColorTheme()
             }
             .foregroundColor(.textColor)

@@ -17,6 +17,7 @@ extension Color {
     static var brandColor4: Color { Color(UserDefaults.standard.bool(forKey: K.colorTheme) ? "brandColor4" : "brandColor42") }
     static var textColor: Color { Color(UserDefaults.standard.bool(forKey: K.colorTheme) ? "textColor" : "textColor2") }
     static var dayViewBgColor: Color { Color(UserDefaults.standard.bool(forKey: K.colorTheme) ? "dayViewBg" : "dayViewBg2") }
+    static var tabBarColor: Color { Color(UserDefaults.standard.bool(forKey: K.colorTheme) ? "tabBarColor" : "tabBarColor2") }
     
     func adjust(hue: CGFloat = 0, saturation: CGFloat = 0, brightness: CGFloat = 0, opacity: CGFloat = 1) -> Color {
         let color = UIColor(self)
