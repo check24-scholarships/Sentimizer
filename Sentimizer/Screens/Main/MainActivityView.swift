@@ -206,8 +206,6 @@ struct Greeting: View {
 
 struct AddActivityButton: View {
     
-    @FetchRequest(entity: Activity.entity(), sortDescriptors: []) private var activities: FetchedResults<Activity>
-    
     @Binding var addActivitySheetPresented: Bool
     @Binding var addActivity: String
     

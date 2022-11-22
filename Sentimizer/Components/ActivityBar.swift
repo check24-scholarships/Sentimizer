@@ -18,6 +18,9 @@ struct ActivityBar: View {
     @State private var brandColor2Light = Color.brandColor2Light
     
     var body: some View {
+        
+        let descriptionEmpty = activity.description.isEmpty
+        
         HStack {
             Text(time)
                 .font(.senti(size: 20))
@@ -28,34 +31,34 @@ struct ActivityBar: View {
             HStack {
                 Image(systemName: activity.icon)
                     .standardIcon(shouldBeMaxWidthHeight: true, maxWidthHeight: 30)
-                    .padding(.leading)
+                    .padding(.leading, descriptionEmpty ? 10 : 15)
                 
                 VStack(alignment: .leading, spacing: 0) {
                     Text(activityName)
                         .lineLimit(1)
                         .minimumScaleFactor(0.6)
-                        .padding(.top, 5)
+                        .padding(.top, descriptionEmpty ? 0 : 5)
                         .padding(2)
                     
-                    let isEmpty = activity.description.isEmpty
-                    let description: LocalizedStringKey = activity.description.isEmpty ? "Describe your activity..." : LocalizedStringKey(activity.description)
-                    Text(description)
-                        .font(.senti(size: 18))
-                        .opacity(isEmpty ? 0.5 : 1.0)
-                        .lineLimit(2)
-                        .multilineTextAlignment(.leading)
-                        .padding(.bottom, 10)
-                        .padding(.leading, 2)
-                        .foregroundColor(.textColor)
+                    if !descriptionEmpty {
+                        Text(activity.description)
+                            .font(.senti(size: 18))
+                            .lineLimit(2)
+                            .multilineTextAlignment(.leading)
+                            .padding(.bottom, 10)
+                            .padding(.leading, 2)
+                            .foregroundColor(.textColor)
+                    }
                 }
+                
                 Spacer()
+                
                 Image(activity.sentiment)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 40)
-                    .padding(15)
+                    .padding(descriptionEmpty ? 10 : 15)
                     .changeColor(to: .brandColor2)
-//                    .background(Rectangle().gradientForeground(.leading, .trailing).frame(height: 100))
             }
             .font(.senti(size: 25))
             .foregroundColor(brandColor2)
