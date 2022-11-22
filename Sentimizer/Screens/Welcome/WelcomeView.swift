@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// Make a Hello xxxx then say Hello xxxx
 struct WelcomeView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var done = false
@@ -18,6 +19,7 @@ struct WelcomeView: View {
                 VStack {
                     ZStack {
                         VStack {
+                            // System icons as background
                             ForEach(0...1, id: \.self) { i in
                                 HStack {
                                     ForEach(0..<K.defaultActivities.1.count-6, id: \.self) { j in
@@ -31,6 +33,7 @@ struct WelcomeView: View {
                             }
                         }
                         
+                        // Sentimizer gradient font
                         Text("Sentimizer")
                             .font(.senti(size: 50))
                             .gradientForeground(colors: [.brandColor1, .brandColor4], .leading, .trailing)
@@ -56,7 +59,7 @@ struct WelcomeView: View {
                     
                     
                     Spacer()
-                    
+                    // jump to second screen on button click
                     NavigationLink {
                         WelcomeView2(done: $done)
                     } label: {
@@ -67,6 +70,7 @@ struct WelcomeView: View {
             }
             .navigationBarHidden(true)
         }
+        // dismisses all screens when done
         .onChange(of: done) { newValue in
             if done {
                 dismiss()
@@ -80,6 +84,7 @@ struct WelcomeView2: View {
     
     @State private var nickname = ""
     @State private var textFieldEditing = false
+    @FocusState private var keyboardFocused: Bool
     
     var body: some View {
         NavigationView {
@@ -93,6 +98,13 @@ struct WelcomeView2: View {
                     SentiTextField(placeholder: "Your nickname...", text: $nickname, textFieldEditing: $textFieldEditing, done: .constant(false))
                         .padding()
                         .padding(.top, 50)
+                        // automatically call keyboard on next screen
+                        .focused($keyboardFocused)
+                        .onAppear {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                keyboardFocused = true
+                            }
+                        }
                     
                     Spacer()
                     
