@@ -115,11 +115,6 @@ struct WelcomeView2: View {
                         .padding(.top, 50)
                         // automatically call keyboard on next screen
                         .focused($keyboardFocused)
-                        .onAppear {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                                keyboardFocused = true
-                            }
-                        }
                     
                     Spacer()
                     
@@ -146,6 +141,9 @@ struct WelcomeView2: View {
                 }
             }
             .navigationBarHidden(true)
+        }
+        .onAppear {
+            keyboardFocused = true
         }
     }
 }
