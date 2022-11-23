@@ -14,9 +14,11 @@ struct WelcomeView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color.bgColor.ignoresSafeArea()
                 VStack {
                     ZStack {
+                        // Shape to fill upper part
+                        Color.brandColor2.frame(width:1000, height:150)
+                            .ignoresSafeArea()
                         VStack {
                             // System icons as background
                             ForEach(0...1, id: \.self) { i in
@@ -38,9 +40,9 @@ struct WelcomeView: View {
                             .gradientForeground(colors: [.brandColor1, .brandColor4], .leading, .trailing)
                             .shadow(radius: 10)
                             .padding(30)
+                            .ignoresSafeArea()
                     }
-                    .background(Rectangle().frame(width: 1000).foregroundColor(.brandColor2).ignoresSafeArea())
-                        //.clipShape(RoundedRectangle(cornerRadius: 100))
+                    .background(Ellipse().frame(width: 700, height:220).foregroundColor(.brandColor2).ignoresSafeArea())
                    
                     // Screentext
                     VStack(alignment: .leading) {
