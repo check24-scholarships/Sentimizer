@@ -52,9 +52,6 @@ struct NewActivityCategoryView: View {
                     
                     showDoubleNameAlert = true
                 }
-                .onChange(of: activityTextFieldText) { newValue in
-                    print(newValue.filter({!$0.isWhitespace}).isEmpty)
-                }
             }
             .onTapGesture {
                 textFieldEditing = false
