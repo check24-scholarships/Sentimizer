@@ -40,14 +40,12 @@ struct SentiTextField: View {
         })
         .toolbar {
             ToolbarItemGroup(placement: .keyboard) {
-                HStack {
-                    Spacer()
-                    Button("Done") {
-                        dismissKeyboard()
-                    }
-                    .font(.senti(size: 19))
-                    .foregroundColor(brandColor2)
+                Spacer()
+                Button("Done") {
+                    dismissKeyboard()
                 }
+                .font(.senti(size: 19))
+                .foregroundColor(brandColor2)
             }
         }
         .onAppear {
