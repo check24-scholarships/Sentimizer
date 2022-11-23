@@ -50,12 +50,13 @@ struct WelcomeView: View {
                             .frame(maxWidth: .infinity, alignment: .center)
                             .font(.senti(size: 28))
                             .padding(.top, 40)
-                            .padding(.bottom, 20)
+                            .padding(.bottom)
+                        
                         HStack{
                             Image(systemName: "hand.thumbsup")
                                 .padding()
                             Text("Sentimizer helps you to track your moods, reflect on your day and improve your life. Let's go!")
-                                .font(.system(size: 20))
+                                .font(.sentiLight(size: 20))
                                 .padding(.trailing)
                                 .padding(.top)
                             }
@@ -64,8 +65,8 @@ struct WelcomeView: View {
                             Image(systemName: "lock")
                                 .padding()
                             Text("Your privacy is very important to us. Data is stored only on your mobile phone, so you are in complete control.")
-                                .font(.system(size: 20))
-                                .padding(.trailing, 30)
+                                .font(.sentiLight(size: 20))
+                                .padding(.trailing)
                                 .padding(.top)
                         }
                         Spacer()

@@ -14,5 +14,9 @@ extension Font {
     static func senti(size: CGFloat) -> Font {
         return .custom("ArialRoundedMTBold", size: size)
     }
+    
+    static func sentiLight(size: CGFloat) -> Font {
+        return .custom("Helvetica Light", size:size)
+    }
 }
 
