@@ -16,7 +16,6 @@ extension Font {
     }
     
     static func sentiLight(size: CGFloat) -> Font {
-        // return .custom("Helvetica Light", size:size)
         return .custom("Helvetica Neue", size:size)
     }
 }

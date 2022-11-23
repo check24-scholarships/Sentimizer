@@ -114,7 +114,7 @@ struct WelcomeView2: View {
                         .padding()
                         .padding(.top)
                     
-                    TextField("Your name", text: $nickname)
+                    SentiWelcomeTextField(placeholder: "Your name", text: $nickname, textFieldEditing: $textFieldEditing, done: .constant(false))
                         .font(.senti(size: 35))
                         .multilineTextAlignment(.center)
                         .padding(.top, 50)
@@ -122,7 +122,7 @@ struct WelcomeView2: View {
                         .focused($keyboardFocused)
                     
                     Divider()
-                        .frame(width: 300)
+                        .padding(.horizontal)
 
                     Spacer()
                     
