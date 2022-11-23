@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-// Make a Hello xxxx then say Hello xxxx
 struct WelcomeView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var done = false
@@ -41,16 +40,30 @@ struct WelcomeView: View {
                             .padding(30)
                     }
                     .background(Rectangle().frame(width: 1000).foregroundColor(.brandColor2).ignoresSafeArea())
-                    
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text("Optimize Your Life")
-                                .font(.senti(size: 28))
-                                .padding(20)
-                            
-                            Text("Sentimizer helps you to track your moods, reflect on your day and improve your life. Let's go!")
-                                .font(.senti(size: 20))
+                        //.clipShape(RoundedRectangle(cornerRadius: 100))
+                   
+                    // Screentext
+                    VStack(alignment: .leading) {
+                        Text("Optimize Your Life!")
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .font(.senti(size: 28))
+                            .padding(.top, 40)
+                            .padding(.bottom, 20)
+                        HStack{
+                            Image(systemName: "hand.thumbsup")
                                 .padding()
+                            Text("Sentimizer helps you to track your moods, reflect on your day and improve your life. Let's go!")
+                                .font(.system(size: 20))
+                                .padding(.trailing)
+                                .padding(.top)
+                            }
+                        
+                        HStack{
+                            Image(systemName: "lock")
+                                .padding()
+                            Text("Your privacy is very important to us. Data is stored only on your mobile phone, so you are in complete control.")
+                                .font(.system(size: 20))
+                                .padding(.trailing, 30)
                                 .padding(.top)
                         }
                         Spacer()
