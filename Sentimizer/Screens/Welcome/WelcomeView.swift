@@ -17,7 +17,7 @@ struct WelcomeView: View {
                 VStack {
                     ZStack {
                         // Shape to fill upper part
-                        Color.brandColor2.frame(width:1000, height:150)
+                        Color.brandColor2.frame(width:500, height:150)
                             .ignoresSafeArea()
                         VStack {
                             // System icons as background
@@ -108,15 +108,22 @@ struct WelcomeView2: View {
                 Color.bgColor.ignoresSafeArea()
                 VStack {
                     Text("Nice to meet you! What do your friends call you?")
-                        .font(.senti(size: 23))
+                        .font(.senti(size: 25))
                         .frame(height: 60)
-                    
-                    SentiTextField(placeholder: "Your nickname...", text: $nickname, textFieldEditing: $textFieldEditing, done: .constant(false))
+                        .multilineTextAlignment(.center)
                         .padding()
+                        .padding(.top)
+                    
+                    SentiWelcomeTextField(placeholder: "Your name", text: $nickname, textFieldEditing: $textFieldEditing, done: .constant(false))
+                        .font(.senti(size: 35))
+                        .multilineTextAlignment(.center)
                         .padding(.top, 50)
                         // automatically call keyboard on next screen
                         .focused($keyboardFocused)
                     
+                    Divider()
+                        .padding(.horizontal)
+
                     Spacer()
                     
                     NavigationLink {

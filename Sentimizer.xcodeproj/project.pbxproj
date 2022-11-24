@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		61C81FDB2847D8BC0023655E /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61C81FDA2847D8BC0023655E /* CloudKit.framework */; };
+		691BB6C5292EB68400FA378C /* SentiWelcomeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691BB6C4292EB68400FA378C /* SentiWelcomeTextField.swift */; };
 		69CD9628287749B1007C38A5 /* DataBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CD9627287749B1007C38A5 /* DataBridge.swift */; };
 		8838ABB2282F7DA100D3599B /* ActivityDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838ABB1282F7DA100D3599B /* ActivityDetailView.swift */; };
 		8838ABB72833672000D3599B /* NeuralNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838ABB62833672000D3599B /* NeuralNetwork.swift */; };
@@ -91,6 +92,7 @@
 /* Begin PBXFileReference section */
 		61C81FD82847D8B10023655E /* Sentimizer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Sentimizer.entitlements; sourceTree = "<group>"; };
 		61C81FDA2847D8BC0023655E /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		691BB6C4292EB68400FA378C /* SentiWelcomeTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentiWelcomeTextField.swift; sourceTree = "<group>"; };
 		69CD9627287749B1007C38A5 /* DataBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBridge.swift; sourceTree = "<group>"; };
 		8838ABB1282F7DA100D3599B /* ActivityDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityDetailView.swift; sourceTree = "<group>"; };
 		8838ABB62833672000D3599B /* NeuralNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeuralNetwork.swift; sourceTree = "<group>"; };
@@ -198,6 +200,7 @@
 			children = (
 				EB91193028301BA000C82E63 /* SentiTextEditor.swift */,
 				EB410CEA283A5D4A00D629B2 /* SentiTextField.swift */,
+				691BB6C4292EB68400FA378C /* SentiWelcomeTextField.swift */,
 			);
 			path = Text;
 			sourceTree = "<group>";
@@ -614,6 +617,7 @@
 				EB410CD2283A46EB00D629B2 /* SentiScoreHelper.swift in Sources */,
 				EB410CED283A965E00D629B2 /* SentiDeleteButton.swift in Sources */,
 				EB6A3AB5281713570078F8A8 /* ActivityChooserView.swift in Sources */,
+				691BB6C5292EB68400FA378C /* SentiWelcomeTextField.swift in Sources */,
 				EB467FAF28210DB000F9AA4D /* Color+Extension.swift in Sources */,
 				EB634F2B28141FDE00979923 /* K.swift in Sources */,
 				EB642BFF27FF5DA4001DB273 /* MainActivityView.swift in Sources */,
