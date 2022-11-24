@@ -43,13 +43,6 @@ struct SentiTextField: View {
                 Spacer()
                 Button("Done") {
                     dismissKeyboard()
-                HStack {
-                    Spacer()
-                    Button("Done") {
-                        dismissKeyboard()
-                    }
-                    .font(.senti(size: 19))
-                    .foregroundColor(brandColor2)
                 }
                 .font(.senti(size: 19))
                 .foregroundColor(brandColor2)

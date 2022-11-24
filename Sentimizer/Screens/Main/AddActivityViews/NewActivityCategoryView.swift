@@ -49,6 +49,7 @@ struct NewActivityCategoryView: View {
                         showEmptyTextFieldAlert = true
                         return
                     }
+                    
                     showDoubleNameAlert = true
                 }
             }
