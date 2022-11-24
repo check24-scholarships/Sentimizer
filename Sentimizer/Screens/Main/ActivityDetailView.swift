@@ -78,9 +78,9 @@ struct ActivityDetailView: View {
                         withAnimation(.easeOut) {
                             isEditingDescription = false
                         }
-                        .font(.senti(size: 19))
-                        .foregroundColor(.brandColor2)
                     }
+                    .font(.senti(size: 19))
+                    .foregroundColor(.brandColor2)
                 }
             }
         }
