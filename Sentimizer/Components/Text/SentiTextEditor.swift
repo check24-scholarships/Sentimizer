@@ -9,6 +9,8 @@ import SwiftUI
 
 struct SentiTextEditor: View {
     
+    var showToolbar = true
+    
     var description: LocalizedStringKey = "Describe your activity and how you feel now..."
     @Binding var text: String
     
@@ -29,14 +31,14 @@ struct SentiTextEditor: View {
                 .onAppear {
                     UITextView.appearance().backgroundColor = .clear
                 }
-                .toolbar { 
-                    ToolbarItemGroup(placement: .keyboard) {
-                        HStack {
+                .toolbar {
+                    if showToolbar {
+                        ToolbarItemGroup(placement: .keyboard) {
                             Spacer()
                             Button("Done") {
                                 dismissKeyboard()
                             }
-                            .font(.senti(size: 19))
+                            .font(.senti(size: 18))
                             .foregroundColor(brandColor2)
                         }
                     }

@@ -19,7 +19,8 @@ struct NewActivityCategoryView: View {
     
     @Environment(\.dismiss) private var dismiss
     @State private var shouldBeDismissed = false
-    @State private var showingDoubleNameAlert = false
+    @State private var showDoubleNameAlert = false
+    @State private var showEmptyTextFieldAlert = false
     
     var body: some View {
         ScrollView {
@@ -35,15 +36,21 @@ struct NewActivityCategoryView: View {
                     }
                 } label: {
                     SentiButton(icon: nil, title: "Next", fontSize: 15, chevron: false)
+                        .padding(-5)
                         .frame(width: 150)
                 }
-                .disabled(activityTextFieldText.isEmpty)
+                .disabled(activityTextFieldText.filter({!$0.isWhitespace}).isEmpty)
                 .disabled(persistenceController.activityCategoryNameAlreadyExists(for: activityTextFieldText, viewContext))
-                .opacity(activityTextFieldText.isEmpty ? 0.3 : 1)
+                .opacity(activityTextFieldText.filter({!$0.isWhitespace}).isEmpty ? 0.3 : 1)
                 .animation(.easeOut, value: activityTextFieldText)
                 .padding(.top)
                 .onTapGesture {
-                    showingDoubleNameAlert = true
+                    guard !activityTextFieldText.filter({!$0.isWhitespace}).isEmpty else {
+                        showEmptyTextFieldAlert = true
+                        return
+                    }
+
+                    showDoubleNameAlert = true
                 }
             }
             .onTapGesture {
@@ -62,9 +69,16 @@ struct NewActivityCategoryView: View {
             
             persistenceController.saveNewActivityCategory(name: activityTextFieldText, icon: iconName, viewContext)
         }
-        .alert(isPresented: $showingDoubleNameAlert) {
+        .alert(isPresented: $showDoubleNameAlert) {
             Alert(title: Text("Error"),
                   message: Text("This name already exists. Please choose another one."),
+                  dismissButton: .default(Text("OK"), action: {
+                activityTextFieldText = ""
+            }))
+        }
+        .alert(isPresented: $showEmptyTextFieldAlert) {
+            Alert(title: Text("Error"),
+                  message: Text("Please enter a name for the new activity category."),
                   dismissButton: .default(Text("OK"), action: {
                 activityTextFieldText = ""
             }))

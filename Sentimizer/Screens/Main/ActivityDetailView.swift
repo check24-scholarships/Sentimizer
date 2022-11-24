@@ -71,14 +71,12 @@ struct ActivityDetailView: View {
             .navigationTitle(userActivity)
             .toolbar {
                 ToolbarItemGroup(placement: .keyboard) {
-                    HStack {
-                        Spacer()
-                        Button("Done") {
-                            dismissKeyboard()
-                            persistenceController.updateActivityDescription(with: userDescription, id: activity.id, viewContext)
-                            withAnimation(.easeOut) {
-                                isEditingDescription = false
-                            }
+                    Spacer()
+                    Button("Done") {
+                        dismissKeyboard()
+                        persistenceController.updateActivityDescription(with: userDescription, id: activity.id, viewContext)
+                        withAnimation(.easeOut) {
+                            isEditingDescription = false
                         }
                         .font(.senti(size: 19))
                         .foregroundColor(.brandColor2)
@@ -189,6 +187,7 @@ struct ChangeActivityDescription: View {
     @Environment(\.managedObjectContext) var viewContext
     
     var body: some View {
+        
         HStack(alignment: .top) {
             VStack(alignment: .leading) {
                 Text("DESCRIPTION")
@@ -199,7 +198,7 @@ struct ChangeActivityDescription: View {
                 
                 Group {
                     if isEditing {
-                        SentiTextEditor(text: $description)
+                        SentiTextEditor(showToolbar: false, text: $description)
                             .onTapGesture {
                                 withAnimation {
                                     scrollView.scrollTo(1, anchor: .top)
@@ -214,7 +213,9 @@ struct ChangeActivityDescription: View {
                 }
                 .padding(.top, 1)
             }
+            
             Spacer()
+            
             if isEditing {
                 Button {
                     dismissKeyboard()
