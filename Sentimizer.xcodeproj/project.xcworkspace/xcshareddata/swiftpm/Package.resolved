@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "crisp-sdk-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/crisp-im/crisp-sdk-ios",
+      "state" : {
+        "branch" : "master",
+        "revision" : "250e5e8270862f819dd5b2bcf9e9ed7ac7d6c05b"
+      }
+    }
+  ],
+  "version" : 2
+}
