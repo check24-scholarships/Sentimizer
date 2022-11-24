@@ -8,6 +8,7 @@
 import SwiftUI
 import LocalAuthentication
 import CoreData
+import Crisp
 
 @main
 struct SentimizerApp: App {
@@ -51,6 +52,7 @@ struct SentimizerApp: App {
                         UserDefaults.standard.set(String.randomString(length: 10), forKey: K.userId)
                         UserDefaults.standard.set(true, forKey: K.colorTheme)
                     }
+                    CrispSDK.configure(websiteID: "715726fb-09fe-4498-91b9-1c98c6467cb4")
                 }
                 .onChange(of: scenePhase) { newValue in
                     if UserDefaults.standard.bool(forKey: K.appHasToBeUnlocked) {

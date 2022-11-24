@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		61C81FDB2847D8BC0023655E /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61C81FDA2847D8BC0023655E /* CloudKit.framework */; };
 		691BB6C5292EB68400FA378C /* SentiWelcomeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691BB6C4292EB68400FA378C /* SentiWelcomeTextField.swift */; };
+		69698D8E292FB07B00644B87 /* Crisp in Frameworks */ = {isa = PBXBuildFile; productRef = 69698D8D292FB07B00644B87 /* Crisp */; };
 		69CD9628287749B1007C38A5 /* DataBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CD9627287749B1007C38A5 /* DataBridge.swift */; };
 		8838ABB2282F7DA100D3599B /* ActivityDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838ABB1282F7DA100D3599B /* ActivityDetailView.swift */; };
 		8838ABB72833672000D3599B /* NeuralNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838ABB62833672000D3599B /* NeuralNetwork.swift */; };
@@ -180,6 +181,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				69698D8E292FB07B00644B87 /* Crisp in Frameworks */,
 				61C81FDB2847D8BC0023655E /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -489,6 +491,9 @@
 			dependencies = (
 			);
 			name = Sentimizer;
+			packageProductDependencies = (
+				69698D8D292FB07B00644B87 /* Crisp */,
+			);
 			productName = Sentimizer;
 			productReference = EB642BF927FF5DA4001DB273 /* Sentimizer.app */;
 			productType = "com.apple.product-type.application";
@@ -526,6 +531,9 @@
 				de,
 			);
 			mainGroup = EB642BF027FF5DA4001DB273;
+			packageReferences = (
+				69698D8C292FB07B00644B87 /* XCRemoteSwiftPackageReference "crisp-sdk-ios" */,
+			);
 			productRefGroup = EB642BFA27FF5DA4001DB273 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -919,7 +927,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Sentimizer/Preview Content\"";
-				DEVELOPMENT_TEAM = A38QNMLM4C;
+				DEVELOPMENT_TEAM = V8FZN83F47;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Sentimizer/Info.plist;
@@ -985,6 +993,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		69698D8C292FB07B00644B87 /* XCRemoteSwiftPackageReference "crisp-sdk-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/crisp-im/crisp-sdk-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		69698D8D292FB07B00644B87 /* Crisp */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 69698D8C292FB07B00644B87 /* XCRemoteSwiftPackageReference "crisp-sdk-ios" */;
+			productName = Crisp;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		88E6E5AC281C4ACD00EB0D15 /* Model.xcdatamodeld */ = {
