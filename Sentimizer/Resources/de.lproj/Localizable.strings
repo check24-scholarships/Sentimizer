@@ -14,9 +14,11 @@
 
 "Settings" = "Einstellungen";
 
-"Optimize Your Life" = "Optimiere dein Leben";
+"Optimize Your Life!" = "Optimiere dein Leben!";
 
 "Sentimizer helps you to track your moods, reflect on your day and improve your life. Let's go!" = "Sentimizer hilft dir, deine Stimmungen aufzuzeichnen, deinen Tag zu reflektieren und dein Leben zu verbessern. Los geht's!";
+
+"Your privacy is very important to us. Data is stored only on your mobile phone, so you are in complete control." = "Deine Privatsphäre ist uns sehr wichtig. Deshalb speichern wir deine Daten nur auf deinem Gerät, sodass du die komplette Kontrolle hast.";
 
 "Start My Journey" = "Beginne meine Reise";
 
@@ -112,6 +114,7 @@
 
 "Your nickname" = "Dein Spitzname";
 "Your nickname..." = "Dein Spitzname...";
+"Your name" = "Dein Name";
 
 "How are you" = "Wie geht es dir?";
 

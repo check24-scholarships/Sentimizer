@@ -285,8 +285,6 @@ struct CrispUIViewControllerRepresentable: UIViewControllerRepresentable{
     }
 }
 
-
-
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         SettingsView()
