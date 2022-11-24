@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		61C81FDB2847D8BC0023655E /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61C81FDA2847D8BC0023655E /* CloudKit.framework */; };
+		691BB6C5292EB68400FA378C /* SentiWelcomeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691BB6C4292EB68400FA378C /* SentiWelcomeTextField.swift */; };
+		69698D8E292FB07B00644B87 /* Crisp in Frameworks */ = {isa = PBXBuildFile; productRef = 69698D8D292FB07B00644B87 /* Crisp */; };
 		69CD9628287749B1007C38A5 /* DataBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CD9627287749B1007C38A5 /* DataBridge.swift */; };
 		8838ABB2282F7DA100D3599B /* ActivityDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838ABB1282F7DA100D3599B /* ActivityDetailView.swift */; };
 		8838ABB72833672000D3599B /* NeuralNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838ABB62833672000D3599B /* NeuralNetwork.swift */; };
@@ -44,9 +46,6 @@
 		EB4C530E287741E500540BAB /* PrivacyPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4C530D287741E500540BAB /* PrivacyPolicy.swift */; };
 		EB4C5310287755EC00540BAB /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4C530F287755EC00540BAB /* String+Extension.swift */; };
 		EB4C5318287C70BA00540BAB /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4C5317287C70BA00540BAB /* Model.swift */; };
-		EB5EF3C9284B6ED800372FB0 /* SentimizerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5EF3C8284B6ED800372FB0 /* SentimizerUITests.swift */; };
-		EB5EF3CB284B6ED800372FB0 /* SentimizerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5EF3CA284B6ED800372FB0 /* SentimizerUITestsLaunchTests.swift */; };
-		EB5EF3D8284B702F00372FB0 /* SentimizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5EF3D7284B702F00372FB0 /* SentimizerTests.swift */; };
 		EB634F2B28141FDE00979923 /* K.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB634F2A28141FDE00979923 /* K.swift */; };
 		EB634F2D281427DF00979923 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB634F2C281427DF00979923 /* View+Extension.swift */; };
 		EB634F2F28142AAC00979923 /* AppTabNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB634F2E28142AAC00979923 /* AppTabNavigation.swift */; };
@@ -94,6 +93,7 @@
 /* Begin PBXFileReference section */
 		61C81FD82847D8B10023655E /* Sentimizer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Sentimizer.entitlements; sourceTree = "<group>"; };
 		61C81FDA2847D8BC0023655E /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		691BB6C4292EB68400FA378C /* SentiWelcomeTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentiWelcomeTextField.swift; sourceTree = "<group>"; };
 		69CD9627287749B1007C38A5 /* DataBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBridge.swift; sourceTree = "<group>"; };
 		8838ABB1282F7DA100D3599B /* ActivityDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityDetailView.swift; sourceTree = "<group>"; };
 		8838ABB62833672000D3599B /* NeuralNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeuralNetwork.swift; sourceTree = "<group>"; };
@@ -132,10 +132,7 @@
 		EB4C530F287755EC00540BAB /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		EB4C5317287C70BA00540BAB /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		EB5EF3C6284B6ED800372FB0 /* SentimizerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SentimizerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		EB5EF3C8284B6ED800372FB0 /* SentimizerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentimizerUITests.swift; sourceTree = "<group>"; };
-		EB5EF3CA284B6ED800372FB0 /* SentimizerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentimizerUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		EB5EF3D5284B702F00372FB0 /* SentimizerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SentimizerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		EB5EF3D7284B702F00372FB0 /* SentimizerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentimizerTests.swift; sourceTree = "<group>"; };
 		EB634F2A28141FDE00979923 /* K.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = K.swift; sourceTree = "<group>"; };
 		EB634F2C281427DF00979923 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		EB634F2E28142AAC00979923 /* AppTabNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTabNavigation.swift; sourceTree = "<group>"; };
@@ -184,6 +181,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				69698D8E292FB07B00644B87 /* Crisp in Frameworks */,
 				61C81FDB2847D8BC0023655E /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -204,6 +202,7 @@
 			children = (
 				EB91193028301BA000C82E63 /* SentiTextEditor.swift */,
 				EB410CEA283A5D4A00D629B2 /* SentiTextField.swift */,
+				691BB6C4292EB68400FA378C /* SentiWelcomeTextField.swift */,
 			);
 			path = Text;
 			sourceTree = "<group>";
@@ -337,29 +336,10 @@
 			path = Welcome;
 			sourceTree = "<group>";
 		};
-		EB5EF3C7284B6ED800372FB0 /* SentimizerUITests */ = {
-			isa = PBXGroup;
-			children = (
-				EB5EF3C8284B6ED800372FB0 /* SentimizerUITests.swift */,
-				EB5EF3CA284B6ED800372FB0 /* SentimizerUITestsLaunchTests.swift */,
-			);
-			path = SentimizerUITests;
-			sourceTree = "<group>";
-		};
-		EB5EF3D6284B702F00372FB0 /* SentimizerTests */ = {
-			isa = PBXGroup;
-			children = (
-				EB5EF3D7284B702F00372FB0 /* SentimizerTests.swift */,
-			);
-			path = SentimizerTests;
-			sourceTree = "<group>";
-		};
 		EB642BF027FF5DA4001DB273 = {
 			isa = PBXGroup;
 			children = (
 				EB642BFB27FF5DA4001DB273 /* Sentimizer */,
-				EB5EF3C7284B6ED800372FB0 /* SentimizerUITests */,
-				EB5EF3D6284B702F00372FB0 /* SentimizerTests */,
 				EB642BFA27FF5DA4001DB273 /* Products */,
 				61C81FD92847D8BC0023655E /* Frameworks */,
 			);
@@ -511,6 +491,9 @@
 			dependencies = (
 			);
 			name = Sentimizer;
+			packageProductDependencies = (
+				69698D8D292FB07B00644B87 /* Crisp */,
+			);
 			productName = Sentimizer;
 			productReference = EB642BF927FF5DA4001DB273 /* Sentimizer.app */;
 			productType = "com.apple.product-type.application";
@@ -548,6 +531,9 @@
 				de,
 			);
 			mainGroup = EB642BF027FF5DA4001DB273;
+			packageReferences = (
+				69698D8C292FB07B00644B87 /* XCRemoteSwiftPackageReference "crisp-sdk-ios" */,
+			);
 			productRefGroup = EB642BFA27FF5DA4001DB273 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -593,8 +579,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EB5EF3CB284B6ED800372FB0 /* SentimizerUITestsLaunchTests.swift in Sources */,
-				EB5EF3C9284B6ED800372FB0 /* SentimizerUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -602,7 +586,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EB5EF3D8284B702F00372FB0 /* SentimizerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -642,6 +625,7 @@
 				EB410CD2283A46EB00D629B2 /* SentiScoreHelper.swift in Sources */,
 				EB410CED283A965E00D629B2 /* SentiDeleteButton.swift in Sources */,
 				EB6A3AB5281713570078F8A8 /* ActivityChooserView.swift in Sources */,
+				691BB6C5292EB68400FA378C /* SentiWelcomeTextField.swift in Sources */,
 				EB467FAF28210DB000F9AA4D /* Color+Extension.swift in Sources */,
 				EB634F2B28141FDE00979923 /* K.swift in Sources */,
 				EB642BFF27FF5DA4001DB273 /* MainActivityView.swift in Sources */,
@@ -943,7 +927,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Sentimizer/Preview Content\"";
-				DEVELOPMENT_TEAM = A38QNMLM4C;
+				DEVELOPMENT_TEAM = V8FZN83F47;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Sentimizer/Info.plist;
@@ -1009,6 +993,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		69698D8C292FB07B00644B87 /* XCRemoteSwiftPackageReference "crisp-sdk-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/crisp-im/crisp-sdk-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		69698D8D292FB07B00644B87 /* Crisp */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 69698D8C292FB07B00644B87 /* XCRemoteSwiftPackageReference "crisp-sdk-ios" */;
+			productName = Crisp;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		88E6E5AC281C4ACD00EB0D15 /* Model.xcdatamodeld */ = {
