@@ -82,12 +82,13 @@ struct SettingsView: View {
                                 .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2)
                             Text("Edit Activity Categories")
                                 .minimumScaleFactor(0.8)
+                                .font(.sentiLight(size: 17))
                         }
                     }
                 }
                 
                 
-                Section {
+                Section(header: Text("Privacy").font(.senti(size: 13)).foregroundColor(.gray)){
                     Button {
                         appHasToBeUnlocked.toggle()
                         UserDefaults.standard.set(appHasToBeUnlocked, forKey: K.appHasToBeUnlocked)
