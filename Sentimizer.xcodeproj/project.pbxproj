@@ -11,6 +11,7 @@
 		690E1ED9292FFB0A00B1B125 /* Crisp in Frameworks */ = {isa = PBXBuildFile; productRef = 690E1ED8292FFB0A00B1B125 /* Crisp */; };
 		691BB6C5292EB68400FA378C /* SentiWelcomeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691BB6C4292EB68400FA378C /* SentiWelcomeTextField.swift */; };
 		69CD9628287749B1007C38A5 /* DataBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CD9627287749B1007C38A5 /* DataBridge.swift */; };
+		69E07A5A2930D0BF00CF27C1 /* SettingsColorThemeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E07A592930D0BF00CF27C1 /* SettingsColorThemeView.swift */; };
 		8838ABB2282F7DA100D3599B /* ActivityDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838ABB1282F7DA100D3599B /* ActivityDetailView.swift */; };
 		8838ABB72833672000D3599B /* NeuralNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838ABB62833672000D3599B /* NeuralNetwork.swift */; };
 		8838ABB9283529EC00D3599B /* RandomNumberGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838ABB8283529EC00D3599B /* RandomNumberGenerator.swift */; };
@@ -95,6 +96,7 @@
 		61C81FDA2847D8BC0023655E /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		691BB6C4292EB68400FA378C /* SentiWelcomeTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentiWelcomeTextField.swift; sourceTree = "<group>"; };
 		69CD9627287749B1007C38A5 /* DataBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBridge.swift; sourceTree = "<group>"; };
+		69E07A592930D0BF00CF27C1 /* SettingsColorThemeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsColorThemeView.swift; sourceTree = "<group>"; };
 		8838ABB1282F7DA100D3599B /* ActivityDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityDetailView.swift; sourceTree = "<group>"; };
 		8838ABB62833672000D3599B /* NeuralNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeuralNetwork.swift; sourceTree = "<group>"; };
 		8838ABB8283529EC00D3599B /* RandomNumberGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomNumberGenerator.swift; sourceTree = "<group>"; };
@@ -226,6 +228,7 @@
 				EBDB9F712833DB9100586EB7 /* SettingsView.swift */,
 				EB4C530D287741E500540BAB /* PrivacyPolicy.swift */,
 				EB33D13B2833E84900F4634C /* EditActivityCategoryView.swift */,
+				69E07A592930D0BF00CF27C1 /* SettingsColorThemeView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -624,6 +627,7 @@
 				8880131B287C87DD0064CD72 /* in_net.mlmodel in Sources */,
 				EB410CD2283A46EB00D629B2 /* SentiScoreHelper.swift in Sources */,
 				EB410CED283A965E00D629B2 /* SentiDeleteButton.swift in Sources */,
+				69E07A5A2930D0BF00CF27C1 /* SettingsColorThemeView.swift in Sources */,
 				EB6A3AB5281713570078F8A8 /* ActivityChooserView.swift in Sources */,
 				691BB6C5292EB68400FA378C /* SentiWelcomeTextField.swift in Sources */,
 				EB467FAF28210DB000F9AA4D /* Color+Extension.swift in Sources */,
