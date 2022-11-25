@@ -87,6 +87,43 @@ struct SettingsView: View {
                     }
                 }
                 
+                Section{
+                        if let url = URL(string: UIApplication.openSettingsURLString) {
+                            if UIApplication.shared.canOpenURL(url) {
+                                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                            }
+                        }
+                } header: {
+                    Text("General")
+                        .font(.senti(size: 13))
+                        .foregroundColor(.gray)
+                    Button
+                } label: {
+                        HStack {
+                            Image(systemName: "text.bubble")
+                                .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2)
+                            Text("Language")
+                                .font(.sentiLight(size: 17))
+                            Spacer()
+                        }
+                    }
+                    Button {
+                        haptic.impactOccurred()
+                        colorThemePresented.toggle()
+                    } label: {
+                        HStack {
+                            Image(systemName: "rays")
+                                .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2)
+                            Text("Theme")
+                                .font(.sentiLight(size: 17))
+                                .sheet(isPresented:  $colorThemePresented) {
+                                    SettingsColorThemeView()
+                                }
+                            
+                            Spacer()
+                        }
+                    }
+                }
                 
                 Section{
                     Button {
@@ -114,43 +151,9 @@ struct SettingsView: View {
                     Text("Use Face ID / Touch ID to restrict access to Sentimizer.")
                         .font(.senti(size: 13))
                         .foregroundColor(.gray)
-               }
-                
-                Section(header: Text("General").font(.senti(size: 13)).foregroundColor(.gray)){
-                    Button {
-                        if let url = URL(string: UIApplication.openSettingsURLString) {
-                            if UIApplication.shared.canOpenURL(url) {
-                                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                            }
-                        }
-                    } label: {
-                        HStack {
-                            Image(systemName: "text.bubble")
-                                .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2)
-                            Text("Language")
-                                .font(.sentiLight(size: 17))
-                            Spacer()
-                        }
-                    }
-                    Button {
-                        haptic.impactOccurred()
-                        colorThemePresented.toggle()
-                    } label: {
-                        HStack {
-                            Image(systemName: "rays")
-                                .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2)
-                            Text("Theme")
-                                .font(.sentiLight(size: 17))
-                                .sheet(isPresented:  $colorThemePresented) {
-                        SettingsColorThemeView()
-                    }
-                    
-                            Spacer()
-                        }
-                    }
                 }
                 
-                Section(header: Text("Other").font(.senti(size: 13)).foregroundColor(.gray)) {
+                Section {
                     HStack {
                         Image(systemName: "globe")
                             .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2, width: 17)
@@ -188,26 +191,30 @@ struct SettingsView: View {
                         Spacer()
                     }
                     
-                        Text("""
+                    Text("""
                         1.1.1: This version of Sentimizer is still in beta. Some features may not be available yet.
                         Created by Samuel Ginsberg, Justin Hohenstein and Henry Pham. Smiley Icons made by Freepik from flaticon.com.
                         """)
-                        .multilineTextAlignment(.leading)
-                        .font(.senti(size: 12))
+                    .multilineTextAlignment(.leading)
+                    .font(.senti(size: 12))
+                    .foregroundColor(.gray)
+                } header: {
+                    Text("Other")
+                        .font(.senti(size: 13))
                         .foregroundColor(.gray)
-                    }
                 }
-                .listStyle(.insetGrouped)
-                .scrollContentBackground(.hidden)
-                .font(.senti(size: 20))
-                .padding(.top, 5)
-                .onAppear {
-                    //colorTheme = Settings.getColorTheme()
-                }
-                .foregroundColor(.textColor)
-                .sheet(isPresented: $privacyPresented) {
-                    PrivacyPolicy()
-                }
+            }
+            .listStyle(.insetGrouped)
+            .scrollContentBackground(.hidden)
+            .font(.senti(size: 20))
+            .padding(.top, 5)
+            .onAppear {
+                //colorTheme = Settings.getColorTheme()
+            }
+            .foregroundColor(.textColor)
+            .sheet(isPresented: $privacyPresented) {
+                PrivacyPolicy()
+            }
         }
     }
 }
