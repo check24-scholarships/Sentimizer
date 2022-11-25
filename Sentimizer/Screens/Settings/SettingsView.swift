@@ -83,7 +83,6 @@ struct SettingsView: View {
                             Text("Edit Activity Categories")
                                 .minimumScaleFactor(0.8)
                                 .font(.sentiMedium(size: 17))
-                            Image(systemName: "chevron.forward")
                         }
                     }
                 }
@@ -104,21 +103,30 @@ struct SettingsView: View {
                             Spacer()
                         }
                     }
-                    Button {
-                        haptic.impactOccurred()
-                        colorThemePresented.toggle()
+                    NavigationLink {
+                        ZStack {
+                            Color.bgColor.ignoresSafeArea()
+                            SettingsColorThemeView()
+                        }
                     } label: {
                         HStack {
                             Image(systemName: "rays")
                                 .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2)
                             Text("Theme")
                                 .font(.sentiMedium(size: 17))
-                                .sheet(isPresented:  $colorThemePresented) {
+                               /* .sheet(isPresented:  $colorThemePresented) {
                                     SettingsColorThemeView()
+                                }8
+                            NavigationLink {
+                                ZStack {
+                                    Color.bgColor.ignoresSafeArea()
+                                    ActivityChooserView(activity: .constant(""), icon: .constant(""), redirectToEdit: true)
+                                        .padding(.top, -30)
+                                        .navigationBarTitleDisplayMode(.inline)
                                 }
+                            }*/
                             
                             Spacer()
-                            Image(systemName: "chevron.forward")
                         }
                     }
                 } header: {
@@ -156,45 +164,38 @@ struct SettingsView: View {
                 }
                 
                 Section {
-                    HStack {
-                        Image(systemName: "globe")
-                            .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2, width: 17)
-                        Link(destination: URL(string: "https://samuelgin.github.io/Sentimizer-Website/")!) {
+                    Link(destination: URL(string: "https://samuelgin.github.io/Sentimizer-Website/")!){
+                        HStack{
+                            Image(systemName: "globe")
+                                .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2, width: 17)
                             Text("Our Website")
                                 .font(.sentiMedium(size: 17))
+                            Spacer()
                         }
-                        Spacer()
                     }
-                    
-                    HStack {
-                        Image(systemName: "hand.raised.fill")
-                            .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2, width: 17)
-                        Link(destination: URL(string: "https://samuelgin.github.io/Sentimizer-Website/privacy.html")!) {
+
+                    Link(destination: URL(string: "https://samuelgin.github.io/Sentimizer-Website/privacy.html")!) {
+                        HStack {
+                            Image(systemName: "hand.raised.fill")
+                                .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2, width: 17)
                             Text("Privacy Policy")
                                 .font(.sentiMedium(size: 17))
+                            Spacer()
                         }
-                        Spacer()
                     }
                     
-                    HStack {
-                        Button(action: {
-                            crispPresented.toggle()
-                        }){
-                            Image(systemName: "envelope.fill")
-                                .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2, width: 17)
-                        }
-                        .sheet(isPresented:  $crispPresented, content:{
+                        NavigationLink {
                             CrispUIViewControllerRepresentable()
-                        })
-                        
-                        Text("Feedback / Support")
-                            .font(.sentiMedium(size: 17))
-                        
-                        Spacer()
-                        
-                        Image(systemName: "chevron.forward")
-                    }
-                    
+                        } label: {
+                            HStack {
+                                Image(systemName: "envelope.fill")
+                                    .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2, width: 17)
+                                Text("Feedback / Support")
+                                    .font(.sentiMedium(size: 17))
+                                
+                                Spacer()
+                            }
+                        }
                     Text("""
                         1.1.1: This version of Sentimizer is still in beta. Some features may not be available yet.
                         Created by Samuel Ginsberg, Justin Hohenstein and Henry Pham. Smiley Icons made by Freepik from flaticon.com.
@@ -212,9 +213,6 @@ struct SettingsView: View {
             .scrollContentBackground(.hidden)
             .font(.sentiBold(size: 20))
             .padding(.top, 5)
-            .onAppear {
-                //colorTheme = Settings.getColorTheme()
-            }
             .foregroundColor(.textColor)
             .sheet(isPresented: $privacyPresented) {
                 PrivacyPolicy()
