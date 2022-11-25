@@ -17,12 +17,6 @@ struct SettingsView: View {
     @State private var nicknameTextFieldEditing = false
     @FocusState private var nicknameTextFieldFocused: Bool
     
-
-    
-    @State private var crispPresented: Bool = false
-    
-    @State private var colorThemePresented: Bool = false
-    
     @AppStorage(K.appHasToBeUnlocked) private var appHasToBeUnlocked: Bool = false
     
     @State private var privacyPresented: Bool = false
