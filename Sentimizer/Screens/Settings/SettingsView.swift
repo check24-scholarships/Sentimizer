@@ -6,8 +6,10 @@
 //
 
 import SwiftUI
+import Crisp
 
 struct SettingsView: View {
+
     @AppStorage(K.userNickname) private var userNickname = ""
     @State private var nicknameText = UserDefaults.standard.string(forKey: K.userNickname) ?? ""
     @State private var nicknameTextFieldEditing = false
@@ -16,6 +18,8 @@ struct SettingsView: View {
     @State private var colorScheme: K.AppColorScheme = Settings.getColorScheme()
     
     @State private var colorTheme = Settings.getColorTheme()
+    
+    @State private var showCrisp: Bool = false
     
     @AppStorage(K.appHasToBeUnlocked) private var appHasToBeUnlocked = false
     
@@ -229,15 +233,20 @@ struct SettingsView: View {
                     }
                     
                     HStack {
+                        Button(action: {
+                            showCrisp.toggle()
+                        }){
                         Image(systemName: "envelope.fill")
                             .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2, width: 17)
-                        Text("Feedback / Support: \(K.mail)")
-                            .font(.senti(size: 15))
-                            .contextMenu(ContextMenu(menuItems: {
-                                Button("Copy Mail", action: {
-                                    UIPasteboard.general.string = K.mail
-                                })
-                            }))
+                        }
+                        .sheet(isPresented:  $showCrisp, content:{
+                            CrispUIViewControllerRepresentable()
+                        })
+                        
+                            
+                        Text("Feedback / Support")
+                                .font(.senti(size: 15))
+                        
                         Spacer()
                     }
                     
@@ -265,8 +274,20 @@ struct SettingsView: View {
     }
 }
 
+struct CrispUIViewControllerRepresentable: UIViewControllerRepresentable{
+    
+    func makeUIViewController(context: Context) -> some UINavigationController {
+        let vc = ChatViewController()
+        return vc
+    }
+    
+    func updateUIViewController(_ uiView: UIViewControllerType, context: Context) {
+    }
+}
+
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         SettingsView()
     }
 }
+

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		61C81FDB2847D8BC0023655E /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61C81FDA2847D8BC0023655E /* CloudKit.framework */; };
+		690E1ED9292FFB0A00B1B125 /* Crisp in Frameworks */ = {isa = PBXBuildFile; productRef = 690E1ED8292FFB0A00B1B125 /* Crisp */; };
 		691BB6C5292EB68400FA378C /* SentiWelcomeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691BB6C4292EB68400FA378C /* SentiWelcomeTextField.swift */; };
 		69CD9628287749B1007C38A5 /* DataBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CD9627287749B1007C38A5 /* DataBridge.swift */; };
 		8838ABB2282F7DA100D3599B /* ActivityDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838ABB1282F7DA100D3599B /* ActivityDetailView.swift */; };
@@ -180,6 +181,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				690E1ED9292FFB0A00B1B125 /* Crisp in Frameworks */,
 				61C81FDB2847D8BC0023655E /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -489,6 +491,9 @@
 			dependencies = (
 			);
 			name = Sentimizer;
+			packageProductDependencies = (
+				690E1ED8292FFB0A00B1B125 /* Crisp */,
+			);
 			productName = Sentimizer;
 			productReference = EB642BF927FF5DA4001DB273 /* Sentimizer.app */;
 			productType = "com.apple.product-type.application";
@@ -526,6 +531,9 @@
 				de,
 			);
 			mainGroup = EB642BF027FF5DA4001DB273;
+			packageReferences = (
+				690E1ED7292FFB0A00B1B125 /* XCRemoteSwiftPackageReference "crisp-sdk-ios" */,
+			);
 			productRefGroup = EB642BFA27FF5DA4001DB273 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -985,6 +993,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		690E1ED7292FFB0A00B1B125 /* XCRemoteSwiftPackageReference "crisp-sdk-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/crisp-im/crisp-sdk-ios";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		690E1ED8292FFB0A00B1B125 /* Crisp */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 690E1ED7292FFB0A00B1B125 /* XCRemoteSwiftPackageReference "crisp-sdk-ios" */;
+			productName = Crisp;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		88E6E5AC281C4ACD00EB0D15 /* Model.xcdatamodeld */ = {
