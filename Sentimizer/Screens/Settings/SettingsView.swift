@@ -162,7 +162,7 @@ struct SettingsView: View {
                             Image(systemName: "hand.raised.fill")
                                 .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2, width: 17)
                             Text("Privacy Policy")
-                                .font(.sentiMedium(size: 17))
+                                .font(.sentiMedium(size: 18))
                             Spacer()
                         }
                     }
@@ -174,7 +174,7 @@ struct SettingsView: View {
                                 Image(systemName: "envelope.fill")
                                     .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2, width: 17)
                                 Text("Feedback / Support")
-                                    .font(.sentiMedium(size: 17))
+                                    .font(.sentiMedium(size: 18))
                                 
                                 Spacer()
                             }
