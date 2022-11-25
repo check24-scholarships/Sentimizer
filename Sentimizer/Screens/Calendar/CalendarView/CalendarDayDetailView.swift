@@ -56,15 +56,17 @@ struct CalendarDayDetailView: View {
                         selectedDayIndex = getDaysInWeek().firstIndex(of: date) ?? 0
                     }
                 }
-                
-                Button {
-                    dismiss()
-                } label: {
-                    Image(systemName: "xmark.circle.fill")
-                        .font(.title)
-                        .foregroundColor(.gray)
+                HStack{
+                    Spacer()
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark.circle.fill")
+                            .font(.title)
+                            .foregroundColor(.gray)
+                    }
+                    .padding([.trailing, .top])
                 }
-                .padding([.leading, .top])
             }
             .navigationBarHidden(true)
             .onAppear {
