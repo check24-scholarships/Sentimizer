@@ -16,7 +16,8 @@ struct SettingsColorThemeView: View {
     @State private var colorScheme: K.AppColorScheme = Settings.getColorScheme()
     
     var body: some View {
-        //ZStack{
+        ZStack{
+            Color.bgColor.ignoresSafeArea()
             VStack{
                 HStack{
                     Spacer()
@@ -30,7 +31,7 @@ struct SettingsColorThemeView: View {
                 }
                 .padding([.trailing, .top])
                 List {
-                    Section(header: Text("Color Scheme").font(.senti(size: 13)).foregroundColor(.gray)) {
+                    Section(header: Text("Color Scheme").font(.sentiLight(size: 13)).foregroundColor(.gray)) {
                         Button {
                             Settings.saveColorScheme(.light)
                             colorScheme = Settings.getColorScheme()
@@ -39,6 +40,7 @@ struct SettingsColorThemeView: View {
                                 Image(systemName: "sun.max.fill")
                                     .standardSentiSettingsIcon(foregroundColor: .gray, backgroundColor: .brandColor4)
                                 Text("Light")
+                                    .font(.sentiMedium(size: 17))
                                 Spacer()
                                 if(colorScheme == .light) {
                                     Image(systemName: "checkmark")
@@ -54,6 +56,7 @@ struct SettingsColorThemeView: View {
                                 Image(systemName: "moon.stars")
                                     .standardSentiSettingsIcon(foregroundColor: .gray, backgroundColor: .brandColor4)
                                 Text("Dark")
+                                    .font(.sentiMedium(size: 17))
                                 Spacer()
                                 if(colorScheme == .dark) {
                                     Image(systemName: "checkmark")
@@ -69,6 +72,7 @@ struct SettingsColorThemeView: View {
                                 Image(systemName: "gearshape.fill")
                                     .standardSentiSettingsIcon(foregroundColor: .gray, backgroundColor: .brandColor4)
                                 Text("Auto")
+                                    .font(.sentiMedium(size: 17))
                                 Spacer()
                                 if(colorScheme == .auto) {
                                     Image(systemName: "checkmark")
@@ -78,15 +82,15 @@ struct SettingsColorThemeView: View {
                         }
                     }
                     
-                    Section(header: Text("Color Theme").font(.senti(size: 13)).foregroundColor(.gray)) {
+                    Section(header: Text("Color Theme").font(.sentiLight(size: 13)).foregroundColor(.gray)) {
                         Button {
                             Settings.saveColorTheme(true)
                             colorTheme = true
                         } label: {
                             HStack {
-                                Image(systemName: "rays")
-                                    .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .purple)
-                                Text("Purple")
+                                Image(systemName: "square.fill")
+                                    .standardSentiSettingsIcon(foregroundColor: Color("brandColor1"), backgroundColor: Color("brandColor1"))
+                                Text("Purple")                     .font(.sentiMedium(size: 17))
                                 Spacer()
                                 if(colorTheme) {
                                     Image(systemName: "checkmark")
@@ -99,9 +103,10 @@ struct SettingsColorThemeView: View {
                             colorTheme = false
                         } label: {
                             HStack {
-                                Image(systemName: "rays")
-                                    .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .green.adjust(brightness: -0.2))
+                                Image(systemName: "square.fill")
+                                    .standardSentiSettingsIcon( foregroundColor: Color("brandColor2Light2"), backgroundColor: Color("brandColor2Light2"))
                                 Text("Green")
+                                    .font(.sentiMedium(size: 17))
                                 Spacer()
                                 if(!colorTheme) {
                                     Image(systemName: "checkmark")
@@ -111,12 +116,13 @@ struct SettingsColorThemeView: View {
                         }
                     }
                 }
-          //  }
+                //  }
+            }
+            .onAppear {
+                colorTheme = Settings.getColorTheme()
+            }
+            .padding(.horizontal, -5)
         }
-        .onAppear {
-            colorTheme = Settings.getColorTheme()
-        }
-        .padding(.horizontal, -5)
     }
 }
 

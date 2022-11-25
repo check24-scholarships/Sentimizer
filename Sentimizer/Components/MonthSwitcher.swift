@@ -33,7 +33,7 @@ struct MonthSwitcher: View {
             }
             Spacer()
             Text(calendar.monthSymbols[calendar.component(.month, from: selectedMonth)-1] + " \(calendar.component(.year, from: selectedMonth))")
-                .font(.senti(size: 25))
+                .font(.sentiBold(size: 25))
                 .minimumScaleFactor(0.8)
                 .padding()
             Spacer()

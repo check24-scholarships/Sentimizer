@@ -163,7 +163,7 @@ struct PickMood: View {
     
     var body: some View {
         Text("How are you?")
-            .font(.senti(size: 25))
+            .font(.sentiBold(size: 25))
             .padding(.top, 30)
         
         MoodPicker(width: viewWidth, feeling: $mood)
@@ -175,7 +175,7 @@ struct AddDescription: View {
     
     var body: some View {
         Text("What's happening?")
-            .font(.senti(size: 25))
+            .font(.sentiBold(size: 25))
             .padding(.top, 30)
         
         SentiTextEditor(text: $description)

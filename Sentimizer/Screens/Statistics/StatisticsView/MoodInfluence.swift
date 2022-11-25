@@ -34,10 +34,10 @@ struct ActivityNameWithPercentage: View {
     var body: some View {
         HStack {
             Text(name)
-                .font(.senti(size: 20))
+                .font(.sentiBold(size: 20))
                 .padding(5)
             Text("\(String(format: "%.0f", abs(percentage) * 100))%")
-                .font(.senti(size: 15))
+                .font(.sentiBold(size: 15))
                 .foregroundColor(percentage > 0 ? .green : .red)
         }
     }

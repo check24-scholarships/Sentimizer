@@ -79,7 +79,7 @@ struct ActivityDetailView: View {
                             isEditingDescription = false
                         }
                     }
-                    .font(.senti(size: 19))
+                    .font(.sentiBold(size: 19))
                     .foregroundColor(.brandColor2)
                 }
             }
@@ -110,7 +110,7 @@ struct ChangeActivityDate: View {
     var body: some View {
         HStack {
             Text("DATE")
-                .font(.senti(size: 12))
+                .font(.sentiBold(size: 12))
             Spacer()
         }
         
@@ -132,7 +132,7 @@ struct ChangeActivityName: View {
     var body: some View {
         HStack {
             Text("ACTIVITY")
-                .font(.senti(size: 12))
+                .font(.sentiBold(size: 12))
             Spacer()
         }
         
@@ -162,7 +162,7 @@ struct ChangeActivityMood: View {
     
     var body: some View {
         Text("MOOD")
-            .font(.senti(size: 12))
+            .font(.sentiBold(size: 12))
             .padding(.top, 5)
         
         MoodPicker(width: width, opaque: true, feeling: $mood)
@@ -191,7 +191,7 @@ struct ChangeActivityDescription: View {
         HStack(alignment: .top) {
             VStack(alignment: .leading) {
                 Text("DESCRIPTION")
-                    .font(.senti(size: 12))
+                    .font(.sentiBold(size: 12))
                     .padding(.top, 5)
                     .lineLimit(15)
                     .id(1)
@@ -206,7 +206,7 @@ struct ChangeActivityDescription: View {
                             }
                     } else {
                         Text(description.isEmpty ? LocalizedStringKey("Describe your activity...") : LocalizedStringKey(description))
-                            .font(.senti(size: 18))
+                            .font(.sentiBold(size: 18))
                             .padding(.bottom)
                             .opacity(description.isEmpty ? 0.5 : 1)
                     }

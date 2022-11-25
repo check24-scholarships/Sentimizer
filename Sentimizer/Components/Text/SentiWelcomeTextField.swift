@@ -38,7 +38,7 @@ struct SentiWelcomeTextField: View {
                     Button("Done") {
                         dismissKeyboard()
                     }
-                    .font(.senti(size: 19))
+                    .font(.sentiBold(size: 19))
                     .foregroundColor(brandColor2)
                 }
             }

@@ -82,28 +82,25 @@ struct SettingsView: View {
                                 .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2)
                             Text("Edit Activity Categories")
                                 .minimumScaleFactor(0.8)
-                                .font(.sentiLight(size: 17))
+                                .font(.sentiMedium(size: 17))
+                            Image(systemName: "chevron.forward")
                         }
                     }
                 }
                 
                 Section{
+                    Button {
                         if let url = URL(string: UIApplication.openSettingsURLString) {
                             if UIApplication.shared.canOpenURL(url) {
                                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
                             }
                         }
-                } header: {
-                    Text("General")
-                        .font(.senti(size: 13))
-                        .foregroundColor(.gray)
-                    Button
-                } label: {
+                    } label: {
                         HStack {
                             Image(systemName: "text.bubble")
                                 .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2)
                             Text("Language")
-                                .font(.sentiLight(size: 17))
+                                .font(.sentiMedium(size: 17))
                             Spacer()
                         }
                     }
@@ -115,14 +112,19 @@ struct SettingsView: View {
                             Image(systemName: "rays")
                                 .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2)
                             Text("Theme")
-                                .font(.sentiLight(size: 17))
+                                .font(.sentiMedium(size: 17))
                                 .sheet(isPresented:  $colorThemePresented) {
                                     SettingsColorThemeView()
                                 }
                             
                             Spacer()
+                            Image(systemName: "chevron.forward")
                         }
                     }
+                } header: {
+                    Text("General")
+                        .font(.sentiLight(size: 13))
+                        .foregroundColor(.gray)
                 }
                 
                 Section{
@@ -135,7 +137,7 @@ struct SettingsView: View {
                             Image(systemName: "lock.fill")
                                 .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2)
                             Text("Lock Sentimizer")
-                                .font(.sentiLight(size: 17))
+                                .font(.sentiMedium(size: 17))
                             Spacer()
                             if(appHasToBeUnlocked) {
                                 Image(systemName: "checkmark")
@@ -145,11 +147,11 @@ struct SettingsView: View {
                     }
                 } header: {
                     Text("Privacy")
-                        .font(.senti(size:13))
+                        .font(.sentiLight(size:13))
                         .foregroundColor(.gray)
                 } footer: {
                     Text("Use Face ID / Touch ID to restrict access to Sentimizer.")
-                        .font(.senti(size: 13))
+                        .font(.sentiLight(size: 13))
                         .foregroundColor(.gray)
                 }
                 
@@ -159,7 +161,7 @@ struct SettingsView: View {
                             .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2, width: 17)
                         Link(destination: URL(string: "https://samuelgin.github.io/Sentimizer-Website/")!) {
                             Text("Our Website")
-                                .font(.sentiLight(size: 17))
+                                .font(.sentiMedium(size: 17))
                         }
                         Spacer()
                     }
@@ -169,7 +171,7 @@ struct SettingsView: View {
                             .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2, width: 17)
                         Link(destination: URL(string: "https://samuelgin.github.io/Sentimizer-Website/privacy.html")!) {
                             Text("Privacy Policy")
-                                .font(.sentiLight(size: 17))
+                                .font(.sentiMedium(size: 17))
                         }
                         Spacer()
                     }
@@ -186,9 +188,11 @@ struct SettingsView: View {
                         })
                         
                         Text("Feedback / Support")
-                            .font(.sentiLight(size: 17))
+                            .font(.sentiMedium(size: 17))
                         
                         Spacer()
+                        
+                        Image(systemName: "chevron.forward")
                     }
                     
                     Text("""
@@ -196,17 +200,17 @@ struct SettingsView: View {
                         Created by Samuel Ginsberg, Justin Hohenstein and Henry Pham. Smiley Icons made by Freepik from flaticon.com.
                         """)
                     .multilineTextAlignment(.leading)
-                    .font(.senti(size: 12))
+                    .font(.sentiLight(size: 12))
                     .foregroundColor(.gray)
                 } header: {
                     Text("Other")
-                        .font(.senti(size: 13))
+                        .font(.sentiLight(size: 13))
                         .foregroundColor(.gray)
                 }
             }
             .listStyle(.insetGrouped)
             .scrollContentBackground(.hidden)
-            .font(.senti(size: 20))
+            .font(.sentiBold(size: 20))
             .padding(.top, 5)
             .onAppear {
                 //colorTheme = Settings.getColorTheme()

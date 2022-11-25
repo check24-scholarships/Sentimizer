@@ -36,7 +36,7 @@ struct WelcomeView: View {
                         
                         // Sentimizer gradient font
                         Text("Sentimizer")
-                            .font(.senti(size: 50))
+                            .font(.sentiBold(size: 50))
                             .gradientForeground(colors: [.brandColor1, .brandColor4], .leading, .trailing)
                             .shadow(radius: 10)
                             .padding(30)
@@ -48,7 +48,7 @@ struct WelcomeView: View {
                     VStack(alignment: .leading) {
                         Text("Optimize Your Life!")
                             .frame(maxWidth: .infinity, alignment: .center)
-                            .font(.senti(size: 28))
+                            .font(.sentiBold(size: 28))
                             .padding(.top, 40)
                             .padding(.bottom)
                         
@@ -108,14 +108,14 @@ struct WelcomeView2: View {
                 Color.bgColor.ignoresSafeArea()
                 VStack {
                     Text("Nice to meet you! What do your friends call you?")
-                        .font(.senti(size: 25))
+                        .font(.sentiBold(size: 25))
                         .frame(height: 60)
                         .multilineTextAlignment(.center)
                         .padding()
                         .padding(.top)
                     
                     SentiWelcomeTextField(placeholder: "Your name", text: $nickname, textFieldEditing: $textFieldEditing, done: .constant(false))
-                        .font(.senti(size: 35))
+                        .font(.sentiBold(size: 35))
                         .multilineTextAlignment(.center)
                         .padding(.top, 50)
                         // automatically call keyboard on next screen
@@ -183,7 +183,7 @@ struct WelcomeView3: View {
                                 .shadow( radius: 10, x: -5, y: -5)
                             
                             welcomeTexts[i]
-                                .font(.senti(size: 20))
+                                .font(.sentiBold(size: 20))
                                 .padding()
                                 .multilineTextAlignment(.center)
                             

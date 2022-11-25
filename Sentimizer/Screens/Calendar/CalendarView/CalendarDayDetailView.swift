@@ -125,7 +125,7 @@ struct DayList: View {
         
         if content.count < 1 {
             Text("There are no entries for this day. Add entries or choose another.")
-                .font(.senti(size: 15))
+                .font(.sentiBold(size: 15))
                 .padding()
         }
         
@@ -134,7 +134,7 @@ struct DayList: View {
                 
                 if CalendarDayDetailView.getDataForSection(content: content, timeSection).count > 0 {
                     CalendarDayDetailView.getTitleForSection(timeSection)
-                        .font(.senti(size: 20))
+                        .font(.sentiBold(size: 20))
                         .gradientForeground(colors: [brandColor2, brandColor2Light])
                 }
                 

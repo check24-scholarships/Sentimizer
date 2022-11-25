@@ -18,7 +18,7 @@ struct NotEnoughStatsData: View {
             }
             .font(.title)
             Text(withHand ? "There is not enough data to show these statistics. Check back later. \(Image(systemName: "hand.wave"))" : "There is not enough data to show statistics. Check back later or choose a larger time interval.")
-                .font(.senti(size: 15))
+                .font(.sentiBold(size: 15))
                 .bold()
                 .multilineTextAlignment(.center)
                 .padding()

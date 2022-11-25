@@ -20,14 +20,14 @@ struct SentiTextEditor: View {
         ZStack(alignment: .topLeading) {
             if text.isEmpty {
                 Text(description)
-                    .font(.senti(size: 15))
+                    .font(.sentiBold(size: 15))
                     .opacity(0.5)
                     .padding(7)
             }
 
             TextEditor(text: $text)
                 .frame(height: 150)
-                .font(.senti(size: 15))
+                .font(.sentiBold(size: 15))
                 .onAppear {
                     UITextView.appearance().backgroundColor = .clear
                 }
@@ -38,7 +38,7 @@ struct SentiTextEditor: View {
                             Button("Done") {
                                 dismissKeyboard()
                             }
-                            .font(.senti(size: 18))
+                            .font(.sentiBold(size: 18))
                             .foregroundColor(brandColor2)
                         }
                     }

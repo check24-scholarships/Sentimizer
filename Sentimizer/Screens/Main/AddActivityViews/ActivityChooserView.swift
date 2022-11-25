@@ -69,7 +69,7 @@ struct NoCustomCategories: View {
             }
             .font(.title2)
             Text("There are no custom categories yet.")
-                .font(.senti(size: 15))
+                .font(.sentiBold(size: 15))
                 .bold()
                 .padding()
         }
