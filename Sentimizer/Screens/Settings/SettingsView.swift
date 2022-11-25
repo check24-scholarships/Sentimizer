@@ -88,7 +88,7 @@ struct SettingsView: View {
                 }
                 
                 
-                Section(header: Text("Privacy").font(.senti(size: 13)).foregroundColor(.gray)){
+                Section{
                     Button {
                         appHasToBeUnlocked.toggle()
                         UserDefaults.standard.set(appHasToBeUnlocked, forKey: K.appHasToBeUnlocked)
@@ -106,11 +106,15 @@ struct SettingsView: View {
                             }
                         }
                     }
+                } header: {
+                    Text("Privacy")
+                        .font(.senti(size:13))
+                        .foregroundColor(.gray)
                 } footer: {
                     Text("Use Face ID / Touch ID to restrict access to Sentimizer.")
                         .font(.senti(size: 13))
                         .foregroundColor(.gray)
-                }
+               }
                 
                 Section(header: Text("General").font(.senti(size: 13)).foregroundColor(.gray)){
                     Button {
