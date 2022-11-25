@@ -16,20 +16,7 @@ struct SettingsColorThemeView: View {
     @State private var colorScheme: K.AppColorScheme = Settings.getColorScheme()
     
     var body: some View {
-        ZStack{
-            Color.bgColor.ignoresSafeArea()
             VStack{
-                HStack{
-                    Spacer()
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "xmark.circle.fill")
-                            .font(.title)
-                            .foregroundColor(.gray)
-                    }
-                }
-                .padding([.trailing, .top])
                 List {
                     Section(header: Text("Color Scheme").font(.sentiLight(size: 13)).foregroundColor(.gray)) {
                         Button {
@@ -114,9 +101,7 @@ struct SettingsColorThemeView: View {
                                 }
                             }
                         }
-                    }
                 }
-                //  }
             }
             .onAppear {
                 colorTheme = Settings.getColorTheme()

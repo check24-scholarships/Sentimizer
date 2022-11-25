@@ -114,18 +114,6 @@ struct SettingsView: View {
                                 .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2)
                             Text("Theme")
                                 .font(.sentiMedium(size: 17))
-                               /* .sheet(isPresented:  $colorThemePresented) {
-                                    SettingsColorThemeView()
-                                }8
-                            NavigationLink {
-                                ZStack {
-                                    Color.bgColor.ignoresSafeArea()
-                                    ActivityChooserView(activity: .constant(""), icon: .constant(""), redirectToEdit: true)
-                                        .padding(.top, -30)
-                                        .navigationBarTitleDisplayMode(.inline)
-                                }
-                            }*/
-                            
                             Spacer()
                         }
                     }
