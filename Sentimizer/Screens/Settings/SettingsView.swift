@@ -101,6 +101,7 @@ struct SettingsView: View {
                         ZStack {
                             Color.bgColor.ignoresSafeArea()
                             SettingsColorThemeView()
+                                .padding(.top, -26)
                         }
                     } label: {
                         HStack {
