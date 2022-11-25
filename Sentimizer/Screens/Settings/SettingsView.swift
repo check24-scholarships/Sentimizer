@@ -163,7 +163,7 @@ struct SettingsView: View {
                     
                     HStack {
                         Image(systemName: "hand.raised.fill")
-                            .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2)
+                            .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2, width: 17)
                         Link(destination: URL(string: "https://samuelgin.github.io/Sentimizer-Website/privacy.html")!) {
                             Text("Privacy Policy")
                                 .font(.sentiLight(size: 17))
@@ -176,7 +176,7 @@ struct SettingsView: View {
                             crispPresented.toggle()
                         }){
                             Image(systemName: "envelope.fill")
-                                .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2)
+                                .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2, width: 17)
                         }
                         .sheet(isPresented:  $crispPresented, content:{
                             CrispUIViewControllerRepresentable()
