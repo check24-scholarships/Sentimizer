@@ -23,7 +23,7 @@ struct ActivityBar: View {
         
         HStack {
             Text(time)
-                .font(.sentiBold(size: 20))
+                .font(.senti(size: 20))
                 .padding([.leading, .top, .bottom])
                 .padding(.trailing, 3)
                 .opacity(showsTime ? 1 : 0)
@@ -42,7 +42,7 @@ struct ActivityBar: View {
                     
                     if !descriptionEmpty {
                         Text(activity.description)
-                            .font(.sentiBold(size: 18))
+                            .font(.senti(size: 18))
                             .lineLimit(2)
                             .multilineTextAlignment(.leading)
                             .padding(.bottom, 10)
@@ -60,7 +60,8 @@ struct ActivityBar: View {
                     .padding(descriptionEmpty ? 10 : 15)
                     .changeColor(to: .brandColor2)
             }
-            .font(.sentiBold(size: 25))
+            .font(.senti(size: 25))
+            .fontWeight(.bold)
             .foregroundColor(brandColor2)
             .background(
                 RoundedRectangle(cornerRadius: 25).stroke(lineWidth: 4)

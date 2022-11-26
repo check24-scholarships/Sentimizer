@@ -36,7 +36,8 @@ struct WelcomeView: View {
                         
                         // Sentimizer gradient font
                         Text("Sentimizer")
-                            .font(.sentiBold(size: 50))
+                            .font(.senti(size: 50))
+                            .fontWeight(.bold)
                             .gradientForeground(colors: [.brandColor1, .brandColor4], .leading, .trailing)
                             .shadow(radius: 10)
                             .padding(30)
@@ -48,7 +49,8 @@ struct WelcomeView: View {
                     VStack(alignment: .leading) {
                         Text("Optimize Your Life!")
                             .frame(maxWidth: .infinity, alignment: .center)
-                            .font(.sentiBold(size: 28))
+                            .font(.senti(size: 28))
+                            .fontWeight(.bold)
                             .padding(.top, 40)
                             .padding(.bottom)
                         
@@ -56,7 +58,7 @@ struct WelcomeView: View {
                             Image(systemName: "hand.thumbsup")
                                 .padding()
                             Text("Sentimizer helps you to track your moods, reflect on your day and improve your life. Let's go!")
-                                .font(.sentiLight(size: 20))
+                                .font(.senti(size: 20))
                                 .padding(.trailing)
                                 .padding(.top)
                             }
@@ -65,7 +67,7 @@ struct WelcomeView: View {
                             Image(systemName: "lock")
                                 .padding()
                             Text("Your privacy is very important to us. Data is stored only on your mobile phone, so you are in complete control.")
-                                .font(.sentiLight(size: 20))
+                                .font(.senti(size: 20))
                                 .padding(.trailing)
                                 .padding(.top)
                         }
@@ -108,14 +110,16 @@ struct WelcomeView2: View {
                 Color.bgColor.ignoresSafeArea()
                 VStack {
                     Text("Nice to meet you! What do your friends call you?")
-                        .font(.sentiBold(size: 25))
+                        .font(.senti(size: 25))
+                        .fontWeight(.semibold)
                         .frame(height: 60)
                         .multilineTextAlignment(.center)
                         .padding()
                         .padding(.top)
                     
                     SentiWelcomeTextField(placeholder: "Your name", text: $nickname, textFieldEditing: $textFieldEditing, done: .constant(false))
-                        .font(.sentiBold(size: 35))
+                        .font(.senti(size: 35))
+                        .fontWeight(.semibold)
                         .multilineTextAlignment(.center)
                         .padding(.top, 50)
                         // automatically call keyboard on next screen
@@ -183,7 +187,8 @@ struct WelcomeView3: View {
                                 .shadow( radius: 10, x: -5, y: -5)
                             
                             welcomeTexts[i]
-                                .font(.sentiBold(size: 20))
+                                .font(.senti(size: 20))
+                                .fontWeight(.bold)
                                 .padding()
                                 .multilineTextAlignment(.center)
                             

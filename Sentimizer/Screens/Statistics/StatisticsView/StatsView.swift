@@ -63,13 +63,15 @@ struct StatsView: View {
                     } else {
                         
                         Text("Sentimizer's Recommendation")
-                            .font(.sentiBold(size: 20))
+                            .font(.senti(size: 20))
+                            .fontWeight(.semibold)
                             .padding([.leading, .top])
                         
                         WhatNext(backgroundGray: true, addSheetPresented: $addActivitySheetPresented, activityToAdd: $activityToAdd)
                         
                         Text("Mood")
-                            .font(.sentiBold(size: 20))
+                            .font(.senti(size: 20))
+                            .fontWeight(.semibold)
                             .padding([.leading, .top])
                         
                         MoodTrendChart(xAxis: xAxis, values: values)
@@ -78,7 +80,8 @@ struct StatsView: View {
                             .standardBackground()
                         
                         Text("\(String(localized: "Improved Your Mood")) - \(String(localized: influenceTimeInterval))")
-                            .font(.sentiBold(size: 20))
+                            .font(.senti(size: 20))
+                            .fontWeight(.semibold)
                             .minimumScaleFactor(0.7)
                             .padding([.leading, .top])
                         
@@ -97,7 +100,8 @@ struct StatsView: View {
                         }
                         
                         Text("\(String(localized: "Worsened Your Mood")) - \(String(localized: influenceTimeInterval))")
-                            .font(.sentiBold(size: 20))
+                            .font(.senti(size: 20))
+                            .fontWeight(.semibold)
                             .minimumScaleFactor(0.7)
                             .padding([.leading, .top])
                         
@@ -108,7 +112,8 @@ struct StatsView: View {
                         }
                         
                         Text("Mood Ratio")
-                            .font(.sentiBold(size: 20))
+                            .font(.senti(size: 20))
+                            .fontWeight(.semibold)
                             .padding([.leading, .top])
                         
                         MoodCount(data: counts, g: g)
@@ -175,7 +180,7 @@ struct StatsView: View {
 struct StatsView_Previews: PreviewProvider {
     static var previews: some View {
         StatsView()
-            .font(.sentiBold(size: 12))
+            .font(.senti(size: 12))
             .minimumScaleFactor(0.8)
             .foregroundColor(.gray)
     }

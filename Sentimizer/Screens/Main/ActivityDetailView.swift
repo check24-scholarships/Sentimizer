@@ -79,7 +79,8 @@ struct ActivityDetailView: View {
                             isEditingDescription = false
                         }
                     }
-                    .font(.sentiBold(size: 19))
+                    .font(.senti(size: 19))
+                    .fontWeight(.bold)
                     .foregroundColor(.brandColor2)
                 }
             }
@@ -110,7 +111,8 @@ struct ChangeActivityDate: View {
     var body: some View {
         HStack {
             Text("DATE")
-                .font(.sentiBold(size: 12))
+                .font(.senti(size: 12))
+                .fontWeight(.bold)
             Spacer()
         }
         
@@ -132,7 +134,8 @@ struct ChangeActivityName: View {
     var body: some View {
         HStack {
             Text("ACTIVITY")
-                .font(.sentiBold(size: 12))
+                .font(.senti(size: 12))
+                .fontWeight(.bold)
             Spacer()
         }
         
@@ -162,7 +165,8 @@ struct ChangeActivityMood: View {
     
     var body: some View {
         Text("MOOD")
-            .font(.sentiBold(size: 12))
+            .font(.senti(size: 12))
+            .fontWeight(.bold)
             .padding(.top, 5)
         
         MoodPicker(width: width, opaque: true, feeling: $mood)
@@ -191,7 +195,8 @@ struct ChangeActivityDescription: View {
         HStack(alignment: .top) {
             VStack(alignment: .leading) {
                 Text("DESCRIPTION")
-                    .font(.sentiBold(size: 12))
+                    .font(.senti(size: 12))
+                    .fontWeight(.bold)
                     .padding(.top, 5)
                     .lineLimit(15)
                     .id(1)
@@ -206,7 +211,8 @@ struct ChangeActivityDescription: View {
                             }
                     } else {
                         Text(description.isEmpty ? LocalizedStringKey("Describe your activity...") : LocalizedStringKey(description))
-                            .font(.sentiBold(size: 18))
+                            .font(.senti(size: 18))
+                            .fontWeight(.bold)
                             .padding(.bottom)
                             .opacity(description.isEmpty ? 0.5 : 1)
                     }

@@ -26,7 +26,8 @@ struct SentimizerApp: App {
     var body: some Scene {
         WindowGroup {
             AppTabNavigation()
-                .font(.sentiBold(size: 12))
+                .font(.senti(size: 12))
+                .fontWeight(.bold)
                 .foregroundColor(.textColor)
                 .accentColor(colorTheme ? Color(.sRGB, red: 0.576, green: 0.490, blue: 0.762, opacity: 1) : Color(.sRGB, red: 0.224, green: 0.682, blue: 0.663, opacity: 1.0))
                 .environmentObject(model)
@@ -53,10 +54,6 @@ struct SentimizerApp: App {
                         UserDefaults.standard.set(true, forKey: K.colorTheme)
                     }
                     CrispSDK.configure(websiteID: "715726fb-09fe-4498-91b9-1c98c6467cb4")
-                    for family in UIFont.familyNames.sorted() {
-                        let names = UIFont.fontNames(forFamilyName: family)
-                        print("Family: \(family) Font names: \(names)")
-                    }
                 }
                 .onChange(of: scenePhase) { newValue in
                     if UserDefaults.standard.bool(forKey: K.appHasToBeUnlocked) {
@@ -94,7 +91,8 @@ struct LockScreen: View {
                 } label: {
                     Text("Unlock Sentimizer")
                         .padding(10)
-                        .font(.sentiBold(size: 15))
+                        .font(.senti(size: 15))
+                        .fontWeight(.bold)
                         .foregroundColor(.white)
                         .background(RoundedRectangle(cornerRadius: 15).foregroundColor(.brandColor2))
                 }

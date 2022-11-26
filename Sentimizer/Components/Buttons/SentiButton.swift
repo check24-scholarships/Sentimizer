@@ -36,7 +36,7 @@ struct SentiButton: View {
                     .frame(width: 30, height: 30)
             }
             Text(title)
-                .font(.sentiSemiBold(size: fontSize))
+                .font(.senti(size: fontSize))
                 .bold()
                 .minimumScaleFactor(0.8)
                 .multilineTextAlignment(.leading)

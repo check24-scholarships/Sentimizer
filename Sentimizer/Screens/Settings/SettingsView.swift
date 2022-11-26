@@ -76,7 +76,8 @@ struct SettingsView: View {
                                 .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2)
                             Text("Edit Activity Categories")
                                 .minimumScaleFactor(0.8)
-                                .font(.sentiMedium(size: 17))
+                                .font(.senti(size: 17))
+                                .fontWeight(.medium)
                         }
                     }
                 }
@@ -93,7 +94,8 @@ struct SettingsView: View {
                             Image(systemName: "text.bubble")
                                 .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2)
                             Text("Language")
-                                .font(.sentiMedium(size: 17))
+                                .font(.senti(size: 17))
+                                .fontWeight(.medium)
                             Spacer()
                         }
                     }
@@ -108,13 +110,13 @@ struct SettingsView: View {
                             Image(systemName: "rays")
                                 .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2)
                             Text("Theme")
-                                .font(.sentiMedium(size: 17))
+                                .font(.senti(size: 17))
                             Spacer()
                         }
                     }
                 } header: {
                     Text("General")
-                        .font(.sentiLight(size: 13))
+                        .font(.senti(size: 13))
                         .foregroundColor(.gray)
                 }
                 
@@ -128,7 +130,7 @@ struct SettingsView: View {
                             Image(systemName: "lock.fill")
                                 .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2)
                             Text("Lock Sentimizer")
-                                .font(.sentiMedium(size: 17))
+                                .font(.senti(size: 17))
                             Spacer()
                             if(appHasToBeUnlocked) {
                                 Image(systemName: "checkmark")
@@ -138,11 +140,11 @@ struct SettingsView: View {
                     }
                 } header: {
                     Text("Privacy")
-                        .font(.sentiLight(size:13))
+                        .font(.senti(size:13))
                         .foregroundColor(.gray)
                 } footer: {
                     Text("Use Face ID / Touch ID to restrict access to Sentimizer.")
-                        .font(.sentiLight(size: 13))
+                        .font(.senti(size: 13))
                         .foregroundColor(.gray)
                 }
                 
@@ -152,7 +154,8 @@ struct SettingsView: View {
                             Image(systemName: "globe")
                                 .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2, width: 17)
                             Text("Our Website")
-                                .font(.sentiMedium(size: 17))
+                                .font(.senti(size: 17))
+                                .fontWeight(.medium)
                             Spacer()
                         }
                     }
@@ -162,7 +165,8 @@ struct SettingsView: View {
                             Image(systemName: "hand.raised.fill")
                                 .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2, width: 17)
                             Text("Privacy Policy")
-                                .font(.sentiMedium(size: 18))
+                                .font(.senti(size: 18))
+                                .fontWeight(.medium)
                             Spacer()
                         }
                     }
@@ -174,7 +178,8 @@ struct SettingsView: View {
                                 Image(systemName: "envelope.fill")
                                     .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2, width: 17)
                                 Text("Feedback / Support")
-                                    .font(.sentiMedium(size: 18))
+                                    .font(.senti(size: 18))
+                                    .fontWeight(.medium)
                                 
                                 Spacer()
                             }
@@ -184,17 +189,18 @@ struct SettingsView: View {
                         Created by Samuel Ginsberg, Justin Hohenstein and Henry Pham. Smiley Icons made by Freepik from flaticon.com.
                         """)
                     .multilineTextAlignment(.leading)
-                    .font(.sentiLight(size: 12))
+                    .font(.senti(size: 12))
                     .foregroundColor(.gray)
                 } header: {
                     Text("Other")
-                        .font(.sentiLight(size: 13))
+                        .font(.senti(size: 13))
                         .foregroundColor(.gray)
                 }
             }
             .listStyle(.insetGrouped)
             .scrollContentBackground(.hidden)
-            .font(.sentiBold(size: 20))
+            .font(.senti(size: 20))
+            .fontWeight(.bold)
             .padding(.top, 5)
             .foregroundColor(.textColor)
             .sheet(isPresented: $privacyPresented) {

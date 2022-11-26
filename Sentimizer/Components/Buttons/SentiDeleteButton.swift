@@ -18,7 +18,8 @@ struct SentiDeleteButton: View {
             isPresentingConfirm = true
         } label: {
             Text(label)
-                .font(.sentiBold(size: 20))
+                .font(.senti(size: 20))
+                .fontWeight(.bold)
                 .foregroundColor(.red)
                 .padding()
                 .frame(maxWidth: .infinity)

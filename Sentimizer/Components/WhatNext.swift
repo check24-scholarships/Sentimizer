@@ -22,10 +22,12 @@ struct WhatNext: View {
     var body: some View {
         VStack {
             Text("What should I do next?")
-                .font(.sentiBold(size: 23))
+                .font(.senti(size: 23))
+                .fontWeight(.semibold)
                 .gradientForeground(colors: [brandColor2, brandColor2Light])
             Text("Sentimizer recommends this activity:")
-                .font(.sentiBold(size: 15))
+                .font(.senti(size: 15))
+                .fontWeight(.semibold)
                 .opacity(0.7)
             SentiButton(icon: PersistenceController().getActivityIcon(activityName: activity, viewContext), title: LocalizedStringKey(activity), style: .outlined, chevron: false, shadow: false)
                 .gradientForeground(colors: [brandColor2, brandColor2Light])

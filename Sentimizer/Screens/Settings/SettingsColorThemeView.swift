@@ -18,7 +18,7 @@ struct SettingsColorThemeView: View {
     var body: some View {
             VStack{
                 List {
-                    Section(header: Text("Color Scheme").font(.sentiLight(size: 13)).foregroundColor(.gray)) {
+                    Section(header: Text("Color Scheme").font(.senti(size: 13)).foregroundColor(.gray)) {
                         Button {
                             Settings.saveColorScheme(.light)
                             colorScheme = Settings.getColorScheme()
@@ -27,7 +27,8 @@ struct SettingsColorThemeView: View {
                                 Image(systemName: "sun.max.fill")
                                     .standardSentiSettingsIcon(foregroundColor: .gray, backgroundColor: .brandColor4)
                                 Text("Light")
-                                    .font(.sentiMedium(size: 17))
+                                    .font(.senti(size: 17))
+                                    .fontWeight(.medium)
                                 Spacer()
                                 if(colorScheme == .light) {
                                     Image(systemName: "checkmark")
@@ -43,7 +44,8 @@ struct SettingsColorThemeView: View {
                                 Image(systemName: "moon.stars")
                                     .standardSentiSettingsIcon(foregroundColor: .gray, backgroundColor: .brandColor4)
                                 Text("Dark")
-                                    .font(.sentiMedium(size: 17))
+                                    .font(.senti(size: 17))
+                                    .fontWeight(.medium)
                                 Spacer()
                                 if(colorScheme == .dark) {
                                     Image(systemName: "checkmark")
@@ -59,7 +61,8 @@ struct SettingsColorThemeView: View {
                                 Image(systemName: "gearshape.fill")
                                     .standardSentiSettingsIcon(foregroundColor: .gray, backgroundColor: .brandColor4)
                                 Text("Auto")
-                                    .font(.sentiMedium(size: 17))
+                                    .font(.senti(size: 17))
+                                    .fontWeight(.medium)
                                 Spacer()
                                 if(colorScheme == .auto) {
                                     Image(systemName: "checkmark")
@@ -69,7 +72,7 @@ struct SettingsColorThemeView: View {
                         }
                     }
                     
-                    Section(header: Text("Color Theme").font(.sentiLight(size: 13)).foregroundColor(.gray)) {
+                    Section(header: Text("Color Theme").font(.senti(size: 13)).foregroundColor(.gray)) {
                         Button {
                             Settings.saveColorTheme(true)
                             colorTheme = true
@@ -77,7 +80,8 @@ struct SettingsColorThemeView: View {
                             HStack {
                                 Image(systemName: "square.fill")
                                     .standardSentiSettingsIcon(foregroundColor: Color("brandColor1"), backgroundColor: Color("brandColor1"))
-                                Text("Purple")                     .font(.sentiMedium(size: 17))
+                                Text("Purple")                     .font(.senti(size: 17))
+                                    .fontWeight(.medium)
                                 Spacer()
                                 if(colorTheme) {
                                     Image(systemName: "checkmark")
@@ -93,7 +97,8 @@ struct SettingsColorThemeView: View {
                                 Image(systemName: "square.fill")
                                     .standardSentiSettingsIcon( foregroundColor: Color("brandColor2Light2"), backgroundColor: Color("brandColor2Light2"))
                                 Text("Green")
-                                    .font(.sentiMedium(size: 17))
+                                    .font(.senti(size: 17))
+                                    .fontWeight(.medium)
                                 Spacer()
                                 if(!colorTheme) {
                                     Image(systemName: "checkmark")
