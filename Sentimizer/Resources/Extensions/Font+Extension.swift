@@ -18,13 +18,9 @@ extension Font {
     static func sentiLight(size: CGFloat) -> Font {
         return .custom("Poppins-Regular", size:size)
     }
-    //ArialRoundedMTBold
-    //static func sentiBold(size: CGFloat) -> Font {
-     //   return .custom("Helvetica Neue Bold", size:size)
-    //}
     
-    static func sentiBoldPlus(size: CGFloat) -> Font {
-        return .custom("Helvetica Neue Condensed Bold", size:size)
+    static func sentiSemiBold(size: CGFloat) -> Font {
+        return .custom("Poppins-SemiBold", size:size)
     }
     
     static func sentiMedium(size: CGFloat) -> Font {
