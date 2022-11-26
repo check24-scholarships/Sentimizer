@@ -15,5 +15,5 @@ Sentimizer helps you to keep track of your activities and moods. It shows what y
 <a href="https://apps.apple.com/de/app/sentimizer-smart-diary/id1624777204?"><img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg"></a>
 ### Building
 
-To open the project, clone it in [Xcode](https://developer.apple.com/xcode/) (minimum iOS Version 15.0).
+To open the project, clone it in [Xcode](https://developer.apple.com/xcode/) (minimum iOS Version 16.0).
 
