@@ -18,7 +18,7 @@ struct SettingsColorThemeView: View {
     var body: some View {
             VStack{
                 List {
-                    Section(header: Text("Color Scheme").font(.senti(size: 13)).foregroundColor(.gray)) {
+                    Section {
                         Button {
                             Settings.saveColorScheme(.light)
                             colorScheme = Settings.getColorScheme()
@@ -70,9 +70,13 @@ struct SettingsColorThemeView: View {
                                 }
                             }
                         }
+                    } header: {
+                        Text("Color Scheme")
+                            .font(.senti(size: 13))
+                            .foregroundColor(.gray)
                     }
                     
-                    Section(header: Text("Color Theme").font(.senti(size: 13)).foregroundColor(.gray)) {
+                    Section {
                         Button {
                             Settings.saveColorTheme(true)
                             colorTheme = true
@@ -106,7 +110,12 @@ struct SettingsColorThemeView: View {
                                 }
                             }
                         }
+                } header: {
+                    Text("Color Theme")
+                        .font(.senti(size: 13))
+                        .foregroundColor(.gray)
                 }
+                    
             }
             .onAppear {
                 colorTheme = Settings.getColorTheme()
