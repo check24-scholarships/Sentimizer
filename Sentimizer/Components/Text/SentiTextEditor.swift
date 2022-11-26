@@ -23,11 +23,13 @@ struct SentiTextEditor: View {
                     .font(.senti(size: 15))
                     .opacity(0.5)
                     .padding(7)
+                    .fontWeight(.bold)
             }
 
             TextEditor(text: $text)
                 .frame(height: 150)
                 .font(.senti(size: 15))
+                .fontWeight(.bold)
                 .onAppear {
                     UITextView.appearance().backgroundColor = .clear
                 }
@@ -39,6 +41,7 @@ struct SentiTextEditor: View {
                                 dismissKeyboard()
                             }
                             .font(.senti(size: 18))
+                            .fontWeight(.bold)
                             .foregroundColor(brandColor2)
                         }
                     }

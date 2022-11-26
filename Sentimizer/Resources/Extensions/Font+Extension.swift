@@ -11,12 +11,10 @@ extension Font {
     /// The custom Sentimizer font.
     ///  - parameter size: Preferred font size.
     ///  - returns: The custom font.
-    static func senti(size: CGFloat) -> Font {
-        return .custom("ArialRoundedMTBold", size: size)
-    }
     
-    static func sentiLight(size: CGFloat) -> Font {
-        return .custom("Helvetica Neue", size:size)
+    static func senti(size: CGFloat) -> Font {
+        return .custom("Resources/Poppins-Regular", size:size)
     }
+    // Old: Helvetica Neue Bold, Helvetica Neue, Helvetica Neue Medium
 }
 

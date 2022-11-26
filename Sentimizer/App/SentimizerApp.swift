@@ -27,6 +27,7 @@ struct SentimizerApp: App {
         WindowGroup {
             AppTabNavigation()
                 .font(.senti(size: 12))
+                .fontWeight(.bold)
                 .foregroundColor(.textColor)
                 .accentColor(colorTheme ? Color(.sRGB, red: 0.576, green: 0.490, blue: 0.762, opacity: 1) : Color(.sRGB, red: 0.224, green: 0.682, blue: 0.663, opacity: 1.0))
                 .environmentObject(model)
@@ -91,6 +92,7 @@ struct LockScreen: View {
                     Text("Unlock Sentimizer")
                         .padding(10)
                         .font(.senti(size: 15))
+                        .fontWeight(.bold)
                         .foregroundColor(.white)
                         .background(RoundedRectangle(cornerRadius: 15).foregroundColor(.brandColor2))
                 }

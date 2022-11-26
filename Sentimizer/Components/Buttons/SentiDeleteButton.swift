@@ -19,6 +19,7 @@ struct SentiDeleteButton: View {
         } label: {
             Text(label)
                 .font(.senti(size: 20))
+                .fontWeight(.bold)
                 .foregroundColor(.red)
                 .padding()
                 .frame(maxWidth: .infinity)

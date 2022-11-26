@@ -45,6 +45,7 @@ struct SentiTextField: View {
                     dismissKeyboard()
                 }
                 .font(.senti(size: 19))
+                .fontWeight(.semibold)
                 .foregroundColor(brandColor2)
             }
         }

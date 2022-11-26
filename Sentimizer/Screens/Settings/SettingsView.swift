@@ -9,23 +9,17 @@ import SwiftUI
 import Crisp
 
 struct SettingsView: View {
-
+    
+    let haptic = UIImpactFeedbackGenerator(style: .light)
+    
     @AppStorage(K.userNickname) private var userNickname = ""
     @State private var nicknameText = UserDefaults.standard.string(forKey: K.userNickname) ?? ""
     @State private var nicknameTextFieldEditing = false
     @FocusState private var nicknameTextFieldFocused: Bool
     
-    @State private var colorScheme: K.AppColorScheme = Settings.getColorScheme()
+    @AppStorage(K.appHasToBeUnlocked) private var appHasToBeUnlocked: Bool = false
     
-    @State private var colorTheme = Settings.getColorTheme()
-    
-    @State private var showCrisp: Bool = false
-    
-    @AppStorage(K.appHasToBeUnlocked) private var appHasToBeUnlocked = false
-    
-    @State private var privacyPresented = false
-    
-    let haptic = UIImpactFeedbackGenerator(style: .light)
+    @State private var privacyPresented: Bool = false
     
     var body: some View {
         ZStack {
@@ -82,119 +76,13 @@ struct SettingsView: View {
                                 .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2)
                             Text("Edit Activity Categories")
                                 .minimumScaleFactor(0.8)
+                                .font(.senti(size: 17))
+                                .fontWeight(.medium)
                         }
                     }
                 }
                 
-                Section(header: Text("Color Scheme").font(.senti(size: 13)).foregroundColor(.gray)) {
-                    Button {
-                        Settings.saveColorScheme(.light)
-                        colorScheme = Settings.getColorScheme()
-                        haptic.impactOccurred()
-                    } label: {
-                        HStack {
-                            Image(systemName: "sun.max.fill")
-                                .standardSentiSettingsIcon(foregroundColor: .gray, backgroundColor: .brandColor4)
-                            Text("Light")
-                            Spacer()
-                            if(colorScheme == .light) {
-                                Image(systemName: "checkmark")
-                                    .foregroundColor(.blue)
-                            }
-                        }
-                    }
-                    Button {
-                        Settings.saveColorScheme(.dark)
-                        colorScheme = Settings.getColorScheme()
-                        haptic.impactOccurred()
-                    } label: {
-                        HStack {
-                            Image(systemName: "moon.stars")
-                                .standardSentiSettingsIcon(foregroundColor: .gray, backgroundColor: .brandColor4)
-                            Text("Dark")
-                            Spacer()
-                            if(colorScheme == .dark) {
-                                Image(systemName: "checkmark")
-                                    .foregroundColor(.blue)
-                            }
-                        }
-                    }
-                    Button {
-                        Settings.saveColorScheme(.auto)
-                        colorScheme = Settings.getColorScheme()
-                        haptic.impactOccurred()
-                    } label: {
-                        HStack {
-                            Image(systemName: "gearshape.fill")
-                                .standardSentiSettingsIcon(foregroundColor: .gray, backgroundColor: .brandColor4)
-                            Text("Auto")
-                            Spacer()
-                            if(colorScheme == .auto) {
-                                Image(systemName: "checkmark")
-                                    .foregroundColor(.blue)
-                            }
-                        }
-                    }
-                }
-                
-                Section(header: Text("Color Theme").font(.senti(size: 13)).foregroundColor(.gray)) {
-                    Button {
-                        Settings.saveColorTheme(true)
-                        colorTheme = true
-                        haptic.impactOccurred()
-                    } label: {
-                        HStack {
-                            Image(systemName: "rays")
-                                .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .purple)
-                            Text("Purple")
-                            Spacer()
-                            if(colorTheme) {
-                                Image(systemName: "checkmark")
-                                    .foregroundColor(.blue)
-                            }
-                        }
-                    }
-                    Button {
-                        Settings.saveColorTheme(false)
-                        colorTheme = false
-                        haptic.impactOccurred()
-                    } label: {
-                        HStack {
-                            Image(systemName: "rays")
-                                .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .green.adjust(brightness: -0.2))
-                            Text("Green")
-                            Spacer()
-                            if(!colorTheme) {
-                                Image(systemName: "checkmark")
-                                    .foregroundColor(.blue)
-                            }
-                        }
-                    }
-                }
-                Section {
-                    Button {
-                        appHasToBeUnlocked.toggle()
-                        UserDefaults.standard.set(appHasToBeUnlocked, forKey: K.appHasToBeUnlocked)
-                        haptic.impactOccurred()
-                    } label: {
-                        HStack {
-                            Image(systemName: "lock.fill")
-                                .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor1)
-                            Text("Lock Sentimizer")
-                            Spacer()
-                            if(appHasToBeUnlocked) {
-                                Image(systemName: "checkmark")
-                                    .foregroundColor(.blue)
-                            }
-                        }
-                    }
-                } footer: {
-                    Text("Use Face ID / Touch ID to restrict access to Sentimizer.")
-                        .font(.senti(size: 13))
-                        .foregroundColor(.gray)
-                }
-                
-                Section {
+                Section{
                     Button {
                         if let url = URL(string: UIApplication.openSettingsURLString) {
                             if UIApplication.shared.canOpenURL(url) {
@@ -206,50 +94,96 @@ struct SettingsView: View {
                             Image(systemName: "text.bubble")
                                 .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2)
                             Text("Language")
+                                .font(.senti(size: 17))
+                                .fontWeight(.medium)
                             Spacer()
                         }
                     }
+                    NavigationLink {
+                        ZStack {
+                            Color.bgColor.ignoresSafeArea()
+                            SettingsColorThemeView()
+                                .padding(.top, -26)
+                        }
+                    } label: {
+                        HStack {
+                            Image(systemName: "rays")
+                                .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2)
+                            Text("Theme")
+                                .font(.senti(size: 17))
+                            Spacer()
+                        }
+                    }
+                } header: {
+                    Text("General")
+                        .font(.senti(size: 13))
+                        .foregroundColor(.gray)
                 }
                 
-                Section(header: Text("Other").font(.senti(size: 13)).foregroundColor(.gray)) {
-                    HStack {
-                        Image(systemName: "globe")
-                            .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2, width: 17)
-                        Link(destination: URL(string: "https://samuelgin.github.io/Sentimizer-Website/")!) {
+                Section{
+                    Button {
+                        appHasToBeUnlocked.toggle()
+                        UserDefaults.standard.set(appHasToBeUnlocked, forKey: K.appHasToBeUnlocked)
+                        haptic.impactOccurred()
+                    } label: {
+                        HStack {
+                            Image(systemName: "lock.fill")
+                                .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2)
+                            Text("Lock Sentimizer")
+                                .font(.senti(size: 17))
+                            Spacer()
+                            if(appHasToBeUnlocked) {
+                                Image(systemName: "checkmark")
+                                    .foregroundColor(.blue)
+                            }
+                        }
+                    }
+                } header: {
+                    Text("Privacy")
+                        .font(.senti(size:13))
+                        .foregroundColor(.gray)
+                } footer: {
+                    Text("Use Face ID / Touch ID to restrict access to Sentimizer.")
+                        .font(.senti(size: 13))
+                        .foregroundColor(.gray)
+                }
+                
+                Section {
+                    Link(destination: URL(string: "https://samuelgin.github.io/Sentimizer-Website/")!){
+                        HStack{
+                            Image(systemName: "globe")
+                                .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2, width: 17)
                             Text("Our Website")
-                                .font(.senti(size: 15))
+                                .font(.senti(size: 17))
+                                .fontWeight(.medium)
+                            Spacer()
                         }
-                        Spacer()
                     }
-                    
-                    HStack {
-                        Image(systemName: "hand.raised.fill")
-                            .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2, width: 17)
-                        Link(destination: URL(string: "https://samuelgin.github.io/Sentimizer-Website/privacy.html")!) {
+
+                    Link(destination: URL(string: "https://samuelgin.github.io/Sentimizer-Website/privacy.html")!) {
+                        HStack {
+                            Image(systemName: "hand.raised.fill")
+                                .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2, width: 17)
                             Text("Privacy Policy")
-                                .font(.senti(size: 15))
+                                .font(.senti(size: 18))
+                                .fontWeight(.medium)
+                            Spacer()
                         }
-                        Spacer()
                     }
                     
-                    HStack {
-                        Button(action: {
-                            showCrisp.toggle()
-                        }){
-                        Image(systemName: "envelope.fill")
-                            .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2, width: 17)
-                        }
-                        .sheet(isPresented:  $showCrisp, content:{
+                        NavigationLink {
                             CrispUIViewControllerRepresentable()
-                        })
-                        
-                            
-                        Text("Feedback / Support")
-                                .font(.senti(size: 15))
-                        
-                        Spacer()
-                    }
-                    
+                        } label: {
+                            HStack {
+                                Image(systemName: "envelope.fill")
+                                    .standardSentiSettingsIcon(foregroundColor: .white, backgroundColor: .brandColor2, width: 17)
+                                Text("Feedback / Support")
+                                    .font(.senti(size: 18))
+                                    .fontWeight(.medium)
+                                
+                                Spacer()
+                            }
+                        }
                     Text("""
                         1.1.1: This version of Sentimizer is still in beta. Some features may not be available yet.
                         Created by Samuel Ginsberg, Justin Hohenstein and Henry Pham. Smiley Icons made by Freepik from flaticon.com.
@@ -257,15 +191,17 @@ struct SettingsView: View {
                     .multilineTextAlignment(.leading)
                     .font(.senti(size: 12))
                     .foregroundColor(.gray)
+                } header: {
+                    Text("Other")
+                        .font(.senti(size: 13))
+                        .foregroundColor(.gray)
                 }
             }
             .listStyle(.insetGrouped)
             .scrollContentBackground(.hidden)
             .font(.senti(size: 20))
+            .fontWeight(.bold)
             .padding(.top, 5)
-            .onAppear {
-                colorTheme = Settings.getColorTheme()
-            }
             .foregroundColor(.textColor)
             .sheet(isPresented: $privacyPresented) {
                 PrivacyPolicy()
@@ -290,4 +226,3 @@ struct SettingsView_Previews: PreviewProvider {
         SettingsView()
     }
 }
-

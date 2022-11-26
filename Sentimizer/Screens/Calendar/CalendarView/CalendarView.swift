@@ -146,6 +146,7 @@ struct WeekDays: View {
                     .bold()
                     .foregroundColor(brandColor2)
                     .font(.senti(size: 15))
+                    .fontWeight(.semibold)
                     .minimumScaleFactor(0.7)
                 Spacer()
             }

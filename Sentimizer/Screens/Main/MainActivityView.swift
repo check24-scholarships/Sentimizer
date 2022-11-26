@@ -190,6 +190,7 @@ struct Greeting: View {
             let tOD = Date.getTimeOfDay()
             Text("\(Image(systemName: K.symbolForTimeOfDay(tOD))) Good \(K.stringForTimeOfDay(tOD)), \(userNickname)")
                 .font(.senti(size: 25))
+                .fontWeight(.bold)
                 .minimumScaleFactor(0.7)
                 .lineLimit(1)
                 .gradientForeground(colors: [brandColor2, brandColor2Light])
@@ -239,6 +240,7 @@ struct NoEntries: View {
             .font(.title)
             Text("Create Your First Activity Above")
                 .font(.senti(size: 15))
+                .fontWeight(.semibold)
                 .bold()
                 .padding()
         }
@@ -250,6 +252,7 @@ struct NoEntriesThisMonth: View {
     var body: some View {
         Text("\(Image(systemName: "list.bullet.below.rectangle")) There are no entries in the chosen month.")
             .font(.senti(size: 15))
+            .fontWeight(.semibold)
             .bold()
             .padding()
     }
@@ -261,6 +264,7 @@ struct LastMonthTitle: View {
     var body: some View {
         Text(Calendar.current.monthSymbols[Calendar.current.component(.month, from: selectedMonth)-2] + " \(Calendar.current.component(.year, from: selectedMonth))")
             .font(.senti(size: 20))
+            .fontWeight(.bold)
             .minimumScaleFactor(0.8)
             .padding()
     }
@@ -278,6 +282,7 @@ struct EntriesOfDay: View {
         VStack(alignment: .leading) {
             Text(LocalizedStringKey(day))
                 .font(.senti(size: 25))
+                .fontWeight(.bold)
                 .padding()
             
             ForEach(0 ..< entries.count, id: \.self) { i in

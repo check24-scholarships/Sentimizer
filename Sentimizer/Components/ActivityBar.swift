@@ -61,6 +61,7 @@ struct ActivityBar: View {
                     .changeColor(to: .brandColor2)
             }
             .font(.senti(size: 25))
+            .fontWeight(.bold)
             .foregroundColor(brandColor2)
             .background(
                 RoundedRectangle(cornerRadius: 25).stroke(lineWidth: 4)

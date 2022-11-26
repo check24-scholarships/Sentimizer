@@ -21,6 +21,7 @@ struct NewActivityCategoryView: View {
     @State private var shouldBeDismissed = false
     @State private var showDoubleNameAlert = false
     @State private var showEmptyTextFieldAlert = false
+    @FocusState private var keyboardFocused: Bool
     
     var body: some View {
         ScrollView {
@@ -28,6 +29,7 @@ struct NewActivityCategoryView: View {
                 ViewTitle("New activity category", fontSize: 30)
                 
                 SentiTextField(placeholder: "Activity category name", text: $activityTextFieldText, textFieldEditing: $textFieldEditing, done: .constant(false))
+                    .focused($keyboardFocused)
                 
                 NavigationLink {
                     ZStack {
@@ -62,6 +64,9 @@ struct NewActivityCategoryView: View {
                 }
             )
             .padding(.bottom)
+        }
+        .onAppear {
+            keyboardFocused = true
         }
         .padding(.horizontal, 15)
         .onChange(of: shouldBeDismissed) { _ in

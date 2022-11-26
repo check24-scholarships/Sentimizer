@@ -6,5 +6,13 @@
 	<array>
 		<string>remote-notification</string>
 	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Poppins-SemiBold.ttf</string>
+		<string>Poppins-Bold.ttf</string>
+		<string>Poppins-Light.ttf</string>
+		<string>Poppins-Regular.ttf</string>
+		<string>Poppins-Medium.ttf</string>
+	</array>
 </dict>
 </plist>

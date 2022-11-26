@@ -17,6 +17,7 @@ struct ViewTitle: View {
     var body: some View {
         Text(title)
             .font(.senti(size: fontSize))
+            .fontWeight(.bold)
             .padding(padding ? 10 : 0)
             .padding(.top, padding ? 25 : 0)
     }

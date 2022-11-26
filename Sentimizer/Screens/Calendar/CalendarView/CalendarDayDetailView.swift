@@ -56,15 +56,17 @@ struct CalendarDayDetailView: View {
                         selectedDayIndex = getDaysInWeek().firstIndex(of: date) ?? 0
                     }
                 }
-                
-                Button {
-                    dismiss()
-                } label: {
-                    Image(systemName: "xmark.circle.fill")
-                        .font(.title)
-                        .foregroundColor(.gray)
+                HStack{
+                    Spacer()
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark.circle.fill")
+                            .font(.title)
+                            .foregroundColor(.gray)
+                    }
+                    .padding([.trailing, .top])
                 }
-                .padding([.leading, .top])
             }
             .navigationBarHidden(true)
             .onAppear {
@@ -124,6 +126,7 @@ struct DayList: View {
         if content.count < 1 {
             Text("There are no entries for this day. Add entries or choose another.")
                 .font(.senti(size: 15))
+                .fontWeight(.medium)
                 .padding()
         }
         
@@ -133,6 +136,7 @@ struct DayList: View {
                 if CalendarDayDetailView.getDataForSection(content: content, timeSection).count > 0 {
                     CalendarDayDetailView.getTitleForSection(timeSection)
                         .font(.senti(size: 20))
+                        .fontWeight(.medium)
                         .gradientForeground(colors: [brandColor2, brandColor2Light])
                 }
                 

@@ -28,6 +28,7 @@ struct IconChooser: View {
                 Collapsible {
                     Text("All Icons")
                         .font(.senti(size: 15))
+                        .fontWeight(.semibold)
                 } content: {
                     IconGrid(icons: K.allIcons, chosenIcon: $iconName)
                 }
@@ -62,6 +63,7 @@ struct CategoryOfIcons: View {
     var body: some View {
         Text(categoryName)
             .font(.senti(size: 12))
+            .fontWeight(.semibold)
             .padding(.top)
         
         IconGrid(icons: icons, chosenIcon: $chosenIcon)
