@@ -19,7 +19,7 @@ class KeyboardHelper: ObservableObject {
                                                object: nil,
                                                queue: .main) { (notification) in
                                                 guard let userInfo = notification.userInfo,
-                                                    let keyboardRect = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+                                                      let keyboardRect = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
                                                 
                                                 self.height = keyboardRect.height
         }

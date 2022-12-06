@@ -100,6 +100,11 @@
 "ACTIVITY" = "AKTIVITÄT";
 "DESCRIPTION" = "BESCHREIBUNG";
 "MOOD" = "STIMMUNG";
+"DATE" = "DATUM";
+"DURATION" = "DAUER";
+
+"Date" = "Datum";
+"Duration" = "Dauer";
 
 "Morning" = "Morgen";
 "Afternoon" = "Nachmittag";

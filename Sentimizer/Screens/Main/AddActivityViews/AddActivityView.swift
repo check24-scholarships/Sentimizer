@@ -27,6 +27,13 @@ struct AddActivityView: View {
     @State private var activity = ""
     @State private var icon = ""
     @State private var date = Date()
+    @State private var duration: Int16 = 0
+    @State private var durationHours = ""
+    @State private var durationMinutes = ""
+    @State private var oldHourValue = ""
+    @State private var oldMinuteValue = ""
+    
+    @State private var keyboardShownShouldScrollViewUp = true
     
     let haptic = UINotificationFeedbackGenerator()
     
@@ -41,13 +48,61 @@ struct AddActivityView: View {
                                     .frame(maxWidth: .infinity)
                                     .padding(.top, 25)
                                 
-                                DatePicker(
-                                    "",
-                                    selection: $date,
-                                    in: ...Date(),
-                                    displayedComponents: [.date, .hourAndMinute]
-                                )
-                                .labelsHidden()
+                                VStack(alignment: .leading) {
+                                    HStack {
+                                        Text("Date")
+                                            .font(.senti(size: 14))
+                                        
+                                        DatePicker(
+                                            "Date",
+                                            selection: $date,
+                                            in: ...Date(),
+                                            displayedComponents: [.date, .hourAndMinute]
+                                        )
+                                        .labelsHidden()
+                                        
+                                        Spacer()
+                                    }
+                                    
+                                    HStack(spacing: 0) {
+                                        Text("Duration")
+                                            .font(.senti(size: 14))
+                                            .padding(.trailing, 10)
+                                        
+                                        TextField("-", text: $durationHours) { editing in
+                                            if editing {
+                                                keyboardShownShouldScrollViewUp = false
+                                            } else {
+                                                keyboardShownShouldScrollViewUp = true
+                                            }
+                                        }
+                                        .frame(maxWidth: 22)
+                                        .padding(5)
+                                        .background(Color.gray.adjust(brightness: 0.39))
+                                        .clipShape(RoundedRectangle(cornerRadius: 5))
+                                        .keyboardType(.numberPad)
+                                        
+                                        Text(":")
+                                        
+                                        TextField("-", text: $durationMinutes) { editing in
+                                            if editing {
+                                                keyboardShownShouldScrollViewUp = false
+                                            } else {
+                                                keyboardShownShouldScrollViewUp = true
+                                            }
+                                        }
+                                        .frame(maxWidth: 22)
+                                        .padding(5)
+                                        .background(Color.gray.adjust(brightness: 0.39))
+                                        .clipShape(RoundedRectangle(cornerRadius: 5))
+                                        .keyboardType(.numberPad)
+                                        
+                                        Text("h:min")
+                                            .padding(.leading, 3)
+                                        
+                                        Spacer()
+                                    }
+                                }
                                 
                                 ChooseCategory(activity: $activity, icon: $icon)
                                 
@@ -57,13 +112,13 @@ struct AddActivityView: View {
                                     AddDescription(description: $description)
                                 }
                             }
-                            .offset(y: keyboardHeightHelper.height != 0 ? (g.size.height - textFieldYPlusHeight - (g.size.height - keyboardHeightHelper.height) + 10) : 0)
+                            .offset(y: keyboardHeightHelper.height != 0 && keyboardShownShouldScrollViewUp ? (g.size.height - textFieldYPlusHeight - (g.size.height - keyboardHeightHelper.height) + 10) : 0)
                             .animation(.easeOut, value: keyboardHeightHelper.height)
                             
                             
                             // Save Activity
                             Button {
-                                persistenceController.saveActivity(activity: activity, icon: icon, description: description, feeling: mood, date: date, viewContext)
+                                persistenceController.saveActivity(activity: activity, icon: icon, description: description, duration: duration, feeling: mood, date: date, viewContext)
                                 
                                 model.updateInfluence(activities: activities, viewContext, persistenceController: persistenceController)
                                 
@@ -124,6 +179,28 @@ struct AddActivityView: View {
                 icon = persistenceController.getActivityIcon(activityName: activity, viewContext)
             }
         }
+        .onChange(of: durationHours) { newValue in
+            // Only change hour value if it meets the specifications
+            if let intValue = Int16(newValue), intValue < 24 && intValue >= 0 {
+                oldHourValue = durationHours
+            } else if newValue == "" {
+                oldHourValue = durationHours
+            } else {
+                durationHours = oldHourValue
+            }
+            updateDurationWithMinutesAndHours()
+        }
+        .onChange(of: durationMinutes) { newValue in
+            if let intValue = Int16(newValue), intValue < 60 && intValue >= 0 {
+                oldMinuteValue = durationMinutes
+            } else if newValue == "" {
+                oldMinuteValue = durationMinutes
+            } else {
+                durationMinutes = oldMinuteValue
+            }
+            updateDurationWithMinutesAndHours()
+        }
+        
     }
     
     init(activity: String = "") {
@@ -135,7 +212,13 @@ struct AddActivityView: View {
             prefilledActivity = activity
         }
     }
+    
+    func updateDurationWithMinutesAndHours() {
+        duration = Int16((Int(durationMinutes) ?? 0) + (Int(durationHours) ?? 0)*60)
+    }
 }
+
+//MARK: - ChooseCategory
 
 struct ChooseCategory: View {
     @Binding var activity: String
@@ -153,9 +236,11 @@ struct ChooseCategory: View {
                 SentiButton(icon: icon, title: LocalizedStringKey(activity), chevron: false)
             }
         }
-        .padding(.top, 40)
+        .padding(.top, 20)
     }
 }
+
+//MARK: - PickMood
 
 struct PickMood: View {
     @Binding var mood: String
@@ -170,6 +255,8 @@ struct PickMood: View {
         MoodPicker(width: viewWidth, feeling: $mood)
     }
 }
+
+//MARK: - AddDescription
 
 struct AddDescription: View {
     @Binding var description: String

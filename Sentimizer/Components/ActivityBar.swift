@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct ActivityBar: View {
+    
     let activity: ActivityData
     let activityName: LocalizedStringKey
     let time: String
+    let duration: Int16
     
     var showsTime: Bool = true
     
@@ -22,11 +24,27 @@ struct ActivityBar: View {
         let descriptionEmpty = activity.description.isEmpty
         
         HStack {
-            Text(time)
-                .font(.senti(size: 20))
-                .padding([.leading, .top, .bottom])
-                .padding(.trailing, 3)
-                .opacity(showsTime ? 1 : 0)
+            VStack {
+                Text(time)
+                    .opacity(showsTime ? 1 : 0)
+                
+                if duration > 0 {
+                    let durationHours = String(Int(duration/60))
+                    let durationMinutes = String(duration%60)
+                    
+                    if durationHours != "0" {
+                        Text("\(durationHours.count == 1 ? "0" : "")\(durationHours):\(durationMinutes.count == 1 ? "0" : "")\(durationMinutes) h")
+                    } else {
+                        Text("\(durationMinutes) min")
+                    }
+                }
+            }
+            .font(.senti(size: 20))
+            .padding(.leading)
+            .if(duration > 0) { vStack in
+                vStack.padding([.bottom, .top])
+            }
+            .padding(.trailing, 3)
             
             HStack {
                 Image(systemName: activity.icon)
@@ -77,6 +95,6 @@ struct ActivityBar: View {
 
 struct ActivityBar_Previews: PreviewProvider {
     static var previews: some View {
-        ActivityBar(activity: ActivityData(id: "", activity: "Walk", icon: "figure.walk", date: Date(), description: "", sentiment: "happy"), activityName: "Walk", time: "08:03")
+        ActivityBar(activity: ActivityData(id: "", activity: "Walk", icon: "figure.walk", date: Date(), duration: 20000, description: "", sentiment: "happy"), activityName: "Walk", time: "08:03", duration: 234)
     }
 }

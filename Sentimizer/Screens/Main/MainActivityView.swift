@@ -290,7 +290,7 @@ struct EntriesOfDay: View {
                 let time = DateFormatter.formatDate(date: activity.date, format: "HH:mm")
                 
                 NavigationLink { ActivityDetailView(activity: activity, day: LocalizedStringKey(day)) } label: {
-                    ActivityBar(activity: activity, activityName: LocalizedStringKey(activity.activity), time: time)
+                    ActivityBar(activity: activity, activityName: LocalizedStringKey(activity.activity), time: time, duration: activity.duration)
                         .padding([.bottom, .trailing], 10)
                         .contextMenu {
                             Button("Delete") {

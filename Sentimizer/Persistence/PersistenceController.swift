@@ -8,6 +8,24 @@
 import SwiftUI
 import CoreData
 
+
+/*
+ CORE DATA
+ 
+ Activity: user specified activity category (e. g. "Yoga")
+ 
+ Entry: one single activity entry made by the user (e. g. Yoga on 5/12/22 with mood "happy")
+ Entry has the following parameters:
+ - id: unique identifier
+ - activity: activity category (e. g. "Yoga")
+ - icon: system icon name for this category (e. g. "bed.fill")
+ - date: date the user specified for the activity
+ - duration: time duration the user specified in minutes (how long the activity was) - OPTIONAL ENTRY - if 0: user didn't specify the duration (user can only choose at least 1 min)
+ - description: description text the user provided - OPTIONAL ENTRY
+ - sentiment: mood the user specified (e. g. "happy")
+ -> represented by ActivityData struct
+ */
+
 class PersistenceController: ObservableObject {
     
     var container: NSPersistentCloudKitContainer {
@@ -51,7 +69,7 @@ class PersistenceController: ObservableObject {
                     content.append([])
                 }
                 
-                content[content.count - 1].append(ActivityData(id: entry.objectID.uriRepresentation().absoluteString, activity: entry.activity ?? K.unspecified, icon: getActivityIcon(activityName: entry.activity ?? K.unspecified, viewContext), date: entry.date ?? Date(), description: entry.text ?? "", sentiment: entry.feeling ?? "happy"))
+                content[content.count - 1].append(ActivityData(id: entry.objectID.uriRepresentation().absoluteString, activity: entry.activity ?? K.unspecified, icon: getActivityIcon(activityName: entry.activity ?? K.unspecified, viewContext), date: entry.date ?? Date(), duration: entry.duration, description: entry.text ?? "", sentiment: entry.feeling ?? "happy"))
             }
         }
         
@@ -73,7 +91,7 @@ class PersistenceController: ObservableObject {
         var results: [ActivityData] = []
         
         for entry in entries {
-            results.append(ActivityData(id: entry.objectID.uriRepresentation().absoluteString, activity: entry.activity ?? K.unspecified, icon: getActivityIcon(activityName: entry.activity ?? K.unspecified, viewContext), date: entry.date ?? Date(), description: entry.text ?? "", sentiment: entry.feeling ?? "happy"))
+            results.append(ActivityData(id: entry.objectID.uriRepresentation().absoluteString, activity: entry.activity ?? K.unspecified, icon: getActivityIcon(activityName: entry.activity ?? K.unspecified, viewContext), date: entry.date ?? Date(), duration: entry.duration, description: entry.text ?? "", sentiment: entry.feeling ?? "happy"))
         }
         
         return results
@@ -112,7 +130,7 @@ class PersistenceController: ObservableObject {
             
             for entry in entries {
                 if Calendar.current.isDate(entry.date!, inSameDayAs: day) {
-                    results.append(ActivityData(id: entry.objectID.uriRepresentation().absoluteString, activity: entry.activity ?? K.unspecified, icon: getActivityIcon(activityName: entry.activity ?? K.unspecified, viewContext), date: entry.date ?? Date(), description: entry.text ?? "", sentiment: entry.feeling ?? "happy"))
+                    results.append(ActivityData(id: entry.objectID.uriRepresentation().absoluteString, activity: entry.activity ?? K.unspecified, icon: getActivityIcon(activityName: entry.activity ?? K.unspecified, viewContext), date: entry.date ?? Date(), duration: entry.duration, description: entry.text ?? "", sentiment: entry.feeling ?? "happy"))
                 }
             }
             return results
@@ -168,10 +186,11 @@ class PersistenceController: ObservableObject {
         }
     }
     
-    func saveActivity(activity: String, icon: String, description: String, feeling: String, date: Date, _ viewContext: NSManagedObjectContext) {
+    func saveActivity(activity: String, icon: String, description: String, duration: Int16, feeling: String, date: Date, _ viewContext: NSManagedObjectContext) {
         let entry = Entry(context: viewContext)
         entry.text = description
         entry.date = date // Date(timeIntervalSince1970: Date().timeIntervalSince1970 - 60 * 60 * 24 * 5.1)
+        entry.duration = duration
         entry.feeling = feeling
         entry.activity = activity
         
@@ -277,6 +296,18 @@ class PersistenceController: ObservableObject {
         }
     }
     
+    func updateActivityDuration(with duration: Int16, id: String, _ viewContext: NSManagedObjectContext) {
+        guard let objectID = viewContext.persistentStoreCoordinator?.managedObjectID(forURIRepresentation: URL(string: id)!) else { print("Could not generate object ID in \(#function)"); return }
+        
+        do {
+            let object = try viewContext.existingObject(with: objectID)
+            (object as? Entry)?.duration = duration
+            try viewContext.save()
+        } catch {
+            print(error)
+        }
+    }
+    
     //MARK: - Entity: Activity (= Activity Category)
     func saveNewActivityCategory(name: String, icon: String, _ viewContext: NSManagedObjectContext) {
         let activity = Activity(context: viewContext)
@@ -334,7 +365,6 @@ class PersistenceController: ObservableObject {
     }
     
     func updateActivityCategoryName(with activityName: String, oldName: String, _ viewContext: NSManagedObjectContext) {
-        print("an", activityName, "on", oldName)
         
         let fetchRequest: NSFetchRequest<Activity>
         fetchRequest = Activity.fetchRequest()
@@ -358,6 +388,7 @@ class PersistenceController: ObservableObject {
     }
     
     func updateActivityCategoryIcon(with icon: String, activityName: String, _ viewContext: NSManagedObjectContext) {
+        
         let fetchRequest: NSFetchRequest<Activity>
         fetchRequest = Activity.fetchRequest()
         fetchRequest.predicate = NSPredicate(value: true)
@@ -375,10 +406,12 @@ class PersistenceController: ObservableObject {
         } catch {
             print(error)
         }
+        
     }
     
     //MARK: - Other
     func addSampleData(_ viewContext: NSManagedObjectContext) {
+        
         let feelings = ["crying", "sad", "neutral", "content", "happy"]
         let activities = ["Walk", "Sport", "Hobby", "Friends", "Sleep"]
         
@@ -403,6 +436,7 @@ class PersistenceController: ObservableObject {
             print("In \(#function), line \(#line), save activity failed:")
             print(error.localizedDescription)
         }
+        
     }
     
     func changeEntryCategories(viewContext: NSManagedObjectContext, oldName: String, newName: String = "Unspecified") {

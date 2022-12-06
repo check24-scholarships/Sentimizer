@@ -13,6 +13,7 @@ struct ActivityData: Hashable, Codable {
     let activity: String
     let icon: String
     let date: Date
+    let duration: Int16
     let description: String
     let sentiment: String
 }
