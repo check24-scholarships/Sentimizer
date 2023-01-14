@@ -261,8 +261,24 @@ struct NoEntriesThisMonth: View {
 struct LastMonthTitle: View {
     let selectedMonth: Date
     
+    var lastMonthComponentIndex: Int {
+        var lastMonthComponentIndex = Calendar.current.component(.month, from: selectedMonth)-2
+        if lastMonthComponentIndex < 0 {
+            lastMonthComponentIndex = 11
+        }
+        return lastMonthComponentIndex
+    }
+    
+    var year: Int {
+        let year = Calendar.current.component(.year, from: selectedMonth)
+        if lastMonthComponentIndex == 12 {
+            return year-1
+        }
+        return year
+    }
+    
     var body: some View {
-        Text(Calendar.current.monthSymbols[Calendar.current.component(.month, from: selectedMonth)-2] + " \(Calendar.current.component(.year, from: selectedMonth))")
+        Text(Calendar.current.monthSymbols[lastMonthComponentIndex] + " \(year)")
             .font(.senti(size: 20))
             .fontWeight(.bold)
             .minimumScaleFactor(0.8)
